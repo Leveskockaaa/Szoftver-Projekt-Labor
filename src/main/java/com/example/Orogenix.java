@@ -3,7 +3,7 @@ package com.example;
 /**
  * Oregenix is a specific type of Tecton.
  */
-public class Oregenix extends Tecton {
+public class Orogenix extends Tecton {
 
     @Override
     public void placeMushroomBody(MushroomBody mushroomBody) {
@@ -25,8 +25,11 @@ public class Oregenix extends Tecton {
 
     @Override
     public void placeInsect(Insect insect) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'placeInsect'");
+        Skeleton.logFunctionCall(this, "placeInsect", insect);
+        
+        insect.setTecton(this);
+
+        Skeleton.logReturn(this, "placeInsect");
     }
    
 }

@@ -25,8 +25,11 @@ public class Magmox extends Tecton {
 
     @Override
     public void placeInsect(Insect insect) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'placeInsect'");
+        Skeleton.logFunctionCall(this, "placeInsect", insect);
+        
+        insect.setTecton(this);
+
+        Skeleton.logReturn(this, "placeInsect");
     }
    
 }
