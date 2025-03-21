@@ -1,7 +1,8 @@
 package com.example;
 
 /**
- * Represents an Insect entity.
+ * Represents an Insect entity with various attributes and behaviors
+ * such as chewing mycelium, eating spores, moving to different Tectons, etc.
  */
 public class Insect {
 
@@ -14,11 +15,6 @@ public class Insect {
      * The color of the insect in HEX format.
      */
     private String color;
-
-    /**
-     * The Tecton this insect is currently on.
-     */
-    private Tecton tecton;
 
     /**
      * The total nutrient points this insect has collected.
@@ -67,7 +63,7 @@ public class Insect {
     /**
      * Disables the insect from chewing mycelium.
      */
-    public void disableToChewMycelium() {
+    public void disableChewMycelium() {
         // TODO: Add logic here
     }
 
@@ -134,6 +130,13 @@ public class Insect {
     }
 
     /**
+     * Neutralizes any effects from tectons.
+     */
+    public void neutralizeTectonEffects() {
+        // TODO: Add logic here
+    }
+
+    /**
      * Sets the insect's speed to the specified value.
      *
      * @param speed The new speed of the insect.
@@ -173,28 +176,5 @@ public class Insect {
         return this.isParalized;
     }
 
-    // -- Optionally, you could add getters/setters for each field if desired --
-
-    // Getters and setters for fields (template)
-    /**
-     * Gets the insect's name.
-     *
-     * @return The name of the insect.
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Sets the insect's name.
-     *
-     * @param name The new name of the insect.
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    // ... similarly for other fields ...
-
+   
 }
-
