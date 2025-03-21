@@ -1,5 +1,6 @@
 package com.example;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -26,11 +27,14 @@ public abstract class Tecton {
      */
     protected int maxMycelia;
 
+
+    protected List<Spore> spores;
+
     /**
      * Default constructor.
      */
-    public Tecton() {
-        // No implementation needed here
+    protected Tecton() {
+        spores = new ArrayList<>();
     }
 
     /**
@@ -99,13 +103,14 @@ public abstract class Tecton {
     }
 
     /**
-     * Adds the given quantity of the specified Spore to this Tecton.
+     * Adds the specified Spore to this Tecton.
      *
      * @param spore    The Spore to add.
-     * @param quantity The quantity of spores to add.
      */
-    public void addSpore(Spore spore, int quantity) {
-        // TODO: Implement logic
+    public void addSpore(Spore spore) {
+        Skeleton.logFunctionCall(this, "addSpore", spore);
+        spores.add(spore);
+        Skeleton.logReturn(this, "addSpore");
     }
 
 
@@ -138,8 +143,11 @@ public abstract class Tecton {
      * @return The removed Spore.
      */
     public Spore removeOldestSpore() {
-        // TODO: Implement logic
-        return null;
+        Skeleton.logFunctionCall(this, "removeOldestSpore");
+        Spore spore = spores.remove(0);
+        
+        Skeleton.logReturn(this, "removeOldestSpore");
+        return spore;
     }
 
     /**

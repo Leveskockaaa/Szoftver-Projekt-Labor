@@ -2,22 +2,28 @@ package com.example;
 
 public class Main {
     public static void main(String[] args) {
-        Logger.initTestCase("function-call-test");
-        Logger.logFunctionCall("user", "moveTo", "transix");
-        Logger.logFunctionCall("insect", "placeInsect", "insect");
-        Logger.logFunctionCall("transix", "neutralizeTectonEffects");
-        Logger.logReturn("transix", "neutralizeTectonEffects");
-        Logger.logFunctionCall("transix", "removeInsect");
-        Logger.logFunctionCall("myself", "randomIntent");
-        Logger.logReturn("myself", "randomIntent");
-        Logger.logReturn("transix", "removeInsect");
-        Logger.logFunctionCall("transix", "setNutrientMultiplier", "times");
-        Logger.logReturn("transix", "setNutrientMultiplier");
-        Logger.logReturn("insect", "placeInsect");
+        /* 
+        Skeleton.initTestCase("function-call-test");
+        Skeleton.logFunctionCall("user", "moveTo", "transix");
+        Skeleton.logFunctionCall("insect", "placeInsect", "insect");
+        Skeleton.logFunctionCall("transix", "neutralizeTectonEffects");
+        Skeleton.logReturn("transix", "neutralizeTectonEffects");
+        Skeleton.logFunctionCall("transix", "removeInsect");
+        Skeleton.logFunctionCall("myself", "randomIntent");
+        Skeleton.logReturn("myself", "randomIntent");
+        Skeleton.logReturn("transix", "removeInsect");
+        Skeleton.logFunctionCall("transix", "setNutrientMultiplier", "times");
+        Skeleton.logReturn("transix", "setNutrientMultiplier");
+        Skeleton.logReturn("insect", "placeInsect");
 
-        Logger.initTestCase("branch-test");
-        Logger.logFunctionCall("me", "ask", "you");
-        Logger.logBranch("are you doing well?");
-        Logger.logReturn("system", "ask");
+        Skeleton.initTestCase("branch-test");
+        Skeleton.logFunctionCall("me", "ask", "you");
+        Skeleton.logBranch("are you doing well?");
+        Skeleton.logReturn("system", "ask");
+*/
+
+
+
+        Skeleton.insectEatHypahraSpore();
     }
 }

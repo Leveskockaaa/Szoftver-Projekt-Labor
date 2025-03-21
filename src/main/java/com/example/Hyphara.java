@@ -1,6 +1,6 @@
 package com.example;
 
-public class Hymphara extends MushroomBody{
+public class Hyphara extends MushroomBody{
 
     @Override
     public void spreadSpores() {

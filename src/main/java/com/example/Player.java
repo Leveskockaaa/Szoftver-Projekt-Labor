@@ -5,7 +5,7 @@ public abstract class Player {
     protected int score;
     protected boolean isWinner;
 
-    public Player(String name) {
+    protected Player(String name) {
         this.name = name;
         this.score = 0;
         this.isWinner = false;

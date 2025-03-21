@@ -6,6 +6,11 @@ package com.example;
  */
 public class Insect {
 
+
+    private Tecton tecton;
+
+    private Entomologist entomologist;
+
     /**
      * The name of the insect.
      */
@@ -34,7 +39,7 @@ public class Insect {
     /**
      * The current speed of the insect.
      */
-    private int speed;
+    private float speed;
 
     /**
      * Indicates whether the insect is paralyzed.
@@ -49,8 +54,9 @@ public class Insect {
     /**
      * Default constructor.
      */
-    public Insect() {
-        // No initialization logic required for now
+    public Insect(Entomologist entomologist) {
+        this.entomologist = entomologist;
+        
     }
 
     /**
@@ -90,13 +96,26 @@ public class Insect {
      */
     public void eatSpore() {
         // TODO: Add logic here
+
+        Skeleton.logFunctionCall(this, "eatSpore");
+
+        Spore s1 = tecton.removeOldestSpore();
+
+        entomologist.setScore(s1.getNutrientValue());
+
+        s1.takeEffectOn(this);
+
+        Skeleton.logReturn(this, "eatSpore");
     }
 
     /**
      * Enables the insect to eat.
      */
     public void enableEating() {
-        // TODO: Add logic here
+        Skeleton.logFunctionCall(this, "enableEating");
+        
+        Skeleton.logReturn(this, "enableEating");
+   
     }
 
     /**
@@ -141,8 +160,12 @@ public class Insect {
      *
      * @param speed The new speed of the insect.
      */
-    public void setSpeed(int speed) {
-        // TODO: Add logic here
+    public void setSpeed(float speed) {
+        Skeleton.logFunctionCall(this, "setSpeed", Float.toString(speed));
+
+        this.speed = speed;
+
+        Skeleton.logReturn(this, "setSpeed");
     }
 
     /**
@@ -176,5 +199,13 @@ public class Insect {
         return this.isParalized;
     }
 
+
+    public void setTecton(Tecton tecton) {
+        this.tecton = tecton;
+    }
+
+    public void setEntomologist(Entomologist entomologist) {
+        this.entomologist = entomologist;
+    }
    
 }
