@@ -47,6 +47,14 @@ public abstract class Tecton {
         mycelia = new ArrayList<>();
     }
 
+    public HashSet<Tecton> getNeighbors() {
+        return neighbors;
+    }
+
+    public List<Mycelium> getMyceliums() {
+        return mycelia;
+    }
+
     /**
      * Constructs the game map.
      *
@@ -156,7 +164,9 @@ public abstract class Tecton {
      * @return The removed MushroomBody.
      */
     public MushroomBody removeMushroomBody() {
-        // TODO: Implement logic
+        Skeleton.logFunctionCall(this, "removeMushroomBody");
+
+        Skeleton.logReturn(this, "removeMushroomBody");
         return null;
     }
 
@@ -189,8 +199,7 @@ public abstract class Tecton {
      * @return A list of Spores available.
      */
     public List<Spore> sporesAvailable() {
-        // TODO: Implement logic
-        return null;
+        return spores;
     }
 
     /**
@@ -249,7 +258,7 @@ public abstract class Tecton {
             return false;
         }
         for (Mycelium m : this.mycelia) {
-            for (Mycelium con : m.getConnections()){
+            for (Mycelium con : m.getMyceliumConnections()){
                 if (i.getTecton().mycelia.contains(con)) {
                     return true;
                 }

@@ -10,7 +10,7 @@ public class Entomologist extends Player {
     }
 
     @Override
-    public void placeInitial() {
+    public void placeInitial(Tecton on) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'placeInitial'");
     }

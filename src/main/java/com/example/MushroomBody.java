@@ -1,42 +1,51 @@
 package com.example;
 
+import java.util.List;
+
 /**
  * Represents a MushroomBody in the domain model.
  * A Tecton can be haunted by a MushroomBody, which may alter its state.
  */
-public abstract  class MushroomBody {
-
-    
+public abstract class MushroomBody {
     protected boolean superBody;
-
     protected boolean dead;
-
     protected boolean canSpreadSpores;
-
     protected int sporeSpreadsLeft;
 
-
-
+    protected Mycologist mycologist;
+    protected Tecton tecton;
+    protected List<Mycelium> myceliums;
 
     /**
      * Default constructor.
      */
-    public MushroomBody() {
-        // No initialization logic required
+    public MushroomBody(Tecton tecton) {
+        this.tecton = tecton;
+    }
+
+    public void setMycologist(Mycologist mycologist) {
+        this.mycologist = mycologist;
     }
 
     /**
      * Enables spore spread for this MushroomBody.
      */
     public void enableSporeSpread() {
-        // TODO: Implement this method
+        Skeleton.logFunctionCall(this, "enableSporeSpread");
+        canSpreadSpores = true;
+        Skeleton.logReturn(this, "enableSporeSpread");
     }
 
     /**
      * Evolves to Mushroom Body to Super Mushroom
      */
-    public  void evolveSuper() {
-        // TODO: Implement this method
+    public void evolveSuper() {
+        Skeleton.logFunctionCall(this, "evolveSuper");
+        if(canEvolve()){
+            superBody = true;
+            System.out.println("Evolved");
+        }
+        Skeleton.logReturn(this, "evolveSuper");
     }
 
     /**

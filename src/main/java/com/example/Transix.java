@@ -21,8 +21,10 @@ public class Transix extends Tecton {
 
     @Override
     public boolean canAddMycelium() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'canAddMycelium'");
+        Skeleton.logFunctionCall(this, "canAddMycelium");
+
+        Skeleton.logReturn(this, "canAddMycelium");
+        return true;
     }
 
     @Override
