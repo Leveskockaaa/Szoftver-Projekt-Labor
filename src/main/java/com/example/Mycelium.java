@@ -55,7 +55,11 @@ public class Mycelium {
     }
 
     public void removeConnection(Mycelium with) {
-        // TODO: Implement this method
+        Skeleton.logFunctionCall(this, "removeConnection", with);
+
+        connections.remove(with);
+
+        Skeleton.logReturn(this, "removeConnection");
     }
 
     public boolean isConnectedToMushroomBody() {

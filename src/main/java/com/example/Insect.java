@@ -88,8 +88,15 @@ public class Insect {
      *
      * @param mycelium The Mycelium object to be chewed.
      */
-    public void chewMycelium(Mycelium mycelium) {
-        // TODO: Add logic here
+    public void chewMycelium(Mycelium mycelium, Mycelium mycelium2) {
+        Skeleton.logFunctionCall(this, "chewMycelium", mycelium);
+
+        if (this.canChewMycelium) {
+            mycelium.removeConnection(mycelium2);
+            mycelium2.removeConnection(mycelium);
+        }
+
+        Skeleton.logReturn(this, "chewMycelium");
     }
 
     /**
@@ -240,14 +247,10 @@ public class Insect {
 
 
     public void setTecton(Tecton tecton) {
-        Skeleton.logFunctionCall(this, "setTecton", tecton);
         this.tecton = tecton;
-        Skeleton.logReturn(this, "setTecton");
     }
 
     public Tecton getTecton() {
-        Skeleton.logFunctionCall(this, "getTecton");
-        Skeleton.logReturn(this, "getTecton");
         return this.tecton;
     }
 

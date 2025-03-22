@@ -44,5 +44,8 @@ public class Main {
         Skeleton.insectMovesToOrogenix();
         Skeleton.insectCantMoveOccupied();
         Skeleton.insectCantMoveNoConnection();
+
+        Skeleton.insectChewsMycelium();
+        Skeleton.insectCantChewMycelium();
     }
 }

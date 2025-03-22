@@ -545,4 +545,88 @@ public class Skeleton {
 
         i1.moveTo(t2);
     }
+
+    public static void insectChewsMycelium() {
+        initTestCase("Insect chews mycelium");
+
+        // Create instances
+
+        Transix t1 = new Transix();
+        logCreateInstance(t1, "Transix", "t1");
+
+        Transix t2 = new Transix();
+        logCreateInstance(t2, "Transix", "t2");
+
+        Mycelium my1 = new Mycelium();
+        logCreateInstance(my1, "Mycelium", "my1");
+
+        Mycelium my2 = new Mycelium();
+        logCreateInstance(my2, "Mycelium", "my2");
+
+        Entomologist e1 = new Entomologist("e1");
+        logCreateInstance(e1, "Entomologist", "e1");
+
+        Insect i1 = new Insect(e1);
+        logCreateInstance(i1, "Insect", "i1");
+
+        // Log init function calls
+
+        t1.placeInsect(i1);
+        t1.addMycelium(my1);
+        t1.addTectonToNeighbors(t2);
+
+        t2.addMycelium(my2);
+        t2.addTectonToNeighbors(t1);
+
+        my1.createNewBranch(t2);
+
+        i1.enableToChewMycelium();
+
+        // Log sequence function calls
+        System.out.println("-----------------");
+
+        i1.chewMycelium(my1, my2);
+    }
+
+    public static void insectCantChewMycelium() {
+        initTestCase("Insect can't chew mycelium");
+
+        // Create instances
+
+        Transix t1 = new Transix();
+        logCreateInstance(t1, "Transix", "t1");
+
+        Transix t2 = new Transix();
+        logCreateInstance(t2, "Transix", "t2");
+
+        Mycelium my1 = new Mycelium();
+        logCreateInstance(my1, "Mycelium", "my1");
+
+        Mycelium my2 = new Mycelium();
+        logCreateInstance(my2, "Mycelium", "my2");
+
+        Entomologist e1 = new Entomologist("e1");
+        logCreateInstance(e1, "Entomologist", "e1");
+
+        Insect i1 = new Insect(e1);
+        logCreateInstance(i1, "Insect", "i1");
+
+        // Log init function calls
+
+        t1.placeInsect(i1);
+        t1.addMycelium(my1);
+        t1.addTectonToNeighbors(t2);
+
+        t2.addMycelium(my2);
+        t2.addTectonToNeighbors(t1);
+
+        my1.createNewBranch(t2);
+
+        i1.disableChewMycelium();
+
+        // Log sequence function calls
+        System.out.println("-----------------");
+
+        i1.chewMycelium(my1, my2);
+    }
 }
