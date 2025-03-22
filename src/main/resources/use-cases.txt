@@ -1,0 +1,25 @@
+Insect moves to Transix
+Insect moves to Magmox
+Insect moves to Mantleon
+Insect moves to Orogenix
+Insect can’t move due to other Insect
+Insect can’t move due to missing connection
+Insect chew
+Insect can’t chew
+Insect eat Hypahra spore,insectEatHypahraSpore
+Hyphara loses effect,hypharaLosesEffect
+Insect eat Gilledon spore,insectEatsGilledonSpore
+Gilledon loses effect,gilledonLosesEffect
+Insect eat Poralia spore,insectEatsPoraliaSpore
+Poralia loses effect,poraliaLosesEffect
+Insect eat Capulon spore,insectEatCapulonSpore
+Capulon loses effect,capulonLosesEffect
+Insect eats spore on Orogenix,insectEatsSporeOnOrogenix
+Break tecton
+Initialize starting tectons
+Evolve nushroom body
+Can’t evolve mushroom body
+Grow mushroom body
+Can’t grow mushroom body
+Grow mycelium
+Can’t grow mycelium
