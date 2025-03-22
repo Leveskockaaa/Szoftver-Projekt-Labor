@@ -11,6 +11,8 @@ import java.util.List;
  * It can also break apart, become haunted, etc.
  */
 public abstract class Tecton {
+    List<Tecton> neighbours = new ArrayList<Tecton>();
+    List<Mycelium> myceliums = new ArrayList<Mycelium>();
 
     /**
      * The unique identifier of this Tecton.
@@ -37,6 +39,14 @@ public abstract class Tecton {
         spores = new ArrayList<>();
     }
 
+    public List<Tecton> getNeighbours() {
+        return neighbours;
+    }
+
+    public List<Mycelium> getMyceliums() {
+        return myceliums;
+    }
+
     /**
      * Constructs the game map.
      *
@@ -55,8 +65,10 @@ public abstract class Tecton {
         return null;
     }
 
-    public void addTectonToNeighbors(Tecton tecton) { 
-        // TODO: Implement logic
+    public void addTectonToNeighbors(Tecton tecton) {
+        Skeleton.logFunctionCall(this, "addTectonToNeighbors", tecton);
+        neighbours.add(tecton);
+        Skeleton.logReturn(this, "addTectonToNeighbors");
     }
 
     public void removeTectonFromNeighbors(Tecton tecton) {
@@ -91,7 +103,9 @@ public abstract class Tecton {
      * @return The removed MushroomBody.
      */
     public MushroomBody removeMushroomBody() {
-        // TODO: Implement logic
+        Skeleton.logFunctionCall(this, "removeMushroomBody");
+
+        Skeleton.logReturn(this, "removeMushroomBody");
         return null;
     }
 
@@ -120,8 +134,7 @@ public abstract class Tecton {
      * @return A list of Spores available.
      */
     public List<Spore> sporesAvailable() {
-        // TODO: Implement logic
-        return null;
+        return spores;
     }
 
     /**
