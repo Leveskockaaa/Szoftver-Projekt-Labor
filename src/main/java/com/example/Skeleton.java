@@ -44,7 +44,6 @@ public class Skeleton {
         List<String> paramNames = paramLista.stream().map(o -> nameMap.getOrDefault(o, o.toString())).collect(Collectors.toList());
         String instanceName = nameMap.getOrDefault(instance, instance.toString());
         String paramList = String.join(", ", paramNames);
-        
         System.out.println(formatLineNumber(lineCounter++) + INDENT.repeat(depth) + instanceName + "." + methodName + "(" + paramList + ")");
         depth++;
     }
@@ -58,7 +57,7 @@ public class Skeleton {
     }
 
     /* Logs a branch decision and asks the user whether the condition should be true or false. */
-    public static void logBranch(String condition) {
+    public static boolean logBranch(String condition) {
         String result;
         System.out.print(formatLineNumber(lineCounter++) + INDENT.repeat(depth) + "branch " + condition + " [y/n]: ");
         while (true) {
@@ -74,6 +73,11 @@ public class Skeleton {
             System.out.print("Wrong input. Type 'y' or 'n': ");
         }
         System.out.println(formatLineNumber(lineCounter++) + INDENT.repeat(depth) + "branch " + condition + " is " + result);
+        if (result.equals("TRUE")) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 
@@ -227,7 +231,7 @@ public class Skeleton {
         i1.unParalized();
 
         finishTestCase("Poralia loses effect");
-        
+
     }
     public static void insectEatCapulonSpore() {
         initTestCase("Insect eats Capulon spore");
@@ -302,4 +306,345 @@ public class Skeleton {
         finishTestCase("Insect eats spore on Orogenix");
     }
 
+    public static void insectMovesToTransix() {
+        initTestCase("Insect can move to Transix");
+
+        // Create instances
+
+        Transix t1 = new Transix();
+        logCreateInstance(t1, "Transix", "t1");
+
+        Transix t2 = new Transix();
+        logCreateInstance(t2, "Transix", "t2");
+
+        Mycelium my1 = new Mycelium();
+        logCreateInstance(my1, "Mycelium", "my1");
+
+        Mycelium my2 = new Mycelium();
+        logCreateInstance(my2, "Mycelium", "my2");
+
+        Entomologist e1 = new Entomologist("e1");
+        logCreateInstance(e1, "Entomologist", "e1");
+
+        Insect i1 = new Insect(e1);
+        logCreateInstance(i1, "Insect", "i1");
+
+        // Log init function calls
+
+        t1.placeInsect(i1);
+        t1.addMycelium(my1);
+        t1.addTectonToNeighbors(t2);
+
+        t2.addMycelium(my2);
+        t2.addTectonToNeighbors(t1);
+
+        my1.createNewBranch(t2);
+
+        i1.unParalized();
+
+        // Log sequence function calls
+        System.out.println("-----------------");
+
+        i1.moveTo(t2);
+    }
+
+    public static void insectMovesToMagmox() {
+        initTestCase("Insect can move to Magmox");
+
+        // Create instances
+
+        Transix t1 = new Transix();
+        logCreateInstance(t1, "Transix", "t1");
+
+        Magmox t2 = new Magmox();
+        logCreateInstance(t2, "Magmox", "t2");
+
+        Mycelium my1 = new Mycelium();
+        logCreateInstance(my1, "Mycelium", "my1");
+
+        Mycelium my2 = new Mycelium();
+        logCreateInstance(my2, "Mycelium", "my2");
+
+        Entomologist e1 = new Entomologist("e1");
+        logCreateInstance(e1, "Entomologist", "e1");
+
+        Insect i1 = new Insect(e1);
+        logCreateInstance(i1, "Insect", "i1");
+
+        // Log init function calls
+
+        t1.placeInsect(i1);
+        t1.addMycelium(my1);
+        t1.addTectonToNeighbors(t2);
+
+        t2.addMycelium(my2);
+        t2.addTectonToNeighbors(t1);
+
+        my1.createNewBranch(t2);
+
+        i1.unParalized();
+
+        // Log sequence function calls
+        System.out.println("-----------------");
+
+        i1.moveTo(t2);
+    }
+
+    public static void insectMovesToMantleon() {
+        initTestCase("Insect can move to Mantleon");
+
+        // Create instances
+
+        Transix t1 = new Transix();
+        logCreateInstance(t1, "Transix", "t1");
+
+        Mantleon t2 = new Mantleon();
+        logCreateInstance(t2, "Mantleon", "t2");
+
+        Mycelium my1 = new Mycelium();
+        logCreateInstance(my1, "Mycelium", "my1");
+
+        Mycelium my2 = new Mycelium();
+        logCreateInstance(my2, "Mycelium", "my2");
+
+        Entomologist e1 = new Entomologist("e1");
+        logCreateInstance(e1, "Entomologist", "e1");
+
+        Insect i1 = new Insect(e1);
+        logCreateInstance(i1, "Insect", "i1");
+
+        // Log init function calls
+
+        t1.placeInsect(i1);
+        t1.addMycelium(my1);
+        t1.addTectonToNeighbors(t2);
+
+        t2.addMycelium(my2);
+        t2.addTectonToNeighbors(t1);
+
+        my1.createNewBranch(t2);
+
+        i1.unParalized();
+
+        // Log sequence function calls
+        System.out.println("-----------------");
+
+        i1.moveTo(t2);
+    }
+
+    public static void insectMovesToOrogenix() {
+        initTestCase("Insect can move to Orogenix");
+
+        // Create instances
+
+        Transix t1 = new Transix();
+        logCreateInstance(t1, "Transix", "t1");
+
+        Orogenix t2 = new Orogenix();
+        logCreateInstance(t2, "Orogenix", "t2");
+
+        Mycelium my1 = new Mycelium();
+        logCreateInstance(my1, "Mycelium", "my1");
+
+        Mycelium my2 = new Mycelium();
+        logCreateInstance(my2, "Mycelium", "my2");
+
+        Entomologist e1 = new Entomologist("e1");
+        logCreateInstance(e1, "Entomologist", "e1");
+
+        Insect i1 = new Insect(e1);
+        logCreateInstance(i1, "Insect", "i1");
+
+        // Log init function calls
+
+        t1.placeInsect(i1);
+        t1.addMycelium(my1);
+        t1.addTectonToNeighbors(t2);
+
+        t2.addMycelium(my2);
+        t2.addTectonToNeighbors(t1);
+
+        my1.createNewBranch(t2);
+
+        i1.unParalized();
+
+        // Log sequence function calls
+        System.out.println("-----------------");
+
+        i1.moveTo(t2);
+    }
+
+    public static void insectCantMoveOccupied() {
+        initTestCase("Insect can't move due to occupied Tecton");
+
+        // Create instances
+
+        Transix t1 = new Transix();
+        logCreateInstance(t1, "Transix", "t1");
+
+        Transix t2 = new Transix();
+        logCreateInstance(t2, "Transix", "t2");
+
+        Mycelium my1 = new Mycelium();
+        logCreateInstance(my1, "Mycelium", "my1");
+
+        Mycelium my2 = new Mycelium();
+        logCreateInstance(my2, "Mycelium", "my2");
+
+        Entomologist e1 = new Entomologist("e1");
+        logCreateInstance(e1, "Entomologist", "e1");
+
+        Entomologist e2 = new Entomologist("e2");
+        logCreateInstance(e2, "Entomologist", "e2");
+
+        Insect i1 = new Insect(e1);
+        logCreateInstance(i1, "Insect", "i1");
+
+        Insect i2 = new Insect(e2);
+        logCreateInstance(i2, "Insect", "i2");
+
+        // Log init function calls
+
+        t1.placeInsect(i1);
+        t1.addMycelium(my1);
+        t1.addTectonToNeighbors(t2);
+
+        t2.placeInsect(i2);
+        t2.addMycelium(my2);
+        t2.addTectonToNeighbors(t1);
+
+        my1.createNewBranch(t2);
+
+        i1.unParalized();
+        i2.unParalized();
+
+        // Log sequence function calls
+        System.out.println("-----------------");
+
+        i1.moveTo(t2);
+    }
+
+    public static void insectCantMoveNoConnection() {
+        initTestCase("Insect can't move due to no connection");
+
+        // Create instances
+
+        Transix t1 = new Transix();
+        logCreateInstance(t1, "Transix", "t1");
+
+        Transix t2 = new Transix();
+        logCreateInstance(t2, "Transix", "t2");
+
+        Mycelium my1 = new Mycelium();
+        logCreateInstance(my1, "Mycelium", "my1");
+
+        Mycelium my2 = new Mycelium();
+        logCreateInstance(my2, "Mycelium", "my2");
+
+        Entomologist e1 = new Entomologist("e1");
+        logCreateInstance(e1, "Entomologist", "e1");
+
+        Insect i1 = new Insect(e1);
+        logCreateInstance(i1, "Insect", "i1");
+
+        // Log init function calls
+
+        t1.placeInsect(i1);
+        t1.addMycelium(my1);
+        t1.addTectonToNeighbors(t2);
+
+        t2.addMycelium(my2);
+        t2.addTectonToNeighbors(t1);
+
+        i1.unParalized();
+
+        // Log sequence function calls
+        System.out.println("-----------------");
+
+        i1.moveTo(t2);
+    }
+
+    public static void insectChewsMycelium() {
+        initTestCase("Insect chews mycelium");
+
+        // Create instances
+
+        Transix t1 = new Transix();
+        logCreateInstance(t1, "Transix", "t1");
+
+        Transix t2 = new Transix();
+        logCreateInstance(t2, "Transix", "t2");
+
+        Mycelium my1 = new Mycelium();
+        logCreateInstance(my1, "Mycelium", "my1");
+
+        Mycelium my2 = new Mycelium();
+        logCreateInstance(my2, "Mycelium", "my2");
+
+        Entomologist e1 = new Entomologist("e1");
+        logCreateInstance(e1, "Entomologist", "e1");
+
+        Insect i1 = new Insect(e1);
+        logCreateInstance(i1, "Insect", "i1");
+
+        // Log init function calls
+
+        t1.placeInsect(i1);
+        t1.addMycelium(my1);
+        t1.addTectonToNeighbors(t2);
+
+        t2.addMycelium(my2);
+        t2.addTectonToNeighbors(t1);
+
+        my1.createNewBranch(t2);
+
+        i1.enableToChewMycelium();
+
+        // Log sequence function calls
+        System.out.println("-----------------");
+
+        i1.chewMycelium(my1, my2);
+    }
+
+    public static void insectCantChewMycelium() {
+        initTestCase("Insect can't chew mycelium");
+
+        // Create instances
+
+        Transix t1 = new Transix();
+        logCreateInstance(t1, "Transix", "t1");
+
+        Transix t2 = new Transix();
+        logCreateInstance(t2, "Transix", "t2");
+
+        Mycelium my1 = new Mycelium();
+        logCreateInstance(my1, "Mycelium", "my1");
+
+        Mycelium my2 = new Mycelium();
+        logCreateInstance(my2, "Mycelium", "my2");
+
+        Entomologist e1 = new Entomologist("e1");
+        logCreateInstance(e1, "Entomologist", "e1");
+
+        Insect i1 = new Insect(e1);
+        logCreateInstance(i1, "Insect", "i1");
+
+        // Log init function calls
+
+        t1.placeInsect(i1);
+        t1.addMycelium(my1);
+        t1.addTectonToNeighbors(t2);
+
+        t2.addMycelium(my2);
+        t2.addTectonToNeighbors(t1);
+
+        my1.createNewBranch(t2);
+
+        i1.disableChewMycelium();
+
+        // Log sequence function calls
+        System.out.println("-----------------");
+
+        i1.chewMycelium(my1, my2);
+    }
 }

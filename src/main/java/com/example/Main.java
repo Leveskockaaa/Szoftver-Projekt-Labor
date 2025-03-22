@@ -37,5 +37,15 @@ public class Main {
         Skeleton.poraliaLosesEffect();
         
         Skeleton.insectEatsSporeOnOrogenix();
+
+        Skeleton.insectMovesToTransix();
+        Skeleton.insectMovesToMagmox();
+        Skeleton.insectMovesToMantleon();
+        Skeleton.insectMovesToOrogenix();
+        Skeleton.insectCantMoveOccupied();
+        Skeleton.insectCantMoveNoConnection();
+
+        Skeleton.insectChewsMycelium();
+        Skeleton.insectCantChewMycelium();
     }
 }

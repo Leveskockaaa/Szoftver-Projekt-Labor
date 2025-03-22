@@ -1,5 +1,7 @@
 package com.example;
 
+import javax.net.ssl.SSLKeyException;
+
 /**
  * Represents an Insect entity with various attributes and behaviors
  * such as chewing mycelium, eating spores, moving to different Tectons, etc.
@@ -86,8 +88,15 @@ public class Insect {
      *
      * @param mycelium The Mycelium object to be chewed.
      */
-    public void chewMycelium(Mycelium mycelium) {
-        // TODO: Add logic here
+    public void chewMycelium(Mycelium mycelium, Mycelium mycelium2) {
+        Skeleton.logFunctionCall(this, "chewMycelium", mycelium);
+
+        if (this.canChewMycelium) {
+            mycelium.removeConnection(mycelium2);
+            mycelium2.removeConnection(mycelium);
+        }
+
+        Skeleton.logReturn(this, "chewMycelium");
     }
 
     /**
@@ -96,7 +105,11 @@ public class Insect {
      * @param times The new multiplier value.
      */
     public void setNutrientMultiplier(int times) {
-        // TODO: Add logic here
+        Skeleton.logFunctionCall(this, "setNutrientMultiplier", Integer.toString(times));
+
+        this.nutrientMultiplier = times;
+
+        Skeleton.logReturn(this, "setNutrientMultiplier");
     }
 
     /**
@@ -146,14 +159,20 @@ public class Insect {
      * @param t The Tecton to move to.
      */
     public void moveTo(Tecton t) {
-        // TODO: Add logic here
+        Skeleton.logFunctionCall(this, "moveTo", t);
+
+        t.placeInsect(this);
+
+        Skeleton.logReturn(this, "moveTo");
     }
 
     /**
      * Deducts one nutrient point from the insect.
      */
     public void deductNutrientPoint() {
+        Skeleton.logFunctionCall(this, "deductNutrientPoint");
         // TODO: Add logic here
+        Skeleton.logReturn(this, "deductNutrientPoint");
     }
 
     /**
@@ -167,7 +186,11 @@ public class Insect {
      * Neutralizes any effects from tectons.
      */
     public void neutralizeTectonEffects() {
-        // TODO: Add logic here
+        Skeleton.logFunctionCall(this, "neutralizeTectonEffects");
+
+        setNutrientMultiplier(1);
+
+        Skeleton.logReturn(this, "neutralizeTectonEffects");
     }
 
     /**
@@ -225,6 +248,10 @@ public class Insect {
 
     public void setTecton(Tecton tecton) {
         this.tecton = tecton;
+    }
+
+    public Tecton getTecton() {
+        return this.tecton;
     }
 
     public void setEntomologist(Entomologist entomologist) {
