@@ -12,7 +12,7 @@ public class Mycelium {
 
     private final Tecton tecton;
     private Mycologist mycologist;
-    private List<Mycelium> myceliumConnections = new ArrayList<Mycelium>();
+    private List<Mycelium> myceliumConnections;
 
     /**
      * Default constructor.
@@ -20,6 +20,7 @@ public class Mycelium {
     public Mycelium(Tecton tecton) {
         this.canGrow = true;
         this.tecton = tecton;
+        myceliumConnections = new ArrayList<Mycelium>();
     }
 
     public Mycologist getMycologist() {
@@ -41,13 +42,9 @@ public class Mycelium {
         }
 
         Skeleton.logReturn(this, "canDevelop");
-        if(sporeCount >= 6 && !tecton.hasMushroomBody()) //Sporecount needed?
+        if(sporeCount >= 6 && !tecton.hasMushroomBody())
             return true;
         return false;
-
-        // Mycelium alosztályok?
-        // MyceliumType enum?
-        // Mycologiston keresztül?
     }
 
     public void developMushroomBody() {
@@ -76,6 +73,8 @@ public class Mycelium {
             myceliumConnections.add(newMycelium);
             tecton.addMycelium(newMycelium);
             Skeleton.logReturn(this, "createNewBranch");
+            myceliumConnections.add(newMycelium);
+            newMycelium.myceliumConnections.add(this);
             return newMycelium;
         }
         Skeleton.logReturn(this, "createNewBranch");
@@ -84,6 +83,8 @@ public class Mycelium {
 
     public void removeConnection(Mycelium with) {
         Skeleton.logFunctionCall(this, "removeConnection", with);
+
+        myceliumConnections.remove(with);
 
         Skeleton.logReturn(this, "removeConnection");
     }

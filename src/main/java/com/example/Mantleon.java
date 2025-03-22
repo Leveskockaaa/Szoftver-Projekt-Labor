@@ -19,14 +19,29 @@ public class Mantleon extends Tecton {
 
     @Override
     public void addMycelium(Mycelium mycelium) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addMycelium'");
+        Skeleton.logFunctionCall(this, "addMycelium", mycelium);
+        this.mycelia.add(mycelium);
+        Skeleton.logReturn(this, "addMycelium");
     }
 
     @Override
     public void placeInsect(Insect insect) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'placeInsect'");
+        Skeleton.logFunctionCall(this, "placeInsect", insect);
+
+        if (insect.getTecton() == null){
+            insect.setTecton(this);
+            Skeleton.logReturn(this, "placeInsect");
+            return;
+        }
+
+        if (this.insect != null || !hasConnection(insect)) {
+            Skeleton.logReturn(this, "placeInsect");
+        } else {
+            insect.neutralizeTectonEffects();
+            insect.getTecton().removeInsect();
+            insect.setTecton(this);
+            Skeleton.logReturn(this, "placeInsect");
+        }
     }
     
 }

@@ -1,5 +1,7 @@
 package com.example;
 
+import javax.net.ssl.SSLKeyException;
+
 /**
  * Represents an Insect entity with various attributes and behaviors
  * such as chewing mycelium, eating spores, moving to different Tectons, etc.
@@ -63,14 +65,22 @@ public class Insect {
      * Enables the insect to chew mycelium.
      */
     public void enableToChewMycelium() {
-        // TODO: Add logic here
+        Skeleton.logFunctionCall(this, "enableToChewMycelium");
+
+        this.canChewMycelium = true;
+
+        Skeleton.logReturn(this, "enableToChewMycelium");
     }
 
     /**
      * Disables the insect from chewing mycelium.
      */
     public void disableChewMycelium() {
-        // TODO: Add logic here
+        Skeleton.logFunctionCall(this, "disableChewMycelium");
+
+        this.canChewMycelium = false;
+
+        Skeleton.logReturn(this, "disableChewMycelium");
     }
 
     /**
@@ -78,8 +88,15 @@ public class Insect {
      *
      * @param mycelium The Mycelium object to be chewed.
      */
-    public void chewMycelium(Mycelium mycelium) {
-        // TODO: Add logic here
+    public void chewMycelium(Mycelium mycelium, Mycelium mycelium2) {
+        Skeleton.logFunctionCall(this, "chewMycelium", mycelium);
+
+        if (this.canChewMycelium) {
+            mycelium.removeConnection(mycelium2);
+            mycelium2.removeConnection(mycelium);
+        }
+
+        Skeleton.logReturn(this, "chewMycelium");
     }
 
     /**
@@ -88,14 +105,17 @@ public class Insect {
      * @param times The new multiplier value.
      */
     public void setNutrientMultiplier(int times) {
-        // TODO: Add logic here
+        Skeleton.logFunctionCall(this, "setNutrientMultiplier", Integer.toString(times));
+
+        this.nutrientMultiplier = times;
+
+        Skeleton.logReturn(this, "setNutrientMultiplier");
     }
 
     /**
      * Allows the insect to eat a spore.
      */
     public void eatSpore() {
-        // TODO: Add logic here
 
         Skeleton.logFunctionCall(this, "eatSpore");
 
@@ -103,7 +123,9 @@ public class Insect {
 
         entomologist.setScore(s1.getNutrientValue());
 
-        s1.takeEffectOn(this);
+        if (!(tecton instanceof Orogenix)) {
+            s1.takeEffectOn(this);
+        }
 
         Skeleton.logReturn(this, "eatSpore");
     }
@@ -113,6 +135,8 @@ public class Insect {
      */
     public void enableEating() {
         Skeleton.logFunctionCall(this, "enableEating");
+
+        this.canEat = true;
         
         Skeleton.logReturn(this, "enableEating");
    
@@ -122,7 +146,11 @@ public class Insect {
      * Disables the insect from eating.
      */
     public void disableEating() {
-        // TODO: Add logic here
+        Skeleton.logFunctionCall(this, "disableEating");
+
+        this.canEat = false;
+
+        Skeleton.logReturn(this, "disableEating");
     }
 
     /**
@@ -131,14 +159,20 @@ public class Insect {
      * @param t The Tecton to move to.
      */
     public void moveTo(Tecton t) {
-        // TODO: Add logic here
+        Skeleton.logFunctionCall(this, "moveTo", t);
+
+        t.placeInsect(this);
+
+        Skeleton.logReturn(this, "moveTo");
     }
 
     /**
      * Deducts one nutrient point from the insect.
      */
     public void deductNutrientPoint() {
+        Skeleton.logFunctionCall(this, "deductNutrientPoint");
         // TODO: Add logic here
+        Skeleton.logReturn(this, "deductNutrientPoint");
     }
 
     /**
@@ -152,7 +186,11 @@ public class Insect {
      * Neutralizes any effects from tectons.
      */
     public void neutralizeTectonEffects() {
-        // TODO: Add logic here
+        Skeleton.logFunctionCall(this, "neutralizeTectonEffects");
+
+        setNutrientMultiplier(1);
+
+        Skeleton.logReturn(this, "neutralizeTectonEffects");
     }
 
     /**
@@ -179,14 +217,22 @@ public class Insect {
      * Paralyzes the insect.
      */
     public void paralize() {
-        // TODO: Add logic here
+        Skeleton.logFunctionCall(this, "paralize");
+
+        this.isParalized = true;
+
+        Skeleton.logReturn(this, "paralize");
     }
 
     /**
      * Removes paralysis from the insect.
      */
     public void unParalized() {
-        // TODO: Add logic here
+        Skeleton.logFunctionCall(this, "unParalized");
+
+        this.isParalized = false;
+
+        Skeleton.logReturn(this, "unParalized");
     }
 
     /**
@@ -195,13 +241,17 @@ public class Insect {
      * @return true if the insect is paralyzed, false otherwise.
      */
     public boolean isParalized() {
-        // TODO: Return actual paralysis state
+       
         return this.isParalized;
     }
 
 
     public void setTecton(Tecton tecton) {
         this.tecton = tecton;
+    }
+
+    public Tecton getTecton() {
+        return this.tecton;
     }
 
     public void setEntomologist(Entomologist entomologist) {

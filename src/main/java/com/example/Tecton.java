@@ -1,8 +1,6 @@
 package com.example;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import java.util.*;
 
 
 /**
@@ -11,8 +9,12 @@ import java.util.List;
  * It can also break apart, become haunted, etc.
  */
 public abstract class Tecton {
-    List<Tecton> neighbours = new ArrayList<Tecton>();
-    List<Mycelium> myceliums = new ArrayList<Mycelium>();
+
+    protected HashSet<Tecton> neighbors;
+
+    protected MushroomBody mushroomBody;
+
+    protected Insect insect;
 
     /**
      * The unique identifier of this Tecton.
@@ -32,19 +34,25 @@ public abstract class Tecton {
 
     protected List<Spore> spores;
 
+    protected List<Mycelium> mycelia;
+
     /**
      * Default constructor.
      */
     protected Tecton() {
         spores = new ArrayList<>();
+        neighbors = new HashSet<>();
+        mushroomBody = null;
+        insect = null;
+        mycelia = new ArrayList<>();
     }
 
-    public List<Tecton> getNeighbours() {
-        return neighbours;
+    public HashSet<Tecton> getNeighbors() {
+        return neighbors;
     }
 
     public List<Mycelium> getMyceliums() {
-        return myceliums;
+        return mycelia;
     }
 
     /**
@@ -60,15 +68,65 @@ public abstract class Tecton {
      *
      * @return A new Tecton object resulting from the break.
      */
-    public Tecton breakApart() {
-        // TODO: Implement logic
-        return null;
+    public List<Tecton> breakApart() {
+        Skeleton.logFunctionCall(this, "breakApart");
+
+        Transix t1 = new Transix();
+        Skeleton.logCreateInstance(t1, "Transix", "t1");
+
+        Transix t2 = new Transix();
+        Skeleton.logCreateInstance(t2, "Transix", "t2");
+
+        Tecton n2 = neighbors.iterator().next();
+        neighbors.remove(n2);
+        Tecton n1 = neighbors.iterator().next();
+
+        neighbors.add(t1);
+        neighbors.add(t2);
+
+        if (this.hasMushroomBody()) {
+            boolean toT1 = Skeleton.logBranch("A t1-re (y), vagy a t2-re (n) kerüljön a gomba test?");
+            boolean toT12 = new Random().nextBoolean();
+            if (toT1) {
+                t1.placeMushroomBody(this.mushroomBody);
+                t1.addMycelium(this.mycelia.get(0));
+            } else {
+                t2.placeMushroomBody(this.mushroomBody);
+                t2.addMycelium(this.mycelia.get(0));
+            }
+        }
+
+        if (this.hasInsect()) {
+            boolean toT1 = Skeleton.logBranch("A t1-re (y), vagy a t2-re (n) kerüljön a rovar?");
+            if (toT1) {
+                t1.placeInsect(this.insect);
+            } else {
+                t2.placeInsect(this.insect);
+            }
+        }
+
+        n1.changeNeighbour(this, t2);
+
+        n2.changeNeighbour(this, t1);
+
+        Skeleton.logReturn(this, "breakApart");
+        return new ArrayList<>(Arrays.asList(t1, t2));
     }
 
     public void addTectonToNeighbors(Tecton tecton) {
-        Skeleton.logFunctionCall(this, "addTectonToNeighbors", tecton);
-        neighbours.add(tecton);
-        Skeleton.logReturn(this, "addTectonToNeighbors");
+        if (!neighbors.contains(tecton)) {
+            Skeleton.logFunctionCall(this, "addTectonToNeighbors", tecton);
+            neighbors.add(tecton);
+            tecton.addTectonToNeighbors(this);
+            Skeleton.logReturn(this, "addTectonToNeighbors");
+        }
+    }
+
+    public void changeNeighbour(Tecton from, Tecton to) {
+        Skeleton.logFunctionCall(this, "changeNeighbour", from, to);
+        neighbors.remove(from);
+        this.addTectonToNeighbors(to);
+        Skeleton.logReturn(this, "changeNeighbour");
     }
 
     public void removeTectonFromNeighbors(Tecton tecton) {
@@ -80,8 +138,11 @@ public abstract class Tecton {
      * @return true if it has a MushroomBody, false otherwise.
      */
     public boolean hasMushroomBody() {
-        // TODO: Implement logic
-        return false;
+        return mushroomBody != null;
+    }
+
+    public boolean hasInsect() {
+        return insect != null;
     }
 
 
@@ -113,7 +174,11 @@ public abstract class Tecton {
      * Removes the Insect from this Tecton.
      */
     public void removeInsect() {
-        // TODO: Implement logic
+        Skeleton.logFunctionCall(this, "removeInsect");
+
+        insect = null;
+
+        Skeleton.logReturn(this, "removeInsect");
     }
 
     /**
@@ -187,6 +252,20 @@ public abstract class Tecton {
      * @param mycelium The Mycelium to place.
      */
     public abstract void addMycelium(Mycelium mycelium);
+
+    public boolean hasConnection(Insect i) {
+        if (i.getTecton() == null) {
+            return false;
+        }
+        for (Mycelium m : this.mycelia) {
+            for (Mycelium con : m.getConnections()){
+                if (i.getTecton().mycelia.contains(con)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     /**
      * Removes the specified Mycelium from this Tecton.
