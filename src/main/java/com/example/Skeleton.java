@@ -23,19 +23,27 @@ public class Skeleton {
         return (number < 10 ? "0" : "") + number;
     }
 
+    private static String formatText(String text) {
+        int textLength = text.length();
+        int maxLength = 54;
+        int padding = (maxLength - textLength) / 2;
+        String leftPadding = "-".repeat(padding) + " ";
+        String rightPadding = " " + "-".repeat(maxLength - textLength - padding);
+        return leftPadding + text + rightPadding;
+    }
+
     /*  Starts a new test case, resetting the line counter and indentation depth.
         Prints a header with the test case name. */
     public static void initTestCase(String testCase) {
         lineCounter = 1;
         depth = 1;
         System.out.println();
-        System.out.println("---------- " + testCase + " ----------");
+        System.out.println(formatText(testCase));
     }
 
     public static void finishTestCase(String testCase) {
-        System.out.println("---------- " + testCase + " ----------");
+        System.out.println(formatText(testCase));
         System.out.println();
-
     }
 
     /*  Logs a function call with indentation based on the call depth.
@@ -88,13 +96,14 @@ public class Skeleton {
     }
 
     public static void logCommunicationDiagramStart() {
-        // TODO: Implement
+        System.out.println(formatText("Communication Diagram Elements"));
+
     }
     public static void logInitializationFunctionCalls() {
-        // TODO: Implement
+        System.out.println(formatText("Initialization"));
     }
     public static void logSequencyDiagramStart() {
-        // TODO: Implement
+        System.out.println(formatText("Sequency Diagram Elements"));
     }
 
     /*
