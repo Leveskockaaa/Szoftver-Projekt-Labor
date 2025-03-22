@@ -1,6 +1,10 @@
 package com.example;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class Skeleton {
@@ -81,6 +85,16 @@ public class Skeleton {
     public static void logCreateInstance(Object o, String className, String instanceName) {
         System.out.println(formatLineNumber(lineCounter++) + INDENT.repeat(depth) + className + " " + instanceName + " = new " + className + "()");
         nameMap.put(o, instanceName);
+    }
+
+    public static void logCommunicationDiagramStart() {
+        // TODO: Implement
+    }
+    public static void logInitializationFunctionCalls() {
+        // TODO: Implement
+    }
+    public static void logSequencyDiagramStart() {
+        // TODO: Implement
     }
 
 
