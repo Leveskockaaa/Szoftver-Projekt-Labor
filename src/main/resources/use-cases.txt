@@ -15,8 +15,11 @@ Poralia loses effect,poraliaLosesEffect
 Insect eat Capulon spore,insectEatCapulonSpore
 Capulon loses effect,capulonLosesEffect
 Insect eats spore on Orogenix,insectEatsSporeOnOrogenix
-Break tecton
-Initialize starting tectons
+Initialize starting tectons,initializeStartingTectons
+Break Tecton apart without Insect or Mushroombody,breakTectonApartWithoutInsectOrMushroomBody
+Break Tecton apart with Insect,breakTectonApartWithInsect
+Break Tecton apart with MushroomBody,breakTectonApartWithMushroomBody
+Break Tecton apart with Insect and MushroomBody,breakTectonApartWithInsectAndMushroomBody
 Evolve nushroom body
 Can’t evolve mushroom body
 Grow mushroom body
