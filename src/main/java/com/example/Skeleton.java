@@ -31,6 +31,12 @@ public class Skeleton {
         System.out.println("---------- " + testCase + " ----------");
     }
 
+    public static void finishTestCase(String testCase) {
+        System.out.println("---------- " + testCase + " ----------");
+        System.out.println();
+
+    }
+
     /*  Logs a function call with indentation based on the call depth.
         Allows passing multiple parameters to be displayed inside brackets. */
     public static void logFunctionCall(Object instance, String methodName, Object... params) {
