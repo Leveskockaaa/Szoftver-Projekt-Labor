@@ -12,7 +12,7 @@ public class Hyphara extends MushroomBody{
     @Override
     public void spreadSpores() {
         Skeleton.logFunctionCall(this, "spreadSpores");
-        for(Tecton t : tecton.getNeighbours()){
+        for(Tecton t : tecton.getNeighbors()){
              t.addSpore(new HypharaSpore());
         }
         sporeSpreadsLeft--;

@@ -314,10 +314,10 @@ public class Skeleton {
         Transix t2 = new Transix();
         logCreateInstance(t2, "Transix", "t2");
 
-        Mycelium my1 = new Mycelium();
+        Mycelium my1 = new Mycelium(t1);
         logCreateInstance(my1, "Mycelium", "my1");
 
-        Mycelium my2 = new Mycelium();
+        Mycelium my2 = new Mycelium(t2);
         logCreateInstance(my2, "Mycelium", "my2");
 
         Entomologist e1 = new Entomologist("e1");
@@ -356,10 +356,10 @@ public class Skeleton {
         Magmox t2 = new Magmox();
         logCreateInstance(t2, "Magmox", "t2");
 
-        Mycelium my1 = new Mycelium();
+        Mycelium my1 = new Mycelium(t1);
         logCreateInstance(my1, "Mycelium", "my1");
 
-        Mycelium my2 = new Mycelium();
+        Mycelium my2 = new Mycelium(t2);
         logCreateInstance(my2, "Mycelium", "my2");
 
         Entomologist e1 = new Entomologist("e1");
@@ -398,10 +398,10 @@ public class Skeleton {
         Mantleon t2 = new Mantleon();
         logCreateInstance(t2, "Mantleon", "t2");
 
-        Mycelium my1 = new Mycelium();
+        Mycelium my1 = new Mycelium(t1);
         logCreateInstance(my1, "Mycelium", "my1");
 
-        Mycelium my2 = new Mycelium();
+        Mycelium my2 = new Mycelium(t2);
         logCreateInstance(my2, "Mycelium", "my2");
 
         Entomologist e1 = new Entomologist("e1");
@@ -440,10 +440,10 @@ public class Skeleton {
         Orogenix t2 = new Orogenix();
         logCreateInstance(t2, "Orogenix", "t2");
 
-        Mycelium my1 = new Mycelium();
+        Mycelium my1 = new Mycelium(t1);
         logCreateInstance(my1, "Mycelium", "my1");
 
-        Mycelium my2 = new Mycelium();
+        Mycelium my2 = new Mycelium(t2);
         logCreateInstance(my2, "Mycelium", "my2");
 
         Entomologist e1 = new Entomologist("e1");
@@ -482,10 +482,10 @@ public class Skeleton {
         Transix t2 = new Transix();
         logCreateInstance(t2, "Transix", "t2");
 
-        Mycelium my1 = new Mycelium();
+        Mycelium my1 = new Mycelium(t1);
         logCreateInstance(my1, "Mycelium", "my1");
 
-        Mycelium my2 = new Mycelium();
+        Mycelium my2 = new Mycelium(t2);
         logCreateInstance(my2, "Mycelium", "my2");
 
         Entomologist e1 = new Entomologist("e1");
@@ -532,10 +532,10 @@ public class Skeleton {
         Transix t2 = new Transix();
         logCreateInstance(t2, "Transix", "t2");
 
-        Mycelium my1 = new Mycelium();
+        Mycelium my1 = new Mycelium(t1);
         logCreateInstance(my1, "Mycelium", "my1");
 
-        Mycelium my2 = new Mycelium();
+        Mycelium my2 = new Mycelium(t2);
         logCreateInstance(my2, "Mycelium", "my2");
 
         Entomologist e1 = new Entomologist("e1");
@@ -572,10 +572,10 @@ public class Skeleton {
         Transix t2 = new Transix();
         logCreateInstance(t2, "Transix", "t2");
 
-        Mycelium my1 = new Mycelium();
+        Mycelium my1 = new Mycelium(t1);
         logCreateInstance(my1, "Mycelium", "my1");
 
-        Mycelium my2 = new Mycelium();
+        Mycelium my2 = new Mycelium(t2);
         logCreateInstance(my2, "Mycelium", "my2");
 
         Entomologist e1 = new Entomologist("e1");
@@ -614,10 +614,10 @@ public class Skeleton {
         Transix t2 = new Transix();
         logCreateInstance(t2, "Transix", "t2");
 
-        Mycelium my1 = new Mycelium();
+        Mycelium my1 = new Mycelium(t1);
         logCreateInstance(my1, "Mycelium", "my1");
 
-        Mycelium my2 = new Mycelium();
+        Mycelium my2 = new Mycelium(t2);
         logCreateInstance(my2, "Mycelium", "my2");
 
         Entomologist e1 = new Entomologist("e1");
@@ -684,10 +684,10 @@ public class Skeleton {
 
         boolean hasMushroomBody = logBranch("Legyen a tektonon gomba test?");
         if (hasMushroomBody) {
-            mb = new Hyphara();
+            mb = new Hyphara(t);
             logCreateInstance(mb, "Hyphara", "mb");
 
-            my = new Mycelium();
+            my = new Mycelium(t);
             logCreateInstance(my, "Mycelium", "my");
         }
 

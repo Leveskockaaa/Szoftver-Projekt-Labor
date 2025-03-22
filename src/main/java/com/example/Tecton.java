@@ -258,7 +258,7 @@ public abstract class Tecton {
             return false;
         }
         for (Mycelium m : this.mycelia) {
-            for (Mycelium con : m.getConnections()){
+            for (Mycelium con : m.getMyceliumConnections()){
                 if (i.getTecton().mycelia.contains(con)) {
                     return true;
                 }
