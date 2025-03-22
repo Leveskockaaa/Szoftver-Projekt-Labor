@@ -1,9 +1,9 @@
 package com.example;
 
 /**
- * Magmox is a specific type of Tecton.
+ * Oregenix is a specific type of Tecton.
  */
-public class Magmox extends Tecton {
+public class Orogenix extends Tecton {
 
     @Override
     public void placeMushroomBody(MushroomBody mushroomBody) {
@@ -40,9 +40,11 @@ public class Magmox extends Tecton {
             insect.neutralizeTectonEffects();
             insect.getTecton().removeInsect();
             insect.setTecton(this);
-            insect.deductNutrientPoint();
+            insect.neutralizeSporeEffects();
             Skeleton.logReturn(this, "placeInsect");
         }
+
     }
    
 }
+

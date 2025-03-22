@@ -15,6 +15,6 @@ public abstract class Player {
         this.isWinner = true;
     }
 
-    public abstract void placeInitial();
+    public abstract void placeInitial(Tecton on);
 
 }

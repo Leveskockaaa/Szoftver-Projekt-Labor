@@ -1,60 +1,117 @@
 package com.example;
 
+import java.util.ArrayList;
+import java.util.List;
 /**
  * Represents Mycelium in the domain model.
  * Mycelium can be placed on Tectons, chewed by Insects, etc.
  */
 public class Mycelium {
-
     private boolean canGrow;
-
     private int growthSpeed;
+
+    private final Tecton tecton;
+    private Mycologist mycologist;
+    private List<Mycelium> myceliumConnections;
 
     /**
      * Default constructor.
      */
-    public Mycelium() {
-        // TODO: Implement this method
+    public Mycelium(Tecton tecton) {
+        this.canGrow = true;
+        this.tecton = tecton;
+        myceliumConnections = new ArrayList<Mycelium>();
     }
 
-    public boolean canDevelop() { 
-        // TODO: Implement this method
+    public Mycologist getMycologist() {
+        return mycologist;
+    }
+
+    public List<Mycelium> getMyceliumConnections() {
+        return myceliumConnections;
+    }
+
+    public boolean canDevelop() {
+        Skeleton.logFunctionCall(this, "canDevelop");
+
+        int sporeCount = 0;
+        for (Spore s : tecton.sporesAvailable()){
+            if(s.getClass() == HypharaSpore.class){ //Spore type?
+                sporeCount++;
+            }
+        }
+
+        Skeleton.logReturn(this, "canDevelop");
+        if(sporeCount >= 6 && !tecton.hasMushroomBody())
+            return true;
         return false;
     }
 
     public void developMushroomBody() {
-        // TODO: Implement this method
+        Skeleton.logFunctionCall(this, "developMushroomBody");
 
+        if(canDevelop()) {
+            tecton.placeMushroomBody(new Hyphara(tecton));
+        }
+
+        Skeleton.logReturn(this, "developMushroomBody");
     }
 
     public void enableGrowth() {
-        // TODO: Implement this method
-
+        Skeleton.logFunctionCall(this, "enableGrowth");
+        canGrow = true;
+        Skeleton.logReturn(this, "enableGrowth");
     }
 
-    public void createNewBranch(Tecton tecton) {
-        // TODO: Implement this method
+    public Mycelium createNewBranch(Tecton tecton) {
+        Skeleton.logFunctionCall(this, "createNewBranch", tecton);
+
+        if(tecton.canAddMycelium() && canGrow){
+            Mycelium newMycelium = new Mycelium(tecton);
+            tecton.addMycelium(newMycelium);
+            Skeleton.logCreateInstance(newMycelium, "Mycelium", "newMycelium");
+            myceliumConnections.add(newMycelium);
+            tecton.addMycelium(newMycelium);
+            Skeleton.logReturn(this, "createNewBranch");
+            myceliumConnections.add(newMycelium);
+            newMycelium.myceliumConnections.add(this);
+            return newMycelium;
+        }
+        Skeleton.logReturn(this, "createNewBranch");
+        return null;
     }
 
     public void removeConnection(Mycelium with) {
-        // TODO: Implement this method
+        Skeleton.logFunctionCall(this, "removeConnection", with);
+
+        myceliumConnections.remove(with);
+
+        Skeleton.logReturn(this, "removeConnection");
     }
 
     public boolean isConnectedToMushroomBody() {
-        // TODO: Implement this method
+        Skeleton.logFunctionCall(this, "isConnectedToMushroomBody");
+
+        Skeleton.logReturn(this, "isConnectedToMushroomBody");
         return false;
     }
 
     public void speedUpGrowth() {
-        // TODO: Implement this method
+        Skeleton.logFunctionCall(this, "speedUpGrowth");
+
+        Skeleton.logReturn(this, "speedUpGrowth");
     }
 
-    public void resetGrowthSpeed() { 
-        // TODO: Implement this method
+    public void resetGrowthSpeed() {
+        Skeleton.logFunctionCall(this, "resetGrowthSpeed");
+
+        Skeleton.logReturn(this, "resetGrowthSpeed");
     }
 
     public void wither() {
-        // TODO: Implement this method
+        Skeleton.logFunctionCall(this, "wither");
+
+        Skeleton.logReturn(this, "wither");
     }
 }
 
