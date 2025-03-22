@@ -41,12 +41,12 @@ public class Mycelium {
         Skeleton.logFunctionCall(this, "createNewBranch", tecton);
 
         Mycelium mycelium;
-        if (tecton.mycelium.isEmpty()) {
+        if (tecton.mycelia.isEmpty()) {
             mycelium = new Mycelium();
             Skeleton.logCreateInstance(mycelium, "Mycelium", "mycelium");
             tecton.addMycelium(mycelium);
         } else {
-            mycelium = tecton.mycelium.getFirst();
+            mycelium = tecton.mycelia.getFirst();
         }
         connections.add(mycelium);
         mycelium.connections.add(this);

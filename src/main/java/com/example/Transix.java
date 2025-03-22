@@ -7,14 +7,15 @@ public class Transix extends Tecton {
 
     @Override
     public void placeMushroomBody(MushroomBody mushroomBody) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'placeMushroomBody'");
+       Skeleton.logFunctionCall(this, "placeMushroomBody", mushroomBody);
+       this.mushroomBody = mushroomBody;
+       Skeleton.logReturn(this, "placeMushroomBody");
     }
 
     @Override
     public void addMycelium(Mycelium mycelium) {
         Skeleton.logFunctionCall(this, "addMycelium", mycelium);
-        this.mycelium.add(mycelium);
+        this.mycelia.add(mycelium);
         Skeleton.logReturn(this, "addMycelium");
     }
 

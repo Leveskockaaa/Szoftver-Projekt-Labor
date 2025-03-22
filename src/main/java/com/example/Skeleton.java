@@ -1,9 +1,6 @@
 package com.example;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Skeleton {
@@ -144,10 +141,10 @@ public class Skeleton {
         // Create instances
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
-        
+
         Entomologist e1 = new Entomologist("e1");
         logCreateInstance(e1, "Entomologist", "e1");
-        
+
         Insect i1 = new Insect(e1);
         logCreateInstance(i1, "Insect", "i1");
 
@@ -193,10 +190,10 @@ public class Skeleton {
         // Create instances
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
-        
+
         Entomologist e1 = new Entomologist("e1");
         logCreateInstance(e1, "Entomologist", "e1");
-        
+
         Insect i1 = new Insect(e1);
         logCreateInstance(i1, "Insect", "i1");
 
@@ -204,7 +201,7 @@ public class Skeleton {
         logCreateInstance(s1, "PoraliaSpore", "s1");
 
         // Log function calls
-        
+
         i1.enableEating();
         t1.placeInsect(i1);
         t1.addSpore(s1);
@@ -239,10 +236,10 @@ public class Skeleton {
         // Create instances
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
-        
+
         Entomologist e1 = new Entomologist("e1");
         logCreateInstance(e1, "Entomologist", "e1");
-        
+
         Insect i1 = new Insect(e1);
         logCreateInstance(i1, "Insect", "i1");
 
@@ -250,7 +247,7 @@ public class Skeleton {
         logCreateInstance(s1, "CapulonSpore", "s1");
 
         // Log function calls
-        
+
         i1.enableEating();
         t1.placeInsect(i1);
         t1.addSpore(s1);
@@ -285,10 +282,10 @@ public class Skeleton {
 
         Orogenix t1 = new Orogenix();
         logCreateInstance(t1, "Orogenix", "t1");
-        
+
         Entomologist e1 = new Entomologist("e1");
         logCreateInstance(e1, "Entomologist", "e1");
-        
+
         Insect i1 = new Insect(e1);
         logCreateInstance(i1, "Insect", "i1");
 
@@ -296,7 +293,7 @@ public class Skeleton {
         logCreateInstance(s1, "CapulonSpore", "s1");
 
         // Log function calls
-        
+
         i1.enableEating();
         t1.placeInsect(i1);
         t1.addSpore(s1);
@@ -646,5 +643,75 @@ public class Skeleton {
         System.out.println("-----------------");
 
         i1.chewMycelium(my1, my2);
+    }
+
+    public static void initializeStartingTectons() {
+        initTestCase("Initialize starting Tectons");
+        // Create instances
+        Transix t1 = new Transix();
+        logCreateInstance(t1, "Transix", "t1");
+
+        Mantleon t2 = new Mantleon();
+        logCreateInstance(t2, "Mantleon", "t2");
+
+        Orogenix t3 = new Orogenix();
+        logCreateInstance(t3, "Orogenix", "t3");
+
+        // Log function call
+        //Szekvencia diagram
+        //gametable.init();
+        t1.addTectonToNeighbors(t2);
+        //t2.addTectonToNeighbors(t3);
+        //t3.addTectonToNeighbors(t1);
+
+        finishTestCase("Initialize starting Tectons");
+    }
+
+    public static void breakTectonApart() {
+        initTestCase("Break Tecton apart");
+        Hyphara mb = null;
+        Mycelium my = null;
+        Insect i = null;
+        // Create instances
+        Transix t = new Transix();
+        logCreateInstance(t, "Transix", "t");
+
+        Transix neigh1 = new Transix();
+        logCreateInstance(neigh1, "Transix", "neigh1");
+
+        Transix neigh2 = new Transix();
+        logCreateInstance(neigh2, "Transix", "neigh2");
+
+        boolean hasMushroomBody = logBranch("Legyen a tektonon gomba test?");
+        if (hasMushroomBody) {
+            mb = new Hyphara();
+            logCreateInstance(mb, "Hyphara", "mb");
+
+            my = new Mycelium();
+            logCreateInstance(my, "Mycelium", "my");
+        }
+
+        boolean hasInsect = logBranch("Legyen a tektonon rovar?");
+        if (hasInsect) {
+            i = new Insect(new Entomologist("e1"));
+            logCreateInstance(i, "Insect", "i");
+        }
+
+
+        //TODO kommunikációs diagram
+        if (hasInsect) {
+            t.placeInsect(i);
+        }
+        if (hasMushroomBody) {
+            t.placeMushroomBody(mb);
+            t.addMycelium(my);
+        }
+        t.addTectonToNeighbors(neigh1);
+        t.addTectonToNeighbors(neigh2);
+
+        //TODO Szekvencia diagram
+        t.breakApart();
+
+        finishTestCase("Break Tecton apart");
     }
 }

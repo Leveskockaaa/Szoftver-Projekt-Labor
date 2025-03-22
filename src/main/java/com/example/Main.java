@@ -35,7 +35,7 @@ public class Main {
 
         Skeleton.insectEatsPoraliaSpore();
         Skeleton.poraliaLosesEffect();
-        
+
         Skeleton.insectEatsSporeOnOrogenix();
 
         Skeleton.insectMovesToTransix();
