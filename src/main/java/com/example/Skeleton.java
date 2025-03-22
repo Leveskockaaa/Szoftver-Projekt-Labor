@@ -55,22 +55,26 @@ public class Skeleton {
     }
 
     /* Logs a branch decision and asks the user whether the condition should be true or false. */
-    public static void logBranch(String condition) {
+    public static boolean logBranch(String condition) {
         String result;
+        boolean outcome = false;
         System.out.print(formatLineNumber(lineCounter++) + INDENT.repeat(depth) + "branch " + condition + " [y/n]: ");
         while (true) {
             String input = scanner.nextLine().trim().toLowerCase();
             if (input.equals("y")) {
                 result = "TRUE";
+                outcome = true;
                 break;
             }
             if (input.equals("n")) {
                 result = "FALSE";
+                outcome = false;
                 break;
             }
             System.out.print("Wrong input. Type 'y' or 'n': ");
         }
         System.out.println(formatLineNumber(lineCounter++) + INDENT.repeat(depth) + "branch " + condition + " is " + result);
+        return outcome;
     }
 
 
@@ -118,24 +122,23 @@ public class Skeleton {
         logCreateInstance(t3, "Orogenix", "t3");
 
         // Log function call
-        t1.addTectonToNeighbors(t2);
-        t2.addTectonToNeighbors(t3);
-        t3.addTectonToNeighbors(t1);
+        //Szekvencia diagram
+        //gametable.init();
+            t1.addTectonToNeighbors(t2);
+            //t2.addTectonToNeighbors(t3);
+            //t3.addTectonToNeighbors(t1);
 
         finishTestCase("Initialize starting Tectons");
     }
 
-    public static void breakTectonApartWithoutInsectOrMushroomBody1() {
-        initTestCase("Break Tecton apart without Insect or MushroomBody1");
+    public static void breakTectonApart() {
+        initTestCase("Break Tecton apart");
+        Hyphara mb = null;
+        Mycelium my = null;
+        Insect i = null;
         // Create instances
         Transix t = new Transix();
         logCreateInstance(t, "Transix", "t");
-
-        Hyphara mb = new Hyphara();
-        logCreateInstance(mb, "Hyphara", "mb");
-
-        Mycelium my = new Mycelium();
-        logCreateInstance(my, "Mycelium", "my");
 
         Transix neigh1 = new Transix();
         logCreateInstance(neigh1, "Transix", "neigh1");
@@ -143,20 +146,40 @@ public class Skeleton {
         Transix neigh2 = new Transix();
         logCreateInstance(neigh2, "Transix", "neigh2");
 
-        // TODO kommunikációs diagram
-        t.placeMushroomBody(mb);
-        t.addMycelium(my);
+        boolean hasMushroomBody = logBranch("Legyen a tektonon gomba test?");
+        if (hasMushroomBody) {
+            mb = new Hyphara();
+            logCreateInstance(mb, "Hyphara", "mb");
+
+            my = new Mycelium();
+            logCreateInstance(my, "Mycelium", "my");
+        }
+
+        boolean hasInsect = logBranch("Legyen a tektonon rovar?");
+        if (hasInsect) {
+            i = new Insect(new Entomologist("e1"));
+            logCreateInstance(i, "Insect", "i");
+        }
+
+
+        //TODO kommunikációs diagram
+        if (hasInsect) {
+            t.placeInsect(i);
+        }
+        if (hasMushroomBody) {
+            t.placeMushroomBody(mb);
+            t.addMycelium(my);
+        }
         t.addTectonToNeighbors(neigh1);
         t.addTectonToNeighbors(neigh2);
 
         //TODO Szekvencia diagram
         t.breakApart();
 
-
-
-
-        finishTestCase("Break Tecton apart without Insect or MushroomBody1");
+        finishTestCase("Break Tecton apart");
     }
+
+
 
 
 

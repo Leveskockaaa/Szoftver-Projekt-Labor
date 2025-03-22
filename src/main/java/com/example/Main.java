@@ -26,6 +26,6 @@ public class Main {
 
         Skeleton.insectEatHypahraSpore();
         Skeleton.initializeStartingTectons();
-        Skeleton.breakTectonApartWithoutInsectOrMushroomBody1();
+        Skeleton.breakTectonApart();
     }
 }

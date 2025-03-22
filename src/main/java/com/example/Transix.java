@@ -28,7 +28,7 @@ public class Transix extends Tecton {
     @Override
     public void placeInsect(Insect insect) {
         Skeleton.logFunctionCall(this, "placeInsect", insect);
-        
+        this.insect = insect;
         insect.setTecton(this);
 
         Skeleton.logReturn(this, "placeInsect");
