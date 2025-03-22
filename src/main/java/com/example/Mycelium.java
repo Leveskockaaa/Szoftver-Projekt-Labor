@@ -1,5 +1,8 @@
 package com.example;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Represents Mycelium in the domain model.
  * Mycelium can be placed on Tectons, chewed by Insects, etc.
@@ -10,11 +13,13 @@ public class Mycelium {
 
     private int growthSpeed;
 
+    private List<Mycelium> connections;
+
     /**
      * Default constructor.
      */
     public Mycelium() {
-        // TODO: Implement this method
+        connections = new ArrayList<Mycelium>();
     }
 
     public boolean canDevelop() { 
@@ -33,7 +38,20 @@ public class Mycelium {
     }
 
     public void createNewBranch(Tecton tecton) {
-        // TODO: Implement this method
+        Skeleton.logFunctionCall(this, "createNewBranch", tecton);
+
+        Mycelium mycelium;
+        if (tecton.mycelium.isEmpty()) {
+            mycelium = new Mycelium();
+            Skeleton.logCreateInstance(mycelium, "Mycelium", "mycelium");
+            tecton.addMycelium(mycelium);
+        } else {
+            mycelium = tecton.mycelium.getFirst();
+        }
+        connections.add(mycelium);
+        mycelium.connections.add(this);
+
+        Skeleton.logReturn(this, "createNewBranch");
     }
 
     public void removeConnection(Mycelium with) {
@@ -55,6 +73,10 @@ public class Mycelium {
 
     public void wither() {
         // TODO: Implement this method
+    }
+
+    public List<Mycelium> getConnections() {
+        return connections;
     }
 }
 

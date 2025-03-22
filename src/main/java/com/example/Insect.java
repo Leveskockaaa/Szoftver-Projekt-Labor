@@ -1,5 +1,7 @@
 package com.example;
 
+import javax.net.ssl.SSLKeyException;
+
 /**
  * Represents an Insect entity with various attributes and behaviors
  * such as chewing mycelium, eating spores, moving to different Tectons, etc.
@@ -96,7 +98,11 @@ public class Insect {
      * @param times The new multiplier value.
      */
     public void setNutrientMultiplier(int times) {
-        // TODO: Add logic here
+        Skeleton.logFunctionCall(this, "setNutrientMultiplier", Integer.toString(times));
+
+        this.nutrientMultiplier = times;
+
+        Skeleton.logReturn(this, "setNutrientMultiplier");
     }
 
     /**
@@ -146,14 +152,20 @@ public class Insect {
      * @param t The Tecton to move to.
      */
     public void moveTo(Tecton t) {
-        // TODO: Add logic here
+        Skeleton.logFunctionCall(this, "moveTo", t);
+
+        t.placeInsect(this);
+
+        Skeleton.logReturn(this, "moveTo");
     }
 
     /**
      * Deducts one nutrient point from the insect.
      */
     public void deductNutrientPoint() {
+        Skeleton.logFunctionCall(this, "deductNutrientPoint");
         // TODO: Add logic here
+        Skeleton.logReturn(this, "deductNutrientPoint");
     }
 
     /**
@@ -167,7 +179,11 @@ public class Insect {
      * Neutralizes any effects from tectons.
      */
     public void neutralizeTectonEffects() {
-        // TODO: Add logic here
+        Skeleton.logFunctionCall(this, "neutralizeTectonEffects");
+
+        //TODO: Implement this method
+
+        Skeleton.logReturn(this, "neutralizeTectonEffects");
     }
 
     /**
@@ -224,7 +240,15 @@ public class Insect {
 
 
     public void setTecton(Tecton tecton) {
+        Skeleton.logFunctionCall(this, "setTecton", tecton);
         this.tecton = tecton;
+        Skeleton.logReturn(this, "setTecton");
+    }
+
+    public Tecton getTecton() {
+        Skeleton.logFunctionCall(this, "getTecton");
+        Skeleton.logReturn(this, "getTecton");
+        return this.tecton;
     }
 
     public void setEntomologist(Entomologist entomologist) {
