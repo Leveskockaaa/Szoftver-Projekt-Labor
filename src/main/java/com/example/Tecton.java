@@ -1,8 +1,6 @@
 package com.example;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import java.util.*;
 
 
 /**
@@ -11,6 +9,12 @@ import java.util.List;
  * It can also break apart, become haunted, etc.
  */
 public abstract class Tecton {
+
+    protected HashSet<Tecton> neighbors;
+
+    protected MushroomBody mushroomBody;
+
+    protected Mycelium mycelium;
 
     /**
      * The unique identifier of this Tecton.
@@ -34,7 +38,9 @@ public abstract class Tecton {
      * Default constructor.
      */
     protected Tecton() {
+
         spores = new ArrayList<>();
+        neighbors = new HashSet<>();
     }
 
     /**
@@ -50,13 +56,48 @@ public abstract class Tecton {
      *
      * @return A new Tecton object resulting from the break.
      */
-    public Tecton breakApart() {
-        // TODO: Implement logic
-        return null;
+    public List<Tecton> breakApart() {
+        Skeleton.logFunctionCall(this, "breakApart");
+
+        Transix t1 = new Transix();
+        Skeleton.logCreateInstance(t1, "Transix", "t1");
+
+        Transix t2 = new Transix();
+        Skeleton.logCreateInstance(t2, "Transix", "t2");
+
+        neighbors.add(t1);
+        neighbors.add(t2);
+
+        t1.placeMushroomBody(this.mushroomBody);
+        t1.addMycelium(this.mycelium);
+
+        Tecton n2 = neighbors.iterator().next();
+        Tecton n1 = neighbors.iterator().next();
+        neighbors.remove(n2);
+        n1.changeNeighbour(this, t2);
+
+        neighbors.remove(n1);
+        n2.changeNeighbour(this, t1);
+
+        Skeleton.logReturn(this, "breakApart");
+        return new ArrayList<>(Arrays.asList(t1, t2));
     }
 
-    public void addTectonToNeighbors(Tecton tecton) { 
-        // TODO: Implement logic
+    public void addTectonToNeighbors(Tecton tecton) {
+        if (!neighbors.contains(tecton)) {
+            Skeleton.logFunctionCall(this, "addTectonToNeighbors", tecton);
+            neighbors.add(tecton);
+            tecton.addTectonToNeighbors(this);
+            Skeleton.logReturn(this, "addTectonToNeighbors");
+        }
+    }
+
+    public void changeNeighbour(Tecton from, Tecton to) {
+        Skeleton.logFunctionCall(this, "changeNeighbour", from, to);
+        neighbors.remove(from);
+        neighbors.add(to);
+        to.addTectonToNeighbors(this);
+        Skeleton.logReturn(this, "changeNeighbour");
     }
 
     public void removeTectonFromNeighbors(Tecton tecton) {

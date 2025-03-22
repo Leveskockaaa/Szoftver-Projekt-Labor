@@ -1,9 +1,6 @@
 package com.example;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Skeleton {
@@ -84,21 +81,21 @@ public class Skeleton {
 
 
     public static void insectEatHypahraSpore() {
-
+        initTestCase("Insect eat HypharaSpore");
         // Create instances
 
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
-        
+
         Entomologist e1 = new Entomologist("e1");
         logCreateInstance(e1, "Entomologist", "e1");
-        
+
         Insect i1 = new Insect(e1);
         logCreateInstance(i1, "Insect", "i1");
 
         HypharaSpore s1 = new HypharaSpore();
         logCreateInstance(s1, "HypharaSpore", "s1");
-    
+
         i1.enableEating();
         t1.placeInsect(i1);
         t1.addSpore(s1);
@@ -106,6 +103,59 @@ public class Skeleton {
 
         i1.eatSpore();
 
+    }
+
+    public static void initializeStartingTectons() {
+        initTestCase("Initialize starting Tectons");
+        // Create instances
+        Transix t1 = new Transix();
+        logCreateInstance(t1, "Transix", "t1");
+
+        Mantleon t2 = new Mantleon();
+        logCreateInstance(t2, "Mantleon", "t2");
+
+        Orogenix t3 = new Orogenix();
+        logCreateInstance(t3, "Orogenix", "t3");
+
+        // Log function call
+        t1.addTectonToNeighbors(t2);
+        t2.addTectonToNeighbors(t3);
+        t3.addTectonToNeighbors(t1);
+
+        finishTestCase("Initialize starting Tectons");
+    }
+
+    public static void breakTectonApartWithoutInsectOrMushroomBody1() {
+        initTestCase("Break Tecton apart without Insect or MushroomBody1");
+        // Create instances
+        Transix t = new Transix();
+        logCreateInstance(t, "Transix", "t");
+
+        Hyphara mb = new Hyphara();
+        logCreateInstance(mb, "Hyphara", "mb");
+
+        Mycelium my = new Mycelium();
+        logCreateInstance(my, "Mycelium", "my");
+
+        Transix neigh1 = new Transix();
+        logCreateInstance(neigh1, "Transix", "neigh1");
+
+        Transix neigh2 = new Transix();
+        logCreateInstance(neigh2, "Transix", "neigh2");
+
+        // TODO kommunikációs diagram
+        t.placeMushroomBody(mb);
+        t.addMycelium(my);
+        t.addTectonToNeighbors(neigh1);
+        t.addTectonToNeighbors(neigh2);
+
+        //TODO Szekvencia diagram
+        t.breakApart();
+
+
+
+
+        finishTestCase("Break Tecton apart without Insect or MushroomBody1");
     }
 
 

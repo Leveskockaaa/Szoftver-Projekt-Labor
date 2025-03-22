@@ -3,7 +3,7 @@ package com.example;
 /**
  * Oregenix is a specific type of Tecton.
  */
-public class Oregenix extends Tecton {
+public class Orogenix extends Tecton {
 
     @Override
     public void placeMushroomBody(MushroomBody mushroomBody) {
