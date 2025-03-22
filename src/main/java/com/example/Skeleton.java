@@ -302,11 +302,4 @@ public class Skeleton {
         finishTestCase("Insect eats spore on Orogenix");
     }
 
-
-
-
-
-
-
-
 }
