@@ -14,8 +14,6 @@ public abstract class Tecton {
 
     protected MushroomBody mushroomBody;
 
-    protected Mycelium mycelium;
-
     protected Insect insect;
 
     /**
@@ -36,7 +34,7 @@ public abstract class Tecton {
 
     protected List<Spore> spores;
 
-    protected List<Mycelium> myceliums;
+    protected List<Mycelium> mycelia;
 
     /**
      * Default constructor.
@@ -45,9 +43,8 @@ public abstract class Tecton {
         spores = new ArrayList<>();
         neighbors = new HashSet<>();
         mushroomBody = null;
-        mycelium = null;
         insect = null;
-        myceliums = new ArrayList<>();
+        mycelia = new ArrayList<>();
     }
 
     /**
@@ -84,10 +81,10 @@ public abstract class Tecton {
             boolean toT12 = new Random().nextBoolean();
             if (toT1) {
                 t1.placeMushroomBody(this.mushroomBody);
-                t1.addMycelium(this.mycelium);
+                t1.addMycelium(this.mycelia.get(0));
             } else {
                 t2.placeMushroomBody(this.mushroomBody);
-                t2.addMycelium(this.mycelium);
+                t2.addMycelium(this.mycelia.get(0));
             }
         }
 
@@ -251,9 +248,9 @@ public abstract class Tecton {
         if (i.getTecton() == null) {
             return false;
         }
-        for (Mycelium m : this.mycelium) {
+        for (Mycelium m : this.mycelia) {
             for (Mycelium con : m.getConnections()){
-                if (i.getTecton().mycelium.contains(con)) {
+                if (i.getTecton().mycelia.contains(con)) {
                     return true;
                 }
             }

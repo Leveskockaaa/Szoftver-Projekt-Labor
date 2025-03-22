@@ -20,7 +20,7 @@ public class Orogenix extends Tecton {
     @Override
     public void addMycelium(Mycelium mycelium) {
         Skeleton.logFunctionCall(this, "addMycelium", mycelium);
-        this.mycelium.add(mycelium);
+        this.mycelia.add(mycelium);
         Skeleton.logReturn(this, "addMycelium");
     }
 

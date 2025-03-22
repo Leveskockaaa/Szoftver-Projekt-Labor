@@ -54,7 +54,7 @@ public class Skeleton {
     }
 
     /* Logs a branch decision and asks the user whether the condition should be true or false. */
-    public static void logBranch(String condition) {
+    public static boolean logBranch(String condition) {
         String result;
         System.out.print(formatLineNumber(lineCounter++) + INDENT.repeat(depth) + "branch " + condition + " [y/n]: ");
         while (true) {
