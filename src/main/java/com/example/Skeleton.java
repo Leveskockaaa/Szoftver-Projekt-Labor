@@ -657,18 +657,101 @@ public class Skeleton {
         Orogenix t3 = new Orogenix();
         logCreateInstance(t3, "Orogenix", "t3");
 
-        // Log function call
+        GameTable gt = new GameTable();
+        logCreateInstance(gt, "GameTable", "gt");
+
+        // TODO kommunikációs diagram
+        gt.setTectons(new ArrayList<>(Arrays.asList(t1, t2, t3)));
         //Szekvencia diagram
-        //gametable.init();
-        t1.addTectonToNeighbors(t2);
-        //t2.addTectonToNeighbors(t3);
-        //t3.addTectonToNeighbors(t1);
+        gt.initialize();
 
         finishTestCase("Initialize starting Tectons");
     }
 
-    public static void breakTectonApart() {
-        initTestCase("Break Tecton apart");
+    public static void breakTectonApartWithoutInsectOrMushroomBody() {
+        initTestCase("Break Tecton apart without Insect or Mushroombody");
+        // Create instances
+        Transix t = new Transix();
+        logCreateInstance(t, "Transix", "t");
+
+        Transix neigh1 = new Transix();
+        logCreateInstance(neigh1, "Transix", "neigh1");
+
+        Transix neigh2 = new Transix();
+        logCreateInstance(neigh2, "Transix", "neigh2");
+
+        //TODO kommunikációs diagram
+        t.addTectonToNeighbors(neigh1);
+        t.addTectonToNeighbors(neigh2);
+
+        //TODO Szekvencia diagram
+        t.breakApart();
+
+        finishTestCase("Break Tecton apart without Insect or Mushroombody");
+    }
+
+    public static void breakTectonApartWithInsect() {
+        initTestCase("Break Tecton apart with Insect");
+        // Create instances
+        Transix t = new Transix();
+        logCreateInstance(t, "Transix", "t");
+
+        Transix neigh1 = new Transix();
+        logCreateInstance(neigh1, "Transix", "neigh1");
+
+        Transix neigh2 = new Transix();
+        logCreateInstance(neigh2, "Transix", "neigh2");
+
+        Insect i = new Insect(new Entomologist("e1"));
+        logCreateInstance(i, "Insect", "i");
+
+        //TODO kommunikációs diagram
+        t.placeInsect(i);
+        t.addTectonToNeighbors(neigh1);
+        t.addTectonToNeighbors(neigh2);
+
+        //TODO Szekvencia diagram
+        t.breakApart();
+
+        finishTestCase("Break Tecton apart with Insect");
+    }
+
+    public static void breakTectonApartWithMushroomBody() {
+        initTestCase("Break Tecton apart with MushroomBody");
+        // Create instances
+        Transix t = new Transix();
+        logCreateInstance(t, "Transix", "t");
+
+        Transix neigh1 = new Transix();
+        logCreateInstance(neigh1, "Transix", "neigh1");
+
+        Transix neigh2 = new Transix();
+        logCreateInstance(neigh2, "Transix", "neigh2");
+
+        Hyphara mb = new Hyphara(t);
+        logCreateInstance(mb, "Hyphara", "mb");
+
+        Mycelium my = new Mycelium(t);
+        logCreateInstance(my, "Mycelium", "my");
+
+        //TODO kommunikációs diagram
+        t.placeMushroomBody(mb);
+        t.addMycelium(my);
+
+        t.addTectonToNeighbors(neigh1);
+        t.addTectonToNeighbors(neigh2);
+
+        //TODO Szekvencia diagram
+        t.breakApart();
+
+        finishTestCase("Break Tecton apart with MushroomBody");
+    }
+
+
+
+
+    public static void breakTectonApartWithInsectAndMushroomBody() {
+        initTestCase("Break Tecton apart with Insect and MushroomBody");
         Hyphara mb = null;
         Mycelium my = null;
         Insect i = null;
@@ -682,37 +765,29 @@ public class Skeleton {
         Transix neigh2 = new Transix();
         logCreateInstance(neigh2, "Transix", "neigh2");
 
-        boolean hasMushroomBody = logBranch("Legyen a tektonon gomba test?");
-        if (hasMushroomBody) {
-            mb = new Hyphara(t);
-            logCreateInstance(mb, "Hyphara", "mb");
+        mb = new Hyphara(t);
+        logCreateInstance(mb, "Hyphara", "mb");
 
-            my = new Mycelium(t);
-            logCreateInstance(my, "Mycelium", "my");
-        }
+        my = new Mycelium(t);
+        logCreateInstance(my, "Mycelium", "my");
 
-        boolean hasInsect = logBranch("Legyen a tektonon rovar?");
-        if (hasInsect) {
-            i = new Insect(new Entomologist("e1"));
-            logCreateInstance(i, "Insect", "i");
-        }
+        i = new Insect(new Entomologist("e1"));
+        logCreateInstance(i, "Insect", "i");
 
 
         //TODO kommunikációs diagram
-        if (hasInsect) {
-            t.placeInsect(i);
-        }
-        if (hasMushroomBody) {
-            t.placeMushroomBody(mb);
-            t.addMycelium(my);
-        }
+        t.placeInsect(i);
+
+        t.placeMushroomBody(mb);
+        t.addMycelium(my);
+
         t.addTectonToNeighbors(neigh1);
         t.addTectonToNeighbors(neigh2);
 
         //TODO Szekvencia diagram
         t.breakApart();
 
-        finishTestCase("Break Tecton apart");
+        finishTestCase("Break Tecton apart with Insect and MushroomBody");
     }
 
     public static void growMycelium() {
