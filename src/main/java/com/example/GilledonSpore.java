@@ -9,8 +9,11 @@ public class GilledonSpore extends Spore {
     
         @Override
     public void takeEffectOn(Insect insect) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'takeEffectOn'");
+        Skeleton.logFunctionCall(this, "takeEffectOn", insect);
+        
+        insect.setSpeed(0.66f);
+        
+        Skeleton.logReturn(this, "takeEffectOn");
     }
     
 }

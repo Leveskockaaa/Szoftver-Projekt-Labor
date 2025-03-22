@@ -63,14 +63,22 @@ public class Insect {
      * Enables the insect to chew mycelium.
      */
     public void enableToChewMycelium() {
-        // TODO: Add logic here
+        Skeleton.logFunctionCall(this, "enableToChewMycelium");
+
+        this.canChewMycelium = true;
+
+        Skeleton.logReturn(this, "enableToChewMycelium");
     }
 
     /**
      * Disables the insect from chewing mycelium.
      */
     public void disableChewMycelium() {
-        // TODO: Add logic here
+        Skeleton.logFunctionCall(this, "disableChewMycelium");
+
+        this.canChewMycelium = false;
+
+        Skeleton.logReturn(this, "disableChewMycelium");
     }
 
     /**
@@ -95,7 +103,6 @@ public class Insect {
      * Allows the insect to eat a spore.
      */
     public void eatSpore() {
-        // TODO: Add logic here
 
         Skeleton.logFunctionCall(this, "eatSpore");
 
@@ -103,7 +110,9 @@ public class Insect {
 
         entomologist.setScore(s1.getNutrientValue());
 
-        s1.takeEffectOn(this);
+        if (!(tecton instanceof Orogenix)) {
+            s1.takeEffectOn(this);
+        }
 
         Skeleton.logReturn(this, "eatSpore");
     }
@@ -113,6 +122,8 @@ public class Insect {
      */
     public void enableEating() {
         Skeleton.logFunctionCall(this, "enableEating");
+
+        this.canEat = true;
         
         Skeleton.logReturn(this, "enableEating");
    
@@ -122,7 +133,11 @@ public class Insect {
      * Disables the insect from eating.
      */
     public void disableEating() {
-        // TODO: Add logic here
+        Skeleton.logFunctionCall(this, "disableEating");
+
+        this.canEat = false;
+
+        Skeleton.logReturn(this, "disableEating");
     }
 
     /**
@@ -179,14 +194,22 @@ public class Insect {
      * Paralyzes the insect.
      */
     public void paralize() {
-        // TODO: Add logic here
+        Skeleton.logFunctionCall(this, "paralize");
+
+        this.isParalized = true;
+
+        Skeleton.logReturn(this, "paralize");
     }
 
     /**
      * Removes paralysis from the insect.
      */
     public void unParalized() {
-        // TODO: Add logic here
+        Skeleton.logFunctionCall(this, "unParalized");
+
+        this.isParalized = false;
+
+        Skeleton.logReturn(this, "unParalized");
     }
 
     /**
@@ -195,7 +218,7 @@ public class Insect {
      * @return true if the insect is paralyzed, false otherwise.
      */
     public boolean isParalized() {
-        // TODO: Return actual paralysis state
+       
         return this.isParalized;
     }
 

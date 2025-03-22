@@ -25,5 +25,17 @@ public class Main {
 
 
         Skeleton.insectEatHypahraSpore();
+        Skeleton.hypharaLosesEffect();
+
+        Skeleton.insectEatsGilledonSpore();
+        Skeleton.gilledonLosesEffect();
+
+        Skeleton.insectEatCapulonSpore();
+        Skeleton.capulonLosesEffect();
+
+        Skeleton.insectEatsPoraliaSpore();
+        Skeleton.poraliaLosesEffect();
+        
+        Skeleton.insectEatsSporeOnOrogenix();
     }
 }

@@ -44,7 +44,7 @@ public class Skeleton {
         List<String> paramNames = paramLista.stream().map(o -> nameMap.getOrDefault(o, o.toString())).collect(Collectors.toList());
         String instanceName = nameMap.getOrDefault(instance, instance.toString());
         String paramList = String.join(", ", paramNames);
-        // String paramList = String.join(", ", params);
+        
         System.out.println(formatLineNumber(lineCounter++) + INDENT.repeat(depth) + instanceName + "." + methodName + "(" + paramList + ")");
         depth++;
     }
@@ -85,8 +85,9 @@ public class Skeleton {
 
     public static void insectEatHypahraSpore() {
 
-        // Create instances
+        initTestCase("Insect eats Hypahra spore ");
 
+        // Create instances
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
         
@@ -102,14 +103,203 @@ public class Skeleton {
         i1.enableEating();
         t1.placeInsect(i1);
         t1.addSpore(s1);
-        // Log function calls
 
+
+        // Log function calls
         i1.eatSpore();
+
+        finishTestCase("Insect eats Hypahra spore ");
 
     }
 
+    public static void hypharaLosesEffect() {
+        initTestCase("Hyphara loses effect");
+
+        // Create instances
 
 
+        Insect i1 = new Insect(new Entomologist("e1"));
+        logCreateInstance(i1, "Insect", "i1");
 
+        Transix t1 = new Transix();
+        logCreateInstance(t1, "Transix", "t1");
+
+
+        // Log function calls
+        i1.setSpeed(0.1f);
+        t1.placeInsect(i1);
+
+        i1.setSpeed(1.0f);
+
+        finishTestCase("Hyphara loses effect");
+    }
+
+    public static void insectEatsGilledonSpore() {
+        initTestCase("Insect eats Gilledon spore");
+
+        // Create instances
+        Transix t1 = new Transix();
+        logCreateInstance(t1, "Transix", "t1");
+        
+        Entomologist e1 = new Entomologist("e1");
+        logCreateInstance(e1, "Entomologist", "e1");
+        
+        Insect i1 = new Insect(e1);
+        logCreateInstance(i1, "Insect", "i1");
+
+        GilledonSpore s1 = new GilledonSpore();
+        logCreateInstance(s1, "GilledonSpore", "s1");
+
+
+        // Log function calls
+
+        t1.placeInsect(i1);
+        t1.addSpore(s1);
+        i1.enableEating();
+
+        i1.eatSpore();
+
+
+        finishTestCase("Insect eats Gilledon spore");
+
+
+    }
+    public static void gilledonLosesEffect() {
+        initTestCase("Gilledon loses effect");
+
+        // Create instances
+        Insect i1 = new Insect(new Entomologist("e1"));
+        logCreateInstance(i1, "Insect", "i1");
+
+        Transix t1 = new Transix();
+        logCreateInstance(t1, "Transix", "t1");
+
+
+        // Log function calls
+        i1.setSpeed(0.1f);
+        t1.placeInsect(i1);
+
+        i1.setSpeed(1.0f);
+
+        finishTestCase("Gilledon loses effect");
+    }
+    public static void insectEatsPoraliaSpore () {
+        initTestCase("Insect eats Poralia spore");
+
+        // Create instances
+        Transix t1 = new Transix();
+        logCreateInstance(t1, "Transix", "t1");
+        
+        Entomologist e1 = new Entomologist("e1");
+        logCreateInstance(e1, "Entomologist", "e1");
+        
+        Insect i1 = new Insect(e1);
+        logCreateInstance(i1, "Insect", "i1");
+
+        PoraliaSpore s1 = new PoraliaSpore();
+        logCreateInstance(s1, "PoraliaSpore", "s1");
+
+        // Log function calls
+        
+        i1.enableEating();
+        t1.placeInsect(i1);
+        t1.addSpore(s1);
+
+        i1.eatSpore();
+
+        finishTestCase("Insect eats Poralia spore");
+    }
+    public static void poraliaLosesEffect () {
+        initTestCase("Poralia loses effect");
+
+        // Create instances
+        Insect i1 = new Insect(new Entomologist("e1"));
+        logCreateInstance(i1, "Insect", "i1");
+
+        Transix t1 = new Transix();
+        logCreateInstance(t1, "Transix", "t1");
+
+
+        // Log function calls
+        i1.paralize();
+        t1.placeInsect(i1);
+
+        i1.unParalized();
+
+        finishTestCase("Poralia loses effect");
+        
+    }
+    public static void insectEatCapulonSpore() {
+        initTestCase("Insect eats Capulon spore");
+
+        // Create instances
+        Transix t1 = new Transix();
+        logCreateInstance(t1, "Transix", "t1");
+        
+        Entomologist e1 = new Entomologist("e1");
+        logCreateInstance(e1, "Entomologist", "e1");
+        
+        Insect i1 = new Insect(e1);
+        logCreateInstance(i1, "Insect", "i1");
+
+        CapulonSpore s1 = new CapulonSpore();
+        logCreateInstance(s1, "CapulonSpore", "s1");
+
+        // Log function calls
+        
+        i1.enableEating();
+        t1.placeInsect(i1);
+        t1.addSpore(s1);
+
+        i1.eatSpore();
+
+        finishTestCase("Insect eats Capulon spore");
+    }
+    public static void capulonLosesEffect() {
+        initTestCase("Capulon loses effect");
+
+        // Create instances
+        Insect i1 = new Insect(new Entomologist("e1"));
+        logCreateInstance(i1, "Insect", "i1");
+
+        Transix t1 = new Transix();
+        logCreateInstance(t1, "Transix", "t1");
+
+
+        // Log function calls
+        i1.disableChewMycelium();
+        t1.placeInsect(i1);
+
+        i1.enableEating();
+
+        finishTestCase("Capulon loses effect");
+    }
+    public static void insectEatsSporeOnOrogenix() {
+        initTestCase("Insect eats spore on Orogenix");
+
+        // Create instances
+
+        Orogenix t1 = new Orogenix();
+        logCreateInstance(t1, "Orogenix", "t1");
+        
+        Entomologist e1 = new Entomologist("e1");
+        logCreateInstance(e1, "Entomologist", "e1");
+        
+        Insect i1 = new Insect(e1);
+        logCreateInstance(i1, "Insect", "i1");
+
+        CapulonSpore s1 = new CapulonSpore();
+        logCreateInstance(s1, "CapulonSpore", "s1");
+
+        // Log function calls
+        
+        i1.enableEating();
+        t1.placeInsect(i1);
+        t1.addSpore(s1);
+
+        i1.eatSpore();
+
+        finishTestCase("Insect eats spore on Orogenix");
+    }
 
 }
