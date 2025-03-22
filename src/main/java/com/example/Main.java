@@ -25,7 +25,27 @@ public class Main {
 
 
         Skeleton.insectEatHypahraSpore();
-        Skeleton.initializeStartingTectons();
-        Skeleton.breakTectonApart();
+        Skeleton.hypharaLosesEffect();
+
+        Skeleton.insectEatsGilledonSpore();
+        Skeleton.gilledonLosesEffect();
+
+        Skeleton.insectEatCapulonSpore();
+        Skeleton.capulonLosesEffect();
+
+        Skeleton.insectEatsPoraliaSpore();
+        Skeleton.poraliaLosesEffect();
+
+        Skeleton.insectEatsSporeOnOrogenix();
+
+        Skeleton.insectMovesToTransix();
+        Skeleton.insectMovesToMagmox();
+        Skeleton.insectMovesToMantleon();
+        Skeleton.insectMovesToOrogenix();
+        Skeleton.insectCantMoveOccupied();
+        Skeleton.insectCantMoveNoConnection();
+
+        Skeleton.insectChewsMycelium();
+        Skeleton.insectCantChewMycelium();
     }
 }

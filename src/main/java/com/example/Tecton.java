@@ -36,16 +36,18 @@ public abstract class Tecton {
 
     protected List<Spore> spores;
 
+    protected List<Mycelium> myceliums;
+
     /**
      * Default constructor.
      */
     protected Tecton() {
-
         spores = new ArrayList<>();
         neighbors = new HashSet<>();
         mushroomBody = null;
         mycelium = null;
         insect = null;
+        myceliums = new ArrayList<>();
     }
 
     /**
@@ -165,7 +167,11 @@ public abstract class Tecton {
      * Removes the Insect from this Tecton.
      */
     public void removeInsect() {
-        // TODO: Implement logic
+        Skeleton.logFunctionCall(this, "removeInsect");
+
+        insect = null;
+
+        Skeleton.logReturn(this, "removeInsect");
     }
 
     /**
@@ -240,6 +246,20 @@ public abstract class Tecton {
      * @param mycelium The Mycelium to place.
      */
     public abstract void addMycelium(Mycelium mycelium);
+
+    public boolean hasConnection(Insect i) {
+        if (i.getTecton() == null) {
+            return false;
+        }
+        for (Mycelium m : this.mycelium) {
+            for (Mycelium con : m.getConnections()){
+                if (i.getTecton().mycelium.contains(con)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     /**
      * Removes the specified Mycelium from this Tecton.
