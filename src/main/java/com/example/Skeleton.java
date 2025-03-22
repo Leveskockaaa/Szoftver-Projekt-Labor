@@ -44,7 +44,7 @@ public class Skeleton {
         List<String> paramNames = paramLista.stream().map(o -> nameMap.getOrDefault(o, o.toString())).collect(Collectors.toList());
         String instanceName = nameMap.getOrDefault(instance, instance.toString());
         String paramList = String.join(", ", paramNames);
-        // String paramList = String.join(", ", params);
+        
         System.out.println(formatLineNumber(lineCounter++) + INDENT.repeat(depth) + instanceName + "." + methodName + "(" + paramList + ")");
         depth++;
     }
@@ -108,6 +108,8 @@ public class Skeleton {
         // Log function calls
         i1.eatSpore();
 
+        finishTestCase("Insect eats Hypahra spore ");
+
     }
 
     public static void hypharaLosesEffect() {
@@ -128,6 +130,8 @@ public class Skeleton {
         t1.placeInsect(i1);
 
         i1.setSpeed(1.0f);
+
+        finishTestCase("Hyphara loses effect");
     }
 
     public static void insectEatsGilledonSpore() {
@@ -156,6 +160,9 @@ public class Skeleton {
         i1.eatSpore();
 
 
+        finishTestCase("Insect eats Gilledon spore");
+
+
     }
     public static void gilledonLosesEffect() {
         initTestCase("Gilledon loses effect");
@@ -173,6 +180,8 @@ public class Skeleton {
         t1.placeInsect(i1);
 
         i1.setSpeed(1.0f);
+
+        finishTestCase("Gilledon loses effect");
     }
     public static void insectEatsPoraliaSpore () {
         initTestCase("Insect eats Poralia spore");
@@ -197,6 +206,8 @@ public class Skeleton {
         t1.addSpore(s1);
 
         i1.eatSpore();
+
+        finishTestCase("Insect eats Poralia spore");
     }
     public static void poraliaLosesEffect () {
         initTestCase("Poralia loses effect");
@@ -214,6 +225,8 @@ public class Skeleton {
         t1.placeInsect(i1);
 
         i1.unParalized();
+
+        finishTestCase("Poralia loses effect");
         
     }
     public static void insectEatCapulonSpore() {
@@ -239,6 +252,8 @@ public class Skeleton {
         t1.addSpore(s1);
 
         i1.eatSpore();
+
+        finishTestCase("Insect eats Capulon spore");
     }
     public static void capulonLosesEffect() {
         initTestCase("Capulon loses effect");
@@ -256,6 +271,8 @@ public class Skeleton {
         t1.placeInsect(i1);
 
         i1.enableEating();
+
+        finishTestCase("Capulon loses effect");
     }
     public static void insectEatsSporeOnOrogenix() {
         initTestCase("Insect eats spore on Orogenix");
@@ -281,6 +298,8 @@ public class Skeleton {
         t1.addSpore(s1);
 
         i1.eatSpore();
+
+        finishTestCase("Insect eats spore on Orogenix");
     }
 
 
