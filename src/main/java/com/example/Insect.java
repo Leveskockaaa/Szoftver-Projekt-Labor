@@ -181,7 +181,7 @@ public class Insect {
     public void neutralizeTectonEffects() {
         Skeleton.logFunctionCall(this, "neutralizeTectonEffects");
 
-        //TODO: Implement this method
+        setNutrientMultiplier(1);
 
         Skeleton.logReturn(this, "neutralizeTectonEffects");
     }
