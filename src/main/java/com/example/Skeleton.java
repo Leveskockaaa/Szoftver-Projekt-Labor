@@ -896,6 +896,7 @@ public class Skeleton {
     public static void growMycelium() {
         Skeleton.initTestCase("growMycelium");
 
+        logCommunicationDiagramStart();
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
         Transix t2 = new Transix();
@@ -903,10 +904,12 @@ public class Skeleton {
         Mycelium my = new Mycelium(t1);
         logCreateInstance(my, "Mycelium", "my");
 
+        logInitializationFunctionCalls();
         t1.addTectonToNeighbors(t2);
         t1.addMycelium(my);
         my.enableGrowth();
 
+        logSequencyDiagramStart();
         my.createNewBranch(t2);
 
         Skeleton.finishTestCase("growMycelium");
@@ -915,6 +918,7 @@ public class Skeleton {
     public static void cantGrowMycelium() {
         Skeleton.initTestCase("cantGrowMycelium");
 
+        logCommunicationDiagramStart();
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
         Transix t2 = new Transix();
@@ -926,11 +930,13 @@ public class Skeleton {
         Mycelium my3 = new Mycelium(t2);
         logCreateInstance(my3, "Mycelium", "my3");
 
+        logInitializationFunctionCalls();
         t1.addTectonToNeighbors(t2);
         t1.addMycelium(my1);
         t2.addMycelium(my2);
         t2.addMycelium(my3);
 
+        logSequencyDiagramStart();
         my1.createNewBranch(t2);
 
         Skeleton.finishTestCase("cantGrowMycelium");
@@ -939,6 +945,7 @@ public class Skeleton {
     public static void growMushroomBody() {
         Skeleton.initTestCase("growMushroomBody");
 
+        logCommunicationDiagramStart();
         Transix t = new Transix();
         logCreateInstance(t, "Transix", "t");
         Mycelium my = new Mycelium(t);
@@ -946,11 +953,13 @@ public class Skeleton {
         HypharaSpore sp = new HypharaSpore();
         logCreateInstance(sp, "HypharaSpore", "sp");
 
+        logInitializationFunctionCalls();
         t.addMycelium(my);
         for(int n = 0; n < 20; n++){
             t.addSpore(sp);
         }
 
+        logSequencyDiagramStart();
         my.developMushroomBody();
 
         Skeleton.finishTestCase("growMushroomBody");
@@ -959,13 +968,16 @@ public class Skeleton {
     public static void cantGrowMushroomBody() {
         Skeleton.initTestCase("cantGrowMushroomBody");
 
+        logCommunicationDiagramStart();
         Transix t = new Transix();
         logCreateInstance(t, "Transix", "t");
         Mycelium my = new Mycelium(t);
         logCreateInstance(my, "Mycelium", "my");
 
+        logInitializationFunctionCalls();
         t.addMycelium(my);
 
+        logSequencyDiagramStart();
         my.developMushroomBody();
 
         Skeleton.finishTestCase("cantGrowMushroomBody");
@@ -974,6 +986,7 @@ public class Skeleton {
     public static void spreadSpores() {
         Skeleton.initTestCase("spreadSpores");
 
+        logCommunicationDiagramStart();
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
         Transix t2 = new Transix();
@@ -982,11 +995,13 @@ public class Skeleton {
         logCreateInstance(mb, "Hyphara", "mb");
         Mycologist mc = new Mycologist("Player 1");
         logCreateInstance(mc, "Mycologist", "mc");
-        mb.setMycologist(mc);
 
+        logInitializationFunctionCalls();
+        mb.setMycologist(mc);
         t1.addTectonToNeighbors(t2);
         t1.placeMushroomBody(mb);
 
+        logSequencyDiagramStart();
         mb.spreadSpores();
 
         Skeleton.finishTestCase("spreadSpores");
@@ -995,6 +1010,7 @@ public class Skeleton {
     public static void spreadSporesWither() {
         Skeleton.initTestCase("spreadSporesWither");
 
+        logCommunicationDiagramStart();
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
         Transix t2 = new Transix();
@@ -1003,22 +1019,25 @@ public class Skeleton {
         logCreateInstance(mb, "Hyphara", "mb");
         Mycologist mc = new Mycologist("Player 1");
         logCreateInstance(mc, "Mycologist", "mc");
-        mb.setMycologist(mc);
 
+        logInitializationFunctionCalls();
+        mb.setMycologist(mc);
         t1.addTectonToNeighbors(t2);
         t1.placeMushroomBody(mb);
         for(int n = 0; n < 14; n++){
             mb.spreadSpores();
         }
 
+        logSequencyDiagramStart();
         mb.spreadSpores();
 
         Skeleton.finishTestCase("spreadSporesWither");
     }
 
-    public static void mushroomBodyEvolves(){ // Communication diagram must be remade
+    public static void mushroomBodyEvolves(){
         Skeleton.initTestCase("mushroomBodyEvolves");
 
+        logCommunicationDiagramStart();
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
         Transix t2 = new Transix();
@@ -1027,14 +1046,20 @@ public class Skeleton {
         logCreateInstance(t3, "Transix", "t3");
         Transix t4 = new Transix();
         logCreateInstance(t4, "Transix", "t4");
+        Mycelium my1 = new Mycelium(t1);
+        logCreateInstance(my1, "Mycelium", "my1");
+        Mycologist mc1 = new Mycologist("Player 1");
+        logCreateInstance(mc1, "Mycologist", "mc1");
+        Hyphara mb1 = new Hyphara(t1);
+        logCreateInstance(mb1, "Hyphara", "mb1");
+        HypharaSpore sp = new HypharaSpore();
+        logCreateInstance(sp, "HypharaSpore", "sp");
+
+        logInitializationFunctionCalls();
         t1.addTectonToNeighbors(t2);
         t1.addTectonToNeighbors(t3);
         t1.addTectonToNeighbors(t4);
 
-        Mycelium my1 = new Mycelium(t1);
-        logCreateInstance(my1, "Mycelium", "my1");
-
-        Mycologist mc1 = new Mycologist("Player 1");
         my1.setMycologist(mc1);
         my1.enableGrowth();
         t1.addMycelium(my1);
@@ -1042,17 +1067,12 @@ public class Skeleton {
         Mycelium my2 = my1.createNewBranch(t2);
         Mycelium my3 = my1.createNewBranch(t3);
         Mycelium my4 = my1.createNewBranch(t4);
-
-        Hyphara mb1 = new Hyphara(t1);
-        logCreateInstance(mb1, "Hyphara", "mb1");
         mb1.setMycologist(mc1);
-
-        HypharaSpore sp = new HypharaSpore();
-        logCreateInstance(sp, "HypharaSpore", "sp");
         for(int n = 0; n < 20; n++){
             t1.addSpore(sp);
         }
 
+        logSequencyDiagramStart();
         mb1.evolveSuper();
 
         Skeleton.finishTestCase("mushroomBodyEvolves");
@@ -1061,6 +1081,7 @@ public class Skeleton {
     public static void mushroomBodyCantEvolve(){
         Skeleton.initTestCase("mushroomBodyEvolves");
 
+        logCommunicationDiagramStart();
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
         Transix t2 = new Transix();
@@ -1069,14 +1090,20 @@ public class Skeleton {
         logCreateInstance(t3, "Transix", "t3");
         Transix t4 = new Transix();
         logCreateInstance(t4, "Transix", "t4");
+        Mycelium my1 = new Mycelium(t1);
+        logCreateInstance(my1, "Mycelium", "my1");
+        Mycologist mc1 = new Mycologist("Player 1");
+        logCreateInstance(mc1, "Mycologist", "mc1");
+        Hyphara mb1 = new Hyphara(t1);
+        logCreateInstance(mb1, "Hyphara", "mb1");
+        HypharaSpore sp = new HypharaSpore();
+        logCreateInstance(sp, "HypharaSpore", "sp");
+
+        logInitializationFunctionCalls();
         t1.addTectonToNeighbors(t2);
         t1.addTectonToNeighbors(t3);
         t1.addTectonToNeighbors(t4);
 
-        Mycelium my1 = new Mycelium(t1);
-        logCreateInstance(my1, "Mycelium", "my1");
-
-        Mycologist mc1 = new Mycologist("Player 1");
         my1.setMycologist(mc1);
         my1.enableGrowth();
         t1.addMycelium(my1);
@@ -1084,11 +1111,9 @@ public class Skeleton {
         Mycelium my2 = my1.createNewBranch(t2);
         Mycelium my3 = my1.createNewBranch(t3);
         Mycelium my4 = my1.createNewBranch(t4);
-
-        Hyphara mb1 = new Hyphara(t1);
-        logCreateInstance(mb1, "Hyphara", "mb1");
         mb1.setMycologist(mc1);
 
+        logSequencyDiagramStart();
         mb1.evolveSuper();
 
         Skeleton.finishTestCase("mushroomBodyEvolves");
