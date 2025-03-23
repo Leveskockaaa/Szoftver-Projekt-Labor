@@ -36,7 +36,7 @@ public class GameTable {
         for (int i = 0; i < tectons.size() - 1; i++) {
             tectons.get(i).addTectonToNeighbors(tectons.get(i + 1));
         }
-        tectons.getLast().addTectonToNeighbors(tectons.getFirst());
+        tectons.get(tectons.size() - 1).addTectonToNeighbors(tectons.get(0));
         Skeleton.logReturn(this, "initialize");
     }
     

@@ -122,10 +122,10 @@ public abstract class Tecton {
             boolean toT1 = Skeleton.logBranch("A t1-re (y), vagy a t2-re (n) kerüljön a gomba test?");
             if (toT1) {
                 t1.placeMushroomBody(this.mushroomBody);
-                t1.addMycelium(this.mycelia.getFirst());
+                t1.addMycelium(this.mycelia.get(0));
             } else {
                 t2.placeMushroomBody(this.mushroomBody);
-                t2.addMycelium(this.mycelia.getFirst());
+                t2.addMycelium(this.mycelia.get(0));
             }
         }
 
