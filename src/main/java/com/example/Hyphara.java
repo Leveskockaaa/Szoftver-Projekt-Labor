@@ -3,9 +3,6 @@ package com.example;
 public class Hyphara extends MushroomBody{
     Hyphara(Tecton tecton){
         super(tecton);
-        dead = false;
-        superBody = false;
-        canSpreadSpores = true;
         sporeSpreadsLeft = 15;
     }
 
@@ -33,13 +30,13 @@ public class Hyphara extends MushroomBody{
                 sporeCount++;
             }
         }
-        Skeleton.logReturn(this, "canEvolve");
         Mycelium my = new Mycelium(tecton);
-        for(Mycelium mycelium : tecton.getMyceliums()){
-            if(mycelium.getMycologist().getMushroomBodies().getFirst().getClass() == Hyphara.class){
+        for(Mycelium mycelium : tecton.getMycelia()){
+            if(mycelium.getBodyType() == Hyphara.class){
                 my = mycelium;
             }
         }
+        Skeleton.logReturn(this, "canEvolve");
         return sporeCount >= 3 && my.getMyceliumConnections().size() >= 3;
     }
 }

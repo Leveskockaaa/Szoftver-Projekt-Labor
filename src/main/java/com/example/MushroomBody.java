@@ -21,6 +21,9 @@ public abstract class MushroomBody {
      */
     public MushroomBody(Tecton tecton) {
         this.tecton = tecton;
+        this.superBody = false;
+        this.dead = false;
+        this.canSpreadSpores = true;
     }
 
     public void setMycologist(Mycologist mycologist) {
@@ -43,7 +46,7 @@ public abstract class MushroomBody {
         Skeleton.logFunctionCall(this, "evolveSuper");
         if(canEvolve()){
             superBody = true;
-            System.out.println("Evolved");
+            //System.out.println("Evolved");
         }
         Skeleton.logReturn(this, "evolveSuper");
     }

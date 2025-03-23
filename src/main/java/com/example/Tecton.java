@@ -51,7 +51,7 @@ public abstract class Tecton {
         return neighbors;
     }
 
-    public List<Mycelium> getMyceliums() {
+    public List<Mycelium> getMycelia() {
         return mycelia;
     }
 

@@ -12,14 +12,15 @@ public class Mycelium {
 
     private final Tecton tecton;
     private Mycologist mycologist;
-    private List<Mycelium> myceliumConnections;
+    private final List<Mycelium> myceliumConnections;
 
     /**
      * Default constructor.
      */
     public Mycelium(Tecton tecton) {
-        this.canGrow = true;
+        this.growthSpeed = 0;
         this.tecton = tecton;
+        this.mycologist = null;
         myceliumConnections = new ArrayList<Mycelium>();
     }
 
@@ -27,8 +28,16 @@ public class Mycelium {
         return mycologist;
     }
 
+    public void setMycologist(Mycologist mycologist) {
+        this.mycologist = mycologist;
+    }
+
     public List<Mycelium> getMyceliumConnections() {
         return myceliumConnections;
+    }
+
+    public Class<? extends MushroomBody> getBodyType(){
+        return mycologist.getMushroomBodies().getFirst().getClass();
     }
 
     public boolean canDevelop() {
@@ -63,20 +72,35 @@ public class Mycelium {
         Skeleton.logReturn(this, "enableGrowth");
     }
 
+
+
     public Mycelium createNewBranch(Tecton tecton) {
         Skeleton.logFunctionCall(this, "createNewBranch", tecton);
 
-        if(tecton.canAddMycelium() && canGrow){
-            Mycelium newMycelium = new Mycelium(tecton);
-            tecton.addMycelium(newMycelium);
-            Skeleton.logCreateInstance(newMycelium, "Mycelium", "newMycelium");
-            myceliumConnections.add(newMycelium);
-            tecton.addMycelium(newMycelium);
-            Skeleton.logReturn(this, "createNewBranch");
-            myceliumConnections.add(newMycelium);
-            newMycelium.myceliumConnections.add(this);
-            return newMycelium;
+        if(canGrow){
+            if(tecton.canAddMycelium()){
+                Mycelium newMycelium = new Mycelium(tecton);
+                Skeleton.logCreateInstance(newMycelium, "Mycelium", "newMycelium");
+                newMycelium.setMycologist(this.mycologist);
+
+                tecton.addMycelium(newMycelium);
+                myceliumConnections.add(newMycelium);
+                newMycelium.myceliumConnections.add(this);
+
+                Skeleton.logReturn(this, "createNewBranch");
+                return newMycelium;
+            }
+            else{
+                for(Mycelium mycelium : tecton.getMycelia()){
+                    if(mycelium.getBodyType() == getBodyType()){
+                        myceliumConnections.add(mycelium);
+                        mycelium.myceliumConnections.add(this);
+                        break;
+                    }
+                }
+            }
         }
+
         Skeleton.logReturn(this, "createNewBranch");
         return null;
     }

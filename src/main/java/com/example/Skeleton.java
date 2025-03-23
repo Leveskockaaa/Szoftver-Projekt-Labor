@@ -855,14 +855,19 @@ public class Skeleton {
 
         Mycelium my1 = new Mycelium(t1);
         logCreateInstance(my1, "Mycelium", "my1");
-        t1.addMycelium(my1);
+
+        Mycologist mc1 = new Mycologist("Player 1");
+        my1.setMycologist(mc1);
         my1.enableGrowth();
-        Mycelium my2 = my1.createNewBranch(t2); //return type change
+        t1.addMycelium(my1);
+
+        Mycelium my2 = my1.createNewBranch(t2);
         Mycelium my3 = my1.createNewBranch(t3);
         Mycelium my4 = my1.createNewBranch(t4);
 
         Hyphara mb1 = new Hyphara(t1);
         logCreateInstance(mb1, "Hyphara", "mb1");
+        mb1.setMycologist(mc1);
 
         HypharaSpore sp = new HypharaSpore();
         logCreateInstance(sp, "HypharaSpore", "sp");
@@ -876,7 +881,7 @@ public class Skeleton {
     }
 
     public static void mushroomBodyCantEvolve(){
-        Skeleton.initTestCase("mushroomBodyCantEvolve");
+        Skeleton.initTestCase("mushroomBodyEvolves");
 
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
@@ -892,17 +897,22 @@ public class Skeleton {
 
         Mycelium my1 = new Mycelium(t1);
         logCreateInstance(my1, "Mycelium", "my1");
-        t1.addMycelium(my1);
+
+        Mycologist mc1 = new Mycologist("Player 1");
+        my1.setMycologist(mc1);
         my1.enableGrowth();
+        t1.addMycelium(my1);
+
         Mycelium my2 = my1.createNewBranch(t2);
         Mycelium my3 = my1.createNewBranch(t3);
         Mycelium my4 = my1.createNewBranch(t4);
 
         Hyphara mb1 = new Hyphara(t1);
         logCreateInstance(mb1, "Hyphara", "mb1");
+        mb1.setMycologist(mc1);
 
         mb1.evolveSuper();
 
-        Skeleton.finishTestCase("mushroomBodyCantEvolve");
+        Skeleton.finishTestCase("mushroomBodyEvolves");
     }
 }
