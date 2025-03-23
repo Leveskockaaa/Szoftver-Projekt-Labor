@@ -15,6 +15,21 @@ public class Skeleton {
 
     private static HashMap<Object, String> nameMap = new HashMap<>();
 
+    /**
+     * Visszaadja a megadott névhez tartozó objektumot a nameMap-ből.
+     *
+     * @param name A keresett név.
+     * @return Az objektum, amelyhez a név tartozik, vagy null, ha nem található.
+     */
+    public static Object getFromNameMap(String name) {
+        for (Object o : nameMap.keySet()) {
+            if (nameMap.get(o).equals(name)) {
+                return o;
+            }
+        }
+        return null;
+    }
+
     /*  Private constructor */
     public Skeleton() { }
 
@@ -765,6 +780,9 @@ public class Skeleton {
         initTestCase("Initialize starting Tectons");
         // Create instances
         logCreateInstances();
+        GameTable gt = new GameTable();
+        logCreateInstance(gt, "GameTable", "gt");
+
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
 
@@ -773,9 +791,6 @@ public class Skeleton {
 
         Orogenix t3 = new Orogenix();
         logCreateInstance(t3, "Orogenix", "t3");
-
-        GameTable gt = new GameTable();
-        logCreateInstance(gt, "GameTable", "gt");
 
         gt.setTectons(new ArrayList<>(Arrays.asList(t1, t2, t3)));
         //Szekvencia diagram
@@ -839,14 +854,14 @@ public class Skeleton {
         Transix t = new Transix();
         logCreateInstance(t, "Transix", "t");
 
+        Insect i = new Insect(new Entomologist("e1"));
+        logCreateInstance(i, "Insect", "i");
+
         Transix neigh1 = new Transix();
         logCreateInstance(neigh1, "Transix", "neigh1");
 
         Transix neigh2 = new Transix();
         logCreateInstance(neigh2, "Transix", "neigh2");
-
-        Insect i = new Insect(new Entomologist("e1"));
-        logCreateInstance(i, "Insect", "i");
 
         logInitializationFunctionCalls();
         t.placeInsect(i);
@@ -878,17 +893,17 @@ public class Skeleton {
         Transix t = new Transix();
         logCreateInstance(t, "Transix", "t");
 
-        Transix neigh1 = new Transix();
-        logCreateInstance(neigh1, "Transix", "neigh1");
-
-        Transix neigh2 = new Transix();
-        logCreateInstance(neigh2, "Transix", "neigh2");
-
         Hyphara mb = new Hyphara(t);
         logCreateInstance(mb, "Hyphara", "mb");
 
         Mycelium my = new Mycelium(t);
         logCreateInstance(my, "Mycelium", "my");
+
+        Transix neigh1 = new Transix();
+        logCreateInstance(neigh1, "Transix", "neigh1");
+
+        Transix neigh2 = new Transix();
+        logCreateInstance(neigh2, "Transix", "neigh2");
 
         logInitializationFunctionCalls();
         t.placeMushroomBody(mb);
@@ -918,29 +933,25 @@ public class Skeleton {
      */
     public static void breakTectonApartWithInsectAndMushroomBody() {
         initTestCase("Break Tecton apart with Insect and MushroomBody");
-        Hyphara mb = null;
-        Mycelium my = null;
-        Insect i = null;
         // Create instances
         logCreateInstances();
         Transix t = new Transix();
         logCreateInstance(t, "Transix", "t");
+
+        Insect i = new Insect(new Entomologist("e1"));
+        logCreateInstance(i, "Insect", "i");
+
+        Hyphara mb = new Hyphara(t);
+        logCreateInstance(mb, "Hyphara", "mb");
+
+        Mycelium my = new Mycelium(t);
+        logCreateInstance(my, "Mycelium", "my");
 
         Transix neigh1 = new Transix();
         logCreateInstance(neigh1, "Transix", "neigh1");
 
         Transix neigh2 = new Transix();
         logCreateInstance(neigh2, "Transix", "neigh2");
-
-        mb = new Hyphara(t);
-        logCreateInstance(mb, "Hyphara", "mb");
-
-        my = new Mycelium(t);
-        logCreateInstance(my, "Mycelium", "my");
-
-        i = new Insect(new Entomologist("e1"));
-        logCreateInstance(i, "Insect", "i");
-
 
         logInitializationFunctionCalls();
         t.placeInsect(i);
