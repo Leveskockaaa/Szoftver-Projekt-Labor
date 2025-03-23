@@ -1,11 +1,22 @@
 package com.example;
 
+/**
+ * A Capulon gombafaj gombatestjeinek kezeléséért felelős osztály.
+ */
 public class Capulon extends MushroomBody{
+    /**
+     * Capulon osztály konstruktora.
+     * @param tecton A tekton amire a gombatest kerül.
+     */
     Capulon(Tecton tecton){
         super(tecton);
         sporeSpreadsLeft = 15;
     }
 
+    /**
+     * A Capulon verzióját valósítja meg a spóraszórásnak.
+     * Capulon spórákat szór.
+     */
     @Override
     public void spreadSpores() {
         Skeleton.logFunctionCall(this, "spreadSpores");
@@ -21,6 +32,11 @@ public class Capulon extends MushroomBody{
         Skeleton.logReturn(this, "spreadSpores");
     }
 
+    /**
+     * Egy igaz-hamis érték arról, hogy a Capulon gombatest
+     * szupergombává tud-e fejlődni.
+     * @return true, ha szupergombává tud fejlődni, false ha nem.
+     */
     @Override
     public boolean canEvolve() {
         Skeleton.logFunctionCall(this, "canEvolve");

@@ -893,6 +893,10 @@ public class Skeleton {
         finishTestCase("Break Tecton apart with Insect and MushroomBody");
     }
 
+    /**
+     * Létrehozunk két tektont (melyek típusa mindegy, a példákban Transix szerepel) és
+     * egy gombafonalat rakunk az egyikre. Ekkor átnövünk a gombafonállal a másik tektonra.
+     */
     public static void growMycelium() {
         Skeleton.initTestCase("growMycelium");
 
@@ -915,6 +919,12 @@ public class Skeleton {
         Skeleton.finishTestCase("growMycelium");
     }
 
+    /**
+     * Létrehozunk két tektont (melyek típusa majdnem mindegy, a példákban Transix szerepel,
+     * de Magmoxon kívül bármelyik lehetne) és egy gombafonalat rakunk az egyikre, míg
+     * a másikra kettőt (Magmox esetében 1 lehetne csak, így annyit tennénk ide).
+     * Ekkor megpróbálunk átnőni a gombafonállal a másik tektonra, de nem tudunk.
+     */
     public static void cantGrowMycelium() {
         Skeleton.initTestCase("cantGrowMycelium");
 
@@ -942,6 +952,12 @@ public class Skeleton {
         Skeleton.finishTestCase("cantGrowMycelium");
     }
 
+    /**
+     * Készítünk egy tektont (melynek típusa majdnem mindegy, a példákban Transix szerepel,
+     * egyedül Mantleon nem lehetne, mert azon nem tud nőni gombatest) amire elhelyezünk
+     * egy gombafonalat, illetve elegendő spórát ahhoz, hogy bármely gombatípusból képesek
+     * legyünk egy gombatestet létrehozni rajta. A gombatest így létre tud jönni.
+     */
     public static void growMushroomBody() {
         Skeleton.initTestCase("growMushroomBody");
 
@@ -965,6 +981,11 @@ public class Skeleton {
         Skeleton.finishTestCase("growMushroomBody");
     }
 
+    /**
+     * Készítünk egy tektont (melynek típusa mindegy, a példákban Transix szerepel)
+     * amire elhelyezünk egy gombafonalat, csak most nem helyezünk el spórákat mellé.
+     * A gombatest így nem tud létrejönni.
+     */
     public static void cantGrowMushroomBody() {
         Skeleton.initTestCase("cantGrowMushroomBody");
 
@@ -983,6 +1004,11 @@ public class Skeleton {
         Skeleton.finishTestCase("cantGrowMushroomBody");
     }
 
+    /**
+     * Készítünk két tektont, és az egyikre elhelyezünk egy gombatestet
+     * (ami a példában Hyphara, de egyébként bármelyik típus lehetne),
+     * így tudunk sprórát szórni a másik tektonra.
+     */
     public static void spreadSpores() {
         Skeleton.initTestCase("spreadSpores");
 
@@ -1007,6 +1033,14 @@ public class Skeleton {
         Skeleton.finishTestCase("spreadSpores");
     }
 
+    /**
+     * Készítünk két tektont (melyek típusa mindegy, a példákban Transix szerepel),
+     * és az egyikre elhelyezünk egy gombatestet (ami a példában Hyphara, de majdnem
+     * ugyanígy nézne ki más gombatestekkel is), és szórunk n-1 spórát, ahol n az a
+     * maximális spóra szórások száma az adott gombafajra. Ez Hyphara-nál 15,
+     * tehát 14-szer szórunk előre, majd maga a use case lefutásánál az utolsót is
+     * kiszórjuk és így a gombatest elhal, amit ekkor elteszünk a gombász táskájába.
+     */
     public static void spreadSporesWither() {
         Skeleton.initTestCase("spreadSporesWither");
 
@@ -1034,6 +1068,14 @@ public class Skeleton {
         Skeleton.finishTestCase("spreadSporesWither");
     }
 
+    /**
+     * Amikor a felhasználó kiadja a parancsot, generálódik 4 tekton (melyek típusa mindegy,
+     * a példákban Transix szerepel) úgy, hogy legyen közűlük egy központi, aminek szomszédja
+     * a másik 3. Ezeken gombafonalakat terjesztünk szét, illetve egy gombatestet hozunk létre
+     * (aminek fajtája ismét nem számít, a példában Hyphara van) a központi tektonon,
+     * és ugyanide elhelyezünk annyi spórát amennyi biztosan elég a fejlődésre gombatípustól
+     * függetlenül. Ekkor kiadjuk a parancsot a gombatestnek, hogy fejlődjön.
+     */
     public static void mushroomBodyEvolves(){
         Skeleton.initTestCase("mushroomBodyEvolves");
 
@@ -1078,6 +1120,14 @@ public class Skeleton {
         Skeleton.finishTestCase("mushroomBodyEvolves");
     }
 
+    /**
+     * Amikor a felhasználó kiadja a parancsot, generálódik 4 tekton (melyek típusa mindegy,
+     * a példákban Transix szerepel) úgy, hogy legyen közűlük egy központi, aminek szomszédja
+     * a másik 3. Ezeken gombafonalakat terjesztünk szét, illetve egy gombatestet hozunk létre
+     * (aminek fajtája ismét nem számít, a példában Hyphara van) a központi tektonon,
+     * de most spórákat nem helyezünk el. Ekkor kiadjuk a parancsot a gombatestnek,
+     * hogy fejlődjön, de ez sikertelen lesz.
+     */
     public static void mushroomBodyCantEvolve(){
         Skeleton.initTestCase("mushroomBodyEvolves");
 

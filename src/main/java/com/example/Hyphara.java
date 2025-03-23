@@ -1,26 +1,42 @@
 package com.example;
 
+/**
+ * A Hyphara gombafaj gombatestjeinek kezeléséért felelős osztály.
+ */
 public class Hyphara extends MushroomBody{
+    /**
+     * Hyphara osztály konstruktora.
+     * @param tecton A tekton amire a gombatest kerül.
+     */
     Hyphara(Tecton tecton){
         super(tecton);
         sporeSpreadsLeft = 15;
     }
 
+    /**
+     * A Hyphara verzióját valósítja meg a spóraszórásnak.
+     * Hyphara spórákat szór.
+     */
     @Override
     public void spreadSpores() {
         Skeleton.logFunctionCall(this, "spreadSpores");
         for(Tecton t : tecton.getNeighbors()){
-             t.addSpore(new HypharaSpore());
+            t.addSpore(new HypharaSpore());
         }
         sporeSpreadsLeft--;
         if(sporeSpreadsLeft == 0){
             dead = true;
             mycologist.collect(this);
-            tecton.removeMushroomBody(); //Corrected "Spread Spores - Body withers" sequence diagram
+            tecton.removeMushroomBody();
         }
         Skeleton.logReturn(this, "spreadSpores");
     }
 
+    /**
+     * Egy igaz-hamis érték arról, hogy a Hyphara gombatest
+     * szupergombává tud-e fejlődni.
+     * @return true, ha szupergombává tud fejlődni, false ha nem.
+     */
     @Override
     public boolean canEvolve() {
         Skeleton.logFunctionCall(this, "canEvolve");

@@ -7,13 +7,39 @@ import java.util.List;
  * A Tecton can be haunted by a MushroomBody, which may alter its state.
  */
 public abstract class MushroomBody {
+    /**
+     * Egy igaz-hamis érték arról, hogy a gombatest szupergomba-e.
+     */
     protected boolean superBody;
+
+    /**
+     * Egy igaz-hamis érték. Azt jelöli, hogy a gomba halott-e.
+     */
     protected boolean dead;
+
+    /**
+     * Értéke megadja, hogy a gombatest tud-e jelenleg spórát szórni.
+     */
     protected boolean canSpreadSpores;
+
+    /**
+     * A hátralévő spóra szórások száma.
+     */
     protected int sporeSpreadsLeft;
 
+    /**
+     * A gombatesthez tartozó gombász.
+     */
     protected Mycologist mycologist;
+
+    /**
+     * A tekton amin a gombatest elhelyezkedik.
+     */
     protected Tecton tecton;
+
+    /**
+     * A gombatesthez tartozó gombafonalak.
+     */
     protected List<Mycelium> myceliums;
 
     /**

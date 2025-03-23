@@ -1,11 +1,22 @@
 package com.example;
 
-public class Poralia extends MushroomBody {
+/**
+ * A Poralia gombafaj gombatestjeinek kezeléséért felelős osztály.
+ */
+public class Poralia extends MushroomBody{
+    /**
+     * Poralia osztály konstruktora.
+     * @param tecton A tekton amire a gombatest kerül.
+     */
     Poralia(Tecton tecton){
         super(tecton);
         sporeSpreadsLeft = 15;
     }
 
+    /**
+     * A Poralia verzióját valósítja meg a spóraszórásnak.
+     * Poralia spórákat szór.
+     */
     @Override
     public void spreadSpores() {
         Skeleton.logFunctionCall(this, "spreadSpores");
@@ -21,6 +32,11 @@ public class Poralia extends MushroomBody {
         Skeleton.logReturn(this, "spreadSpores");
     }
 
+    /**
+     * Egy igaz-hamis érték arról, hogy a Poralia gombatest
+     * szupergombává tud-e fejlődni.
+     * @return true, ha szupergombává tud fejlődni, false ha nem.
+     */
     @Override
     public boolean canEvolve() {
         Skeleton.logFunctionCall(this, "canEvolve");
