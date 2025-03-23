@@ -83,7 +83,7 @@ public abstract class Tecton {
      *
      * @return A gombafonalak listája.
      */
-    public List<Mycelium> getMyceliums() {
+    public List<Mycelium> getMycelia() {
         return mycelia;
     }
 
