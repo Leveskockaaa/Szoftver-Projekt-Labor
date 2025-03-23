@@ -96,7 +96,7 @@ public class Skeleton {
     }
 
     public static void logCommunicationDiagramStart() {
-        System.out.println(formatText("Communication Diagram Elements"));
+        System.out.println(formatText("Create Instances"));
 
     }
     public static void logInitializationFunctionCalls() {
@@ -748,9 +748,23 @@ public class Skeleton {
         i1.chewMycelium(my1, my2);
     }
 
+    /**
+     * Amikor a User elindítja a tesztesetet, akkor a létrehozott
+     * három tekton, ami ebben az esetben három különböző típusú,
+     * de itt akármilyen típusúak is lehetnek ezek a tektonok,
+     * kialakítja egymás között a szomszédságokat úgy, hogy
+     * mindegyik tektonnak legalább két szomszédja legyen. Ez a
+     * végleges programban majd 10 tekton szomszédságainak a
+     * kialakítását jelenti majd, de mivel ennek az ábrázolása
+     * redundáns lett volna, ezért csak három tektonon mutattam be
+     * a folyamatot. A szomszédságok kialakítása mindig párosával
+     * történik, azaz ha az egyik tekton szomszédja egy másiknak,
+     * akkor a másik is az egyiknek.
+     */
     public static void initializeStartingTectons() {
         initTestCase("Initialize starting Tectons");
         // Create instances
+        logCommunicationDiagramStart();
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
 
@@ -763,17 +777,30 @@ public class Skeleton {
         GameTable gt = new GameTable();
         logCreateInstance(gt, "GameTable", "gt");
 
-        // TODO kommunikációs diagram
         gt.setTectons(new ArrayList<>(Arrays.asList(t1, t2, t3)));
         //Szekvencia diagram
+        logSequencyDiagramStart();
         gt.initialize();
 
         finishTestCase("Initialize starting Tectons");
     }
 
+    /**
+     * A User kiadja a teszteset indítását jelentő hívást a kettétörni
+     * kívánt tektonon. Ebben a példában az összes tekton típusa
+     * Transix, de mivel a példán nem változtat bármelyik típus
+     * lehetett volna a Mantleont leszámítva. Ez a tekton ekkor
+     * létrehoz két új tektont és amennyiben van rajta gombatest és
+     * rovar, akkor azokat eldönti, hogy a kettő új tekton közül
+     * melyikre rakja át. Ezután a kettétörő tekton elosztja
+     * szomszédjait a kettő új tekton között és beállítja ezeket a
+     * szomszédságokat. Ebben az esetben most a kettétörő tektonon nincsen
+     * gombatest és rovar, így az új tektonokon sem lesznek.
+     */
     public static void breakTectonApartWithoutInsectOrMushroomBody() {
         initTestCase("Break Tecton apart without Insect or Mushroombody");
         // Create instances
+        logCommunicationDiagramStart();
         Transix t = new Transix();
         logCreateInstance(t, "Transix", "t");
 
@@ -783,19 +810,32 @@ public class Skeleton {
         Transix neigh2 = new Transix();
         logCreateInstance(neigh2, "Transix", "neigh2");
 
-        //TODO kommunikációs diagram
+        logInitializationFunctionCalls();
         t.addTectonToNeighbors(neigh1);
         t.addTectonToNeighbors(neigh2);
 
-        //TODO Szekvencia diagram
+        logSequencyDiagramStart();
         t.breakApart();
 
         finishTestCase("Break Tecton apart without Insect or Mushroombody");
     }
 
+    /**
+     * A User kiadja a teszteset indítását jelentő hívást a kettétörni
+     * kívánt tektonon. Ebben a példában az összes tekton típusa
+     * Transix, de mivel a példán nem változtat bármelyik típus
+     * lehetett volna a Mantleont leszámítva. Ez a tekton ekkor
+     * létrehoz két új tektont és amennyiben van rajta gombatest és
+     * rovar, akkor azokat eldönti, hogy a kettő új tekton közül
+     * melyikre rakja át. Ezután a kettétörő tekton elosztja
+     * szomszédjait a kettő új tekton között és beállítja ezeket a
+     * szomszédságokat. Ebben az esetben most a kettétörő tektonon van
+     * rovar, így az egyik új tektonon is lesz.
+     */
     public static void breakTectonApartWithInsect() {
         initTestCase("Break Tecton apart with Insect");
         // Create instances
+        logCommunicationDiagramStart();
         Transix t = new Transix();
         logCreateInstance(t, "Transix", "t");
 
@@ -808,20 +848,33 @@ public class Skeleton {
         Insect i = new Insect(new Entomologist("e1"));
         logCreateInstance(i, "Insect", "i");
 
-        //TODO kommunikációs diagram
+        logInitializationFunctionCalls();
         t.placeInsect(i);
         t.addTectonToNeighbors(neigh1);
         t.addTectonToNeighbors(neigh2);
 
-        //TODO Szekvencia diagram
+        logSequencyDiagramStart();
         t.breakApart();
 
         finishTestCase("Break Tecton apart with Insect");
     }
 
+    /**
+     * A User kiadja a teszteset indítását jelentő hívást a kettétörni
+     * kívánt tektonon. Ebben a példában az összes tekton típusa
+     * Transix, de mivel a példán nem változtat bármelyik típus
+     * lehetett volna a Mantleont leszámítva. Ez a tekton ekkor
+     * létrehoz két új tektont és amennyiben van rajta gombatest és
+     * rovar, akkor azokat eldönti, hogy a kettő új tekton közül
+     * melyikre rakja át. Ezután a kettétörő tekton elosztja
+     * szomszédjait a kettő új tekton között és beállítja ezeket a
+     * szomszédságokat. Ebben az esetben most a kettétörő tektonon van
+     * gombatest, így az egyik új tektonon is lesz.
+     */
     public static void breakTectonApartWithMushroomBody() {
         initTestCase("Break Tecton apart with MushroomBody");
         // Create instances
+        logCommunicationDiagramStart();
         Transix t = new Transix();
         logCreateInstance(t, "Transix", "t");
 
@@ -837,28 +890,39 @@ public class Skeleton {
         Mycelium my = new Mycelium(t);
         logCreateInstance(my, "Mycelium", "my");
 
-        //TODO kommunikációs diagram
+        logInitializationFunctionCalls();
         t.placeMushroomBody(mb);
         t.addMycelium(my);
 
         t.addTectonToNeighbors(neigh1);
         t.addTectonToNeighbors(neigh2);
 
-        //TODO Szekvencia diagram
+        logSequencyDiagramStart();
         t.breakApart();
 
         finishTestCase("Break Tecton apart with MushroomBody");
     }
 
-
-
-
+    /**
+     * A User kiadja a teszteset indítását jelentő hívást a kettétörni
+     * kívánt tektonon. Ebben a példában az összes tekton típusa
+     * Transix, de mivel a példán nem változtat bármelyik típus
+     * lehetett volna a Mantleont leszámítva. Ez a tekton ekkor
+     * létrehoz két új tektont és amennyiben van rajta gombatest és
+     * rovar, akkor azokat eldönti, hogy a kettő új tekton közül
+     * melyikre rakja át. Ezután a kettétörő tekton elosztja
+     * szomszédjait a kettő új tekton között és beállítja ezeket a
+     * szomszédságokat. Ebben az esetben most a kettétörő tektonon van
+     * gombatest és rovar, így ezek az új tektonokon is lesznek. De
+     * nem duplikálódnak, hanem az eredeti tektonról átkerülnek az újakra.
+     */
     public static void breakTectonApartWithInsectAndMushroomBody() {
         initTestCase("Break Tecton apart with Insect and MushroomBody");
         Hyphara mb = null;
         Mycelium my = null;
         Insect i = null;
         // Create instances
+        logCommunicationDiagramStart();
         Transix t = new Transix();
         logCreateInstance(t, "Transix", "t");
 
@@ -878,7 +942,7 @@ public class Skeleton {
         logCreateInstance(i, "Insect", "i");
 
 
-        //TODO kommunikációs diagram
+        logInitializationFunctionCalls();
         t.placeInsect(i);
 
         t.placeMushroomBody(mb);
@@ -887,7 +951,7 @@ public class Skeleton {
         t.addTectonToNeighbors(neigh1);
         t.addTectonToNeighbors(neigh2);
 
-        //TODO Szekvencia diagram
+        logSequencyDiagramStart();
         t.breakApart();
 
         finishTestCase("Break Tecton apart with Insect and MushroomBody");
