@@ -15,6 +15,21 @@ public class Skeleton {
 
     private static HashMap<Object, String> nameMap = new HashMap<>();
 
+    /**
+     * Visszaadja a megadott névhez tartozó objektumot a nameMap-ből.
+     *
+     * @param name A keresett név.
+     * @return Az objektum, amelyhez a név tartozik, vagy null, ha nem található.
+     */
+    public static Object getFromNameMap(String name) {
+        for (Object o : nameMap.keySet()) {
+            if (nameMap.get(o).equals(name)) {
+                return o;
+            }
+        }
+        return null;
+    }
+
     /*  Private constructor */
     public Skeleton() { }
 
@@ -765,6 +780,9 @@ public class Skeleton {
         initTestCase("Initialize starting Tectons");
         // Create instances
         logCreateInstances();
+        GameTable gt = new GameTable();
+        logCreateInstance(gt, "GameTable", "gt");
+
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
 
@@ -773,9 +791,6 @@ public class Skeleton {
 
         Orogenix t3 = new Orogenix();
         logCreateInstance(t3, "Orogenix", "t3");
-
-        GameTable gt = new GameTable();
-        logCreateInstance(gt, "GameTable", "gt");
 
         gt.setTectons(new ArrayList<>(Arrays.asList(t1, t2, t3)));
         //Szekvencia diagram
