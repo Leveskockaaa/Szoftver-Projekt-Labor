@@ -406,6 +406,14 @@ public class Skeleton {
         finishTestCase("Insect eats spore on Orogenix");
     }
 
+    /**
+     * A rovar áthelyezése egy Transix típusú Tecton-ra.
+     *
+     * Ez a teszteset inicializálja a szükséges objektumokat, beállítja a kezdeti állapotokat,
+     * majd végrehajtja a rovar áthelyezését egy másik Tecton-ra.
+     * A rovar először egy Transix típusú Tecton-on helyezkedik el, majd egy másik Transix típusú Tecton-ra mozog.
+     * A teszteset során a micéliumok és a szomszédos Tecton-ok is inicializálásra kerülnek.
+     */
     public static void insectMovesToTransix() {
         initTestCase("Insect can move to Transix");
 
@@ -454,6 +462,8 @@ public class Skeleton {
      *
      * Ez a teszteset inicializálja a szükséges objektumokat, beállítja a kezdeti állapotokat,
      * majd végrehajtja a rovar áthelyezését egy másik Tecton-ra.
+     * A rovar először egy Transix típusú Tecton-on helyezkedik el, majd egy Magmox típusú Tecton-ra mozog.
+     * A teszteset során a micéliumok és a szomszédos Tecton-ok is inicializálásra kerülnek.
      */
     public static void insectMovesToMagmox() {
         initTestCase("Insect can move to Magmox");
@@ -503,6 +513,8 @@ public class Skeleton {
      *
      * Ez a teszteset inicializálja a szükséges objektumokat, beállítja a kezdeti állapotokat,
      * majd végrehajtja a rovar áthelyezését egy másik Tecton-ra.
+     * A rovar először egy Transix típusú Tecton-on helyezkedik el, majd egy Mantleon típusú Tecton-ra mozog.
+     * A teszteset során a micéliumok és a szomszédos Tecton-ok is inicializálásra kerülnek.
      */
     public static void insectMovesToMantleon() {
         initTestCase("Insect can move to Mantleon");
@@ -552,6 +564,8 @@ public class Skeleton {
      *
      * Ez a teszteset inicializálja a szükséges objektumokat, beállítja a kezdeti állapotokat,
      * majd végrehajtja a rovar áthelyezését egy másik Tecton-ra.
+     * A rovar először egy Transix típusú Tecton-on helyezkedik el, majd egy Orogenix típusú Tecton-ra mozog.
+     * A teszteset során a micéliumok és a szomszédos Tecton-ok is inicializálásra kerülnek.
      */
     public static void insectMovesToOrogenix() {
         initTestCase("Insect can move to Orogenix");
@@ -601,6 +615,8 @@ public class Skeleton {
      *
      * Ez a teszteset inicializálja a szükséges objektumokat, beállítja a kezdeti állapotokat,
      * majd megpróbálja a rovar áthelyezését egy másik Tecton-ra, amely már foglalt.
+     * A rovar először egy Transix típusú Tecton-on helyezkedik el, majd megpróbál egy másik Transix típusú Tecton-ra mozogni,
+     * de az már foglalt egy másik rovar által.
      */
     public static void insectCantMoveOccupied() {
         initTestCase("Insect can't move due to occupied Tecton");
@@ -658,6 +674,8 @@ public class Skeleton {
      *
      * Ez a teszteset inicializálja a szükséges objektumokat, beállítja a kezdeti állapotokat,
      * majd megpróbálja a rovar áthelyezését egy másik Tecton-ra, amelyhez nincs kapcsolat.
+     * A rovar először egy Transix típusú Tecton-on helyezkedik el, majd megpróbál egy másik Transix típusú Tecton-ra mozogni,
+     * de nincs kapcsolat a két Tecton között.
      */
     public static void insectCantMoveNoConnection() {
         initTestCase("Insect can't move due to no connection");
@@ -705,6 +723,7 @@ public class Skeleton {
      *
      * Ez a teszteset inicializálja a szükséges objektumokat, beállítja a kezdeti állapotokat,
      * majd végrehajtja a rovar által a micélium elrágását.
+     * A rovar először egy Transix típusú Tecton-on helyezkedik el, majd elrág egy micéliumot, amely összeköti a két Tecton-t.
      */
     public static void insectChewsMycelium() {
         initTestCase("Insect chews mycelium");
@@ -754,6 +773,8 @@ public class Skeleton {
      *
      * Ez a teszteset inicializálja a szükséges objektumokat, beállítja a kezdeti állapotokat,
      * majd megpróbálja a rovar által a micélium elrágását, de a rovar nem képes erre.
+     * A rovar először egy Transix típusú Tecton-on helyezkedik el, majd megpróbál elrágni egy micéliumot,
+     * de a rovar nem képes erre, mert a micélium rágás le van tiltva.
      */
     public static void insectCantChewMycelium() {
         initTestCase("Insect can't chew mycelium");
