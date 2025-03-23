@@ -35,6 +35,17 @@ public class Main {
             System.out.println("Selected use case: " + useCase + "\n");
             invokeSkeletonMethod(methodName);
 
+            System.out.print("\nDo you want to continue? [y/n]: ");
+            String proceed = scanner.nextLine().trim();
+            if (proceed.equals("n")) {
+                break;
+            } else if (proceed.equals("y")) {
+                printUseCases(useCaseMap);
+            } else {
+                System.out.println("Invalid input");
+                continue;
+            }
+
         }
         scanner.close();
     }

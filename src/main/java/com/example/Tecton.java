@@ -304,10 +304,18 @@ public abstract class Tecton {
     public abstract void addMycelium(Mycelium mycelium);
 
     /**
-     * Megvizsgálja, hogy van-e kapcsolat a tekton és a megadott rovar tektonja között.
+     * Ellenőrzi, hogy van-e kapcsolat a rovar jelenlegi tektonja és a cél tekton között.
      *
-     * @param i A rovar, amelynek a tektonját vizsgáljuk.
-     * @return true, ha van kapcsolat, különben false.
+     * Ez a metódus megvizsgálja, hogy a megadott rovar jelenlegi tektonja és a cél tekton között
+     * van-e kapcsolat. Először ellenőrzi, hogy a rovar jelenlegi tektonja nem null-e.
+     * Ha a rovar jelenlegi tektonja null, akkor a metódus hamis értékkel tér vissza.
+     * Ha a rovar jelenlegi tektonja nem null, akkor a metódus végigmegy ezen a tektonon lévő
+     * gombafonalakon, és minden gombafonal kapcsolatán. Ha talál olyan kapcsolatot, amely
+     * a rovar jelenlegi tektonján is megtalálható, akkor a metódus igaz értékkel tér vissza.
+     * Ha nem talál ilyen kapcsolatot, akkor a metódus hamis értékkel tér vissza.
+     *
+     * @param i A rovar, amelynek a tektonját ellenőrizni kell.
+     * @return true, ha van kapcsolat a rovar jelenlegi tektonja és a cél tekton között, különben false.
      */
     public boolean hasConnection(Insect i) {
         if (i.getTecton() == null) {
