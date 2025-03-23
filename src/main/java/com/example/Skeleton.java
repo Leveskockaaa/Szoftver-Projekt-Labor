@@ -95,7 +95,7 @@ public class Skeleton {
         nameMap.put(o, instanceName);
     }
 
-    public static void logCommunicationDiagramStart() {
+    public static void logCreateInstances() {
         System.out.println(formatText("Create Instances"));
 
     }
@@ -120,7 +120,7 @@ public class Skeleton {
         initTestCase("Insect eats Hypahra spore ");
 
         // Create instances
-        logCommunicationDiagramStart();
+        logCreateInstances();
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
         
@@ -154,7 +154,7 @@ public class Skeleton {
         initTestCase("Hyphara loses effect");
 
         // Create instances
-        logCommunicationDiagramStart();
+        logCreateInstances();
         Insect i1 = new Insect(new Entomologist("e1"));
         logCreateInstance(i1, "Insect", "i1");
 
@@ -186,7 +186,7 @@ public class Skeleton {
         initTestCase("Insect eats Gilledon spore");
 
         // Create instances
-        logCommunicationDiagramStart();
+        logCreateInstances();
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
 
@@ -221,7 +221,7 @@ public class Skeleton {
         initTestCase("Gilledon loses effect");
 
         // Create instances
-        logCommunicationDiagramStart();
+        logCreateInstances();
         Insect i1 = new Insect(new Entomologist("e1"));
         logCreateInstance(i1, "Insect", "i1");
 
@@ -253,7 +253,7 @@ public class Skeleton {
         initTestCase("Insect eats Poralia spore");
 
         // Create instances
-        logCommunicationDiagramStart();
+        logCreateInstances();
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
 
@@ -285,7 +285,7 @@ public class Skeleton {
         initTestCase("Poralia loses effect");
 
         // Create instances
-        logCommunicationDiagramStart();
+        logCreateInstances();
         Insect i1 = new Insect(new Entomologist("e1"));
         logCreateInstance(i1, "Insect", "i1");
 
@@ -318,7 +318,7 @@ public class Skeleton {
         initTestCase("Insect eats Capulon spore");
 
         // Create instances
-        logCommunicationDiagramStart();
+        logCreateInstances();
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
 
@@ -350,7 +350,7 @@ public class Skeleton {
         initTestCase("Capulon loses effect");
 
         // Create instances
-        logCommunicationDiagramStart();
+        logCreateInstances();
         Insect i1 = new Insect(new Entomologist("e1"));
         logCreateInstance(i1, "Insect", "i1");
 
@@ -380,7 +380,7 @@ public class Skeleton {
         initTestCase("Insect eats spore on Orogenix");
 
         // Create instances
-        logCommunicationDiagramStart();
+        logCreateInstances();
         Orogenix t1 = new Orogenix();
         logCreateInstance(t1, "Orogenix", "t1");
 
@@ -764,7 +764,7 @@ public class Skeleton {
     public static void initializeStartingTectons() {
         initTestCase("Initialize starting Tectons");
         // Create instances
-        logCommunicationDiagramStart();
+        logCreateInstances();
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
 
@@ -800,7 +800,7 @@ public class Skeleton {
     public static void breakTectonApartWithoutInsectOrMushroomBody() {
         initTestCase("Break Tecton apart without Insect or Mushroombody");
         // Create instances
-        logCommunicationDiagramStart();
+        logCreateInstances();
         Transix t = new Transix();
         logCreateInstance(t, "Transix", "t");
 
@@ -835,7 +835,7 @@ public class Skeleton {
     public static void breakTectonApartWithInsect() {
         initTestCase("Break Tecton apart with Insect");
         // Create instances
-        logCommunicationDiagramStart();
+        logCreateInstances();
         Transix t = new Transix();
         logCreateInstance(t, "Transix", "t");
 
@@ -874,7 +874,7 @@ public class Skeleton {
     public static void breakTectonApartWithMushroomBody() {
         initTestCase("Break Tecton apart with MushroomBody");
         // Create instances
-        logCommunicationDiagramStart();
+        logCreateInstances();
         Transix t = new Transix();
         logCreateInstance(t, "Transix", "t");
 
@@ -922,7 +922,7 @@ public class Skeleton {
         Mycelium my = null;
         Insect i = null;
         // Create instances
-        logCommunicationDiagramStart();
+        logCreateInstances();
         Transix t = new Transix();
         logCreateInstance(t, "Transix", "t");
 
