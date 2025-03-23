@@ -964,7 +964,7 @@ public class Skeleton {
     public static void growMycelium() {
         Skeleton.initTestCase("growMycelium");
 
-        logCommunicationDiagramStart();
+        logCreateInstances();
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
         Transix t2 = new Transix();
@@ -992,7 +992,7 @@ public class Skeleton {
     public static void cantGrowMycelium() {
         Skeleton.initTestCase("cantGrowMycelium");
 
-        logCommunicationDiagramStart();
+        logCreateInstances();
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
         Transix t2 = new Transix();
@@ -1025,7 +1025,7 @@ public class Skeleton {
     public static void growMushroomBody() {
         Skeleton.initTestCase("growMushroomBody");
 
-        logCommunicationDiagramStart();
+        logCreateInstances();
         Transix t = new Transix();
         logCreateInstance(t, "Transix", "t");
         Mycelium my = new Mycelium(t);
@@ -1053,7 +1053,7 @@ public class Skeleton {
     public static void cantGrowMushroomBody() {
         Skeleton.initTestCase("cantGrowMushroomBody");
 
-        logCommunicationDiagramStart();
+        logCreateInstances();
         Transix t = new Transix();
         logCreateInstance(t, "Transix", "t");
         Mycelium my = new Mycelium(t);
@@ -1076,7 +1076,7 @@ public class Skeleton {
     public static void spreadSpores() {
         Skeleton.initTestCase("spreadSpores");
 
-        logCommunicationDiagramStart();
+        logCreateInstances();
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
         Transix t2 = new Transix();
@@ -1108,7 +1108,7 @@ public class Skeleton {
     public static void spreadSporesWither() {
         Skeleton.initTestCase("spreadSporesWither");
 
-        logCommunicationDiagramStart();
+        logCreateInstances();
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
         Transix t2 = new Transix();
@@ -1143,7 +1143,7 @@ public class Skeleton {
     public static void mushroomBodyEvolves(){
         Skeleton.initTestCase("mushroomBodyEvolves");
 
-        logCommunicationDiagramStart();
+        logCreateInstances();
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
         Transix t2 = new Transix();
@@ -1195,7 +1195,7 @@ public class Skeleton {
     public static void mushroomBodyCantEvolve(){
         Skeleton.initTestCase("mushroomBodyEvolves");
 
-        logCommunicationDiagramStart();
+        logCreateInstances();
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
         Transix t2 = new Transix();
