@@ -4,40 +4,61 @@ import java.util.*;
 
 
 /**
- * Represents a Tecton, which is an abstract concept in your domain model.
- * A Tecton can hold spores, mycelium, and potentially a mushroom body.
- * It can also break apart, become haunted, etc.
+ * Az osztály felelőssége egy platformot adni a játékban résztvevő elemeknek, legyenek azok
+ * rovarok vagy gombák részei.
  */
 public abstract class Tecton {
 
+    /**
+     * A tecton eltárolja a szomszédos tectonokat egy halmazban.
+     */
     protected HashSet<Tecton> neighbors;
 
+    /**
+     * A tekton eltárolja a rajta lévő gombatestet, ha
+     * van ilyen.
+     */
     protected MushroomBody mushroomBody;
 
+    /**
+     * A tecton eltárolja, hogy melyik rovar van éppen rajta egy
+     * szimpla egy elemes változóban.
+     */
     protected Insect insect;
 
     /**
-     * The unique identifier of this Tecton.
+     * Egyedi azonosítója a Tecton-nak.
      */
     protected int id;
 
     /**
-     * The size of this Tecton.
+     * A négy lehetséges méret közül megmondja, hogy mekkora a tekton.
      */
     protected TectonSize size;
 
     /**
-     * The maximum number of Mycelia that can be placed on this Tecton.
+     * Megmondja, hogy hány gombafonál lehet a tektonon.
      */
     protected int maxMycelia;
 
 
+    /**
+     * A tekton eltárolja a rajta lévő spórákat. Fontos, hogy a
+     * FIFO szerűen számontartja a sorrendjüket, hogy egy rovar mindig a legkésőbb érkezőt
+     * tudja megenni. Kompozíció, mivel a tekton kettétörésénél a rajta lévő spórák
+     * megszűnnek, hiszen ekkor lerázódnak a spórák a tektonról.
+     */
     protected List<Spore> spores;
 
+    /**
+     * A tecton eltárolja a rajta lévő gombafonalak listáját.
+     * Aggregáció, mivel a tekton kettétörésénél nem szűnik meg a gombafonal, sőt kettő
+     * lesz belőle is, csak megszakadnak a kapcsolataik.
+     */
     protected List<Mycelium> mycelia;
 
     /**
-     * Default constructor.
+     * Default Konstruktor.
      */
     protected Tecton() {
         spores = new ArrayList<>();
@@ -47,26 +68,32 @@ public abstract class Tecton {
         mycelia = new ArrayList<>();
     }
 
+
+    /**
+     * Visszaadja a szomszédos Tecton-ok halmazát.
+     *
+     * @return A szomszédos Tecton-ok halmaza.
+     */
     public HashSet<Tecton> getNeighbors() {
         return neighbors;
     }
 
+    /**
+     * Visszaadja a Tecton-on lévő gombafonalak listáját.
+     *
+     * @return A gombafonalak listája.
+     */
     public List<Mycelium> getMyceliums() {
         return mycelia;
     }
 
     /**
-     * Constructs the game map.
+     * A tekton kettétörését megvalósító metódus. Létrehoz két új tektont
+     * egyel kisebb méretkategóriába. Felelős a tekton szomszédainak a két új tekton között
+     * való elosztásáért, valamint a ha van rajta gombatest vagy rovar akkor azokat is el kell
+     * helyezze az egyik új tektonon.
      *
-     */
-    public List<Tecton> generateMap() {
-        return null;
-    }
-
-    /**
-     * Breaks this Tecton apart and returns a new Tecton instance.
-     *
-     * @return A new Tecton object resulting from the break.
+     * @return A létrejött két új tekton listája.
      */
     public List<Tecton> breakApart() {
         Skeleton.logFunctionCall(this, "breakApart");
@@ -81,8 +108,7 @@ public abstract class Tecton {
         neighbors.remove(n2);
         Tecton n1 = neighbors.iterator().next();
 
-        neighbors.add(t1);
-        neighbors.add(t2);
+        t1.addTectonToNeighbors(t2);
 
         if (this.hasMushroomBody()) {
             boolean toT1 = Skeleton.logBranch("A t1-re (y), vagy a t2-re (n) kerüljön a gomba test?");
@@ -113,6 +139,12 @@ public abstract class Tecton {
         return new ArrayList<>(Arrays.asList(t1, t2));
     }
 
+    /**
+     * Hozzáad egy szomszédos Tecton-t ehhez a Tecton-hoz.
+     * És a szomszédos Tecton-nak is hozzáadja ezt a Tecton-t.
+     *
+     * @param tecton A hozzáadandó szomszédos Tecton.
+     */
     public void addTectonToNeighbors(Tecton tecton) {
         if (!neighbors.contains(tecton)) {
             Skeleton.logFunctionCall(this, "addTectonToNeighbors", tecton);
@@ -122,6 +154,12 @@ public abstract class Tecton {
         }
     }
 
+    /**
+     * Megváltoztatja a Tecton egyik szomszédját a kapott Tecton-ra.
+     *
+     * @param from A régi szomszédos Tecton.
+     * @param to Az új szomszédos Tecton.
+     */
     public void changeNeighbour(Tecton from, Tecton to) {
         Skeleton.logFunctionCall(this, "changeNeighbour", from, to);
         neighbors.remove(from);
@@ -129,39 +167,48 @@ public abstract class Tecton {
         Skeleton.logReturn(this, "changeNeighbour");
     }
 
-    public void removeTectonFromNeighbors(Tecton tecton) {
-        // TODO: Implement logic
-    }
 
     /**
-     * Checks whether this Tecton has a MushroomBody.
-     * @return true if it has a MushroomBody, false otherwise.
+     * Megvizsgálja, hogy van-e gombatest a tektonon.
+     *
+     * @return true, ha van gombatest, különben false.
      */
     public boolean hasMushroomBody() {
         return mushroomBody != null;
     }
 
+    /**
+     * Megvizsgálja, hogy van-e rovar a tektonon.
+     *
+     * @return true, ha van rovar, különben false.
+     */
     public boolean hasInsect() {
         return insect != null;
     }
 
 
     /**
-     * Places the specified Insect on this Tecton.
-     * @param insect The insect to be placed.
+     * Átállítja a hasInsect attribútum értékét igazra.
+     *
+     * @param insect Az új rovar.
      */
     public abstract void placeInsect(Insect insect);
 
 
     /**
-     * Places the specified MushroomBody on this Tecton.
-     * @param mushroomBody The MushroomBody to be placed.
+     * Amennyiben nincsen gombatest a
+     * tektonon és minden feltétel fennáll elhelyezi a paraaméterként kapott gombatestet a
+     * tektonon.
+     *
+     * @param mushroomBody A gombatest, amit el kell helyezni.
      */
     public abstract void placeMushroomBody(MushroomBody mushroomBody);
 
     /**
-     * Removes the MushroomBody from this Tecton.
-     * @return The removed MushroomBody.
+     * Eltávolítja a tektonon elhelyetkedő gombatestet. Hasznos
+     * amikor már elhalt a gombatest.
+     *
+     * @return A elhalt gombatest.
      */
     public MushroomBody removeMushroomBody() {
         Skeleton.logFunctionCall(this, "removeMushroomBody");
@@ -171,7 +218,7 @@ public abstract class Tecton {
     }
 
     /**
-     * Removes the Insect from this Tecton.
+     * Eltávolítja a tektonon elhelyezkedő rovart.
      */
     public void removeInsect() {
         Skeleton.logFunctionCall(this, "removeInsect");
@@ -182,9 +229,9 @@ public abstract class Tecton {
     }
 
     /**
-     * Adds the specified Spore to this Tecton.
+     * A bemenetként kapott spórát hozzáadja a tektonhoz.
      *
-     * @param spore    The Spore to add.
+     * @param spore A hozzáadandó spóra.
      */
     public void addSpore(Spore spore) {
         Skeleton.logFunctionCall(this, "addSpore", spore);
@@ -194,20 +241,21 @@ public abstract class Tecton {
 
 
     /**
-     * Returns a list of Spores available on this Tecton.
+     * Megmondja, hogy milyen spórák találhatóak a tektonon.
      * 
-     * @return A list of Spores available.
+     * @return A tektonon található spórák listája.
      */
     public List<Spore> sporesAvailable() {
         return spores;
     }
 
     /**
-     * Takes the given quantity of the specified Spore from this Tecton.
+     * Az s típusú spórából quantity darabot elvesz a
+     * tektonról, azaz kiveszi őket a tektonon lévő spórák listájából.
      *
-     * @param spore    The Spore to remove.
-     * @param quantity The quantity of spores to remove.
-     * @return true if the spores were successfully removed, false otherwise
+     * @param spore    A spóra, amit el kell venni.
+     * @param quantity A spórák száma, amit el kell venni.
+     * @return true, ha sikeresen elvette a spórákat, különben false.
      */
     public boolean takeSpore(Spore spore, int quantity) {
         // TODO: Implement logic
@@ -216,9 +264,10 @@ public abstract class Tecton {
 
 
     /**
-     * Removes the oldest Spore from this Tecton.
+     * A tektonon legrégebb óta heverő spórát kiveszi a tektonon lévő
+     * spórák listájából.
      *
-     * @return The removed Spore.
+     * @return A legrégebb óta heverő spóra.
      */
     public Spore removeOldestSpore() {
         Skeleton.logFunctionCall(this, "removeOldestSpore");
@@ -229,9 +278,9 @@ public abstract class Tecton {
     }
 
     /**
-     * Returns the number of neighbors this Tecton has.
+     * A tektonnal szomszédos tektonok számát adja vissza.
      *
-     * @return The number of neighbors.
+     * @return A szomszédos tektonok száma.
      */
     public int neighborCount() {
         // TODO: Implement logic
@@ -240,19 +289,26 @@ public abstract class Tecton {
 
     
     /**
-     * Determines if Mycelium can be added to this Tecton.
+     * Egy igaz-hamis érték, hogy a tektonon elhelyezhető-e
+     * gombafonal.
      *
-     * @return true if Mycelium can be added, false otherwise.
+     * @return true, ha elhelyezhető, különben false.
      */
     public abstract boolean canAddMycelium();
 
     /**
-     * Places the specified Mycelium on this Tecton.
+     * Hozzáadja a tektonhoz a my fonalat.
      *
-     * @param mycelium The Mycelium to place.
+     * @param mycelium A hozzáadandó mycelium.
      */
     public abstract void addMycelium(Mycelium mycelium);
 
+    /**
+     * Megvizsgálja, hogy van-e kapcsolat a tekton és a megadott rovar tektonja között.
+     *
+     * @param i A rovar, amelynek a tektonját vizsgáljuk.
+     * @return true, ha van kapcsolat, különben false.
+     */
     public boolean hasConnection(Insect i) {
         if (i.getTecton() == null) {
             return false;
@@ -268,10 +324,10 @@ public abstract class Tecton {
     }
 
     /**
-     * Removes the specified Mycelium from this Tecton.
+     * Leveszi a tektonról a rajta lévő my fonalat.
      *
-     * @param mycelium The Mycelium to remove.
-     * @return true if successfully removed, false otherwise.
+     * @param mycelium A levevendő mycelium.
+     * @return true, ha sikeresen levette, különben false.
      */
     public boolean removeMycelium(Mycelium mycelium) {
         // TODO: Implement logic
