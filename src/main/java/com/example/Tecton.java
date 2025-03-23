@@ -83,7 +83,7 @@ public abstract class Tecton {
      *
      * @return A gombafonalak listája.
      */
-    public List<Mycelium> getMyceliums() {
+    public List<Mycelium> getMycelia() {
         return mycelia;
     }
 
@@ -104,23 +104,10 @@ public abstract class Tecton {
         Transix t2 = new Transix();
         Skeleton.logCreateInstance(t2, "Transix", "t2");
 
-        Tecton n2 = neighbors.iterator().next();
-        neighbors.remove(n2);
-        Tecton n1 = neighbors.iterator().next();
+        Tecton n1 = (Tecton) Skeleton.getFromNameMap("neigh1");
+        Tecton n2 = (Tecton) Skeleton.getFromNameMap("neigh2");
 
         t1.addTectonToNeighbors(t2);
-
-        if (this.hasMushroomBody()) {
-            boolean toT1 = Skeleton.logBranch("A t1-re (y), vagy a t2-re (n) kerüljön a gomba test?");
-            boolean toT12 = new Random().nextBoolean();
-            if (toT1) {
-                t1.placeMushroomBody(this.mushroomBody);
-                t1.addMycelium(this.mycelia.get(0));
-            } else {
-                t2.placeMushroomBody(this.mushroomBody);
-                t2.addMycelium(this.mycelia.get(0));
-            }
-        }
 
         if (this.hasInsect()) {
             boolean toT1 = Skeleton.logBranch("A t1-re (y), vagy a t2-re (n) kerüljön a rovar?");
@@ -128,6 +115,17 @@ public abstract class Tecton {
                 t1.placeInsect(this.insect);
             } else {
                 t2.placeInsect(this.insect);
+            }
+        }
+
+        if (this.hasMushroomBody()) {
+            boolean toT1 = Skeleton.logBranch("A t1-re (y), vagy a t2-re (n) kerüljön a gomba test?");
+            if (toT1) {
+                t1.placeMushroomBody(this.mushroomBody);
+                t1.addMycelium(this.mycelia.getFirst());
+            } else {
+                t2.placeMushroomBody(this.mushroomBody);
+                t2.addMycelium(this.mycelia.getFirst());
             }
         }
 
@@ -163,7 +161,7 @@ public abstract class Tecton {
     public void changeNeighbour(Tecton from, Tecton to) {
         Skeleton.logFunctionCall(this, "changeNeighbour", from, to);
         neighbors.remove(from);
-        this.addTectonToNeighbors(to);
+        to.addTectonToNeighbors(this);
         Skeleton.logReturn(this, "changeNeighbour");
     }
 

@@ -15,6 +15,21 @@ public class Skeleton {
 
     private static HashMap<Object, String> nameMap = new HashMap<>();
 
+    /**
+     * Visszaadja a megadott névhez tartozó objektumot a nameMap-ből.
+     *
+     * @param name A keresett név.
+     * @return Az objektum, amelyhez a név tartozik, vagy null, ha nem található.
+     */
+    public static Object getFromNameMap(String name) {
+        for (Object o : nameMap.keySet()) {
+            if (nameMap.get(o).equals(name)) {
+                return o;
+            }
+        }
+        return null;
+    }
+
     /*  Private constructor */
     public Skeleton() { }
 
@@ -836,6 +851,9 @@ public class Skeleton {
         initTestCase("Initialize starting Tectons");
         // Create instances
         logCreateInstances();
+        GameTable gt = new GameTable();
+        logCreateInstance(gt, "GameTable", "gt");
+
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
 
@@ -844,9 +862,6 @@ public class Skeleton {
 
         Orogenix t3 = new Orogenix();
         logCreateInstance(t3, "Orogenix", "t3");
-
-        GameTable gt = new GameTable();
-        logCreateInstance(gt, "GameTable", "gt");
 
         gt.setTectons(new ArrayList<>(Arrays.asList(t1, t2, t3)));
         //Szekvencia diagram
@@ -910,14 +925,14 @@ public class Skeleton {
         Transix t = new Transix();
         logCreateInstance(t, "Transix", "t");
 
+        Insect i = new Insect(new Entomologist("e1"));
+        logCreateInstance(i, "Insect", "i");
+
         Transix neigh1 = new Transix();
         logCreateInstance(neigh1, "Transix", "neigh1");
 
         Transix neigh2 = new Transix();
         logCreateInstance(neigh2, "Transix", "neigh2");
-
-        Insect i = new Insect(new Entomologist("e1"));
-        logCreateInstance(i, "Insect", "i");
 
         logInitializationFunctionCalls();
         t.placeInsect(i);
@@ -949,17 +964,17 @@ public class Skeleton {
         Transix t = new Transix();
         logCreateInstance(t, "Transix", "t");
 
-        Transix neigh1 = new Transix();
-        logCreateInstance(neigh1, "Transix", "neigh1");
-
-        Transix neigh2 = new Transix();
-        logCreateInstance(neigh2, "Transix", "neigh2");
-
         Hyphara mb = new Hyphara(t);
         logCreateInstance(mb, "Hyphara", "mb");
 
         Mycelium my = new Mycelium(t);
         logCreateInstance(my, "Mycelium", "my");
+
+        Transix neigh1 = new Transix();
+        logCreateInstance(neigh1, "Transix", "neigh1");
+
+        Transix neigh2 = new Transix();
+        logCreateInstance(neigh2, "Transix", "neigh2");
 
         logInitializationFunctionCalls();
         t.placeMushroomBody(mb);
@@ -989,29 +1004,25 @@ public class Skeleton {
      */
     public static void breakTectonApartWithInsectAndMushroomBody() {
         initTestCase("Break Tecton apart with Insect and MushroomBody");
-        Hyphara mb = null;
-        Mycelium my = null;
-        Insect i = null;
         // Create instances
         logCreateInstances();
         Transix t = new Transix();
         logCreateInstance(t, "Transix", "t");
+
+        Insect i = new Insect(new Entomologist("e1"));
+        logCreateInstance(i, "Insect", "i");
+
+        Hyphara mb = new Hyphara(t);
+        logCreateInstance(mb, "Hyphara", "mb");
+
+        Mycelium my = new Mycelium(t);
+        logCreateInstance(my, "Mycelium", "my");
 
         Transix neigh1 = new Transix();
         logCreateInstance(neigh1, "Transix", "neigh1");
 
         Transix neigh2 = new Transix();
         logCreateInstance(neigh2, "Transix", "neigh2");
-
-        mb = new Hyphara(t);
-        logCreateInstance(mb, "Hyphara", "mb");
-
-        my = new Mycelium(t);
-        logCreateInstance(my, "Mycelium", "my");
-
-        i = new Insect(new Entomologist("e1"));
-        logCreateInstance(i, "Insect", "i");
-
 
         logInitializationFunctionCalls();
         t.placeInsect(i);
@@ -1028,9 +1039,14 @@ public class Skeleton {
         finishTestCase("Break Tecton apart with Insect and MushroomBody");
     }
 
+    /**
+     * Létrehozunk két tektont (melyek típusa mindegy, a példákban Transix szerepel) és
+     * egy gombafonalat rakunk az egyikre. Ekkor átnövünk a gombafonállal a másik tektonra.
+     */
     public static void growMycelium() {
         Skeleton.initTestCase("growMycelium");
 
+        logCreateInstances();
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
         Transix t2 = new Transix();
@@ -1038,18 +1054,27 @@ public class Skeleton {
         Mycelium my = new Mycelium(t1);
         logCreateInstance(my, "Mycelium", "my");
 
+        logInitializationFunctionCalls();
         t1.addTectonToNeighbors(t2);
         t1.addMycelium(my);
         my.enableGrowth();
 
+        logSequencyDiagramStart();
         my.createNewBranch(t2);
 
         Skeleton.finishTestCase("growMycelium");
     }
 
+    /**
+     * Létrehozunk két tektont (melyek típusa majdnem mindegy, a példákban Transix szerepel,
+     * de Magmoxon kívül bármelyik lehetne) és egy gombafonalat rakunk az egyikre, míg
+     * a másikra kettőt (Magmox esetében 1 lehetne csak, így annyit tennénk ide).
+     * Ekkor megpróbálunk átnőni a gombafonállal a másik tektonra, de nem tudunk.
+     */
     public static void cantGrowMycelium() {
         Skeleton.initTestCase("cantGrowMycelium");
 
+        logCreateInstances();
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
         Transix t2 = new Transix();
@@ -1061,19 +1086,28 @@ public class Skeleton {
         Mycelium my3 = new Mycelium(t2);
         logCreateInstance(my3, "Mycelium", "my3");
 
+        logInitializationFunctionCalls();
         t1.addTectonToNeighbors(t2);
         t1.addMycelium(my1);
         t2.addMycelium(my2);
         t2.addMycelium(my3);
 
+        logSequencyDiagramStart();
         my1.createNewBranch(t2);
 
         Skeleton.finishTestCase("cantGrowMycelium");
     }
 
+    /**
+     * Készítünk egy tektont (melynek típusa majdnem mindegy, a példákban Transix szerepel,
+     * egyedül Mantleon nem lehetne, mert azon nem tud nőni gombatest) amire elhelyezünk
+     * egy gombafonalat, illetve elegendő spórát ahhoz, hogy bármely gombatípusból képesek
+     * legyünk egy gombatestet létrehozni rajta. A gombatest így létre tud jönni.
+     */
     public static void growMushroomBody() {
         Skeleton.initTestCase("growMushroomBody");
 
+        logCreateInstances();
         Transix t = new Transix();
         logCreateInstance(t, "Transix", "t");
         Mycelium my = new Mycelium(t);
@@ -1081,34 +1115,50 @@ public class Skeleton {
         HypharaSpore sp = new HypharaSpore();
         logCreateInstance(sp, "HypharaSpore", "sp");
 
+        logInitializationFunctionCalls();
         t.addMycelium(my);
         for(int n = 0; n < 20; n++){
             t.addSpore(sp);
         }
 
+        logSequencyDiagramStart();
         my.developMushroomBody();
 
         Skeleton.finishTestCase("growMushroomBody");
     }
 
+    /**
+     * Készítünk egy tektont (melynek típusa mindegy, a példákban Transix szerepel)
+     * amire elhelyezünk egy gombafonalat, csak most nem helyezünk el spórákat mellé.
+     * A gombatest így nem tud létrejönni.
+     */
     public static void cantGrowMushroomBody() {
         Skeleton.initTestCase("cantGrowMushroomBody");
 
+        logCreateInstances();
         Transix t = new Transix();
         logCreateInstance(t, "Transix", "t");
         Mycelium my = new Mycelium(t);
         logCreateInstance(my, "Mycelium", "my");
 
+        logInitializationFunctionCalls();
         t.addMycelium(my);
 
+        logSequencyDiagramStart();
         my.developMushroomBody();
 
         Skeleton.finishTestCase("cantGrowMushroomBody");
     }
 
+    /**
+     * Készítünk két tektont, és az egyikre elhelyezünk egy gombatestet
+     * (ami a példában Hyphara, de egyébként bármelyik típus lehetne),
+     * így tudunk sprórát szórni a másik tektonra.
+     */
     public static void spreadSpores() {
         Skeleton.initTestCase("spreadSpores");
 
+        logCreateInstances();
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
         Transix t2 = new Transix();
@@ -1117,19 +1167,30 @@ public class Skeleton {
         logCreateInstance(mb, "Hyphara", "mb");
         Mycologist mc = new Mycologist("Player 1");
         logCreateInstance(mc, "Mycologist", "mc");
-        mb.setMycologist(mc);
 
+        logInitializationFunctionCalls();
+        mb.setMycologist(mc);
         t1.addTectonToNeighbors(t2);
         t1.placeMushroomBody(mb);
 
+        logSequencyDiagramStart();
         mb.spreadSpores();
 
         Skeleton.finishTestCase("spreadSpores");
     }
 
+    /**
+     * Készítünk két tektont (melyek típusa mindegy, a példákban Transix szerepel),
+     * és az egyikre elhelyezünk egy gombatestet (ami a példában Hyphara, de majdnem
+     * ugyanígy nézne ki más gombatestekkel is), és szórunk n-1 spórát, ahol n az a
+     * maximális spóra szórások száma az adott gombafajra. Ez Hyphara-nál 15,
+     * tehát 14-szer szórunk előre, majd maga a use case lefutásánál az utolsót is
+     * kiszórjuk és így a gombatest elhal, amit ekkor elteszünk a gombász táskájába.
+     */
     public static void spreadSporesWither() {
         Skeleton.initTestCase("spreadSporesWither");
 
+        logCreateInstances();
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
         Transix t2 = new Transix();
@@ -1138,22 +1199,33 @@ public class Skeleton {
         logCreateInstance(mb, "Hyphara", "mb");
         Mycologist mc = new Mycologist("Player 1");
         logCreateInstance(mc, "Mycologist", "mc");
-        mb.setMycologist(mc);
 
+        logInitializationFunctionCalls();
+        mb.setMycologist(mc);
         t1.addTectonToNeighbors(t2);
         t1.placeMushroomBody(mb);
         for(int n = 0; n < 14; n++){
             mb.spreadSpores();
         }
 
+        logSequencyDiagramStart();
         mb.spreadSpores();
 
         Skeleton.finishTestCase("spreadSporesWither");
     }
 
-    public static void mushroomBodyEvolves(){ // Communication diagram must be remade
+    /**
+     * Amikor a felhasználó kiadja a parancsot, generálódik 4 tekton (melyek típusa mindegy,
+     * a példákban Transix szerepel) úgy, hogy legyen közűlük egy központi, aminek szomszédja
+     * a másik 3. Ezeken gombafonalakat terjesztünk szét, illetve egy gombatestet hozunk létre
+     * (aminek fajtája ismét nem számít, a példában Hyphara van) a központi tektonon,
+     * és ugyanide elhelyezünk annyi spórát amennyi biztosan elég a fejlődésre gombatípustól
+     * függetlenül. Ekkor kiadjuk a parancsot a gombatestnek, hogy fejlődjön.
+     */
+    public static void mushroomBodyEvolves(){
         Skeleton.initTestCase("mushroomBodyEvolves");
 
+        logCreateInstances();
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
         Transix t2 = new Transix();
@@ -1162,35 +1234,50 @@ public class Skeleton {
         logCreateInstance(t3, "Transix", "t3");
         Transix t4 = new Transix();
         logCreateInstance(t4, "Transix", "t4");
+        Mycelium my1 = new Mycelium(t1);
+        logCreateInstance(my1, "Mycelium", "my1");
+        Mycologist mc1 = new Mycologist("Player 1");
+        logCreateInstance(mc1, "Mycologist", "mc1");
+        Hyphara mb1 = new Hyphara(t1);
+        logCreateInstance(mb1, "Hyphara", "mb1");
+        HypharaSpore sp = new HypharaSpore();
+        logCreateInstance(sp, "HypharaSpore", "sp");
+
+        logInitializationFunctionCalls();
         t1.addTectonToNeighbors(t2);
         t1.addTectonToNeighbors(t3);
         t1.addTectonToNeighbors(t4);
 
-        Mycelium my1 = new Mycelium(t1);
-        logCreateInstance(my1, "Mycelium", "my1");
-        t1.addMycelium(my1);
+        my1.setMycologist(mc1);
         my1.enableGrowth();
-        Mycelium my2 = my1.createNewBranch(t2); //return type change
+        t1.addMycelium(my1);
+
+        Mycelium my2 = my1.createNewBranch(t2);
         Mycelium my3 = my1.createNewBranch(t3);
         Mycelium my4 = my1.createNewBranch(t4);
-
-        Hyphara mb1 = new Hyphara(t1);
-        logCreateInstance(mb1, "Hyphara", "mb1");
-
-        HypharaSpore sp = new HypharaSpore();
-        logCreateInstance(sp, "HypharaSpore", "sp");
+        mb1.setMycologist(mc1);
         for(int n = 0; n < 20; n++){
             t1.addSpore(sp);
         }
 
+        logSequencyDiagramStart();
         mb1.evolveSuper();
 
         Skeleton.finishTestCase("mushroomBodyEvolves");
     }
 
+    /**
+     * Amikor a felhasználó kiadja a parancsot, generálódik 4 tekton (melyek típusa mindegy,
+     * a példákban Transix szerepel) úgy, hogy legyen közűlük egy központi, aminek szomszédja
+     * a másik 3. Ezeken gombafonalakat terjesztünk szét, illetve egy gombatestet hozunk létre
+     * (aminek fajtája ismét nem számít, a példában Hyphara van) a központi tektonon,
+     * de most spórákat nem helyezünk el. Ekkor kiadjuk a parancsot a gombatestnek,
+     * hogy fejlődjön, de ez sikertelen lesz.
+     */
     public static void mushroomBodyCantEvolve(){
-        Skeleton.initTestCase("mushroomBodyCantEvolve");
+        Skeleton.initTestCase("mushroomBodyEvolves");
 
+        logCreateInstances();
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
         Transix t2 = new Transix();
@@ -1199,23 +1286,32 @@ public class Skeleton {
         logCreateInstance(t3, "Transix", "t3");
         Transix t4 = new Transix();
         logCreateInstance(t4, "Transix", "t4");
+        Mycelium my1 = new Mycelium(t1);
+        logCreateInstance(my1, "Mycelium", "my1");
+        Mycologist mc1 = new Mycologist("Player 1");
+        logCreateInstance(mc1, "Mycologist", "mc1");
+        Hyphara mb1 = new Hyphara(t1);
+        logCreateInstance(mb1, "Hyphara", "mb1");
+        HypharaSpore sp = new HypharaSpore();
+        logCreateInstance(sp, "HypharaSpore", "sp");
+
+        logInitializationFunctionCalls();
         t1.addTectonToNeighbors(t2);
         t1.addTectonToNeighbors(t3);
         t1.addTectonToNeighbors(t4);
 
-        Mycelium my1 = new Mycelium(t1);
-        logCreateInstance(my1, "Mycelium", "my1");
-        t1.addMycelium(my1);
+        my1.setMycologist(mc1);
         my1.enableGrowth();
+        t1.addMycelium(my1);
+
         Mycelium my2 = my1.createNewBranch(t2);
         Mycelium my3 = my1.createNewBranch(t3);
         Mycelium my4 = my1.createNewBranch(t4);
+        mb1.setMycologist(mc1);
 
-        Hyphara mb1 = new Hyphara(t1);
-        logCreateInstance(mb1, "Hyphara", "mb1");
-
+        logSequencyDiagramStart();
         mb1.evolveSuper();
 
-        Skeleton.finishTestCase("mushroomBodyCantEvolve");
+        Skeleton.finishTestCase("mushroomBodyEvolves");
     }
 }

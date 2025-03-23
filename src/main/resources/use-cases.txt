@@ -26,3 +26,5 @@ Grow mushroom body,growMushroomBody
 Can’t grow mushroom body,cantGrowMushroomBody
 Grow mycelium,growMycelium
 Can’t grow mycelium,cantGrowMycelium
+Spread spores,spreadSpores
+Spread spores - body withers, spreadSporesWither
