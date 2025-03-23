@@ -106,7 +106,7 @@ public class Skeleton {
         System.out.println(formatText("Sequency Diagram Elements"));
     }
 
-    /*
+    /**
      * A felhasználó kiadja a parancsot, hogy a rovar egy spórát megegyen.
      * Ekkora azon a tektonon amin a rovar áll a spórák közöl a legrégebben
      * ott lévő megevésre kerül (ebben az esetben ez egy Hyphara spóra), 
@@ -146,7 +146,7 @@ public class Skeleton {
 
     }
 
-    /*
+    /**
      * A felhasználó kiadja a parancsot, amivel visszaállítja
      * a rovar eredeti sebességét.
      */
@@ -174,7 +174,7 @@ public class Skeleton {
         finishTestCase("Hyphara loses effect");
     }
 
-    /*
+    /**
      * A felhasználó kiadja a parancsot, hogy a rovar egy spórát megegyen.
      * Ekkora azon a tektonon amin a rovar áll a spórák közöl a legrégebben
      * ott lévő megevésre kerül (ebben az esetben ez egy Gilledon spóra),
@@ -213,7 +213,7 @@ public class Skeleton {
         finishTestCase("Insect eats Gilledon spore");
     }
 
-    /*
+    /**
      * A felhasználó kiadja a parancsot, amivel visszaállítja
      * a rovar eredeti sebességét. 
      */
@@ -241,7 +241,7 @@ public class Skeleton {
         finishTestCase("Gilledon loses effect");
     }
 
-    /*
+    /**
      * A felhasználó kiadja a parancsot, hogy a rovar egy spórát megegyen.
      * Ekkora azon a tektonon amin a rovar áll a spórák közöl a legrégebben
      * ott lévő megevésre kerül (ebben az esetben ez egy Poralia spóra),
@@ -278,7 +278,7 @@ public class Skeleton {
 
         finishTestCase("Insect eats Poralia spore");
     }
-    /*
+    /**
      * A felhasználó kiadja a parancsot, amivel feloldja a rovar bénítását. 
      */
     public static void poraliaLosesEffect () {
@@ -305,7 +305,7 @@ public class Skeleton {
         finishTestCase("Poralia loses effect");
 
     }
-    /*
+    /**
      * A felhasználó kiadja a parancsot, hogy a rovar egy spórát megegyen.
      * Ekkora azon a tektonon amin a rovar áll a spórák közöl a legrégebben
      * ott lévő megevésre kerül (ebben az esetben ez egy Capulon spóra),
@@ -343,7 +343,7 @@ public class Skeleton {
 
         finishTestCase("Insect eats Capulon spore");
     }
-    /*
+    /**
      * A felhasználó kiadja a parancsot, amivel visszaadja a fonalak elrágásának képességét. 
      */
     public static void capulonLosesEffect() {
@@ -369,7 +369,7 @@ public class Skeleton {
 
         finishTestCase("Capulon loses effect");
     }
-    /*
+    /**
      * A felhasználó kiadja a parancsot, hogy a rovar egy spórát megegyen miközben
      * a rovar egy Orogenix tektonon tartózkodik. Ekkora azon a tektonon amin a
      * rovar áll a spórák közöl a legrégebben ott lévő megevésre kerül (ebben az
