@@ -3,66 +3,66 @@ package com.example;
 import javax.net.ssl.SSLKeyException;
 
 /**
- * Represents an Insect entity with various attributes and behaviors
- * such as chewing mycelium, eating spores, moving to different Tectons, etc.
+ * Egy rovar entitást reprezentál különböző attribútumokkal és viselkedésekkel,
+ * mint például micélium rágása, spórák evése, különböző Tecton-okra való mozgás stb.
  */
 public class Insect {
-
 
     private Tecton tecton;
 
     private Entomologist entomologist;
 
     /**
-     * The name of the insect.
+     * A rovar neve.
      */
     private String name;
 
     /**
-     * The color of the insect in HEX format.
+     * A rovar színe HEX formátumban.
      */
     private String color;
 
     /**
-     * The total nutrient points this insect has collected.
+     * Az összes tápanyag pont, amit ez a rovar összegyűjtött.
      */
     private int collectedNutrientPoints;
 
     /**
-     * The multiplier used when collecting nutrient points.
+     * A szorzó, amit a tápanyag pontok gyűjtésekor használnak.
      */
     private int nutrientMultiplier;
 
     /**
-     * Indicates whether the insect can chew mycelium.
+     * Jelzi, hogy a rovar képes-e micéliumot rágni.
      */
     private boolean canChewMycelium;
 
     /**
-     * The current speed of the insect.
+     * A rovar aktuális sebessége.
      */
     private float speed;
 
     /**
-     * Indicates whether the insect is paralyzed.
+     * Jelzi, hogy a rovar bénult-e.
      */
     private boolean isParalized;
 
     /**
-     * Indicates whether the insect can eat.
+     * Jelzi, hogy a rovar képes-e enni.
      */
     private boolean canEat;
 
     /**
-     * Default constructor.
+     * Alapértelmezett konstruktor.
+     *
+     * @param entomologist Az entomológus, akihez a rovar tartozik.
      */
     public Insect(Entomologist entomologist) {
         this.entomologist = entomologist;
-        
     }
 
     /**
-     * Enables the insect to chew mycelium.
+     * Engedélyezi a rovar számára a micélium rágását.
      */
     public void enableToChewMycelium() {
         Skeleton.logFunctionCall(this, "enableToChewMycelium");
@@ -73,7 +73,7 @@ public class Insect {
     }
 
     /**
-     * Disables the insect from chewing mycelium.
+     * Letiltja a rovar számára a micélium rágását.
      */
     public void disableChewMycelium() {
         Skeleton.logFunctionCall(this, "disableChewMycelium");
@@ -84,25 +84,29 @@ public class Insect {
     }
 
     /**
-     * Allows the insect to chew the given mycelium.
+     * Lehetővé teszi a rovar számára, hogy megrágja a megadott micéliumot.
      *
-     * @param mycelium The Mycelium object to be chewed.
+     * @param mycelium A micélium objektum, amit meg kell rágni.
      */
-    public void chewMycelium(Mycelium mycelium, Mycelium mycelium2) {
+    public void chewMycelium(Mycelium mycelium) {
         Skeleton.logFunctionCall(this, "chewMycelium", mycelium);
 
         if (this.canChewMycelium) {
-            mycelium.removeConnection(mycelium2);
-            mycelium2.removeConnection(mycelium);
+            for (Mycelium m : this.getTecton().mycelia) {
+                if (m.getMyceliumConnections().contains(mycelium)) {
+                    m.removeConnection(mycelium);
+                    mycelium.removeConnection(m);
+                }
+            }
         }
 
         Skeleton.logReturn(this, "chewMycelium");
     }
 
     /**
-     * Sets the nutrient multiplier for this insect.
+     * Beállítja a tápanyag szorzót ehhez a rovarhoz.
      *
-     * @param times The new multiplier value.
+     * @param times Az új szorzó értéke.
      */
     public void setNutrientMultiplier(int times) {
         Skeleton.logFunctionCall(this, "setNutrientMultiplier", Integer.toString(times));
@@ -113,10 +117,9 @@ public class Insect {
     }
 
     /**
-     * Allows the insect to eat a spore.
+     * Lehetővé teszi a rovar számára, hogy megegyen egy spórát.
      */
     public void eatSpore() {
-
         Skeleton.logFunctionCall(this, "eatSpore");
 
         Spore s1 = tecton.removeOldestSpore();
@@ -131,19 +134,18 @@ public class Insect {
     }
 
     /**
-     * Enables the insect to eat.
+     * Engedélyezi a rovar számára az evést.
      */
     public void enableEating() {
         Skeleton.logFunctionCall(this, "enableEating");
 
         this.canEat = true;
-        
+
         Skeleton.logReturn(this, "enableEating");
-   
     }
 
     /**
-     * Disables the insect from eating.
+     * Letiltja a rovar számára az evést.
      */
     public void disableEating() {
         Skeleton.logFunctionCall(this, "disableEating");
@@ -154,9 +156,9 @@ public class Insect {
     }
 
     /**
-     * Moves the insect to the specified Tecton.
+     * Áthelyezi a rovart a megadott Tecton-ra.
      *
-     * @param t The Tecton to move to.
+     * @param t A Tecton, ahová a rovart át kell helyezni.
      */
     public void moveTo(Tecton t) {
         Skeleton.logFunctionCall(this, "moveTo", t);
@@ -167,23 +169,25 @@ public class Insect {
     }
 
     /**
-     * Deducts one nutrient point from the insect.
+     * Levon egy tápanyag pontot a rovarból.
      */
     public void deductNutrientPoint() {
         Skeleton.logFunctionCall(this, "deductNutrientPoint");
-        // TODO: Add logic here
+
+        this.entomologist.setScore(-1);
+
         Skeleton.logReturn(this, "deductNutrientPoint");
     }
 
     /**
-     * Neutralizes any effects from spores.
+     * Semlegesíti a spórák hatásait.
      */
     public void neutralizeSporeEffects() {
         // TODO: Add logic here
     }
 
     /**
-     * Neutralizes any effects from tectons.
+     * Semlegesíti a tektonok hatásait.
      */
     public void neutralizeTectonEffects() {
         Skeleton.logFunctionCall(this, "neutralizeTectonEffects");
@@ -194,9 +198,9 @@ public class Insect {
     }
 
     /**
-     * Sets the insect's speed to the specified value.
+     * Beállítja a rovar sebességét a megadott értékre.
      *
-     * @param speed The new speed of the insect.
+     * @param speed A rovar új sebessége.
      */
     public void setSpeed(float speed) {
         Skeleton.logFunctionCall(this, "setSpeed", Float.toString(speed));
@@ -207,14 +211,14 @@ public class Insect {
     }
 
     /**
-     * Resets the insect's speed to its default value.
+     * Visszaállítja a rovar sebességét az alapértelmezett értékre.
      */
     public void resetSpeed() {
         // TODO: Add logic here
     }
 
     /**
-     * Paralyzes the insect.
+     * Bénítja a rovart.
      */
     public void paralize() {
         Skeleton.logFunctionCall(this, "paralize");
@@ -225,7 +229,7 @@ public class Insect {
     }
 
     /**
-     * Removes paralysis from the insect.
+     * Eltávolítja a bénultságot a rovarról.
      */
     public void unParalized() {
         Skeleton.logFunctionCall(this, "unParalized");
@@ -236,26 +240,38 @@ public class Insect {
     }
 
     /**
-     * Checks whether the insect is paralyzed.
+     * Ellenőrzi, hogy a rovar bénult-e.
      *
-     * @return true if the insect is paralyzed, false otherwise.
+     * @return true, ha a rovar bénult, különben false.
      */
     public boolean isParalized() {
-       
         return this.isParalized;
     }
 
-
+    /**
+     * Beállítja a rovar tektonját a megadott tektonra.
+     *
+     * @param tecton A tekton, amit be kell állítani.
+     */
     public void setTecton(Tecton tecton) {
         this.tecton = tecton;
     }
 
+    /**
+     * Visszaadja a rovar aktuális tektonját.
+     *
+     * @return A rovar aktuális tektonja.
+     */
     public Tecton getTecton() {
         return this.tecton;
     }
 
+    /**
+     * Beállítja a rovar entomológusát a megadott entomológusra.
+     *
+     * @param entomologist Az entomológus, amit be kell állítani.
+     */
     public void setEntomologist(Entomologist entomologist) {
         this.entomologist = entomologist;
     }
-   
 }

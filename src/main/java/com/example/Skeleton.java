@@ -421,10 +421,18 @@ public class Skeleton {
         finishTestCase("Insect eats spore on Orogenix");
     }
 
+    /**
+     * A rovar áthelyezése egy Transix típusú Tecton-ra.
+     *
+     * Ez a teszteset inicializálja a szükséges objektumokat, beállítja a kezdeti állapotokat,
+     * majd végrehajtja a rovar áthelyezését egy másik Tecton-ra.
+     * A rovar először egy Transix típusú Tecton-on helyezkedik el, majd egy másik Transix típusú Tecton-ra mozog.
+     * A teszteset során a micéliumok és a szomszédos Tecton-ok is inicializálásra kerülnek.
+     */
     public static void insectMovesToTransix() {
         initTestCase("Insect can move to Transix");
 
-        // Create instances
+        logCreateInstances();
 
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
@@ -444,7 +452,7 @@ public class Skeleton {
         Insect i1 = new Insect(e1);
         logCreateInstance(i1, "Insect", "i1");
 
-        // Log init function calls
+        logInitializationFunctionCalls();
 
         t1.placeInsect(i1);
         t1.addMycelium(my1);
@@ -457,16 +465,25 @@ public class Skeleton {
 
         i1.unParalized();
 
-        // Log sequence function calls
-        System.out.println("-----------------");
+        logSequencyDiagramStart();
 
         i1.moveTo(t2);
+
+        finishTestCase("Insect can move to Transix");
     }
 
+    /**
+     * A rovar áthelyezése egy Magmox típusú Tecton-ra.
+     *
+     * Ez a teszteset inicializálja a szükséges objektumokat, beállítja a kezdeti állapotokat,
+     * majd végrehajtja a rovar áthelyezését egy másik Tecton-ra.
+     * A rovar először egy Transix típusú Tecton-on helyezkedik el, majd egy Magmox típusú Tecton-ra mozog.
+     * A teszteset során a micéliumok és a szomszédos Tecton-ok is inicializálásra kerülnek.
+     */
     public static void insectMovesToMagmox() {
         initTestCase("Insect can move to Magmox");
 
-        // Create instances
+        logCreateInstances();
 
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
@@ -486,7 +503,7 @@ public class Skeleton {
         Insect i1 = new Insect(e1);
         logCreateInstance(i1, "Insect", "i1");
 
-        // Log init function calls
+        logInitializationFunctionCalls();
 
         t1.placeInsect(i1);
         t1.addMycelium(my1);
@@ -499,16 +516,25 @@ public class Skeleton {
 
         i1.unParalized();
 
-        // Log sequence function calls
-        System.out.println("-----------------");
+        logSequencyDiagramStart();
 
         i1.moveTo(t2);
+
+        finishTestCase("Insect can move to Magmox");
     }
 
+    /**
+     * A rovar áthelyezése egy Mantleon típusú Tecton-ra.
+     *
+     * Ez a teszteset inicializálja a szükséges objektumokat, beállítja a kezdeti állapotokat,
+     * majd végrehajtja a rovar áthelyezését egy másik Tecton-ra.
+     * A rovar először egy Transix típusú Tecton-on helyezkedik el, majd egy Mantleon típusú Tecton-ra mozog.
+     * A teszteset során a micéliumok és a szomszédos Tecton-ok is inicializálásra kerülnek.
+     */
     public static void insectMovesToMantleon() {
         initTestCase("Insect can move to Mantleon");
 
-        // Create instances
+        logCreateInstances();
 
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
@@ -528,7 +554,7 @@ public class Skeleton {
         Insect i1 = new Insect(e1);
         logCreateInstance(i1, "Insect", "i1");
 
-        // Log init function calls
+        logInitializationFunctionCalls();
 
         t1.placeInsect(i1);
         t1.addMycelium(my1);
@@ -541,16 +567,25 @@ public class Skeleton {
 
         i1.unParalized();
 
-        // Log sequence function calls
-        System.out.println("-----------------");
+        logSequencyDiagramStart();
 
         i1.moveTo(t2);
+
+        finishTestCase("Insect can move to Mantleon");
     }
 
+    /**
+     * A rovar áthelyezése egy Orogenix típusú Tecton-ra.
+     *
+     * Ez a teszteset inicializálja a szükséges objektumokat, beállítja a kezdeti állapotokat,
+     * majd végrehajtja a rovar áthelyezését egy másik Tecton-ra.
+     * A rovar először egy Transix típusú Tecton-on helyezkedik el, majd egy Orogenix típusú Tecton-ra mozog.
+     * A teszteset során a micéliumok és a szomszédos Tecton-ok is inicializálásra kerülnek.
+     */
     public static void insectMovesToOrogenix() {
         initTestCase("Insect can move to Orogenix");
 
-        // Create instances
+        logCreateInstances();
 
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
@@ -570,7 +605,7 @@ public class Skeleton {
         Insect i1 = new Insect(e1);
         logCreateInstance(i1, "Insect", "i1");
 
-        // Log init function calls
+        logInitializationFunctionCalls();
 
         t1.placeInsect(i1);
         t1.addMycelium(my1);
@@ -583,16 +618,25 @@ public class Skeleton {
 
         i1.unParalized();
 
-        // Log sequence function calls
-        System.out.println("-----------------");
+        logSequencyDiagramStart();
 
         i1.moveTo(t2);
+
+        finishTestCase("Insect can move to Orogenix");
     }
 
+    /**
+     * A rovar nem tud áthelyeződni egy másik Tecton-ra, mert az foglalt.
+     *
+     * Ez a teszteset inicializálja a szükséges objektumokat, beállítja a kezdeti állapotokat,
+     * majd megpróbálja a rovar áthelyezését egy másik Tecton-ra, amely már foglalt.
+     * A rovar először egy Transix típusú Tecton-on helyezkedik el, majd megpróbál egy másik Transix típusú Tecton-ra mozogni,
+     * de az már foglalt egy másik rovar által.
+     */
     public static void insectCantMoveOccupied() {
         initTestCase("Insect can't move due to occupied Tecton");
 
-        // Create instances
+        logCreateInstances();
 
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
@@ -618,7 +662,7 @@ public class Skeleton {
         Insect i2 = new Insect(e2);
         logCreateInstance(i2, "Insect", "i2");
 
-        // Log init function calls
+        logInitializationFunctionCalls();
 
         t1.placeInsect(i1);
         t1.addMycelium(my1);
@@ -633,16 +677,25 @@ public class Skeleton {
         i1.unParalized();
         i2.unParalized();
 
-        // Log sequence function calls
-        System.out.println("-----------------");
+        logSequencyDiagramStart();
 
         i1.moveTo(t2);
+
+        finishTestCase("Insect can't move due to occupied Tecton");
     }
 
+    /**
+     * A rovar nem tud áthelyeződni egy másik Tecton-ra, mert nincs kapcsolat.
+     *
+     * Ez a teszteset inicializálja a szükséges objektumokat, beállítja a kezdeti állapotokat,
+     * majd megpróbálja a rovar áthelyezését egy másik Tecton-ra, amelyhez nincs kapcsolat.
+     * A rovar először egy Transix típusú Tecton-on helyezkedik el, majd megpróbál egy másik Transix típusú Tecton-ra mozogni,
+     * de nincs kapcsolat a két Tecton között.
+     */
     public static void insectCantMoveNoConnection() {
         initTestCase("Insect can't move due to no connection");
 
-        // Create instances
+        logCreateInstances();
 
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
@@ -662,7 +715,7 @@ public class Skeleton {
         Insect i1 = new Insect(e1);
         logCreateInstance(i1, "Insect", "i1");
 
-        // Log init function calls
+        logInitializationFunctionCalls();
 
         t1.placeInsect(i1);
         t1.addMycelium(my1);
@@ -673,16 +726,24 @@ public class Skeleton {
 
         i1.unParalized();
 
-        // Log sequence function calls
-        System.out.println("-----------------");
+        logSequencyDiagramStart();
 
         i1.moveTo(t2);
+
+        finishTestCase("Insect can't move due to no connection");
     }
 
+    /**
+     * A rovar elrág egy micéliumot.
+     *
+     * Ez a teszteset inicializálja a szükséges objektumokat, beállítja a kezdeti állapotokat,
+     * majd végrehajtja a rovar által a micélium elrágását.
+     * A rovar először egy Transix típusú Tecton-on helyezkedik el, majd elrág egy micéliumot, amely összeköti a két Tecton-t.
+     */
     public static void insectChewsMycelium() {
         initTestCase("Insect chews mycelium");
 
-        // Create instances
+        logCreateInstances();
 
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
@@ -702,7 +763,7 @@ public class Skeleton {
         Insect i1 = new Insect(e1);
         logCreateInstance(i1, "Insect", "i1");
 
-        // Log init function calls
+        logInitializationFunctionCalls();
 
         t1.placeInsect(i1);
         t1.addMycelium(my1);
@@ -715,16 +776,25 @@ public class Skeleton {
 
         i1.enableToChewMycelium();
 
-        // Log sequence function calls
-        System.out.println("-----------------");
+        logSequencyDiagramStart();
 
-        i1.chewMycelium(my1, my2);
+        i1.chewMycelium(my1);
+
+        finishTestCase("Insect chews mycelium");
     }
 
+    /**
+     * A rovar nem tud elrágni egy micéliumot.
+     *
+     * Ez a teszteset inicializálja a szükséges objektumokat, beállítja a kezdeti állapotokat,
+     * majd megpróbálja a rovar által a micélium elrágását, de a rovar nem képes erre.
+     * A rovar először egy Transix típusú Tecton-on helyezkedik el, majd megpróbál elrágni egy micéliumot,
+     * de a rovar nem képes erre, mert a micélium rágás le van tiltva.
+     */
     public static void insectCantChewMycelium() {
         initTestCase("Insect can't chew mycelium");
 
-        // Create instances
+        logCreateInstances();
 
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
@@ -744,7 +814,7 @@ public class Skeleton {
         Insect i1 = new Insect(e1);
         logCreateInstance(i1, "Insect", "i1");
 
-        // Log init function calls
+        logInitializationFunctionCalls();
 
         t1.placeInsect(i1);
         t1.addMycelium(my1);
@@ -757,10 +827,11 @@ public class Skeleton {
 
         i1.disableChewMycelium();
 
-        // Log sequence function calls
-        System.out.println("-----------------");
+        logSequencyDiagramStart();
 
-        i1.chewMycelium(my1, my2);
+        i1.chewMycelium(my1);
+
+        finishTestCase("Insect can't chew mycelium");
     }
 
     /**

@@ -75,7 +75,7 @@ public class Mycelium {
      * @return A gombafonálhoz tartozó gombatest osztály típusa.
      */
     public Class<? extends MushroomBody> getBodyType(){
-        return mycologist.getMushroomBodies().getFirst().getClass();
+        return mycologist.getMushroomBodies().get(0).getClass();
     }
 
     /**

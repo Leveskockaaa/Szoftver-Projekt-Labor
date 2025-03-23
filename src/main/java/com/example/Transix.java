@@ -47,7 +47,20 @@ public class Transix extends Tecton {
         return true;
     }
 
-    //TODO: Kommentezni
+    /**
+     * Elhelyezi a rovarot a tektonon.
+     *
+     * Ez a metódus megpróbálja elhelyezni a megadott rovarot a tektonon.
+     * Először naplózza a függvényhívást, majd ellenőrzi, hogy a rovar jelenleg nincs-e egy másik tektonon.
+     * Ha a rovar nincs egy másik tektonon, akkor beállítja a rovar tektonját erre a tektonra és visszatér.
+     * Ha a tekton már tartalmaz egy rovarot, vagy nincs kapcsolat a rovar jelenlegi tektonja és ez a tekton között,
+     * akkor a metódus visszatér anélkül, hogy bármit is változtatna.
+     * Ha a rovar jelenleg egy másik tektonon van, és van kapcsolat a két tekton között, akkor a metódus
+     * semlegesíti a rovar tekton hatásait, eltávolítja a rovarot a jelenlegi tektonjáról, beállítja a rovar tektonját erre a tektonra,
+     * és a duplájára növeli a tápanyagérték szorzót.
+     *
+     * @param insect A rovar, amit el kell helyezni a tektonon.
+     */
     @Override
     public void placeInsect(Insect insect) {
         Skeleton.logFunctionCall(this, "placeInsect", insect);
