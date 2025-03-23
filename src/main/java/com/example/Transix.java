@@ -1,10 +1,19 @@
 package com.example;
 
 /**
- * Transix is a specific type of Tecton.
+ * A Transix típusú tektonért felel.
+ *
+ * Ősosztály: Tecton -> Transix
  */
 public class Transix extends Tecton {
 
+    /**
+     * Amennyiben nincsen gombatest a
+     * tektonon és minden feltétel fennáll elhelyezi a paraaméterként kapott gombatestet a
+     * tektonon.
+     *
+     * @param mushroomBody A gombatest, amit el kell helyezni.
+     */
     @Override
     public void placeMushroomBody(MushroomBody mushroomBody) {
        Skeleton.logFunctionCall(this, "placeMushroomBody", mushroomBody);
@@ -12,6 +21,11 @@ public class Transix extends Tecton {
        Skeleton.logReturn(this, "placeMushroomBody");
     }
 
+    /**
+     * Hozzáadja a tektonhoz a my fonalat.
+     *
+     * @param mycelium A hozzáadandó mycelium.
+     */
     @Override
     public void addMycelium(Mycelium mycelium) {
         Skeleton.logFunctionCall(this, "addMycelium", mycelium);
@@ -19,6 +33,12 @@ public class Transix extends Tecton {
         Skeleton.logReturn(this, "addMycelium");
     }
 
+    /**
+     * Egy igaz-hamis érték, hogy a tektonon elhelyezhető-e
+     * gombafonal.
+     *
+     * @return true, ha elhelyezhető, különben false.
+     */
     @Override
     public boolean canAddMycelium() {
         Skeleton.logFunctionCall(this, "canAddMycelium");
@@ -27,6 +47,7 @@ public class Transix extends Tecton {
         return true;
     }
 
+    //TODO: Kommentezni
     @Override
     public void placeInsect(Insect insect) {
         Skeleton.logFunctionCall(this, "placeInsect", insect);
