@@ -109,23 +109,23 @@ public abstract class Tecton {
 
         t1.addTectonToNeighbors(t2);
 
-        if (this.hasMushroomBody()) {
-            boolean toT1 = Skeleton.logBranch("A t1-re (y), vagy a t2-re (n) kerüljön a gomba test?");
-            if (toT1) {
-                t1.placeMushroomBody(this.mushroomBody);
-                t1.addMycelium(this.mycelia.get(0));
-            } else {
-                t2.placeMushroomBody(this.mushroomBody);
-                t2.addMycelium(this.mycelia.get(0));
-            }
-        }
-
         if (this.hasInsect()) {
             boolean toT1 = Skeleton.logBranch("A t1-re (y), vagy a t2-re (n) kerüljön a rovar?");
             if (toT1) {
                 t1.placeInsect(this.insect);
             } else {
                 t2.placeInsect(this.insect);
+            }
+        }
+
+        if (this.hasMushroomBody()) {
+            boolean toT1 = Skeleton.logBranch("A t1-re (y), vagy a t2-re (n) kerüljön a gomba test?");
+            if (toT1) {
+                t1.placeMushroomBody(this.mushroomBody);
+                t1.addMycelium(this.mycelia.getFirst());
+            } else {
+                t2.placeMushroomBody(this.mushroomBody);
+                t2.addMycelium(this.mycelia.getFirst());
             }
         }
 

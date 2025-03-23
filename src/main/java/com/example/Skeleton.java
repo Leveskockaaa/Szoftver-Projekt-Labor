@@ -854,14 +854,14 @@ public class Skeleton {
         Transix t = new Transix();
         logCreateInstance(t, "Transix", "t");
 
+        Insect i = new Insect(new Entomologist("e1"));
+        logCreateInstance(i, "Insect", "i");
+
         Transix neigh1 = new Transix();
         logCreateInstance(neigh1, "Transix", "neigh1");
 
         Transix neigh2 = new Transix();
         logCreateInstance(neigh2, "Transix", "neigh2");
-
-        Insect i = new Insect(new Entomologist("e1"));
-        logCreateInstance(i, "Insect", "i");
 
         logInitializationFunctionCalls();
         t.placeInsect(i);
@@ -893,17 +893,17 @@ public class Skeleton {
         Transix t = new Transix();
         logCreateInstance(t, "Transix", "t");
 
-        Transix neigh1 = new Transix();
-        logCreateInstance(neigh1, "Transix", "neigh1");
-
-        Transix neigh2 = new Transix();
-        logCreateInstance(neigh2, "Transix", "neigh2");
-
         Hyphara mb = new Hyphara(t);
         logCreateInstance(mb, "Hyphara", "mb");
 
         Mycelium my = new Mycelium(t);
         logCreateInstance(my, "Mycelium", "my");
+
+        Transix neigh1 = new Transix();
+        logCreateInstance(neigh1, "Transix", "neigh1");
+
+        Transix neigh2 = new Transix();
+        logCreateInstance(neigh2, "Transix", "neigh2");
 
         logInitializationFunctionCalls();
         t.placeMushroomBody(mb);
@@ -933,29 +933,25 @@ public class Skeleton {
      */
     public static void breakTectonApartWithInsectAndMushroomBody() {
         initTestCase("Break Tecton apart with Insect and MushroomBody");
-        Hyphara mb = null;
-        Mycelium my = null;
-        Insect i = null;
         // Create instances
         logCreateInstances();
         Transix t = new Transix();
         logCreateInstance(t, "Transix", "t");
+
+        Insect i = new Insect(new Entomologist("e1"));
+        logCreateInstance(i, "Insect", "i");
+
+        Hyphara mb = new Hyphara(t);
+        logCreateInstance(mb, "Hyphara", "mb");
+
+        Mycelium my = new Mycelium(t);
+        logCreateInstance(my, "Mycelium", "my");
 
         Transix neigh1 = new Transix();
         logCreateInstance(neigh1, "Transix", "neigh1");
 
         Transix neigh2 = new Transix();
         logCreateInstance(neigh2, "Transix", "neigh2");
-
-        mb = new Hyphara(t);
-        logCreateInstance(mb, "Hyphara", "mb");
-
-        my = new Mycelium(t);
-        logCreateInstance(my, "Mycelium", "my");
-
-        i = new Insect(new Entomologist("e1"));
-        logCreateInstance(i, "Insect", "i");
-
 
         logInitializationFunctionCalls();
         t.placeInsect(i);
