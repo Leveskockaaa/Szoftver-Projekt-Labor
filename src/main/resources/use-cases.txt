@@ -20,7 +20,7 @@ Break Tecton apart without Insect or Mushroombody,breakTectonApartWithoutInsectO
 Break Tecton apart with Insect,breakTectonApartWithInsect
 Break Tecton apart with MushroomBody,breakTectonApartWithMushroomBody
 Break Tecton apart with Insect and MushroomBody,breakTectonApartWithInsectAndMushroomBody
-Evolve nushroom body,mushroomBodyEvolves
+Evolve mushroom body,mushroomBodyEvolves
 Can’t evolve mushroom body,mushroomBodyCantEvolve
 Grow mushroom body,growMushroomBody
 Can’t grow mushroom body,cantGrowMushroomBody
