@@ -17,7 +17,7 @@ Capulon loses effect,capulonLosesEffect
 Insect eats spore on Orogenix,insectEatsSporeOnOrogenix
 Break tecton
 Initialize starting tectons
-Evolve nushroom body
+Evolve mushroom body
 Can’t evolve mushroom body
 Grow mushroom body
 Can’t grow mushroom body
