@@ -1,7 +1,7 @@
 package com.example;
 
 /**
- * The TectonSize enum represents different sizes of Tectons.
+ * A Tecton méretét reprezentáló enum.
  */
 public enum TectonSize {
     GIANT,

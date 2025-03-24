@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+/**
+ * A Skeleton osztály a tesztprogram vezérlésére szolgál.
+ */
 public class Skeleton {
     private static int lineCounter = 1;
     private static final String INDENT = "\t";

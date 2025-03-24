@@ -1,12 +1,11 @@
 package com.example;
 
 /**
- * Represents a Spore in the domain model.
- * Spores can be added to or removed from Tectons, and can affect Insects.
+ * A spóra osztályokat összefogó absztrakt osztály. Az általános tulajdonságokat valósítja meg.
  */
 public abstract class Spore {
     /**
-     * The amount of nutrients the Spore provides.
+     * A spóra tápanyagérték tartalmát tárolja a rovar számára.
      */
     protected int nutrientValue;
 
@@ -18,22 +17,25 @@ public abstract class Spore {
     }
 
     /**
-     * Effects the Insect that has eaten the Spore
-     * @param insect
+     * Absztrakt függvény, amit a leszármazottak valósítanak meg
+     * egyesével. A spóra hatását fejti ki a rovaron.
+     * @param insect A rovar amire hatni kell.
      */
     public abstract void takeEffectOn(Insect insect);
 
     /**
-     * Getter for the nutrient value of the spore.
-     * @return The nutrient value of the spore.
+     * Getter: Visszaadja a spóra tápanyagértékét.
+     *
+     * @return A spóra tápanyagértéke.
      */
     public int getNutrientValue() {
         return nutrientValue;
     }
 
     /**
-     * Setter for the nutrient value of the spore.
-     * @param nutrientValue The new nutrient value of the spore.
+     * Setter: Beállítja a spóra tápanyagértékét.
+     *
+     * @param nutrientValue A spóra tápanyagértéke.
      */
     public void setNutrientValue(int nutrientValue) {
         this.nutrientValue = nutrientValue;

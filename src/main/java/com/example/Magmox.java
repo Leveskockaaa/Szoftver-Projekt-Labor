@@ -1,22 +1,41 @@
 package com.example;
 
 /**
- * Magmox is a specific type of Tecton.
+ * A Magnox típusú tektonért felel.
+ *  *
+ *  * Ősosztály: Tecton -> Magnox
  */
 public class Magmox extends Tecton {
 
+    /**
+     * Amennyiben nincsen gombatest a
+     * tektonon és minden feltétel fennáll elhelyezi a paraaméterként kapott gombatestet a
+     * tektonon.
+     *
+     * @param mushroomBody A gombatest, amit el kell helyezni.
+     */
     @Override
     public void placeMushroomBody(MushroomBody mushroomBody) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'placeMushroomBody'");
+        return;
     }
 
+    /**
+     * Egy igaz-hamis érték, hogy a tektonon elhelyezhető-e
+     * gombafonal.
+     *
+     * @return true, ha elhelyezhető, különben false.
+     */
     @Override
     public boolean canAddMycelium() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'canAddMycelium'");
     }
 
+    /**
+     * Hozzáadja a tektonhoz a my fonalat.
+     *
+     * @param mycelium A hozzáadandó mycelium.
+     */
     @Override
     public void addMycelium(Mycelium mycelium) {
         Skeleton.logFunctionCall(this, "addMycelium", mycelium);

@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents Mycelium in the domain model.
- * Mycelium can be placed on Tectons, chewed by Insects, etc.
+ * A gombafonalakat kezelő osztály. Egy-egy fonal egységet valósít meg.
  */
 public class Mycelium {
     /**

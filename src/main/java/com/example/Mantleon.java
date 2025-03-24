@@ -1,22 +1,38 @@
 package com.example;
 
 /**
- * Mantleon is a specific type of Tecton.
+ * A Mantleon típusú tektonért felel.
+ *
+ * Ősosztály: Tecton -> Mantleon
  */
 public class Mantleon extends Tecton {
 
+    /**
+     * Mivel a Mantleon nem tartalmaz gombatestet, ezért a gombatestet kezelő metódusok nem csinálnak semmit.
+     */
     @Override
     public void placeMushroomBody(MushroomBody mushroomBody) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'placeMushroomBody'");
     }
 
+    /**
+     * Egy igaz-hamis érték, hogy a tektonon elhelyezhető-e
+     * gombafonal.
+     *
+     * @return true, ha elhelyezhető, különben false.
+     */
     @Override
     public boolean canAddMycelium() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'canAddMycelium'");
     }
 
+    /**
+     * Hozzáadja a tektonhoz a my fonalat.
+     *
+     * @param mycelium A hozzáadandó mycelium.
+     */
     @Override
     public void addMycelium(Mycelium mycelium) {
         Skeleton.logFunctionCall(this, "addMycelium", mycelium);
