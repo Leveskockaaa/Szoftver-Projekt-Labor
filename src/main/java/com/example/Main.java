@@ -5,6 +5,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 
+/**
+ * A fő osztály, amely a program belépési pontját tartalmazza.
+ */
 public class Main {
     public static void main(String[] args) throws IOException {
         String filePath = "src/main/resources/use-cases.txt";
@@ -18,7 +21,10 @@ public class Main {
             System.out.print("\nSelect use case (or type exit): ");
             String input = scanner.nextLine().trim();
             if (input.equals("exit")) break;
-
+            while (input.matches("[a-zA-Z]+")) {
+                System.out.print("Invalid input.\nSelect use case (or type exit): ");
+                input = scanner.nextLine().trim();
+            }
             int number = Integer.parseInt(input);
             if (number > useCases.size() || number < 1) {
                 System.out.println("Invalid number");
@@ -35,10 +41,31 @@ public class Main {
             System.out.println("Selected use case: " + useCase + "\n");
             invokeSkeletonMethod(methodName);
 
+            System.out.print("\nDo you want to continue? [y/n]: ");
+            String proceed = scanner.nextLine().trim();
+            boolean validInput = proceed.equals("y") || proceed.equals("n");
+            while (!validInput) {
+                System.out.print("Invalid input. \nDo you want to continue? [y/n]: ");
+                proceed = scanner.nextLine().trim();
+                validInput = proceed.equals("y") || proceed.equals("n");
+            }
+            if (proceed.equals("n")) {
+                break;
+            } else {
+                printUseCases(useCaseMap);
+            }
+
         }
         scanner.close();
     }
 
+    /**
+     * Beolvassa a megadott fájlból a használati esetek listáját és visszaadja egy Mapet.
+     *
+     * @param filePath A fájl elérési útja, amely a használati eseteket tartalmazza.
+     * @return Egy Map, amely a használati esetek nevét és a hozzájuk tartozó metódusneveket tartalmazza.
+     * @throws IOException Ha hiba történik a fájl beolvasása közben.
+     */
     private static Map<String, String> getUseCaseMap(String filePath) throws IOException {
         Map<String, String> useCaseMap = new LinkedHashMap<>();
         List<String> lines = Files.readAllLines(Path.of(filePath));
@@ -51,6 +78,11 @@ public class Main {
         return useCaseMap;
     }
 
+    /**
+     * Kiírja a konzolra az elérhető használati esetek listáját.
+     *
+     * @param useCaseMap A használati esetek nevét és a hozzájuk tartozó metódusneveket tartalmazó Map.
+     */
     private static void printUseCases(Map<String,String> useCaseMap) {
         System.out.println("Available use cases:");
         int useCaseCount = 1;
@@ -61,6 +93,11 @@ public class Main {
         }
     }
 
+    /**
+     * Meghívja a Skeleton osztályban található metódust a megadott metódusnév alapján.
+     *
+     * @param methodName A meghívandó metódus neve.
+     */
     private static void invokeSkeletonMethod(String methodName) {
         try {
             Class<?> skeletonClass = Skeleton.class;

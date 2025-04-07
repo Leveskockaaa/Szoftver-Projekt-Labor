@@ -1,8 +1,15 @@
 package com.example;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
+/**
+ * A Skeleton osztály a tesztprogram vezérlésére szolgál.
+ */
 public class Skeleton {
     private static int lineCounter = 1;
     private static final String INDENT = "\t";
@@ -10,6 +17,21 @@ public class Skeleton {
     private static final Scanner scanner = new Scanner(System.in);
 
     private static HashMap<Object, String> nameMap = new HashMap<>();
+
+    /**
+     * Visszaadja a megadott névhez tartozó objektumot a nameMap-ből.
+     *
+     * @param name A keresett név.
+     * @return Az objektum, amelyhez a név tartozik, vagy null, ha nem található.
+     */
+    public static Object getFromNameMap(String name) {
+        for (Object o : nameMap.keySet()) {
+            if (nameMap.get(o).equals(name)) {
+                return o;
+            }
+        }
+        return null;
+    }
 
     /*  Private constructor */
     public Skeleton() { }
@@ -19,19 +41,27 @@ public class Skeleton {
         return (number < 10 ? "0" : "") + number;
     }
 
+    private static String formatText(String text) {
+        int textLength = text.length();
+        int maxLength = 54;
+        int padding = (maxLength - textLength) / 2;
+        String leftPadding = "-".repeat(padding) + " ";
+        String rightPadding = " " + "-".repeat(maxLength - textLength - padding);
+        return leftPadding + text + rightPadding;
+    }
+
     /*  Starts a new test case, resetting the line counter and indentation depth.
         Prints a header with the test case name. */
     public static void initTestCase(String testCase) {
         lineCounter = 1;
         depth = 1;
         System.out.println();
-        System.out.println("---------- " + testCase + " ----------");
+        System.out.println(formatText(testCase));
     }
 
     public static void finishTestCase(String testCase) {
-        System.out.println("---------- " + testCase + " ----------");
+        System.out.println(formatText(testCase));
         System.out.println();
-
     }
 
     /*  Logs a function call with indentation based on the call depth.
@@ -83,12 +113,32 @@ public class Skeleton {
         nameMap.put(o, instanceName);
     }
 
+    public static void logCreateInstances() {
+        System.out.println(formatText("Create Instances"));
 
+    }
+    public static void logInitializationFunctionCalls() {
+        System.out.println(formatText("Initialization"));
+    }
+    public static void logSequencyDiagramStart() {
+        System.out.println(formatText("Sequency Diagram Elements"));
+    }
+
+    /**
+     * A felhasználó kiadja a parancsot, hogy a rovar egy spórát megegyen.
+     * Ekkora azon a tektonon amin a rovar áll a spórák közöl a legrégebben
+     * ott lévő megevésre kerül (ebben az esetben ez egy Hyphara spóra), 
+     * tehát a tektonról (ami ebben az esetben egy Transix tekton, de ennek
+     * nincsen jelentősége lehetne Orogenixen kívül az összes) eltűnik, a
+     * rovarász pontjaihoz adódik és a rovar sebességét megnöveli
+     * másfélszeresére. 
+     */
     public static void insectEatHypahraSpore() {
 
         initTestCase("Insect eats Hypahra spore ");
 
         // Create instances
+        logCreateInstances();
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
         
@@ -101,11 +151,12 @@ public class Skeleton {
         HypharaSpore s1 = new HypharaSpore();
         logCreateInstance(s1, "HypharaSpore", "s1");
     
+        logInitializationFunctionCalls();
         i1.enableEating();
         t1.placeInsect(i1);
         t1.addSpore(s1);
 
-
+        logSequencyDiagramStart();
         // Log function calls
         i1.eatSpore();
 
@@ -113,12 +164,15 @@ public class Skeleton {
 
     }
 
+    /**
+     * A felhasználó kiadja a parancsot, amivel visszaállítja
+     * a rovar eredeti sebességét.
+     */
     public static void hypharaLosesEffect() {
         initTestCase("Hyphara loses effect");
 
         // Create instances
-
-
+        logCreateInstances();
         Insect i1 = new Insect(new Entomologist("e1"));
         logCreateInstance(i1, "Insect", "i1");
 
@@ -126,19 +180,31 @@ public class Skeleton {
         logCreateInstance(t1, "Transix", "t1");
 
 
-        // Log function calls
+        // Log init function calls
+        logInitializationFunctionCalls();
         i1.setSpeed(0.1f);
         t1.placeInsect(i1);
 
+        // Log sequence function calls
+        logSequencyDiagramStart();
         i1.setSpeed(1.0f);
 
         finishTestCase("Hyphara loses effect");
     }
 
+    /**
+     * A felhasználó kiadja a parancsot, hogy a rovar egy spórát megegyen.
+     * Ekkora azon a tektonon amin a rovar áll a spórák közöl a legrégebben
+     * ott lévő megevésre kerül (ebben az esetben ez egy Gilledon spóra),
+     * tehát a tektonról (ami ebben az esetben egy Transix tekton, de
+     * ennek nincsen jelentősége lehetne Orogenixen kívül az összes) eltűnik,
+     * a rovarász pontjaihoz adódik és a rovar sebességét lecsökkenti kétharmadára
+     */
     public static void insectEatsGilledonSpore() {
         initTestCase("Insect eats Gilledon spore");
 
         // Create instances
+        logCreateInstances();
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
 
@@ -151,24 +217,29 @@ public class Skeleton {
         GilledonSpore s1 = new GilledonSpore();
         logCreateInstance(s1, "GilledonSpore", "s1");
 
-
-        // Log function calls
+        // Log init function calls
+        logInitializationFunctionCalls();
 
         t1.placeInsect(i1);
         t1.addSpore(s1);
         i1.enableEating();
 
+        // Log sequence function calls
+        logSequencyDiagramStart();
         i1.eatSpore();
 
-
         finishTestCase("Insect eats Gilledon spore");
-
-
     }
+
+    /**
+     * A felhasználó kiadja a parancsot, amivel visszaállítja
+     * a rovar eredeti sebességét. 
+     */
     public static void gilledonLosesEffect() {
         initTestCase("Gilledon loses effect");
 
         // Create instances
+        logCreateInstances();
         Insect i1 = new Insect(new Entomologist("e1"));
         logCreateInstance(i1, "Insect", "i1");
 
@@ -176,18 +247,31 @@ public class Skeleton {
         logCreateInstance(t1, "Transix", "t1");
 
 
-        // Log function calls
+        // Log initislization function calls
+        logInitializationFunctionCalls();
         i1.setSpeed(0.1f);
         t1.placeInsect(i1);
 
+        // Log sequence function calls
+        logSequencyDiagramStart();
         i1.setSpeed(1.0f);
 
         finishTestCase("Gilledon loses effect");
     }
+
+    /**
+     * A felhasználó kiadja a parancsot, hogy a rovar egy spórát megegyen.
+     * Ekkora azon a tektonon amin a rovar áll a spórák közöl a legrégebben
+     * ott lévő megevésre kerül (ebben az esetben ez egy Poralia spóra),
+     * tehát a tektonról (ami ebben az esetben egy Transix tekton, de ennek
+     * nincsen jelentősége lehetne Orogenixen kívül az összes) eltűnik, a
+     * rovarász pontjaihoz adódik és a rovart megbénítja. 
+     */
     public static void insectEatsPoraliaSpore () {
         initTestCase("Insect eats Poralia spore");
 
         // Create instances
+        logCreateInstances();
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
 
@@ -200,20 +284,26 @@ public class Skeleton {
         PoraliaSpore s1 = new PoraliaSpore();
         logCreateInstance(s1, "PoraliaSpore", "s1");
 
-        // Log function calls
-
+        // Log initialization function calls
+        logInitializationFunctionCalls();
         i1.enableEating();
         t1.placeInsect(i1);
         t1.addSpore(s1);
 
+        // Log sequence function calls
+        logSequencyDiagramStart();
         i1.eatSpore();
 
         finishTestCase("Insect eats Poralia spore");
     }
+    /**
+     * A felhasználó kiadja a parancsot, amivel feloldja a rovar bénítását. 
+     */
     public static void poraliaLosesEffect () {
         initTestCase("Poralia loses effect");
 
         // Create instances
+        logCreateInstances();
         Insect i1 = new Insect(new Entomologist("e1"));
         logCreateInstance(i1, "Insect", "i1");
 
@@ -221,19 +311,32 @@ public class Skeleton {
         logCreateInstance(t1, "Transix", "t1");
 
 
-        // Log function calls
+        // Log initialization function calls
+        logInitializationFunctionCalls();
         i1.paralize();
         t1.placeInsect(i1);
 
+        // Log sequence function calls
+        logSequencyDiagramStart();
         i1.unParalized();
 
         finishTestCase("Poralia loses effect");
 
     }
+    /**
+     * A felhasználó kiadja a parancsot, hogy a rovar egy spórát megegyen.
+     * Ekkora azon a tektonon amin a rovar áll a spórák közöl a legrégebben
+     * ott lévő megevésre kerül (ebben az esetben ez egy Capulon spóra),
+     * tehát a tektonról (ami ebben az esetben egy Transix tekton, de ennek
+     * nincsen jelentősége lehetne Orogenixen kívül az összes) eltűnik, a
+     * rovarász pontjaihoz adódik és a rovarnak elveszi a fonalak elrágásának
+     * képességét. 
+     */
     public static void insectEatCapulonSpore() {
         initTestCase("Insect eats Capulon spore");
 
         // Create instances
+        logCreateInstances();
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
 
@@ -246,20 +349,26 @@ public class Skeleton {
         CapulonSpore s1 = new CapulonSpore();
         logCreateInstance(s1, "CapulonSpore", "s1");
 
-        // Log function calls
-
+        // Log initialization function calls
+        logInitializationFunctionCalls();
         i1.enableEating();
         t1.placeInsect(i1);
         t1.addSpore(s1);
 
+        // Log sequence function calls
+        logSequencyDiagramStart();
         i1.eatSpore();
 
         finishTestCase("Insect eats Capulon spore");
     }
+    /**
+     * A felhasználó kiadja a parancsot, amivel visszaadja a fonalak elrágásának képességét. 
+     */
     public static void capulonLosesEffect() {
         initTestCase("Capulon loses effect");
 
         // Create instances
+        logCreateInstances();
         Insect i1 = new Insect(new Entomologist("e1"));
         logCreateInstance(i1, "Insect", "i1");
 
@@ -267,19 +376,29 @@ public class Skeleton {
         logCreateInstance(t1, "Transix", "t1");
 
 
-        // Log function calls
+        // Log initialization function calls
+        logInitializationFunctionCalls();
         i1.disableChewMycelium();
         t1.placeInsect(i1);
 
+        // Log sequence function calls
+        logSequencyDiagramStart();
         i1.enableEating();
 
         finishTestCase("Capulon loses effect");
     }
+    /**
+     * A felhasználó kiadja a parancsot, hogy a rovar egy spórát megegyen miközben
+     * a rovar egy Orogenix tektonon tartózkodik. Ekkora azon a tektonon amin a
+     * rovar áll a spórák közöl a legrégebben ott lévő megevésre kerül (ebben az
+     * esetben ez egy Capulon spóra, de ennek nincsen jelentősége, lehetne bármilyen),
+     * tehát a tektonról eltűnik, a rovarász pontjaihoz adódik. 
+     */
     public static void insectEatsSporeOnOrogenix() {
         initTestCase("Insect eats spore on Orogenix");
 
         // Create instances
-
+        logCreateInstances();
         Orogenix t1 = new Orogenix();
         logCreateInstance(t1, "Orogenix", "t1");
 
@@ -292,21 +411,31 @@ public class Skeleton {
         CapulonSpore s1 = new CapulonSpore();
         logCreateInstance(s1, "CapulonSpore", "s1");
 
-        // Log function calls
-
+        // Log initialization function calls
+        logInitializationFunctionCalls();
         i1.enableEating();
         t1.placeInsect(i1);
         t1.addSpore(s1);
 
+        // Log sequence function calls
+        logSequencyDiagramStart();
         i1.eatSpore();
 
         finishTestCase("Insect eats spore on Orogenix");
     }
 
+    /**
+     * A rovar áthelyezése egy Transix típusú Tecton-ra.
+     *
+     * Ez a teszteset inicializálja a szükséges objektumokat, beállítja a kezdeti állapotokat,
+     * majd végrehajtja a rovar áthelyezését egy másik Tecton-ra.
+     * A rovar először egy Transix típusú Tecton-on helyezkedik el, majd egy másik Transix típusú Tecton-ra mozog.
+     * A teszteset során a micéliumok és a szomszédos Tecton-ok is inicializálásra kerülnek.
+     */
     public static void insectMovesToTransix() {
         initTestCase("Insect can move to Transix");
 
-        // Create instances
+        logCreateInstances();
 
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
@@ -326,7 +455,7 @@ public class Skeleton {
         Insect i1 = new Insect(e1);
         logCreateInstance(i1, "Insect", "i1");
 
-        // Log init function calls
+        logInitializationFunctionCalls();
 
         t1.placeInsect(i1);
         t1.addMycelium(my1);
@@ -339,16 +468,25 @@ public class Skeleton {
 
         i1.unParalized();
 
-        // Log sequence function calls
-        System.out.println("-----------------");
+        logSequencyDiagramStart();
 
         i1.moveTo(t2);
+
+        finishTestCase("Insect can move to Transix");
     }
 
+    /**
+     * A rovar áthelyezése egy Magmox típusú Tecton-ra.
+     *
+     * Ez a teszteset inicializálja a szükséges objektumokat, beállítja a kezdeti állapotokat,
+     * majd végrehajtja a rovar áthelyezését egy másik Tecton-ra.
+     * A rovar először egy Transix típusú Tecton-on helyezkedik el, majd egy Magmox típusú Tecton-ra mozog.
+     * A teszteset során a micéliumok és a szomszédos Tecton-ok is inicializálásra kerülnek.
+     */
     public static void insectMovesToMagmox() {
         initTestCase("Insect can move to Magmox");
 
-        // Create instances
+        logCreateInstances();
 
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
@@ -368,7 +506,7 @@ public class Skeleton {
         Insect i1 = new Insect(e1);
         logCreateInstance(i1, "Insect", "i1");
 
-        // Log init function calls
+        logInitializationFunctionCalls();
 
         t1.placeInsect(i1);
         t1.addMycelium(my1);
@@ -381,16 +519,25 @@ public class Skeleton {
 
         i1.unParalized();
 
-        // Log sequence function calls
-        System.out.println("-----------------");
+        logSequencyDiagramStart();
 
         i1.moveTo(t2);
+
+        finishTestCase("Insect can move to Magmox");
     }
 
+    /**
+     * A rovar áthelyezése egy Mantleon típusú Tecton-ra.
+     *
+     * Ez a teszteset inicializálja a szükséges objektumokat, beállítja a kezdeti állapotokat,
+     * majd végrehajtja a rovar áthelyezését egy másik Tecton-ra.
+     * A rovar először egy Transix típusú Tecton-on helyezkedik el, majd egy Mantleon típusú Tecton-ra mozog.
+     * A teszteset során a micéliumok és a szomszédos Tecton-ok is inicializálásra kerülnek.
+     */
     public static void insectMovesToMantleon() {
         initTestCase("Insect can move to Mantleon");
 
-        // Create instances
+        logCreateInstances();
 
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
@@ -410,7 +557,7 @@ public class Skeleton {
         Insect i1 = new Insect(e1);
         logCreateInstance(i1, "Insect", "i1");
 
-        // Log init function calls
+        logInitializationFunctionCalls();
 
         t1.placeInsect(i1);
         t1.addMycelium(my1);
@@ -423,16 +570,25 @@ public class Skeleton {
 
         i1.unParalized();
 
-        // Log sequence function calls
-        System.out.println("-----------------");
+        logSequencyDiagramStart();
 
         i1.moveTo(t2);
+
+        finishTestCase("Insect can move to Mantleon");
     }
 
+    /**
+     * A rovar áthelyezése egy Orogenix típusú Tecton-ra.
+     *
+     * Ez a teszteset inicializálja a szükséges objektumokat, beállítja a kezdeti állapotokat,
+     * majd végrehajtja a rovar áthelyezését egy másik Tecton-ra.
+     * A rovar először egy Transix típusú Tecton-on helyezkedik el, majd egy Orogenix típusú Tecton-ra mozog.
+     * A teszteset során a micéliumok és a szomszédos Tecton-ok is inicializálásra kerülnek.
+     */
     public static void insectMovesToOrogenix() {
         initTestCase("Insect can move to Orogenix");
 
-        // Create instances
+        logCreateInstances();
 
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
@@ -452,7 +608,7 @@ public class Skeleton {
         Insect i1 = new Insect(e1);
         logCreateInstance(i1, "Insect", "i1");
 
-        // Log init function calls
+        logInitializationFunctionCalls();
 
         t1.placeInsect(i1);
         t1.addMycelium(my1);
@@ -465,16 +621,25 @@ public class Skeleton {
 
         i1.unParalized();
 
-        // Log sequence function calls
-        System.out.println("-----------------");
+        logSequencyDiagramStart();
 
         i1.moveTo(t2);
+
+        finishTestCase("Insect can move to Orogenix");
     }
 
+    /**
+     * A rovar nem tud áthelyeződni egy másik Tecton-ra, mert az foglalt.
+     *
+     * Ez a teszteset inicializálja a szükséges objektumokat, beállítja a kezdeti állapotokat,
+     * majd megpróbálja a rovar áthelyezését egy másik Tecton-ra, amely már foglalt.
+     * A rovar először egy Transix típusú Tecton-on helyezkedik el, majd megpróbál egy másik Transix típusú Tecton-ra mozogni,
+     * de az már foglalt egy másik rovar által.
+     */
     public static void insectCantMoveOccupied() {
         initTestCase("Insect can't move due to occupied Tecton");
 
-        // Create instances
+        logCreateInstances();
 
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
@@ -500,7 +665,7 @@ public class Skeleton {
         Insect i2 = new Insect(e2);
         logCreateInstance(i2, "Insect", "i2");
 
-        // Log init function calls
+        logInitializationFunctionCalls();
 
         t1.placeInsect(i1);
         t1.addMycelium(my1);
@@ -515,16 +680,25 @@ public class Skeleton {
         i1.unParalized();
         i2.unParalized();
 
-        // Log sequence function calls
-        System.out.println("-----------------");
+        logSequencyDiagramStart();
 
         i1.moveTo(t2);
+
+        finishTestCase("Insect can't move due to occupied Tecton");
     }
 
+    /**
+     * A rovar nem tud áthelyeződni egy másik Tecton-ra, mert nincs kapcsolat.
+     *
+     * Ez a teszteset inicializálja a szükséges objektumokat, beállítja a kezdeti állapotokat,
+     * majd megpróbálja a rovar áthelyezését egy másik Tecton-ra, amelyhez nincs kapcsolat.
+     * A rovar először egy Transix típusú Tecton-on helyezkedik el, majd megpróbál egy másik Transix típusú Tecton-ra mozogni,
+     * de nincs kapcsolat a két Tecton között.
+     */
     public static void insectCantMoveNoConnection() {
         initTestCase("Insect can't move due to no connection");
 
-        // Create instances
+        logCreateInstances();
 
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
@@ -544,7 +718,7 @@ public class Skeleton {
         Insect i1 = new Insect(e1);
         logCreateInstance(i1, "Insect", "i1");
 
-        // Log init function calls
+        logInitializationFunctionCalls();
 
         t1.placeInsect(i1);
         t1.addMycelium(my1);
@@ -555,16 +729,24 @@ public class Skeleton {
 
         i1.unParalized();
 
-        // Log sequence function calls
-        System.out.println("-----------------");
+        logSequencyDiagramStart();
 
         i1.moveTo(t2);
+
+        finishTestCase("Insect can't move due to no connection");
     }
 
+    /**
+     * A rovar elrág egy micéliumot.
+     *
+     * Ez a teszteset inicializálja a szükséges objektumokat, beállítja a kezdeti állapotokat,
+     * majd végrehajtja a rovar által a micélium elrágását.
+     * A rovar először egy Transix típusú Tecton-on helyezkedik el, majd elrág egy micéliumot, amely összeköti a két Tecton-t.
+     */
     public static void insectChewsMycelium() {
         initTestCase("Insect chews mycelium");
 
-        // Create instances
+        logCreateInstances();
 
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
@@ -584,7 +766,7 @@ public class Skeleton {
         Insect i1 = new Insect(e1);
         logCreateInstance(i1, "Insect", "i1");
 
-        // Log init function calls
+        logInitializationFunctionCalls();
 
         t1.placeInsect(i1);
         t1.addMycelium(my1);
@@ -597,16 +779,25 @@ public class Skeleton {
 
         i1.enableToChewMycelium();
 
-        // Log sequence function calls
-        System.out.println("-----------------");
+        logSequencyDiagramStart();
 
-        i1.chewMycelium(my1, my2);
+        i1.chewMycelium(my1);
+
+        finishTestCase("Insect chews mycelium");
     }
 
+    /**
+     * A rovar nem tud elrágni egy micéliumot.
+     *
+     * Ez a teszteset inicializálja a szükséges objektumokat, beállítja a kezdeti állapotokat,
+     * majd megpróbálja a rovar által a micélium elrágását, de a rovar nem képes erre.
+     * A rovar először egy Transix típusú Tecton-on helyezkedik el, majd megpróbál elrágni egy micéliumot,
+     * de a rovar nem képes erre, mert a micélium rágás le van tiltva.
+     */
     public static void insectCantChewMycelium() {
         initTestCase("Insect can't chew mycelium");
 
-        // Create instances
+        logCreateInstances();
 
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
@@ -626,7 +817,7 @@ public class Skeleton {
         Insect i1 = new Insect(e1);
         logCreateInstance(i1, "Insect", "i1");
 
-        // Log init function calls
+        logInitializationFunctionCalls();
 
         t1.placeInsect(i1);
         t1.addMycelium(my1);
@@ -639,15 +830,33 @@ public class Skeleton {
 
         i1.disableChewMycelium();
 
-        // Log sequence function calls
-        System.out.println("-----------------");
+        logSequencyDiagramStart();
 
-        i1.chewMycelium(my1, my2);
+        i1.chewMycelium(my1);
+
+        finishTestCase("Insect can't chew mycelium");
     }
 
+    /**
+     * Amikor a User elindítja a tesztesetet, akkor a létrehozott
+     * három tekton, ami ebben az esetben három különböző típusú,
+     * de itt akármilyen típusúak is lehetnek ezek a tektonok,
+     * kialakítja egymás között a szomszédságokat úgy, hogy
+     * mindegyik tektonnak legalább két szomszédja legyen. Ez a
+     * végleges programban majd 10 tekton szomszédságainak a
+     * kialakítását jelenti majd, de mivel ennek az ábrázolása
+     * redundáns lett volna, ezért csak három tektonon mutattam be
+     * a folyamatot. A szomszédságok kialakítása mindig párosával
+     * történik, azaz ha az egyik tekton szomszédja egy másiknak,
+     * akkor a másik is az egyiknek.
+     */
     public static void initializeStartingTectons() {
         initTestCase("Initialize starting Tectons");
         // Create instances
+        logCreateInstances();
+        GameTable gt = new GameTable();
+        logCreateInstance(gt, "GameTable", "gt");
+
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
 
@@ -657,22 +866,30 @@ public class Skeleton {
         Orogenix t3 = new Orogenix();
         logCreateInstance(t3, "Orogenix", "t3");
 
-        // Log function call
+        gt.setTectons(new ArrayList<>(Arrays.asList(t1, t2, t3)));
         //Szekvencia diagram
-        //gametable.init();
-        t1.addTectonToNeighbors(t2);
-        //t2.addTectonToNeighbors(t3);
-        //t3.addTectonToNeighbors(t1);
+        logSequencyDiagramStart();
+        gt.initialize();
 
         finishTestCase("Initialize starting Tectons");
     }
 
-    public static void breakTectonApart() {
-        initTestCase("Break Tecton apart");
-        Hyphara mb = null;
-        Mycelium my = null;
-        Insect i = null;
+    /**
+     * A User kiadja a teszteset indítását jelentő hívást a kettétörni
+     * kívánt tektonon. Ebben a példában az összes tekton típusa
+     * Transix, de mivel a példán nem változtat bármelyik típus
+     * lehetett volna a Mantleont leszámítva. Ez a tekton ekkor
+     * létrehoz két új tektont és amennyiben van rajta gombatest és
+     * rovar, akkor azokat eldönti, hogy a kettő új tekton közül
+     * melyikre rakja át. Ezután a kettétörő tekton elosztja
+     * szomszédjait a kettő új tekton között és beállítja ezeket a
+     * szomszédságokat. Ebben az esetben most a kettétörő tektonon nincsen
+     * gombatest és rovar, így az új tektonokon sem lesznek.
+     */
+    public static void breakTectonApartWithoutInsectOrMushroomBody() {
+        initTestCase("Break Tecton apart without Insect or Mushroombody");
         // Create instances
+        logCreateInstances();
         Transix t = new Transix();
         logCreateInstance(t, "Transix", "t");
 
@@ -682,42 +899,157 @@ public class Skeleton {
         Transix neigh2 = new Transix();
         logCreateInstance(neigh2, "Transix", "neigh2");
 
-        boolean hasMushroomBody = logBranch("Legyen a tektonon gomba test?");
-        if (hasMushroomBody) {
-            mb = new Hyphara(t);
-            logCreateInstance(mb, "Hyphara", "mb");
-
-            my = new Mycelium(t);
-            logCreateInstance(my, "Mycelium", "my");
-        }
-
-        boolean hasInsect = logBranch("Legyen a tektonon rovar?");
-        if (hasInsect) {
-            i = new Insect(new Entomologist("e1"));
-            logCreateInstance(i, "Insect", "i");
-        }
-
-
-        //TODO kommunikációs diagram
-        if (hasInsect) {
-            t.placeInsect(i);
-        }
-        if (hasMushroomBody) {
-            t.placeMushroomBody(mb);
-            t.addMycelium(my);
-        }
+        logInitializationFunctionCalls();
         t.addTectonToNeighbors(neigh1);
         t.addTectonToNeighbors(neigh2);
 
-        //TODO Szekvencia diagram
+        logSequencyDiagramStart();
         t.breakApart();
 
-        finishTestCase("Break Tecton apart");
+        finishTestCase("Break Tecton apart without Insect or Mushroombody");
     }
 
+    /**
+     * A User kiadja a teszteset indítását jelentő hívást a kettétörni
+     * kívánt tektonon. Ebben a példában az összes tekton típusa
+     * Transix, de mivel a példán nem változtat bármelyik típus
+     * lehetett volna a Mantleont leszámítva. Ez a tekton ekkor
+     * létrehoz két új tektont és amennyiben van rajta gombatest és
+     * rovar, akkor azokat eldönti, hogy a kettő új tekton közül
+     * melyikre rakja át. Ezután a kettétörő tekton elosztja
+     * szomszédjait a kettő új tekton között és beállítja ezeket a
+     * szomszédságokat. Ebben az esetben most a kettétörő tektonon van
+     * rovar, így az egyik új tektonon is lesz.
+     */
+    public static void breakTectonApartWithInsect() {
+        initTestCase("Break Tecton apart with Insect");
+        // Create instances
+        logCreateInstances();
+        Transix t = new Transix();
+        logCreateInstance(t, "Transix", "t");
+
+        Insect i = new Insect(new Entomologist("e1"));
+        logCreateInstance(i, "Insect", "i");
+
+        Transix neigh1 = new Transix();
+        logCreateInstance(neigh1, "Transix", "neigh1");
+
+        Transix neigh2 = new Transix();
+        logCreateInstance(neigh2, "Transix", "neigh2");
+
+        logInitializationFunctionCalls();
+        t.placeInsect(i);
+        t.addTectonToNeighbors(neigh1);
+        t.addTectonToNeighbors(neigh2);
+
+        logSequencyDiagramStart();
+        t.breakApart();
+
+        finishTestCase("Break Tecton apart with Insect");
+    }
+
+    /**
+     * A User kiadja a teszteset indítását jelentő hívást a kettétörni
+     * kívánt tektonon. Ebben a példában az összes tekton típusa
+     * Transix, de mivel a példán nem változtat bármelyik típus
+     * lehetett volna a Mantleont leszámítva. Ez a tekton ekkor
+     * létrehoz két új tektont és amennyiben van rajta gombatest és
+     * rovar, akkor azokat eldönti, hogy a kettő új tekton közül
+     * melyikre rakja át. Ezután a kettétörő tekton elosztja
+     * szomszédjait a kettő új tekton között és beállítja ezeket a
+     * szomszédságokat. Ebben az esetben most a kettétörő tektonon van
+     * gombatest, így az egyik új tektonon is lesz.
+     */
+    public static void breakTectonApartWithMushroomBody() {
+        initTestCase("Break Tecton apart with MushroomBody");
+        // Create instances
+        logCreateInstances();
+        Transix t = new Transix();
+        logCreateInstance(t, "Transix", "t");
+
+        Hyphara mb = new Hyphara(t);
+        logCreateInstance(mb, "Hyphara", "mb");
+
+        Mycelium my = new Mycelium(t);
+        logCreateInstance(my, "Mycelium", "my");
+
+        Transix neigh1 = new Transix();
+        logCreateInstance(neigh1, "Transix", "neigh1");
+
+        Transix neigh2 = new Transix();
+        logCreateInstance(neigh2, "Transix", "neigh2");
+
+        logInitializationFunctionCalls();
+        t.placeMushroomBody(mb);
+        t.addMycelium(my);
+
+        t.addTectonToNeighbors(neigh1);
+        t.addTectonToNeighbors(neigh2);
+
+        logSequencyDiagramStart();
+        t.breakApart();
+
+        finishTestCase("Break Tecton apart with MushroomBody");
+    }
+
+    /**
+     * A User kiadja a teszteset indítását jelentő hívást a kettétörni
+     * kívánt tektonon. Ebben a példában az összes tekton típusa
+     * Transix, de mivel a példán nem változtat bármelyik típus
+     * lehetett volna a Mantleont leszámítva. Ez a tekton ekkor
+     * létrehoz két új tektont és amennyiben van rajta gombatest és
+     * rovar, akkor azokat eldönti, hogy a kettő új tekton közül
+     * melyikre rakja át. Ezután a kettétörő tekton elosztja
+     * szomszédjait a kettő új tekton között és beállítja ezeket a
+     * szomszédságokat. Ebben az esetben most a kettétörő tektonon van
+     * gombatest és rovar, így ezek az új tektonokon is lesznek. De
+     * nem duplikálódnak, hanem az eredeti tektonról átkerülnek az újakra.
+     */
+    public static void breakTectonApartWithInsectAndMushroomBody() {
+        initTestCase("Break Tecton apart with Insect and MushroomBody");
+        // Create instances
+        logCreateInstances();
+        Transix t = new Transix();
+        logCreateInstance(t, "Transix", "t");
+
+        Insect i = new Insect(new Entomologist("e1"));
+        logCreateInstance(i, "Insect", "i");
+
+        Hyphara mb = new Hyphara(t);
+        logCreateInstance(mb, "Hyphara", "mb");
+
+        Mycelium my = new Mycelium(t);
+        logCreateInstance(my, "Mycelium", "my");
+
+        Transix neigh1 = new Transix();
+        logCreateInstance(neigh1, "Transix", "neigh1");
+
+        Transix neigh2 = new Transix();
+        logCreateInstance(neigh2, "Transix", "neigh2");
+
+        logInitializationFunctionCalls();
+        t.placeInsect(i);
+
+        t.placeMushroomBody(mb);
+        t.addMycelium(my);
+
+        t.addTectonToNeighbors(neigh1);
+        t.addTectonToNeighbors(neigh2);
+
+        logSequencyDiagramStart();
+        t.breakApart();
+
+        finishTestCase("Break Tecton apart with Insect and MushroomBody");
+    }
+
+    /**
+     * Létrehozunk két tektont (melyek típusa mindegy, a példákban Transix szerepel) és
+     * egy gombafonalat rakunk az egyikre. Ekkor átnövünk a gombafonállal a másik tektonra.
+     */
     public static void growMycelium() {
         Skeleton.initTestCase("growMycelium");
 
+        logCreateInstances();
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
         Transix t2 = new Transix();
@@ -725,18 +1057,27 @@ public class Skeleton {
         Mycelium my = new Mycelium(t1);
         logCreateInstance(my, "Mycelium", "my");
 
+        logInitializationFunctionCalls();
         t1.addTectonToNeighbors(t2);
         t1.addMycelium(my);
         my.enableGrowth();
 
+        logSequencyDiagramStart();
         my.createNewBranch(t2);
 
         Skeleton.finishTestCase("growMycelium");
     }
 
+    /**
+     * Létrehozunk két tektont (melyek típusa majdnem mindegy, a példákban Transix szerepel,
+     * de Magmoxon kívül bármelyik lehetne) és egy gombafonalat rakunk az egyikre, míg
+     * a másikra kettőt (Magmox esetében 1 lehetne csak, így annyit tennénk ide).
+     * Ekkor megpróbálunk átnőni a gombafonállal a másik tektonra, de nem tudunk.
+     */
     public static void cantGrowMycelium() {
         Skeleton.initTestCase("cantGrowMycelium");
 
+        logCreateInstances();
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
         Transix t2 = new Transix();
@@ -748,19 +1089,28 @@ public class Skeleton {
         Mycelium my3 = new Mycelium(t2);
         logCreateInstance(my3, "Mycelium", "my3");
 
+        logInitializationFunctionCalls();
         t1.addTectonToNeighbors(t2);
         t1.addMycelium(my1);
         t2.addMycelium(my2);
         t2.addMycelium(my3);
 
+        logSequencyDiagramStart();
         my1.createNewBranch(t2);
 
         Skeleton.finishTestCase("cantGrowMycelium");
     }
 
+    /**
+     * Készítünk egy tektont (melynek típusa majdnem mindegy, a példákban Transix szerepel,
+     * egyedül Mantleon nem lehetne, mert azon nem tud nőni gombatest) amire elhelyezünk
+     * egy gombafonalat, illetve elegendő spórát ahhoz, hogy bármely gombatípusból képesek
+     * legyünk egy gombatestet létrehozni rajta. A gombatest így létre tud jönni.
+     */
     public static void growMushroomBody() {
         Skeleton.initTestCase("growMushroomBody");
 
+        logCreateInstances();
         Transix t = new Transix();
         logCreateInstance(t, "Transix", "t");
         Mycelium my = new Mycelium(t);
@@ -768,34 +1118,50 @@ public class Skeleton {
         HypharaSpore sp = new HypharaSpore();
         logCreateInstance(sp, "HypharaSpore", "sp");
 
+        logInitializationFunctionCalls();
         t.addMycelium(my);
         for(int n = 0; n < 20; n++){
             t.addSpore(sp);
         }
 
+        logSequencyDiagramStart();
         my.developMushroomBody();
 
         Skeleton.finishTestCase("growMushroomBody");
     }
 
+    /**
+     * Készítünk egy tektont (melynek típusa mindegy, a példákban Transix szerepel)
+     * amire elhelyezünk egy gombafonalat, csak most nem helyezünk el spórákat mellé.
+     * A gombatest így nem tud létrejönni.
+     */
     public static void cantGrowMushroomBody() {
         Skeleton.initTestCase("cantGrowMushroomBody");
 
+        logCreateInstances();
         Transix t = new Transix();
         logCreateInstance(t, "Transix", "t");
         Mycelium my = new Mycelium(t);
         logCreateInstance(my, "Mycelium", "my");
 
+        logInitializationFunctionCalls();
         t.addMycelium(my);
 
+        logSequencyDiagramStart();
         my.developMushroomBody();
 
         Skeleton.finishTestCase("cantGrowMushroomBody");
     }
 
+    /**
+     * Készítünk két tektont, és az egyikre elhelyezünk egy gombatestet
+     * (ami a példában Hyphara, de egyébként bármelyik típus lehetne),
+     * így tudunk sprórát szórni a másik tektonra.
+     */
     public static void spreadSpores() {
         Skeleton.initTestCase("spreadSpores");
 
+        logCreateInstances();
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
         Transix t2 = new Transix();
@@ -804,19 +1170,30 @@ public class Skeleton {
         logCreateInstance(mb, "Hyphara", "mb");
         Mycologist mc = new Mycologist("Player 1");
         logCreateInstance(mc, "Mycologist", "mc");
-        mb.setMycologist(mc);
 
+        logInitializationFunctionCalls();
+        mb.setMycologist(mc);
         t1.addTectonToNeighbors(t2);
         t1.placeMushroomBody(mb);
 
+        logSequencyDiagramStart();
         mb.spreadSpores();
 
         Skeleton.finishTestCase("spreadSpores");
     }
 
+    /**
+     * Készítünk két tektont (melyek típusa mindegy, a példákban Transix szerepel),
+     * és az egyikre elhelyezünk egy gombatestet (ami a példában Hyphara, de majdnem
+     * ugyanígy nézne ki más gombatestekkel is), és szórunk n-1 spórát, ahol n az a
+     * maximális spóra szórások száma az adott gombafajra. Ez Hyphara-nál 15,
+     * tehát 14-szer szórunk előre, majd maga a use case lefutásánál az utolsót is
+     * kiszórjuk és így a gombatest elhal, amit ekkor elteszünk a gombász táskájába.
+     */
     public static void spreadSporesWither() {
         Skeleton.initTestCase("spreadSporesWither");
 
+        logCreateInstances();
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
         Transix t2 = new Transix();
@@ -825,22 +1202,33 @@ public class Skeleton {
         logCreateInstance(mb, "Hyphara", "mb");
         Mycologist mc = new Mycologist("Player 1");
         logCreateInstance(mc, "Mycologist", "mc");
-        mb.setMycologist(mc);
 
+        logInitializationFunctionCalls();
+        mb.setMycologist(mc);
         t1.addTectonToNeighbors(t2);
         t1.placeMushroomBody(mb);
         for(int n = 0; n < 14; n++){
             mb.spreadSpores();
         }
 
+        logSequencyDiagramStart();
         mb.spreadSpores();
 
         Skeleton.finishTestCase("spreadSporesWither");
     }
 
-    public static void mushroomBodyEvolves(){ // Communication diagram must be remade
+    /**
+     * Amikor a felhasználó kiadja a parancsot, generálódik 4 tekton (melyek típusa mindegy,
+     * a példákban Transix szerepel) úgy, hogy legyen közűlük egy központi, aminek szomszédja
+     * a másik 3. Ezeken gombafonalakat terjesztünk szét, illetve egy gombatestet hozunk létre
+     * (aminek fajtája ismét nem számít, a példában Hyphara van) a központi tektonon,
+     * és ugyanide elhelyezünk annyi spórát amennyi biztosan elég a fejlődésre gombatípustól
+     * függetlenül. Ekkor kiadjuk a parancsot a gombatestnek, hogy fejlődjön.
+     */
+    public static void mushroomBodyEvolves(){
         Skeleton.initTestCase("mushroomBodyEvolves");
 
+        logCreateInstances();
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
         Transix t2 = new Transix();
@@ -849,35 +1237,50 @@ public class Skeleton {
         logCreateInstance(t3, "Transix", "t3");
         Transix t4 = new Transix();
         logCreateInstance(t4, "Transix", "t4");
+        Mycelium my1 = new Mycelium(t1);
+        logCreateInstance(my1, "Mycelium", "my1");
+        Mycologist mc1 = new Mycologist("Player 1");
+        logCreateInstance(mc1, "Mycologist", "mc1");
+        Hyphara mb1 = new Hyphara(t1);
+        logCreateInstance(mb1, "Hyphara", "mb1");
+        HypharaSpore sp = new HypharaSpore();
+        logCreateInstance(sp, "HypharaSpore", "sp");
+
+        logInitializationFunctionCalls();
         t1.addTectonToNeighbors(t2);
         t1.addTectonToNeighbors(t3);
         t1.addTectonToNeighbors(t4);
 
-        Mycelium my1 = new Mycelium(t1);
-        logCreateInstance(my1, "Mycelium", "my1");
-        t1.addMycelium(my1);
+        my1.setMycologist(mc1);
         my1.enableGrowth();
-        Mycelium my2 = my1.createNewBranch(t2); //return type change
+        t1.addMycelium(my1);
+
+        Mycelium my2 = my1.createNewBranch(t2);
         Mycelium my3 = my1.createNewBranch(t3);
         Mycelium my4 = my1.createNewBranch(t4);
-
-        Hyphara mb1 = new Hyphara(t1);
-        logCreateInstance(mb1, "Hyphara", "mb1");
-
-        HypharaSpore sp = new HypharaSpore();
-        logCreateInstance(sp, "HypharaSpore", "sp");
+        mb1.setMycologist(mc1);
         for(int n = 0; n < 20; n++){
             t1.addSpore(sp);
         }
 
+        logSequencyDiagramStart();
         mb1.evolveSuper();
 
         Skeleton.finishTestCase("mushroomBodyEvolves");
     }
 
+    /**
+     * Amikor a felhasználó kiadja a parancsot, generálódik 4 tekton (melyek típusa mindegy,
+     * a példákban Transix szerepel) úgy, hogy legyen közűlük egy központi, aminek szomszédja
+     * a másik 3. Ezeken gombafonalakat terjesztünk szét, illetve egy gombatestet hozunk létre
+     * (aminek fajtája ismét nem számít, a példában Hyphara van) a központi tektonon,
+     * de most spórákat nem helyezünk el. Ekkor kiadjuk a parancsot a gombatestnek,
+     * hogy fejlődjön, de ez sikertelen lesz.
+     */
     public static void mushroomBodyCantEvolve(){
-        Skeleton.initTestCase("mushroomBodyCantEvolve");
+        Skeleton.initTestCase("mushroomBodyEvolves");
 
+        logCreateInstances();
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
         Transix t2 = new Transix();
@@ -886,23 +1289,32 @@ public class Skeleton {
         logCreateInstance(t3, "Transix", "t3");
         Transix t4 = new Transix();
         logCreateInstance(t4, "Transix", "t4");
+        Mycelium my1 = new Mycelium(t1);
+        logCreateInstance(my1, "Mycelium", "my1");
+        Mycologist mc1 = new Mycologist("Player 1");
+        logCreateInstance(mc1, "Mycologist", "mc1");
+        Hyphara mb1 = new Hyphara(t1);
+        logCreateInstance(mb1, "Hyphara", "mb1");
+        HypharaSpore sp = new HypharaSpore();
+        logCreateInstance(sp, "HypharaSpore", "sp");
+
+        logInitializationFunctionCalls();
         t1.addTectonToNeighbors(t2);
         t1.addTectonToNeighbors(t3);
         t1.addTectonToNeighbors(t4);
 
-        Mycelium my1 = new Mycelium(t1);
-        logCreateInstance(my1, "Mycelium", "my1");
-        t1.addMycelium(my1);
+        my1.setMycologist(mc1);
         my1.enableGrowth();
+        t1.addMycelium(my1);
+
         Mycelium my2 = my1.createNewBranch(t2);
         Mycelium my3 = my1.createNewBranch(t3);
         Mycelium my4 = my1.createNewBranch(t4);
+        mb1.setMycologist(mc1);
 
-        Hyphara mb1 = new Hyphara(t1);
-        logCreateInstance(mb1, "Hyphara", "mb1");
-
+        logSequencyDiagramStart();
         mb1.evolveSuper();
 
-        Skeleton.finishTestCase("mushroomBodyCantEvolve");
+        Skeleton.finishTestCase("mushroomBodyEvolves");
     }
 }

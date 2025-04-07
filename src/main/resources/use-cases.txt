@@ -1,11 +1,11 @@
-Insect moves to Transix
-Insect moves to Magmox
-Insect moves to Mantleon
-Insect moves to Orogenix
-Insect can’t move due to other Insect
-Insect can’t move due to missing connection
-Insect chew
-Insect can’t chew
+Insect moves to Transix,insectMovesToTransix
+Insect moves to Magmox,insectMovesToMagmox
+Insect moves to Mantleon,insectMovesToMantleon
+Insect moves to Orogenix,insectMovesToOrogenix
+Insect can’t move due to other Insect,insectCantMoveOccupied
+Insect can’t move due to missing connection,insectCantMoveNoConnection
+Insect chew,insectChewsMycelium
+Insect can’t chew,insectCantChewMycelium
 Insect eat Hypahra spore,insectEatHypahraSpore
 Hyphara loses effect,hypharaLosesEffect
 Insect eat Gilledon spore,insectEatsGilledonSpore
@@ -15,11 +15,16 @@ Poralia loses effect,poraliaLosesEffect
 Insect eat Capulon spore,insectEatCapulonSpore
 Capulon loses effect,capulonLosesEffect
 Insect eats spore on Orogenix,insectEatsSporeOnOrogenix
-Break tecton
-Initialize starting tectons
-Evolve mushroom body
-Can’t evolve mushroom body
-Grow mushroom body
-Can’t grow mushroom body
-Grow mycelium
-Can’t grow mycelium
+Initialize starting tectons,initializeStartingTectons
+Break Tecton apart without Insect or Mushroombody,breakTectonApartWithoutInsectOrMushroomBody
+Break Tecton apart with Insect,breakTectonApartWithInsect
+Break Tecton apart with MushroomBody,breakTectonApartWithMushroomBody
+Break Tecton apart with Insect and MushroomBody,breakTectonApartWithInsectAndMushroomBody
+Evolve mushroom body,mushroomBodyEvolves
+Can’t evolve mushroom body,mushroomBodyCantEvolve
+Grow mushroom body,growMushroomBody
+Can’t grow mushroom body,cantGrowMushroomBody
+Grow mycelium,growMycelium
+Can’t grow mycelium,cantGrowMycelium
+Spread spores,spreadSpores
+Spread spores - body withers, spreadSporesWither
