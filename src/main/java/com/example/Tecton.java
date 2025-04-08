@@ -29,7 +29,7 @@ public abstract class Tecton {
     /**
      * Egyedi azonosítója a Tecton-nak.
      */
-    protected int id;
+    protected String name;
 
     /**
      * A négy lehetséges méret közül megmondja, hogy mekkora a tekton.
