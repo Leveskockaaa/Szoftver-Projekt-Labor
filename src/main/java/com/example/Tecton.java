@@ -60,7 +60,7 @@ public abstract class Tecton {
     /**
      * Default Konstruktor.
      */
-    protected Tecton() {
+    public Tecton() {
         spores = new ArrayList<>();
         neighbors = new HashSet<>();
         mushroomBody = null;
