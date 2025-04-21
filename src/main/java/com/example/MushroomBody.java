@@ -52,6 +52,14 @@ public abstract class MushroomBody {
         this.canSpreadSpores = true;
     }
 
+    /**
+     * Getter a gombatesthez tartozó tektonhoz.
+     * @return A gombatesthez tartozó tekton.
+     */
+    public Tecton getTecton() {
+        return tecton;
+    }
+
     public void setMycologist(Mycologist mycologist) {
         this.mycologist = mycologist;
     }

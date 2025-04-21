@@ -1,7 +1,11 @@
 package com.example;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
+import java.util.Set;
 
 /**
  * A gombafonalakat kezelő osztály. Egy-egy fonal egységet valósít meg.
@@ -15,7 +19,7 @@ public class Mycelium {
     /**
      * Egy időtartam, amelynek leteltekor a fonal újra növekedhet.
      */
-    private int growthSpeed;
+    private float growthSpeed;
 
     /**
      * A tekton amin a gombafonál elhelyezkedik.
@@ -37,7 +41,7 @@ public class Mycelium {
      * Default constructor.
      */
     public Mycelium(Tecton tecton) {
-        this.growthSpeed = 0;
+        this.growthSpeed = 10;
         this.tecton = tecton;
         this.mycologist = null;
         myceliumConnections = new ArrayList<Mycelium>();
@@ -49,6 +53,14 @@ public class Mycelium {
      */
     public Mycologist getMycologist() {
         return mycologist;
+    }
+
+    /**
+     * Getter a gobmafonálhoz tartozó tektonhoz.
+     * @return A gombafonalhoz tartozó tekton.
+     */
+    public Tecton getTecton() {
+        return tecton;
     }
 
     /**
@@ -162,10 +174,10 @@ public class Mycelium {
      * Kiveszi a kapcsolatban lévő fonalak listájából my-t.
      * @param my A gombafonal amivel meg akarjuk szakítani a kapcsolatot.
      */
-    public void removeConnection(Mycelium my) {
-        Skeleton.logFunctionCall(this, "removeConnection", my);
+    public void removeConnection(Mycelium mycelium) {
+        Skeleton.logFunctionCall(this, "removeConnection", mycelium);
 
-        myceliumConnections.remove(my);
+        myceliumConnections.remove(mycelium);
 
         Skeleton.logReturn(this, "removeConnection");
     }
@@ -175,9 +187,30 @@ public class Mycelium {
      * @return true, ha kapcsolódik gombatesthez, egyébként false.
      */
     public boolean isConnectedToMushroomBody() {
-        Skeleton.logFunctionCall(this, "isConnectedToMushroomBody");
+        HashSet<Mycelium> visitedMycelia = new HashSet<Mycelium>();
+        LinkedList<Mycelium> queue = new LinkedList<Mycelium>();
+        queue.add(this);
+        visitedMycelia.add(this);
+        
+        while (!queue.isEmpty()) {
+            Mycelium current = queue.poll();
+            
+            Tecton currentTecton = current.getTecton();
+            Mycologist thisMycologist = this.getMycologist();
+            for (MushroomBody body : thisMycologist.getMushroomBodies()) {
+                if (body.getTecton() == currentTecton) {
+                    return true;
+                }
+            }
+            
+            for (Mycelium neighbor : current.getMyceliumConnections()) {
+                if (!visitedMycelia.contains(neighbor) && neighbor.getMycologist() == mycologist) {
+                    visitedMycelia.add(neighbor);
+                    queue.add(neighbor);
+                }
+            }
+        }
 
-        Skeleton.logReturn(this, "isConnectedToMushroomBody");
         return false;
     }
 
@@ -185,8 +218,13 @@ public class Mycelium {
      * Felgyorsítja a növekedést, azaz csökkenti a szükséges időt,
      * aminek két növekedést között el kell telnie.
      */
-    public void speedUpGrowth() {
+    public void speedUpGrowth(float time) {
         Skeleton.logFunctionCall(this, "speedUpGrowth");
+
+        growthSpeed -= time;
+        if(growthSpeed < 0) {
+            growthSpeed = 0;
+        }
 
         Skeleton.logReturn(this, "speedUpGrowth");
     }
@@ -197,6 +235,8 @@ public class Mycelium {
     public void resetGrowthSpeed() {
         Skeleton.logFunctionCall(this, "resetGrowthSpeed");
 
+        growthSpeed = 10;
+
         Skeleton.logReturn(this, "resetGrowthSpeed");
     }
 
@@ -206,7 +246,7 @@ public class Mycelium {
      */
     public void wither() {
         Skeleton.logFunctionCall(this, "wither");
-
+        
         Skeleton.logReturn(this, "wither");
     }
 }

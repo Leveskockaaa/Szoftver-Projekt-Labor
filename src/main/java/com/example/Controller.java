@@ -38,7 +38,7 @@ public class Controller {
     }
 
     int chooseTest() {
-
+        return 0;
     }
 
     void runTest(int testNumber) {
