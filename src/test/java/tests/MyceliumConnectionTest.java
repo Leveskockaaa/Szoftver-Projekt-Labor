@@ -1,6 +1,5 @@
+package tests;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -8,157 +7,47 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class MyceliumConnectionTest {
-    static class Tecton {
-        private String name;
-        public Tecton(String name) {
-            this.name = name;
-        }
-        @Override
-        public String toString() {
-            return "Tecton{" + name + '}';
-        }
-    }
+import models.MushroomBodyTestClass;
+import models.MyceliumTestClass;
+import models.MycologistTestClass;
+import models.TectonTestClass;
 
-    static class MushroomBody {
-        private Tecton tecton;
-        public MushroomBody(Tecton tecton) {
-            this.tecton = tecton;
-        }
-        public Tecton getTecton() {
-            return tecton;
-        }
-    }
-
-    static class Mycologist {
-        private String name;
-        private List<MushroomBody> mushroomBodies;
-        private List<Mycelium> myceliums;
-
-        public Mycologist(String name) {
-            this.name = name;
-            this.mushroomBodies = new ArrayList<>();
-            this.myceliums = new ArrayList<>();
-        }
-
-        public void addMushroomBody(MushroomBody body) {
-            mushroomBodies.add(body);
-        }
-
-        public void addMycelium(Mycelium mycelium) {
-            myceliums.add(mycelium);
-        }
-
-        public List<MushroomBody> getMushroomBodies() {
-            return mushroomBodies;
-        }
-
-        public List<Mycelium> getMyceliums() {
-            return myceliums;
-        }
-        
-        @Override
-        public String toString() {
-            return "Mycologist{" + name + '}';
-        }
-    }
-
-    static class Mycelium {
-        private Tecton tecton;
-        private List<Mycelium> myceliumConnections;
-        private Mycologist mycologist;
-
-        public Mycelium(Mycologist mycologist, Tecton tecton) {
-            this.mycologist = mycologist;
-            this.tecton = tecton;
-            this.myceliumConnections = new ArrayList<>();
-            if (mycologist != null) {
-                mycologist.addMycelium(this);
-            }
-        }
-
-        public void addConnection(Mycelium mycelium) {
-            if (!myceliumConnections.contains(mycelium)) {
-                myceliumConnections.add(mycelium);
-                mycelium.myceliumConnections.add(this);
-            }
-        }
-
-        public void removeConnection(Mycelium mycelium) {
-            myceliumConnections.remove(mycelium);
-            mycelium.myceliumConnections.remove(this);
-        }
-
-        public Tecton getTecton() {
-            return tecton;
-        }
-
-        public List<Mycelium> getMyceliumConnections() {
-            return myceliumConnections;
-        }
-
-        public Mycologist getMycologist() {
-            return mycologist;
-        }
-
-        public boolean isConnectedToMushroomBody() {
-            HashSet<Mycelium> visitedMycelia = new HashSet<Mycelium>();
-            LinkedList<Mycelium> queue = new LinkedList<Mycelium>();
-            queue.add(this);
-            visitedMycelia.add(this);
-            
-            while (!queue.isEmpty()) {
-                Mycelium current = queue.poll();
-                
-                Tecton currentTecton = current.getTecton();
-                Mycologist thisMycologist = this.getMycologist();
-                for (MushroomBody body : thisMycologist.getMushroomBodies()) {
-                    if (body.getTecton() == currentTecton) {
-                        return true;
-                    }
-                }
-                
-                for (Mycelium neighbor : current.getMyceliumConnections()) {
-                    if (!visitedMycelia.contains(neighbor) && neighbor.getMycologist() == mycologist) {
-                        visitedMycelia.add(neighbor);
-                        queue.add(neighbor);
-                    }
-                }
-            }
-
-            return false;
-        }
-    }
-
-    private Mycologist mycologist1, mycologist2, mycologist3;
-    private Tecton[] tectons;
-    private List<MushroomBody> mushroomBodies;
-    private List<Mycelium> allMyceliums;
+class MyceliumConnectionTest {
+    private MycologistTestClass mycologist1, mycologist2, mycologist3;
+    private TectonTestClass[] tectons;
+    private List<MushroomBodyTestClass> mushroomBodies;
+    private List<MyceliumTestClass> allMyceliums;
 
     @BeforeEach
     void setUp() {
-        mycologist1 = new Mycologist("Mycologist1");
-        mycologist2 = new Mycologist("Mycologist2");
-        mycologist3 = new Mycologist("Mycologist3");
+        mycologist1 = new MycologistTestClass("Mycologist1");
+        mycologist2 = new MycologistTestClass("Mycologist2");
+        mycologist3 = new MycologistTestClass("Mycologist3");
         
-        tectons = new Tecton[10];
+        tectons = new TectonTestClass[10];
         for (int i = 0; i < 10; i++) {
-            tectons[i] = new Tecton("Tecton" + (i + 1));
+            tectons[i] = new TectonTestClass("Tecton" + (i + 1));
+        }
+
+        for (int i = 0; i < 10; i++) {
+            for (int j = i + 1; j < 10; j++) {
+                tectons[i].addNeighbor(tectons[j]);
+            }
         }
         
-        mushroomBodies = new ArrayList<MushroomBody>();
-        allMyceliums = new ArrayList<Mycelium>();
+        mushroomBodies = new ArrayList<MushroomBodyTestClass>();
+        allMyceliums = new ArrayList<MyceliumTestClass>();
     }
 
-    private MushroomBody createMushroomBody(Mycologist mycologist, Tecton tecton) {
-        MushroomBody body = new MushroomBody(tecton);
+    private MushroomBodyTestClass createMushroomBody(MycologistTestClass mycologist, TectonTestClass tecton) {
+        MushroomBodyTestClass body = new MushroomBodyTestClass(tecton, mycologist);
         mycologist.addMushroomBody(body);
         mushroomBodies.add(body);
         return body;
     }
     
-    private Mycelium createMycelium(Mycologist mycologist, Tecton tecton) {
-        Mycelium mycelium = new Mycelium(mycologist, tecton);
+    private MyceliumTestClass createMycelium(MycologistTestClass mycologist, TectonTestClass tecton) {
+        MyceliumTestClass mycelium = new MyceliumTestClass(mycologist, tecton);
         allMyceliums.add(mycelium);
         return mycelium;
     }
@@ -169,18 +58,18 @@ public class MyceliumConnectionTest {
         createMushroomBody(mycologist2, tectons[5]);
         createMushroomBody(mycologist3, tectons[9]);
 
-        Mycelium mycelium1a = createMycelium(mycologist1, tectons[1]);
-        Mycelium mycelium1b = createMycelium(mycologist1, tectons[2]);
+        MyceliumTestClass mycelium1a = createMycelium(mycologist1, tectons[1]);
+        MyceliumTestClass mycelium1b = createMycelium(mycologist1, tectons[2]);
         mycelium1a.addConnection(mycelium1b);
 
-        Mycelium mycelium2a = createMycelium(mycologist2, tectons[5]);
-        Mycelium mycelium2b = createMycelium(mycologist2, tectons[4]);
+        MyceliumTestClass mycelium2a = createMycelium(mycologist2, tectons[5]);
+        MyceliumTestClass mycelium2b = createMycelium(mycologist2, tectons[4]);
         mycelium2a.addConnection(mycelium2b);
 
-        Mycelium mycelium3a = createMycelium(mycologist3, tectons[9]);
-        Mycelium mycelium3b = createMycelium(mycologist3, tectons[0]);
-        Mycelium mycelium3c = createMycelium(mycologist3, tectons[6]);
-        Mycelium mycelium3d = createMycelium(mycologist3, tectons[3]);
+        MyceliumTestClass mycelium3a = createMycelium(mycologist3, tectons[9]);
+        MyceliumTestClass mycelium3b = createMycelium(mycologist3, tectons[0]);
+        MyceliumTestClass mycelium3c = createMycelium(mycologist3, tectons[6]);
+        MyceliumTestClass mycelium3d = createMycelium(mycologist3, tectons[3]);
         mycelium3a.addConnection(mycelium3b);
         mycelium3a.addConnection(mycelium3c);
         mycelium3c.addConnection(mycelium3d);
@@ -195,15 +84,15 @@ public class MyceliumConnectionTest {
         createMushroomBody(mycologist1, tectons[0]);
         createMushroomBody(mycologist2, tectons[5]);
 
-        Mycelium mycelium1a = createMycelium(mycologist1, tectons[1]);
-        Mycelium mycelium1b = createMycelium(mycologist1, tectons[2]);
-        Mycelium mycelium1c = createMycelium(mycologist1, tectons[3]);
+        MyceliumTestClass mycelium1a = createMycelium(mycologist1, tectons[1]);
+        MyceliumTestClass mycelium1b = createMycelium(mycologist1, tectons[2]);
+        MyceliumTestClass mycelium1c = createMycelium(mycologist1, tectons[3]);
         mycelium1a.addConnection(mycelium1b);
         mycelium1b.addConnection(mycelium1c);
         
-        Mycelium mycelium2a = createMycelium(mycologist2, tectons[5]);
-        Mycelium mycelium2b = createMycelium(mycologist2, tectons[6]);
-        Mycelium mycelium2c = createMycelium(mycologist2, tectons[0]);
+        MyceliumTestClass mycelium2a = createMycelium(mycologist2, tectons[5]);
+        MyceliumTestClass mycelium2b = createMycelium(mycologist2, tectons[6]);
+        MyceliumTestClass mycelium2c = createMycelium(mycologist2, tectons[0]);
         mycelium2a.addConnection(mycelium2b);
         
         assertFalse(mycelium1a.isConnectedToMushroomBody(), "Not implemented");
@@ -212,7 +101,7 @@ public class MyceliumConnectionTest {
         
         mycelium2b.addConnection(mycelium2c);
 
-        Mycelium mycelium1d = createMycelium(mycologist1, tectons[0]);
+        MyceliumTestClass mycelium1d = createMycelium(mycologist1, tectons[0]);
         mycelium1a.addConnection(mycelium1d);
         
         assertTrue(mycelium2c.isConnectedToMushroomBody(), "Not implemented");
@@ -225,27 +114,27 @@ public class MyceliumConnectionTest {
         createMushroomBody(mycologist2, tectons[5]);
         createMushroomBody(mycologist3, tectons[9]);
         
-        Mycelium mycelium1a = createMycelium(mycologist1, tectons[0]);
-        Mycelium mycelium1b = createMycelium(mycologist1, tectons[1]);
-        Mycelium mycelium1c = createMycelium(mycologist1, tectons[2]);
-        Mycelium mycelium1d = createMycelium(mycologist1, tectons[3]);
+        MyceliumTestClass mycelium1a = createMycelium(mycologist1, tectons[0]);
+        MyceliumTestClass mycelium1b = createMycelium(mycologist1, tectons[1]);
+        MyceliumTestClass mycelium1c = createMycelium(mycologist1, tectons[2]);
+        MyceliumTestClass mycelium1d = createMycelium(mycologist1, tectons[3]);
         mycelium1a.addConnection(mycelium1b);
         mycelium1b.addConnection(mycelium1c);
         mycelium1c.addConnection(mycelium1d);
         mycelium1d.addConnection(mycelium1a);
         
-        Mycelium mycelium2a = createMycelium(mycologist2, tectons[5]);
-        Mycelium mycelium2b = createMycelium(mycologist2, tectons[1]);
-        Mycelium mycelium2c = createMycelium(mycologist2, tectons[0]);
-        Mycelium mycelium2d = createMycelium(mycologist2, tectons[4]);
+        MyceliumTestClass mycelium2a = createMycelium(mycologist2, tectons[5]);
+        MyceliumTestClass mycelium2b = createMycelium(mycologist2, tectons[1]);
+        MyceliumTestClass mycelium2c = createMycelium(mycologist2, tectons[0]);
+        MyceliumTestClass mycelium2d = createMycelium(mycologist2, tectons[4]);
         mycelium2a.addConnection(mycelium2b);
         mycelium2b.addConnection(mycelium2c);
         mycelium2c.addConnection(mycelium2d);
         mycelium2d.addConnection(mycelium2a);
         
-        Mycelium mycelium3a = createMycelium(mycologist3, tectons[3]);
-        Mycelium mycelium3b = createMycelium(mycologist3, tectons[2]);
-        Mycelium mycelium3c = createMycelium(mycologist3, tectons[6]);
+        MyceliumTestClass mycelium3a = createMycelium(mycologist3, tectons[3]);
+        MyceliumTestClass mycelium3b = createMycelium(mycologist3, tectons[2]);
+        MyceliumTestClass mycelium3c = createMycelium(mycologist3, tectons[6]);
         mycelium3a.addConnection(mycelium3b);
         mycelium3b.addConnection(mycelium3c);
         mycelium3c.addConnection(mycelium3a);
@@ -262,7 +151,7 @@ public class MyceliumConnectionTest {
         assertFalse(mycelium3b.isConnectedToMushroomBody(), "Not implemented");
         assertFalse(mycelium3c.isConnectedToMushroomBody(), "Not implemented");
 
-        Mycelium mycelium3d = createMycelium(mycologist3, tectons[9]);
+        MyceliumTestClass mycelium3d = createMycelium(mycologist3, tectons[9]);
         mycelium3d.addConnection(mycelium3c);
 
         assertTrue(mycelium1a.isConnectedToMushroomBody(), "Not implemented");
@@ -282,11 +171,11 @@ public class MyceliumConnectionTest {
     void testChewConnectionInRuntime() {
         createMushroomBody(mycologist1, tectons[0]);
 
-        Mycelium mycelium1a = createMycelium(mycologist1, tectons[0]);
-        Mycelium mycelium1b = createMycelium(mycologist1, tectons[1]);
-        Mycelium mycelium1c = createMycelium(mycologist1, tectons[2]);
-        Mycelium mycelium1d = createMycelium(mycologist1, tectons[3]);
-        Mycelium mycelium1e = createMycelium(mycologist1, tectons[4]);
+        MyceliumTestClass mycelium1a = createMycelium(mycologist1, tectons[0]);
+        MyceliumTestClass mycelium1b = createMycelium(mycologist1, tectons[1]);
+        MyceliumTestClass mycelium1c = createMycelium(mycologist1, tectons[2]);
+        MyceliumTestClass mycelium1d = createMycelium(mycologist1, tectons[3]);
+        MyceliumTestClass mycelium1e = createMycelium(mycologist1, tectons[4]);
         mycelium1a.addConnection(mycelium1b);
         mycelium1b.addConnection(mycelium1c);
         mycelium1c.addConnection(mycelium1d);
@@ -323,16 +212,16 @@ public class MyceliumConnectionTest {
 
         // First
 
-        Mycelium mycelium1a = createMycelium(mycologist1, tectons[0]);
-        Mycelium mycelium1b = createMycelium(mycologist1, tectons[3]);
+        MyceliumTestClass mycelium1a = createMycelium(mycologist1, tectons[0]);
+        MyceliumTestClass mycelium1b = createMycelium(mycologist1, tectons[3]);
         mycelium1a.addConnection(mycelium1b);
 
-        Mycelium mycelium2a = createMycelium(mycologist2, tectons[4]);
-        Mycelium mycelium2b = createMycelium(mycologist2, tectons[5]);
+        MyceliumTestClass mycelium2a = createMycelium(mycologist2, tectons[4]);
+        MyceliumTestClass mycelium2b = createMycelium(mycologist2, tectons[5]);
         mycelium2a.addConnection(mycelium2b);
 
-        Mycelium mycelium3a = createMycelium(mycologist3, tectons[8]);
-        Mycelium mycelium3b = createMycelium(mycologist3, tectons[7]);
+        MyceliumTestClass mycelium3a = createMycelium(mycologist3, tectons[8]);
+        MyceliumTestClass mycelium3b = createMycelium(mycologist3, tectons[7]);
         mycelium3a.addConnection(mycelium3b);
 
         assertTrue(mycelium1a.isConnectedToMushroomBody(), "Not implemented");
@@ -346,13 +235,13 @@ public class MyceliumConnectionTest {
 
         // Second
 
-        Mycelium mycelium1c = createMycelium(mycologist1, tectons[4]);
+        MyceliumTestClass mycelium1c = createMycelium(mycologist1, tectons[4]);
         mycelium1b.addConnection(mycelium1c);
 
-        Mycelium mycelium2c = createMycelium(mycologist2, tectons[8]);
+        MyceliumTestClass mycelium2c = createMycelium(mycologist2, tectons[8]);
         mycelium2b.addConnection(mycelium2c);
 
-        Mycelium mycelium3c = createMycelium(mycologist3, tectons[6]);
+        MyceliumTestClass mycelium3c = createMycelium(mycologist3, tectons[6]);
         mycelium3b.addConnection(mycelium3c);
 
         assertTrue(mycelium1a.isConnectedToMushroomBody(), "Not implemented");
@@ -369,13 +258,13 @@ public class MyceliumConnectionTest {
 
         // Third
 
-        Mycelium mycelium1d = createMycelium(mycologist1, tectons[1]);
+        MyceliumTestClass mycelium1d = createMycelium(mycologist1, tectons[1]);
         mycelium1a.addConnection(mycelium1d);
 
-        Mycelium mycelium2d = createMycelium(mycologist2, tectons[2]);
+        MyceliumTestClass mycelium2d = createMycelium(mycologist2, tectons[2]);
         mycelium2b.addConnection(mycelium2d);
 
-        Mycelium mycelium3d = createMycelium(mycologist3, tectons[3]);
+        MyceliumTestClass mycelium3d = createMycelium(mycologist3, tectons[3]);
         mycelium3c.addConnection(mycelium3d);
 
         assertTrue(mycelium1a.isConnectedToMushroomBody(), "Not implemented");

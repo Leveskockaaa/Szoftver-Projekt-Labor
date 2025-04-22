@@ -8,8 +8,8 @@ public class Hyphara extends MushroomBody{
      * Hyphara osztály konstruktora.
      * @param tecton A tekton amire a gombatest kerül.
      */
-    Hyphara(Tecton tecton){
-        super(tecton);
+    Hyphara(Tecton tecton, Mycologist mycologist) {
+        super(tecton, mycologist);
         sporeSpreadsLeft = 15;
     }
 
