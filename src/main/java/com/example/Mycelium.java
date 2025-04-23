@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
-import java.util.Set;
 
 /**
  * A gombafonalakat kezelő osztály. Egy-egy fonal egységet valósít meg.
@@ -169,22 +167,21 @@ public class Mycelium {
     public Mycelium createNewBranch(Tecton tecton) {
         Skeleton.logFunctionCall(this, "createNewBranch", tecton);
 
-        if(canGrow){
-            if(tecton.canAddMycelium()){
+        if (canGrow) {
+            if(tecton.canAddMycelium()) {
                 Mycelium newMycelium = new Mycelium(tecton, mycologist);
 
                 Skeleton.logCreateInstance(newMycelium, "Mycelium", "newMycelium");
 
                 tecton.addMycelium(newMycelium);
-                myceliumConnections.add(newMycelium);
-                newMycelium.myceliumConnections.add(this);
+                this.addConnection(newMycelium);
 
                 Skeleton.logReturn(this, "createNewBranch");
                 return newMycelium;
             }
-            else{
-                for(Mycelium mycelium : tecton.getMycelia()){
-                    if(mycelium.getBodyType() == getBodyType()){
+            else {
+                for (Mycelium mycelium : tecton.getMycelia()) {
+                    if (mycelium.getBodyType() == getBodyType()) {
                         myceliumConnections.add(mycelium);
                         mycelium.myceliumConnections.add(this);
                         break;
