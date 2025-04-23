@@ -30,38 +30,41 @@ public class Controller {
 
         String[] commandParts = command.split(" ");
         String commandName = commandParts[0].toUpperCase();
-        String[] commandArgs = new String[commandParts.length - 1];
-        switch (commandName) {
-            case "STATUS":            status(commandArgs);            break;
-            case "CREATEGAMETABLE":   createGameTable(commandArgs);   break;
-            case "CREATETECTON":      createTecton(commandArgs);      break;
-            case "CREATEPLAYER":      createPlayer(commandArgs);      break;
-            case "CREATEINSECT":      createInsect(commandArgs);      break;
-            case "CREATEMUSHROOMBODY":createMushroomBody(commandArgs);break;
-            case "CREATESPORE":       createSpore(commandArgs);       break;
-            case "CREATEMYCELIUM":    createMycelium(commandArgs);    break;
-            case "MOVE":              move(commandArgs);              break;
-            case "BREAK":             breakCommand(commandArgs);      break;
-            case "RANDOM":            random(commandArgs);            break;
-            case "EATSPORE":          eatSpore(commandArgs);          break;
-            case "CHEWMYCELIUM":      chewMycelium(commandArgs);      break;
-            case "SPREADSPORES":      spreadSpores(commandArgs);      break;
-            case "EVOLVESUPER":       evolveSuper(commandArgs);       break;
-            case "NEIGHBORS":         neighbors(commandArgs);         break;
-            case "GROWTO":            growTo(commandArgs);            break;
-            case "GROWBODY":          growBody(commandArgs);          break;
-            case "DELAY":             delay(commandArgs);             break;
-            case "ENDGAME":           endGame(commandArgs);           break;
-            case "LOAD":              load(commandArgs);              break;
-            case "SAVE":              save(commandArgs);              break;
-            case "EXIT":              exit(commandArgs);              break;
+        try {
+            switch (commandName) {
+                case "STATUS"            -> status(commandParts);
+                case "CREATEGAMETABLE"   -> createGameTable(commandParts);
+                case "CREATETECTON"      -> createTecton(commandParts);
+                case "CREATEPLAYER"      -> createPlayer(commandParts);
+                case "CREATEINSECT"      -> createInsect(commandParts);
+                case "CREATEMUSHROOMBODY"-> createMushroomBody(commandParts);
+                case "CREATESPORE"       -> createSpore(commandParts);
+                case "CREATEMYCELIUM"    -> createMycelium(commandParts);
+                case "MOVE"              -> move(commandParts);
+                case "BREAK"             -> breakCommand(commandParts);
+                case "RANDOM"            -> random(commandParts);
+                case "EATSPORE"          -> eatSpore(commandParts);
+                case "CHEWMYCELIUM"      -> chewMycelium(commandParts);
+                case "SPREADSPORES"      -> spreadSpores(commandParts);
+                case "EVOLVESUPER"       -> evolveSuper(commandParts);
+                case "NEIGHBORS"         -> neighbors(commandParts);
+                case "GROWTO"            -> growTo(commandParts);
+                case "GROWBODY"          -> growBody(commandParts);
+                case "DELAY"             -> delay(commandParts);
+                case "ENDGAME"           -> endGame(commandParts);
+                case "LOAD"              -> load(commandParts);
+                case "SAVE"              -> save(commandParts);
+                case "EXIT"              -> exit(commandParts);
+                default                  -> throw new AssertionError();
+            }
 
-            default:
-            throw new AssertionError();
+            commandsList.add(command);
+            System.out.println("[INFO] Command executed successfuly: " + command);
+        } catch (Exception exception) {
+            System.out.println("[ERROR] Exception has been thrown while executing command: " + command);
+            exception.printStackTrace();
         }
     }
-
-
 
     public int chooseTest() {
         return 0;
@@ -75,39 +78,38 @@ public class Controller {
         return commandsList.contains(command);
     }
 
-
-    public void status(String[] commandArgs) {
+    public void status(String[] commandParts) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    private void createGameTable(String[] commandArgs) {
+    private void createGameTable(String[] commandParts) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    private void createTecton(String[] commandArgs) {
+    private void createTecton(String[] commandParts) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    private void createPlayer(String[] commandArgs) {
+    private void createPlayer(String[] commandParts) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    private void createInsect(String[] commandArgs) {
+    private void createInsect(String[] commandParts) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    private void createMushroomBody(String[] commandArgs) {
+    private void createMushroomBody(String[] commandParts) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    private void createSpore(String[] commandArgs) {
+    private void createSpore(String[] commandParts) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    private void createMycelium(String[] commandArgs) {
-        String myceliumName = commandArgs[0];
-        String mycologistName = commandArgs[1];
-        String tectonName = commandArgs[2];
+    private void createMycelium(String[] commandParts) {
+        String myceliumName = commandParts[1];
+        String mycologistName = commandParts[2];
+        String tectonName = commandParts[3];
 
         Mycologist mycologist = (Mycologist) getFromNameMap(mycologistName);
         Tecton tecton = (Tecton) getFromNameMap(tectonName);
@@ -118,42 +120,50 @@ public class Controller {
         nameMap.put(mycelium, myceliumName);
     }
 
-    private void move(String[] commandArgs) {
+    private void move(String[] commandParts) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    private void breakCommand(String[] commandArgs) {
+    private void breakCommand(String[] commandParts) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    private void random(String[] commandArgs) {
+    private static void random(String[] commandParts) {
+        isRandomOn = !isRandomOn;
+    }
+
+    private void eatSpore(String[] commandParts) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    private void eatSpore(String[] commandArgs) {
+    private void chewMycelium(String[] commandParts) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    private void chewMycelium(String[] commandArgs) {
+    private void spreadSpores(String[] commandParts) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    private void spreadSpores(String[] commandArgs) {
+    private void evolveSuper(String[] commandParts) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    private void evolveSuper(String[] commandArgs) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    private void neighbors(String[] commandParts) {
+        String firstTectonName = commandParts[1];
+        String secondTectonName = commandParts[2];
+
+        Tecton firstTecton = (Tecton) getFromNameMap(firstTectonName);
+        Tecton secondTecton = (Tecton) getFromNameMap(secondTectonName);
+
+        if (firstTecton == null || secondTecton == null) return;
+
+        firstTecton.addTectonToNeighbors(secondTecton);
     }
 
-    private void neighbors(String[] commandArgs) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    private void growTo(String[] commandArgs) {
-        String myceliumName = commandArgs[0];
-        String tectonName = commandArgs[1];
-        String newMyceliumName = commandArgs[2];
+    private void growTo(String[] commandParts) {
+        String myceliumName = commandParts[1];
+        String tectonName = commandParts[2];
+        String newMyceliumName = commandParts[3];
 
         Mycelium mycelium = (Mycelium) getFromNameMap(myceliumName);
         Tecton tecton = (Tecton) getFromNameMap(tectonName);
@@ -165,27 +175,27 @@ public class Controller {
         nameMap.put(newMycelium, newMyceliumName);
     }
 
-    private void growBody(String[] commandArgs) {
+    private void growBody(String[] commandParts) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    private void delay(String[] commandArgs) {
+    private void delay(String[] commandParts) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    private void endGame(String[] commandArgs) {
+    private void endGame(String[] commandParts) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    private void load(String[] commandArgs) {
+    private void load(String[] commandParts) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    private void save(String[] commandArgs) {
+    private void save(String[] commandParts) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    private void exit(String[] commandArgs) {
+    private void exit(String[] commandParts) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

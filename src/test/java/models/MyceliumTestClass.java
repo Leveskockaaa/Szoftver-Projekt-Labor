@@ -6,11 +6,12 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class MyceliumTestClass {
+
     private boolean canGrow;
     private boolean insectEaten;
     private float growthSpeed;
-    private TectonTestClass tecton;
-    private MycologistTestClass mycologist;
+    private final TectonTestClass tecton;
+    private final MycologistTestClass mycologist;
     private List<MyceliumTestClass> myceliumConnections;
 
     public MyceliumTestClass(MycologistTestClass mycologist, TectonTestClass tecton) {
@@ -34,12 +35,14 @@ public class MyceliumTestClass {
         return myceliumConnections;
     }
 
-    public Class<? extends MushroomBodyTestClass> getBodyType() {
-        return mycologist.getMushroomBodies().get(0).getClass();
-    }
-
     public boolean canDevelop() {
-        int sporeCount = tecton.sporesAvailable().size();
+        int sporeCount = 0;
+        for (SporeTestClass spore : tecton.sporesAvailable()) {
+            if (spore.getMushroomBody().getMycologist() == mycologist) {
+                sporeCount++;
+            }
+        }
+
         return sporeCount >= 6 && !tecton.hasMushroomBody();
     }
 
@@ -48,11 +51,26 @@ public class MyceliumTestClass {
     }
 
     public void developMushroomBody() {
-        if (canDevelop()) {
-            MushroomBodyTestClass newMushroomBody = new MushroomBodyTestClass(tecton, mycologist);
-            tecton.placeMushroomBody(newMushroomBody);
-            mycologist.addMushroomBody(newMushroomBody);
+        try {
+            if (!canDevelop()) {
+                throw new IllegalArgumentException("Cannot develop mushroom body");
+            }
+        } catch (IllegalArgumentException exception) {
+            System.out.println(exception.getMessage());
+            throw new IllegalArgumentException(exception.getMessage());
         }
+
+        try {
+            if (tecton.hasMushroomBody()) {
+                throw new IllegalArgumentException("Tecton already has a mushroom body");
+            }
+        } catch (IllegalArgumentException exception) {
+            System.out.println(exception.getMessage());
+            throw new IllegalArgumentException(exception.getMessage());
+        }
+
+        MushroomBodyTestClass mushroomBody = mycologist.getMushroomBodies().getFirst().createMushroomBody(tecton, mycologist);
+        tecton.placeMushroomBody(mushroomBody);
     }
 
     public void enableGrowth() {
@@ -60,22 +78,42 @@ public class MyceliumTestClass {
     }
 
     public MyceliumTestClass createNewBranch(TectonTestClass tecton) {
-        if (canGrow) {
-            if (tecton.canAddMycelium()) {
-                MyceliumTestClass newMycelium = new MyceliumTestClass(mycologist, tecton);
+        try {
+            if (!canGrow) {
+                throw new IllegalArgumentException("Cannot grow");
+            }
+            for (MyceliumTestClass mycelium : myceliumConnections) {
+                if (mycelium.getTecton() == tecton) {
+                    throw new IllegalArgumentException("Already connected to this tecton");
+                }
+            }
+        } catch (IllegalArgumentException exception) {
+            System.out.println(exception.getMessage());
+            throw new IllegalArgumentException(exception.getMessage());
+        }
 
+        if (tecton.canAddMycelium()) {
+            MyceliumTestClass newMycelium = new MyceliumTestClass(mycologist, tecton);
+
+            try {
                 tecton.addMycelium(newMycelium);
-                myceliumConnections.add(newMycelium);
-                newMycelium.myceliumConnections.add(this);
+                this.addConnection(newMycelium);
+            } catch (IllegalArgumentException exception) {
+                System.out.println(exception.getMessage());
+                throw new IllegalArgumentException(exception.getMessage());
+            }
 
-                return newMycelium;
-            } else {
-                for (MyceliumTestClass mycelium : tecton.getMycelia()) {
-                    if (mycelium.getBodyType() == getBodyType()) {
-                        myceliumConnections.add(mycelium);
-                        mycelium.myceliumConnections.add(this);
-                        break;
+            return newMycelium;
+        } else {
+            for (MyceliumTestClass mycelium : tecton.getMycelia()) {
+                if (mycelium.getMycologist() == mycologist) {
+                    try {
+                        this.addConnection(mycelium);
+                    } catch (IllegalArgumentException exception) {
+                        System.out.println(exception.getMessage());
+                        throw new IllegalArgumentException(exception.getMessage());
                     }
+                    return null;
                 }
             }
         }
@@ -216,7 +254,7 @@ public class MyceliumTestClass {
             throw new IllegalArgumentException(exception.getMessage());
         }
 
-        MushroomBodyTestClass mushroomBody = MushroomBodyTestClass.createRandomMushroomBody(tecton, mycologist);
+        MushroomBodyTestClass mushroomBody = mycologist.getMushroomBodies().getFirst().createMushroomBody(tecton, mycologist);
         tecton.placeMushroomBody(mushroomBody);
         insectEaten = true;
     }

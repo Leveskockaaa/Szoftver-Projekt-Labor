@@ -13,7 +13,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.example.GilledonSpore;
 import com.example.MushroomBody;
+import com.example.Spore;
 
 class MyceliumTest {
     private MycologistTestClass mycologist1, mycologist2;
@@ -41,7 +43,7 @@ class MyceliumTest {
     }
 
     private MushroomBodyTestClass createMushroomBody(MycologistTestClass mycologist, TectonTestClass tecton) {
-        MushroomBodyTestClass body = new MushroomBodyTestClass(tecton, mycologist);
+        MushroomBodyTestClass body = new GilledonTestClass(tecton, mycologist);
         mycologist.addMushroomBody(body);
         mushroomBodies.add(body);
         return body;
@@ -183,5 +185,26 @@ class MyceliumTest {
         tecton1.placeMushroomBody(body);
         IllegalArgumentException exception4 = assertThrows(IllegalArgumentException.class, () -> mycelium.eatInsect(), "Should throw exception when Tecton already has a mushroom body");
         assertSame("Tecton already has a mushroom body", exception4.getMessage(), "Exception message should match");
+    }
+
+    @Test
+    void testCanDevelop() {
+        MushroomBodyTestClass gilledonMushroomBody = new GilledonTestClass(tecton1, mycologist1);
+        MyceliumTestClass mycelium = createMycelium(mycologist1, tecton1);
+        
+        for (int i = 0; i < 5; i++) {
+            tecton1.addSpore(new SporeTestClass(gilledonMushroomBody));
+        }
+
+        assertFalse(mycelium.canDevelop(), "The ");
+
+        MushroomBodyTestClass capulonMushroomBody = new CapulonTestClass(tecton1, mycologist2);
+        tecton1.addSpore(new SporeTestClass(capulonMushroomBody));
+
+        assertFalse(mycelium.canDevelop(), "The mycelium can't develop, there is not enough spores");
+
+        tecton1.addSpore(new SporeTestClass(gilledonMushroomBody));
+
+        assertTrue(mycelium.canDevelop(), "The mycelium can develop, there is enough spores");
     }
 }

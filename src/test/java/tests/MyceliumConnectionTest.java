@@ -7,6 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.example.Mycelium;
+
 import models.MushroomBodyTestClass;
 import models.MyceliumTestClass;
 import models.MycologistTestClass;
@@ -266,6 +268,139 @@ class MyceliumConnectionTest {
 
         MyceliumTestClass mycelium3d = createMycelium(mycologist3, tectons[3]);
         mycelium3c.addConnection(mycelium3d);
+
+        assertTrue(mycelium1a.isConnectedToMushroomBody(), "Not implemented");
+        assertTrue(mycelium1b.isConnectedToMushroomBody(), "Not implemented");
+        assertTrue(mycelium1c.isConnectedToMushroomBody(), "Not implemented");
+        assertTrue(mycelium1d.isConnectedToMushroomBody(), "Not implemented");
+
+        assertTrue(mycelium2a.isConnectedToMushroomBody(), "Not implemented");
+        assertTrue(mycelium2b.isConnectedToMushroomBody(), "Not implemented");
+        assertTrue(mycelium2c.isConnectedToMushroomBody(), "Not implemented");
+        assertTrue(mycelium2d.isConnectedToMushroomBody(), "Not implemented");
+
+        assertTrue(mycelium3a.isConnectedToMushroomBody(), "Not implemented");
+        assertTrue(mycelium3b.isConnectedToMushroomBody(), "Not implemented");
+        assertTrue(mycelium3c.isConnectedToMushroomBody(), "Not implemented");
+        assertTrue(mycelium3d.isConnectedToMushroomBody(), "Not implemented");
+
+        // Fourth
+
+        mycelium1c.addConnection(mycelium1d);
+        mycelium2c.addConnection(mycelium2d);
+        mycelium3b.addConnection(mycelium3d);
+
+        assertTrue(mycelium1a.isConnectedToMushroomBody(), "Not implemented");
+        assertTrue(mycelium1b.isConnectedToMushroomBody(), "Not implemented");
+        assertTrue(mycelium1c.isConnectedToMushroomBody(), "Not implemented");
+        assertTrue(mycelium1d.isConnectedToMushroomBody(), "Not implemented");
+
+        assertTrue(mycelium2a.isConnectedToMushroomBody(), "Not implemented");
+        assertTrue(mycelium2b.isConnectedToMushroomBody(), "Not implemented");
+        assertTrue(mycelium2c.isConnectedToMushroomBody(), "Not implemented");
+        assertTrue(mycelium2d.isConnectedToMushroomBody(), "Not implemented");
+
+        assertTrue(mycelium3a.isConnectedToMushroomBody(), "Not implemented");
+        assertTrue(mycelium3b.isConnectedToMushroomBody(), "Not implemented");
+        assertTrue(mycelium3c.isConnectedToMushroomBody(), "Not implemented");
+        assertTrue(mycelium3d.isConnectedToMushroomBody(), "Not implemented");
+
+        // Fifth
+
+        mycelium1a.removeConnection(mycelium1b);
+        mycelium1c.removeConnection(mycelium1d);
+
+        mycelium2b.removeConnection(mycelium2c);
+
+        mycelium3a.removeConnection(mycelium3b);
+        mycelium3b.removeConnection(mycelium3d);
+
+        assertTrue(mycelium1a.isConnectedToMushroomBody(), "Not implemented");
+        assertFalse(mycelium1b.isConnectedToMushroomBody(), "Not implemented");
+        assertFalse(mycelium1c.isConnectedToMushroomBody(), "Not implemented");
+        assertTrue(mycelium1d.isConnectedToMushroomBody(), "Not implemented");
+
+        assertTrue(mycelium2a.isConnectedToMushroomBody(), "Not implemented");
+        assertTrue(mycelium2b.isConnectedToMushroomBody(), "Not implemented");
+        assertTrue(mycelium2c.isConnectedToMushroomBody(), "Not implemented");
+        assertTrue(mycelium2d.isConnectedToMushroomBody(), "Not implemented");
+
+        assertTrue(mycelium3a.isConnectedToMushroomBody(), "Not implemented");
+        assertFalse(mycelium3b.isConnectedToMushroomBody(), "Not implemented");
+        assertFalse(mycelium3c.isConnectedToMushroomBody(), "Not implemented");
+        assertFalse(mycelium3d.isConnectedToMushroomBody(), "Not implemented");
+
+        // Sixth
+        mycelium3a.addConnection(mycelium3b);
+        createMushroomBody(mycologist1, tectons[3]);
+        createMushroomBody(mycologist2, tectons[2]);
+        createMushroomBody(mycologist3, tectons[7]);
+
+        assertTrue(mycelium1a.isConnectedToMushroomBody(), "Not implemented");
+        assertTrue(mycelium1b.isConnectedToMushroomBody(), "Not implemented");
+        assertTrue(mycelium1c.isConnectedToMushroomBody(), "Not implemented");
+        assertTrue(mycelium1d.isConnectedToMushroomBody(), "Not implemented");
+
+        assertTrue(mycelium2a.isConnectedToMushroomBody(), "Not implemented");
+        assertTrue(mycelium2b.isConnectedToMushroomBody(), "Not implemented");
+        assertTrue(mycelium2c.isConnectedToMushroomBody(), "Not implemented");
+        assertTrue(mycelium2d.isConnectedToMushroomBody(), "Not implemented");
+
+        assertTrue(mycelium3a.isConnectedToMushroomBody(), "Not implemented");
+        assertTrue(mycelium3b.isConnectedToMushroomBody(), "Not implemented");
+        assertTrue(mycelium3c.isConnectedToMushroomBody(), "Not implemented");
+        assertTrue(mycelium3d.isConnectedToMushroomBody(), "Not implemented");
+    }
+
+    @Test
+    void testRealGameplayWithCreateNewBranch() {
+        createMushroomBody(mycologist1, tectons[0]);
+        createMushroomBody(mycologist2, tectons[4]);
+        createMushroomBody(mycologist3, tectons[8]);
+
+        // First
+
+        MyceliumTestClass mycelium1a = createMycelium(mycologist1, tectons[0]);
+        MyceliumTestClass mycelium1b = mycelium1a.createNewBranch(tectons[3]);
+
+        MyceliumTestClass mycelium2a = createMycelium(mycologist2, tectons[4]);
+        MyceliumTestClass mycelium2b = mycelium2a.createNewBranch(tectons[5]);
+
+        MyceliumTestClass mycelium3a = createMycelium(mycologist3, tectons[8]);
+        MyceliumTestClass mycelium3b = mycelium3a.createNewBranch(tectons[7]);
+
+        assertTrue(mycelium1a.isConnectedToMushroomBody(), "Not implemented");
+        assertTrue(mycelium1b.isConnectedToMushroomBody(), "Not implemented");
+
+        assertTrue(mycelium2a.isConnectedToMushroomBody(), "Not implemented");
+        assertTrue(mycelium2b.isConnectedToMushroomBody(), "Not implemented");
+
+        assertTrue(mycelium3a.isConnectedToMushroomBody(), "Not implemented");
+        assertTrue(mycelium3b.isConnectedToMushroomBody(), "Not implemented");
+
+        // Second
+
+        MyceliumTestClass mycelium1c = mycelium1b.createNewBranch(tectons[4]);
+        MyceliumTestClass mycelium2c = mycelium2b.createNewBranch(tectons[8]);
+        MyceliumTestClass mycelium3c = mycelium3b.createNewBranch(tectons[6]);
+
+        assertTrue(mycelium1a.isConnectedToMushroomBody(), "Not implemented");
+        assertTrue(mycelium1b.isConnectedToMushroomBody(), "Not implemented");
+        assertTrue(mycelium1c.isConnectedToMushroomBody(), "Not implemented");
+
+        assertTrue(mycelium2a.isConnectedToMushroomBody(), "Not implemented");
+        assertTrue(mycelium2b.isConnectedToMushroomBody(), "Not implemented");
+        assertTrue(mycelium2c.isConnectedToMushroomBody(), "Not implemented");
+
+        assertTrue(mycelium3a.isConnectedToMushroomBody(), "Not implemented");
+        assertTrue(mycelium3b.isConnectedToMushroomBody(), "Not implemented");
+        assertTrue(mycelium3c.isConnectedToMushroomBody(), "Not implemented");
+
+        // Third
+
+        MyceliumTestClass mycelium1d = mycelium1a.createNewBranch(tectons[1]);
+        MyceliumTestClass mycelium2d = mycelium2b.createNewBranch(tectons[2]);
+        MyceliumTestClass mycelium3d = mycelium3c.createNewBranch(tectons[3]);
 
         assertTrue(mycelium1a.isConnectedToMushroomBody(), "Not implemented");
         assertTrue(mycelium1b.isConnectedToMushroomBody(), "Not implemented");

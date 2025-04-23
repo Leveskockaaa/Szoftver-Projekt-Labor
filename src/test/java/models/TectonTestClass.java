@@ -37,6 +37,10 @@ public class TectonTestClass {
         return spores;
     }
 
+    public void addSpore(SporeTestClass spore) {
+        spores.add(spore);
+    }
+
     public InsectTestClass getInsect() {
         return insect;
     }

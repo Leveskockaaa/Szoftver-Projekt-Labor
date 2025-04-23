@@ -1,7 +1,6 @@
 package com.example;
 
 import java.util.List;
-import java.util.Random;
 
 /**
  * Represents a MushroomBody in the domain model.
@@ -52,25 +51,6 @@ public abstract class MushroomBody {
         this.superBody = false;
         this.dead = false;
         this.canSpreadSpores = true;
-    }
-
-    public static MushroomBody createRandomMushroomBody(Tecton tecton, Mycologist mycologist) {
-        int type = new Random().nextInt(3);
-        switch (type) {
-            case 0 -> {
-                return new Capulon(tecton, mycologist);
-            }
-            case 1 -> {
-                return new Gilledon(tecton, mycologist);
-            }
-            case 2 -> {
-                return new Hyphara(tecton, mycologist);
-            }
-            case 3 -> {
-                return new Poralia(tecton, mycologist);
-            }
-            default -> throw new AssertionError();
-        }
     }
 
     /**
