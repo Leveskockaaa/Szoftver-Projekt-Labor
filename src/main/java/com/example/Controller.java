@@ -21,6 +21,10 @@ public class Controller {
         return null;
     }
 
+    public static boolean isRandomOn() {
+        return isRandomOn;
+    }
+
     public void runCommand(String command) {
         boolean isCommandValid = validateCommand(command);
         if (!isCommandValid) {
