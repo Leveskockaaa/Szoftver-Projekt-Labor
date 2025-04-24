@@ -96,6 +96,33 @@ public class Controller {
                 System.out.println("Random: OFF");
             }
             return;
+        } else if (commandParts[0].equalsIgnoreCase("endgame")) {
+            System.out.println("The game has ended!");
+            System.out.println("Winners:");
+            Mycologist mycologistWinner = null;
+            Entomologist entomologistWinner = null;
+            for (Object obj : nameMap.keySet()) {
+                if (obj instanceof Mycologist mycologist) {
+                    if (mycologist.printIsWinner().equals("Yes")) {
+                        mycologistWinner = mycologist;
+                    }
+                } else if (obj instanceof Entomologist entomologist) {
+                    if (entomologist.printIsWinner().equals("Yes")) {
+                        entomologistWinner = entomologist;
+                    }
+                }
+            }
+            if (mycologistWinner == null) {
+                System.out.println(Indent + "Mycologist: No winner");
+            } else {
+                System.out.println(Indent + "Mycologist: " + mycologistWinner.printName());
+            }
+            if (entomologistWinner == null) {
+                System.out.println(Indent + "Entomologist: No winner");
+            } else {
+                System.out.println(Indent + "Entomologist: " + entomologistWinner.printName());
+            }
+
         }
         if (object instanceof Tecton tecton) {
             System.out.println(tecton.printName() + ":");
