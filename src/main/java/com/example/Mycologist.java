@@ -73,16 +73,6 @@ public class Mycologist extends Player{
     }
 
     /**
-     * Beállítja a score attribútum értékét s-re.
-     * @param s Az új score érték.
-     */
-//    public void setScore(int s){
-//        Skeleton.logFunctionCall(this, "setScore", score);
-//
-//        Skeleton.logReturn(this, "setScore");
-//    }
-
-    /**
      * Elhelyezi a játékos gombatestét a kezdő tektonra.
      * @param on A kezdő tektonunk.
      */

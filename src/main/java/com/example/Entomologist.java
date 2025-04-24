@@ -36,20 +36,6 @@ public class Entomologist extends Player {
         on.placeInsect(insects.get(0));
     }
 
-    /**
-     * Beállítja az entomológus pontszámát.
-     *
-     * Ez a metódus hozzáadja a megadott pontszámot az entomológus aktuális pontszámához.
-     * Először naplózza a függvényhívást, majd frissíti a pontszámot, és végül naplózza a visszatérést.
-     *
-     * @param score A pontszám, amelyet hozzá kell adni az entomológus aktuális pontszámához.
-     */
-//    public void setScore(int score) {
-//        Skeleton.logFunctionCall(this, "setScore", Integer.toString(score));
-//        this.score += score;
-//        Skeleton.logReturn(this, "setScore");
-//    }
-
     public void addInsect(Insect i) { insects.add(i); }
     public void removeInsect(Insect i) { insects.remove(i); }
 }
