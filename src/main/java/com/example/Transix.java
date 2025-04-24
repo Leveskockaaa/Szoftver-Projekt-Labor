@@ -7,6 +7,14 @@ package com.example;
  */
 public class Transix extends Tecton {
 
+    public Transix() {
+        super();
+    }
+
+    public Transix(TectonSize size) {
+        super(size);
+    }
+
     /**
      * Amennyiben nincsen gombatest a
      * tektonon és minden feltétel fennáll elhelyezi a paraaméterként kapott gombatestet a
@@ -41,10 +49,13 @@ public class Transix extends Tecton {
      */
     @Override
     public boolean canAddMycelium() {
-        Skeleton.logFunctionCall(this, "canAddMycelium");
+        if (mycelia.size() < maxMycelia) {
+            Skeleton.logFunctionCall(this, "canAddMycelium");
 
-        Skeleton.logReturn(this, "canAddMycelium");
-        return true;
+            Skeleton.logReturn(this, "canAddMycelium");
+            return true;
+        }
+        return false;
     }
 
     /**

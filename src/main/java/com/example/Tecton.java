@@ -2,6 +2,8 @@ package com.example;
 
 import java.util.*;
 
+import static com.example.TectonSize.decreaseSize;
+
 
 /**
  * Az osztály felelőssége egy platformot adni a játékban résztvevő elemeknek, legyenek azok
@@ -61,6 +63,16 @@ public abstract class Tecton {
      * Default Konstruktor.
      */
     public Tecton() {
+        size = TectonSize.GIANT;
+        spores = new ArrayList<>();
+        neighbors = new HashSet<>();
+        mushroomBody = null;
+        insect = null;
+        mycelia = new ArrayList<>();
+    }
+
+    public Tecton(TectonSize size) {
+        this.size = size;
         spores = new ArrayList<>();
         neighbors = new HashSet<>();
         mushroomBody = null;
@@ -96,13 +108,10 @@ public abstract class Tecton {
      * @return A létrejött két új tekton listája.
      */
     public List<Tecton> breakApart() {
-        Skeleton.logFunctionCall(this, "breakApart");
 
-        Transix t1 = new Transix();
-        Skeleton.logCreateInstance(t1, "Transix", "t1");
+        Transix t1 = new Transix(decreaseSize(this.size));
 
-        Transix t2 = new Transix();
-        Skeleton.logCreateInstance(t2, "Transix", "t2");
+        Transix t2 = new Transix(decreaseSize(this.size));
 
         Tecton n1 = (Tecton) Skeleton.getFromNameMap("neigh1");
         Tecton n2 = (Tecton) Skeleton.getFromNameMap("neigh2");
