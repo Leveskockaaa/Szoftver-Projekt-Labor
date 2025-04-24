@@ -51,4 +51,24 @@ public abstract class Player {
     public boolean getIsWinner() { return isWinner; }
 
     public String getName() { return name; }
+    /*
+    =============================================================================================
+    Teszteléshez kiíró metódusok
+    =============================================================================================
+     */
+
+    public String printName() {
+        return this.name;
+    }
+
+    public abstract String printType();
+
+    public String printScore() {
+        return Integer.toString(this.score);
+    }
+
+    public String printIsWinner() {
+        return isWinner ? "Yes" : "No";
+    }
+
 }

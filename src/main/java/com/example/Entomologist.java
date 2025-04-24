@@ -36,6 +36,28 @@ public class Entomologist extends Player {
         on.placeInsect(insects.get(0));
     }
 
+    /*
+    =============================================================================================
+    Teszteléshez kiíró metódusok
+    =============================================================================================
+     */
+
+    public String printType() {
+        return this.getClass().getSimpleName();
+    }
+
+    public String printInsects() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (Insect insect : insects) {
+            sb.append(insect.printName()).append(", ");
+        }
+        if (sb.length() > 1) {
+            sb.setLength(sb.length() - 2); // Remove the last comma and space
+        }
+        sb.append("]");
+        return sb.toString();
+    }
     public void addInsect(Insect i) { insects.add(i); }
     public void removeInsect(Insect i) { insects.remove(i); }
 }

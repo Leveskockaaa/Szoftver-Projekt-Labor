@@ -1,7 +1,5 @@
 package com.example;
 
-import javax.net.ssl.SSLKeyException;
-
 /**
  * Egy rovar entitást reprezentál különböző attribútumokkal és viselkedésekkel,
  * mint például micélium rágása, spórák evése, különböző Tecton-okra való mozgás stb.
@@ -273,5 +271,43 @@ public class Insect {
      */
     public void setEntomologist(Entomologist entomologist) {
         this.entomologist = entomologist;
+    }
+
+    /*
+    =============================================================================================
+    Teszteléshez kiíró metódusok
+    =============================================================================================
+     */
+
+    public String printName() {
+        return this.name;
+    }
+
+    public String printCollectedNutrientPoints() {
+        return Integer.toString(this.collectedNutrientPoints);
+    }
+
+    public String printNutrientMultiplier() {
+        return Integer.toString(this.nutrientMultiplier);
+    }
+
+    public String printCanChewMycelium() {
+        return canChewMycelium ? "Yes" : "No";
+    }
+
+    public String printCanEat() {
+        return canEat ? "Yes" : "No";
+    }
+
+    public String printSpeed() {
+        return Float.toString(this.speed);
+    }
+
+    public String printIsParalized() {
+        return isParalized ? "Yes" : "No";
+    }
+
+    public String printTecton() {
+        return this.tecton.printName();
     }
 }

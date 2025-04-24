@@ -10,6 +10,8 @@ import java.util.List;
  */
 public class Mycelium {
 
+    private String name;
+
     /**
      * Egy igaz-hamis érték arról, hogy éppen tud-e növekedni a gombafonal.
      */
@@ -432,7 +434,7 @@ public class Mycelium {
             throw new IllegalArgumentException(exception.getMessage());
         }
 
-        Insect insect = tecton.getInsect();
+        Insect insect = tecton.getInsects();
 
         try {
             if (insect == null) {
@@ -468,5 +470,40 @@ public class Mycelium {
         MushroomBody mushroomBody = MushroomBody.createMushroomBody(tecton, mycologist);
         tecton.placeMushroomBody(mushroomBody);
         insectEaten = true;
+    }
+
+    /*
+    =============================================================================================
+    Teszteléshez kiíró metódusok
+    =============================================================================================
+     */
+
+    public String printName() {
+        return name;
+    }
+
+    public String printCanGrow() {
+        return canGrow ? "Yes" : "No";
+    }
+
+    public String printGrowthSpeed() {
+        return String.valueOf(growthSpeed);
+    }
+
+    public String printConnections() {
+        StringBuilder connections = new StringBuilder();
+        connections.append("[");
+        for (Mycelium mycelium : myceliumConnections) {
+            connections.append(mycelium.printName()).append(", ");
+        }
+        if (connections.length() > 0) {
+            connections.setLength(connections.length() - 2); // remove last comma and space
+        }
+        connections.append("]");
+        return connections.toString();
+    }
+
+    public String printMushroomBodys() {
+        return "TODO";
     }
 }

@@ -82,4 +82,57 @@ public class Mycologist extends Player{
         on.placeMushroomBody(mushroomBodies.get(0));
         Skeleton.logReturn(this, "placeInitial");
     }
+
+    /*
+    =============================================================================================
+    Teszteléshez kiíró metódusok
+    =============================================================================================
+     */
+
+    public String printType() {
+        return this.getClass().getSimpleName();
+    }
+
+    public String printSpecies() {
+        return this.mushroomBodies.get(0).getClass().getSimpleName();
+    }
+
+    public String printMushroomBodies() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (MushroomBody mb : mushroomBodies) {
+            sb.append(mb.printName()).append(", ");
+        }
+        if (sb.length() > 1) {
+            sb.setLength(sb.length() - 2); // Remove the last comma and space
+        }
+        sb.append("]");
+        return sb.toString();
+    }
+
+    public String printBag() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (MushroomBody mb : bag) {
+            sb.append(mb.printName()).append(", ");
+        }
+        if (sb.length() > 1) {
+            sb.setLength(sb.length() - 2); // Remove the last comma and space
+        }
+        sb.append("]");
+        return sb.toString();
+    }
+
+    public String printMycelia() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (Mycelium my : myceliums) {
+            sb.append(my.printName()).append(", ");
+        }
+        if (sb.length() > 1) {
+            sb.setLength(sb.length() - 2); // Remove the last comma and space
+        }
+        sb.append("]");
+        return sb.toString();
+    }
 }

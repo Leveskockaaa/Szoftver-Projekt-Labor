@@ -23,5 +23,14 @@ public class CapulonSpore extends Spore {
         
         Skeleton.logReturn(this, "takeEffectOn");
     }
-    
+
+    /*
+    =============================================================================================
+    Teszteléshez kiíró metódusok
+    =============================================================================================
+     */
+    @Override
+    public String printType() {
+        return this.getClass().getSimpleName();
+    }
 }

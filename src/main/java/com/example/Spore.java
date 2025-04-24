@@ -40,5 +40,14 @@ public abstract class Spore {
      * @param insect A rovar amire hatni kell.
      */
     public abstract void takeEffectOn(Insect insect);
+
+    /*
+    =============================================================================================
+    Teszteléshez kiíró metódusok
+    =============================================================================================
+     */
+
+    public abstract String printType();
+
 }
 

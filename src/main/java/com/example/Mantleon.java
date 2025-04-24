@@ -8,12 +8,30 @@ package com.example;
 public class Mantleon extends Tecton {
 
     /**
+     * Alapértelmezett konstruktor a Magmox osztályhoz.
+     * Beállítja az alapértelmezett értékeket, például a maximális gombafonalak számát.
+     */
+    public Mantleon() {
+        super();
+        maxMycelia = 2;
+    }
+
+    /**
+     * Konstruktor, amely beállítja a tekton méretét és az alapértelmezett maximális gombafonalak számát.
+     *
+     * @param size A tekton mérete.
+     */
+    public Mantleon(TectonSize size) {
+        super(size);
+        maxMycelia = 2;
+    }
+
+    /**
      * Mivel a Mantleon nem tartalmaz gombatestet, ezért a gombatestet kezelő metódusok nem csinálnak semmit.
      */
     @Override
     public void placeMushroomBody(MushroomBody mushroomBody) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'placeMushroomBody'");
+        return;
     }
 
     /**
@@ -24,8 +42,7 @@ public class Mantleon extends Tecton {
      */
     @Override
     public boolean canAddMycelium() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'canAddMycelium'");
+        return mycelia.size() < maxMycelia;
     }
 
     /**
@@ -35,9 +52,7 @@ public class Mantleon extends Tecton {
      */
     @Override
     public void addMycelium(Mycelium mycelium) {
-        Skeleton.logFunctionCall(this, "addMycelium", mycelium);
         this.mycelia.add(mycelium);
-        Skeleton.logReturn(this, "addMycelium");
     }
 
     /**
@@ -55,23 +70,33 @@ public class Mantleon extends Tecton {
      */
     @Override
     public void placeInsect(Insect insect) {
-        Skeleton.logFunctionCall(this, "placeInsect", insect);
 
         if (insect.getTecton() == null){
             insect.setTecton(this);
-            Skeleton.logReturn(this, "placeInsect");
-            return;
-        }
-
-        if (this.insect != null || !hasConnection(insect)) {
-            Skeleton.logReturn(this, "placeInsect");
+            this.insects.add(insect);
         } else {
             insect.neutralizeTectonEffects();
             insect.getTecton().removeInsect();
             insect.setTecton(this);
-            Skeleton.logReturn(this, "placeInsect");
+            insect.setNutrientMultiplier(2);
         }
     }
-    
+
+    /*
+    =============================================================================================
+    Teszteléshez kiíró metódusok
+    =============================================================================================
+     */
+
+
+    /**
+     * Visszaadja a tekton típusát.
+     *
+     * @return A tekton típusa.
+     */
+    @Override
+    public String printType() {
+        return this.getClass().getSimpleName();
+    }
 }
 
