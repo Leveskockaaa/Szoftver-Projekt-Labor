@@ -1,9 +1,8 @@
 package com.example;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
+
+import static com.example.TectonSize.decreaseSize;
 
 
 /**
@@ -27,7 +26,7 @@ public abstract class Tecton {
      * A tecton eltárolja, hogy melyik rovar van éppen rajta egy
      * szimpla egy elemes változóban.
      */
-    protected Insect insect;
+    protected List<Insect> insects;
 
     /**
      * Egyedi azonosítója a Tecton-nak.
@@ -64,10 +63,20 @@ public abstract class Tecton {
      * Default Konstruktor.
      */
     public Tecton() {
+        size = TectonSize.GIANT;
         spores = new ArrayList<>();
         neighbors = new HashSet<>();
         mushroomBody = null;
-        insect = null;
+        insects = null;
+        mycelia = new ArrayList<>();
+    }
+
+    public Tecton(TectonSize size) {
+        this.size = size;
+        spores = new ArrayList<>();
+        neighbors = new HashSet<>();
+        mushroomBody = null;
+        insects = null;
         mycelia = new ArrayList<>();
     }
 
@@ -90,8 +99,8 @@ public abstract class Tecton {
         return mycelia;
     }
 
-    public Insect getInsect() {
-        return insect;
+    public List<Insect> getInsects() {
+        return insects;
     }
 
     /**
@@ -103,44 +112,85 @@ public abstract class Tecton {
      * @return A létrejött két új tekton listája.
      */
     public List<Tecton> breakApart() {
-        Skeleton.logFunctionCall(this, "breakApart");
 
-        Transix t1 = new Transix();
-        Skeleton.logCreateInstance(t1, "Transix", "t1");
+        //Két új tekton létrehozása
+        Transix t1 = new Transix(decreaseSize(this.size));
+        Transix t2 = new Transix(decreaseSize(this.size));
 
-        Transix t2 = new Transix();
-        Skeleton.logCreateInstance(t2, "Transix", "t2");
-
-        Tecton n1 = (Tecton) Skeleton.getFromNameMap("neigh1");
-        Tecton n2 = (Tecton) Skeleton.getFromNameMap("neigh2");
-
+        //Köztük kapcsolat létrehozása
         t1.addTectonToNeighbors(t2);
 
         if (this.hasInsect()) {
-            boolean toT1 = Skeleton.logBranch("A t1-re (y), vagy a t2-re (n) kerüljön a rovar?");
-            if (toT1) {
-                t1.placeInsect(this.insect);
+            //Ha van rajta rovar, akkor a szomszédos tektonok közül az egyikre kerül
+            if (Controller.isRandomOn()) {
+                Random random = new Random();
+                int randomIndex = random.nextInt(2);
+                if (randomIndex == 0) {
+                    for (Insect insect : insects) {
+                        t1.placeInsect(insect);
+                    }
+                } else {
+                    for (Insect insect : insects) {
+                        t2.placeInsect(insect);
+                    }
+                }
             } else {
-                t2.placeInsect(this.insect);
+                for (Insect insect : insects) {
+                    t2.placeInsect(insect);
+                }
             }
         }
 
         if (this.hasMushroomBody()) {
-            boolean toT1 = Skeleton.logBranch("A t1-re (y), vagy a t2-re (n) kerüljön a gomba test?");
-            if (toT1) {
-                t1.placeMushroomBody(this.mushroomBody);
-                t1.addMycelium(this.mycelia.get(0));
+            //Ha van rajta gombatest, akkor a szomszédos tektonok közül az egyikre kerül
+            if (Controller.isRandomOn()) {
+                Random random = new Random();
+                int randomIndex = random.nextInt(2);
+                if (randomIndex == 0) {
+                    t1.placeMushroomBody(this.mushroomBody);
+                } else {
+                    t2.placeMushroomBody(this.mushroomBody);
+                }
             } else {
                 t2.placeMushroomBody(this.mushroomBody);
-                t2.addMycelium(this.mycelia.get(0));
             }
         }
 
-        n1.changeNeighbour(this, t2);
+        //A két új tektonra kerülnek a myceliumok
+        if (!this.mycelia.isEmpty()) {
+            for (Mycelium m : this.mycelia) {
+                t1.addMycelium(m);
+                t2.addMycelium(m);
+            }
+        }
 
-        n2.changeNeighbour(this, t1);
 
-        Skeleton.logReturn(this, "breakApart");
+        //Veszünk egy tectont a szomszédaink közül
+        Tecton n1 = this.neighbors.iterator().next();
+        this.neighbors.remove(n1);
+
+        //Hozzáadjuk az egyik új tektonhoz
+        t1.addTectonToNeighbors(n1);
+        n1.changeNeighbour(this, t1);
+
+        while (n1.neighbors.iterator().hasNext()) {
+            Tecton n2 = n1.neighbors.iterator().next();
+            if (this.neighbors.contains(n2)) {
+                this.neighbors.remove(n2);
+                t1.addTectonToNeighbors(n2);
+                n2.changeNeighbour(this, t2);
+            }
+        }
+
+        while (!this.neighbors.isEmpty()) {
+            Tecton n = this.neighbors.iterator().next();
+            this.neighbors.remove(n);
+            t2.addTectonToNeighbors(n);
+            n.changeNeighbour(this, t2);
+        }
+
+
+
         return new ArrayList<>(Arrays.asList(t1, t2));
     }
 
@@ -152,10 +202,8 @@ public abstract class Tecton {
      */
     public void addTectonToNeighbors(Tecton tecton) {
         if (!neighbors.contains(tecton)) {
-            Skeleton.logFunctionCall(this, "addTectonToNeighbors", tecton);
             neighbors.add(tecton);
             tecton.addTectonToNeighbors(this);
-            Skeleton.logReturn(this, "addTectonToNeighbors");
         }
     }
 
@@ -166,10 +214,8 @@ public abstract class Tecton {
      * @param to Az új szomszédos Tecton.
      */
     public void changeNeighbour(Tecton from, Tecton to) {
-        Skeleton.logFunctionCall(this, "changeNeighbour", from, to);
         neighbors.remove(from);
         to.addTectonToNeighbors(this);
-        Skeleton.logReturn(this, "changeNeighbour");
     }
 
 
@@ -188,7 +234,7 @@ public abstract class Tecton {
      * @return true, ha van rovar, különben false.
      */
     public boolean hasInsect() {
-        return insect != null;
+        return insects != null && !insects.isEmpty();
     }
 
 
@@ -216,21 +262,16 @@ public abstract class Tecton {
      * @return A elhalt gombatest.
      */
     public MushroomBody removeMushroomBody() {
-        Skeleton.logFunctionCall(this, "removeMushroomBody");
-
-        Skeleton.logReturn(this, "removeMushroomBody");
-        return null;
+        MushroomBody mushroomBody = this.mushroomBody;
+        this.mushroomBody = null;
+        return mushroomBody;
     }
 
     /**
      * Eltávolítja a tektonon elhelyezkedő rovart.
      */
     public void removeInsect() {
-        Skeleton.logFunctionCall(this, "removeInsect");
-
-        insect = null;
-
-        Skeleton.logReturn(this, "removeInsect");
+        this.insects.remove(this.insects.get(0));
     }
 
     /**
@@ -239,9 +280,7 @@ public abstract class Tecton {
      * @param spore A hozzáadandó spóra.
      */
     public void addSpore(Spore spore) {
-        Skeleton.logFunctionCall(this, "addSpore", spore);
         spores.add(spore);
-        Skeleton.logReturn(this, "addSpore");
     }
 
 
@@ -263,8 +302,24 @@ public abstract class Tecton {
      * @return true, ha sikeresen elvette a spórákat, különben false.
      */
     public boolean takeSpore(Spore spore, int quantity) {
-        // TODO: Implement logic
-        return false;
+        int count = 0;
+        for (Spore currentSpore : spores) {
+            if (currentSpore.getClass().equals(spore.getClass())) {
+                count++;
+            }
+        }
+        if (count < quantity) {
+            return false;
+        }
+        int removedCount = 0;
+        for (Iterator<Spore> iterator = spores.iterator(); iterator.hasNext() && removedCount < quantity; ) {
+            Spore currentSpore = iterator.next();
+            if (currentSpore.getClass().equals(spore.getClass())) {
+                iterator.remove();
+                removedCount++;
+            }
+        }
+        return true;
     }
 
 
@@ -275,11 +330,7 @@ public abstract class Tecton {
      * @return A legrégebb óta heverő spóra.
      */
     public Spore removeOldestSpore() {
-        Skeleton.logFunctionCall(this, "removeOldestSpore");
-        Spore spore = spores.remove(0);
-        
-        Skeleton.logReturn(this, "removeOldestSpore");
-        return spore;
+        return spores.remove(0);
     }
 
     /**
@@ -288,8 +339,7 @@ public abstract class Tecton {
      * @return A szomszédos tektonok száma.
      */
     public int neighborCount() {
-        // TODO: Implement logic
-        return 0;
+        return neighbors.size();
     }
 
     
@@ -343,8 +393,90 @@ public abstract class Tecton {
      * @return true, ha sikeresen levette, különben false.
      */
     public boolean removeMycelium(Mycelium mycelium) {
-        // TODO: Implement logic
+        if (mycelium != null && mycelia.contains(mycelium)) {
+            mycelia.remove(mycelium);
+            return true;
+        }
         return false;
     }
 
+    /*
+    =============================================================================================
+    Teszteléshez kiíró metódusok
+    =============================================================================================
+     */
+
+    public String printSize() {
+        return size.toString();
+    }
+
+    public String printMaxMycelia() {
+        return String.valueOf(maxMycelia);
+    }
+
+    public String printName() {
+        return name;
+    }
+
+    public String printNeighbors() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (Tecton t : neighbors) {
+            sb.append(t.printName()).append(": ").append(t.printType()).append(", ");
+        }
+        if (sb.length() > 1) {
+            sb.setLength(sb.length() - 2); // remove the last comma and space
+        }
+        sb.append("]");
+        return sb.toString();
+    }
+
+    public abstract String printType();
+
+    public String printMushroomBody() {
+        if (mushroomBody != null) {
+            return mushroomBody.printName() + ": " + mushroomBody.printType();
+        } else {
+            return "-";
+        }
+    }
+
+    public String printMycelia() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (Mycelium m : mycelia) {
+            sb.append(m.printName()).append(", ");
+        }
+        if (sb.length() > 1) {
+            sb.setLength(sb.length() - 2); // remove the last comma and space
+        }
+        sb.append("]");
+        return sb.toString();
+    }
+
+    public String printSpores() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (Spore s : spores) {
+            sb.append(s.printType()).append(", ");
+        }
+        if (sb.length() > 1) {
+            sb.setLength(sb.length() - 2); // remove the last comma and space
+        }
+        sb.append("]");
+        return sb.toString();
+    }
+
+    public String printInsects() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (Insect i : insects) {
+            sb.append(i.printName()).append(", ");
+        }
+        if (sb.length() > 1) {
+            sb.setLength(sb.length() - 2); // remove the last comma and space
+        }
+        sb.append("]");
+        return sb.toString();
+    }
 }

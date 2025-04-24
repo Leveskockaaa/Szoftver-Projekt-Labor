@@ -8,6 +8,10 @@ import java.util.List;
  */
 public abstract class MushroomBody {
     /**
+     * A gombatesthez tartozó egyedi név.
+     */
+    protected String name;
+    /**
      * Egy igaz-hamis érték arról, hogy a gombatest szupergomba-e.
      */
     protected boolean superBody;
@@ -88,5 +92,33 @@ public abstract class MushroomBody {
      * @return true if the MushroomBody can evolve, false otherwise
      */
     public abstract boolean canEvolve();
+
+    /*
+    =============================================================================================
+    Teszteléshez kiíró metódusok
+    =============================================================================================
+     */
+
+    public String printName() {
+        return name;
+    }
+
+    public abstract String printType();
+
+    public String printLevel() {
+        return superBody ? "Super" : "Normal";
+    }
+
+    public String printState() {
+        return dead ? "Dead" : "Alive";
+    }
+
+    public String printSporeSpread() {
+        return canSpreadSpores ? "Yes" : "No";
+    }
+
+    public String printSporeSpreadsLeft() {
+        return String.valueOf(sporeSpreadsLeft);
+    }
 }
 

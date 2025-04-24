@@ -104,4 +104,14 @@ public class Poralia extends MushroomBody{
             superBody = true;
         }
     }
+
+    /*
+    =============================================================================================
+    Teszteléshez kiíró metódusok
+    =============================================================================================
+     */
+    @Override
+    public String printType() {
+        return this.getClass().getSimpleName();
+    }
 }

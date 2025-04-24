@@ -19,4 +19,14 @@ public class CapulonSpore extends Spore {
     public void takeEffectOn(Insect insect) {
         insect.disableChewMycelium();
     }
+
+    /*
+    =============================================================================================
+    Teszteléshez kiíró metódusok
+    =============================================================================================
+     */
+    @Override
+    public String printType() {
+        return this.getClass().getSimpleName();
+    }
 }

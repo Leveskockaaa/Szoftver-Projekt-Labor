@@ -19,5 +19,14 @@ public class PoraliaSpore extends Spore {
     public void takeEffectOn(Insect insect) {
         insect.paralize();
     }
-    
+
+    /*
+    =============================================================================================
+    Teszteléshez kiíró metódusok
+    =============================================================================================
+     */
+    @Override
+    public String printType() {
+        return this.getClass().getSimpleName();
+    }
 }

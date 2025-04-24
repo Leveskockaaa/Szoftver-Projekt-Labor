@@ -44,4 +44,24 @@ public abstract class Player {
      */
     public abstract void placeInitial(Tecton on);
 
+    /*
+    =============================================================================================
+    Teszteléshez kiíró metódusok
+    =============================================================================================
+     */
+
+    public String printName() {
+        return this.name;
+    }
+
+    public abstract String printType();
+
+    public String printScore() {
+        return Integer.toString(this.score);
+    }
+
+    public String printIsWinner() {
+        return isWinner ? "Yes" : "No";
+    }
+
 }

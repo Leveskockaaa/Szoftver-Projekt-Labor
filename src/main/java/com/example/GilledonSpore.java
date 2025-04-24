@@ -19,5 +19,14 @@ public class GilledonSpore extends Spore {
     public void takeEffectOn(Insect insect) {
         insect.setSpeed(0.66f);
     }
-    
+
+    /*
+    =============================================================================================
+    Teszteléshez kiíró metódusok
+    =============================================================================================
+     */
+    @Override
+    public String printType() {
+        return this.getClass().getSimpleName();
+    }
 }

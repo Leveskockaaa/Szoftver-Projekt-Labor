@@ -104,4 +104,14 @@ public class Hyphara extends MushroomBody{
             superBody = true;
         }
     }
+
+    /*
+    =============================================================================================
+    Teszteléshez kiíró metódusok
+    =============================================================================================
+     */
+    @Override
+    public String printType() {
+        return this.getClass().getSimpleName();
+    }
 }

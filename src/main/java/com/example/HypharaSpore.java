@@ -19,5 +19,14 @@ public class HypharaSpore extends Spore {
     public void takeEffectOn(Insect insect) {
         insect.setSpeed(1.5f);
     }
-    
+
+    /*
+    =============================================================================================
+    Teszteléshez kiíró metódusok
+    =============================================================================================
+     */
+    @Override
+    public String printType() {
+        return this.getClass().getSimpleName();
+    }
 }
