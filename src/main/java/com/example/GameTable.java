@@ -105,12 +105,12 @@ public class GameTable {
         Skeleton.logReturn(this, "initialize");
     }
 
-    private MushroomBody chooseType(Tecton tecton, String type){
+    private MushroomBody chooseType(Tecton tecton, String type, Mycologist m){
         MushroomBody mBody = switch (type) {
-            case "Hyphara" -> new Hyphara(tecton);
-            case "Gilledon" -> new Gilledon(tecton);
-            case "Poralia" -> new Poralia(tecton);
-            default -> new Capulon(tecton);
+            case "Hyphara" -> new Hyphara(tecton, m);
+            case "Gilledon" -> new Gilledon(tecton, m);
+            case "Poralia" -> new Poralia(tecton, m);
+            default -> new Capulon(tecton, m);
         };
 
         return mBody;
@@ -143,12 +143,18 @@ public class GameTable {
         System.out.println("Hanyadik tektonra kerüljön a gombatest a listából? (1-10)");
         int initialTecton = roleInput.nextInt();
         String mushroomType = roleInput.nextLine();
-        m1.addMushroomBody(chooseType(tectons.get(initialTecton), mushroomType));
+        m1.addMushroomBody(chooseType(tectons.get(initialTecton), mushroomType, m1));
+        Mycelium my1 = new Mycelium(tectons.get(initialTecton), m1);
+        m1.addMycelium(my1);
+        tectons.get(initialTecton).addMycelium(my1);
 
         System.out.println("Hanyadik tektonra kerüljön a gombatest a listából? (1-10)");
         initialTecton = roleInput.nextInt();
         mushroomType = roleInput.nextLine();
-        m2.addMushroomBody(chooseType(tectons.get(initialTecton), mushroomType));
+        m2.addMushroomBody(chooseType(tectons.get(initialTecton), mushroomType, m2));
+        Mycelium my2 = new Mycelium(tectons.get(initialTecton), m2);
+        m2.addMycelium(my2);
+        tectons.get(initialTecton).addMycelium(my2);
 
         System.out.println("Hanyadik tektonra kerüljön a rovar a listából? (1-10)");
         initialTecton = roleInput.nextInt();
