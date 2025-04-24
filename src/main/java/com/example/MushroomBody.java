@@ -45,11 +45,20 @@ public abstract class MushroomBody {
     /**
      * Default constructor.
      */
-    public MushroomBody(Tecton tecton) {
+    protected MushroomBody(Tecton tecton, Mycologist mycologist) {
+        this.mycologist = mycologist;
         this.tecton = tecton;
         this.superBody = false;
         this.dead = false;
         this.canSpreadSpores = true;
+    }
+
+    /**
+     * Getter a gombatesthez tartozó tektonhoz.
+     * @return A gombatesthez tartozó tekton.
+     */
+    public Tecton getTecton() {
+        return tecton;
     }
 
     public void setMycologist(Mycologist mycologist) {
@@ -60,22 +69,13 @@ public abstract class MushroomBody {
      * Enables spore spread for this MushroomBody.
      */
     public void enableSporeSpread() {
-        Skeleton.logFunctionCall(this, "enableSporeSpread");
         canSpreadSpores = true;
-        Skeleton.logReturn(this, "enableSporeSpread");
     }
 
     /**
      * Evolves to Mushroom Body to Super Mushroom
      */
-    public void evolveSuper() {
-        Skeleton.logFunctionCall(this, "evolveSuper");
-        if(canEvolve()){
-            superBody = true;
-            //System.out.println("Evolved");
-        }
-        Skeleton.logReturn(this, "evolveSuper");
-    }
+    public abstract void evolveSuper();
 
     /**
      * Spreads spores.

@@ -17,11 +17,6 @@ public class CapulonSpore extends Spore {
      */
     @Override
     public void takeEffectOn(Insect insect) {
-        Skeleton.logFunctionCall(this, "takeEffectOn", insect);
-        
         insect.disableChewMycelium();
-        
-        Skeleton.logReturn(this, "takeEffectOn");
     }
-    
 }
