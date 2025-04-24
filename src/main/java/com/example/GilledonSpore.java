@@ -17,11 +17,7 @@ public class GilledonSpore extends Spore {
      */
     @Override
     public void takeEffectOn(Insect insect) {
-        Skeleton.logFunctionCall(this, "takeEffectOn", insect);
-        
         insect.setSpeed(0.66f);
-        
-        Skeleton.logReturn(this, "takeEffectOn");
     }
 
     /*

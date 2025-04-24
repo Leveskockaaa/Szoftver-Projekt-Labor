@@ -73,22 +73,13 @@ public abstract class MushroomBody {
      * Enables spore spread for this MushroomBody.
      */
     public void enableSporeSpread() {
-        Skeleton.logFunctionCall(this, "enableSporeSpread");
         canSpreadSpores = true;
-        Skeleton.logReturn(this, "enableSporeSpread");
     }
 
     /**
      * Evolves to Mushroom Body to Super Mushroom
      */
-    public void evolveSuper() {
-        Skeleton.logFunctionCall(this, "evolveSuper");
-        if(canEvolve()){
-            superBody = true;
-            //System.out.println("Evolved");
-        }
-        Skeleton.logReturn(this, "evolveSuper");
-    }
+    public abstract void evolveSuper();
 
     /**
      * Spreads spores.

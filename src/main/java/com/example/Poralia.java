@@ -1,5 +1,8 @@
 package com.example;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+
 /**
  * A Poralia gombafaj gombatestjeinek kezeléséért felelős osztály.
  */
@@ -19,17 +22,49 @@ public class Poralia extends MushroomBody{
      */
     @Override
     public void spreadSpores() {
-        Skeleton.logFunctionCall(this, "spreadSpores");
-        for(Tecton t : tecton.getNeighbors()){
-            t.addSpore(new PoraliaSpore());
+        if(canSpreadSpores && sporeSpreadsLeft > 0) {
+            if(superBody){
+                superSpreadSpores();
+            }
+            else{
+                for(Tecton t : tecton.getNeighbors()){
+                    t.addSpore(new PoraliaSpore());
+                }
+            }
+
+            sporeSpreadsLeft--;
+            if(sporeSpreadsLeft == 0){
+                dead = true;
+                mycologist.collect(this);
+                tecton.removeMushroomBody();
+            }
         }
-        sporeSpreadsLeft--;
-        if(sporeSpreadsLeft == 0){
-            dead = true;
-            mycologist.collect(this);
-            tecton.removeMushroomBody();
+    }
+
+    /**
+     * Privát függvény amibe ki van szervezve a szupergomba spóra
+     * szórásának a logikája. BFS segítségével megy a tektonokon
+     * addig amíg a "gráfban" a tektonok mélységi száma el nem éri
+     * a kettőt, az ilyen tektonokra már nem lépünk oda.
+     */
+    private void superSpreadSpores(){
+        HashMap<Tecton, Integer> visited = new HashMap<>();
+        LinkedList<Tecton> queue = new LinkedList<>();
+        queue.add(tecton);
+        visited.put(tecton, 0);
+
+        while (!queue.isEmpty()) {
+            Tecton current = queue.poll();
+            int depth = visited.get(current);
+            if(depth != 0) current.addSpore(new PoraliaSpore());
+
+            for (Tecton neighbor : current.getNeighbors()) {
+                if (!visited.containsKey(current) && depth < 2) {
+                    visited.put(current, depth + 1);
+                    queue.add(neighbor);
+                }
+            }
         }
-        Skeleton.logReturn(this, "spreadSpores");
     }
 
     /**
@@ -39,21 +74,35 @@ public class Poralia extends MushroomBody{
      */
     @Override
     public boolean canEvolve() {
-        Skeleton.logFunctionCall(this, "canEvolve");
         int sporeCount = 0;
         for (Spore s : tecton.sporesAvailable()){
             if(s.getClass() == PoraliaSpore.class){ //Spore type?
                 sporeCount++;
             }
         }
-        Mycelium my = new Mycelium(tecton);
+
+        Mycelium my = null;
         for(Mycelium mycelium : tecton.getMycelia()){
-            if(mycelium.getBodyType() == Poralia.class){
+            if(mycelium.getMycologist() == mycologist){
                 my = mycelium;
+                break;
             }
         }
-        Skeleton.logReturn(this, "canEvolve");
-        return sporeCount >= 3 && my.getMyceliumConnections().size() >= 3;
+        return sporeCount >= 3 && my!= null && my.getMyceliumConnections().size() >= 3;
+    }
+
+    /**
+     * Megpróbálja szupergombává fejleszteni a gombatestet. Ha a
+     * körülmények adottak (a canEvolve() függvény true-val tér vissza) akkor átállítja a
+     * superBody attribútumot true-ra, és meghívja a tecton takeSpore függvényét, amellyel
+     * eltávolít 3 spórát a saját fajának spórái közül a tektonjáról.
+     */
+    @Override
+    public void evolveSuper() {
+        if(canEvolve()){
+            tecton.takeSpore(new PoraliaSpore(), 3);
+            superBody = true;
+        }
     }
 
     /*
