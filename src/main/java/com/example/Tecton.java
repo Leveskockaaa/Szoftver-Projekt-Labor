@@ -406,15 +406,15 @@ public abstract class Tecton {
     =============================================================================================
      */
 
-    public String getSize() {
+    public String printSize() {
         return size.toString();
     }
 
-    public String getMaxMycelia() {
+    public String printMaxMycelia() {
         return String.valueOf(maxMycelia);
     }
 
-    public String getName() {
+    public String printName() {
         return name;
     }
 
@@ -422,7 +422,7 @@ public abstract class Tecton {
         StringBuilder sb = new StringBuilder();
         sb.append("[");
         for (Tecton t : neighbors) {
-            sb.append(t.getName()).append(": ").append(t.printType()).append(", ");
+            sb.append(t.printName()).append(": ").append(t.printType()).append(", ");
         }
         if (sb.length() > 1) {
             sb.setLength(sb.length() - 2); // remove the last comma and space
@@ -435,7 +435,7 @@ public abstract class Tecton {
 
     public String printMushroomBody() {
         if (mushroomBody != null) {
-            return mushroomBody.getName() + ": " + mushroomBody.printType();
+            return mushroomBody.printName() + ": " + mushroomBody.printType();
         } else {
             return "-";
         }
@@ -445,7 +445,7 @@ public abstract class Tecton {
         StringBuilder sb = new StringBuilder();
         sb.append("[");
         for (Mycelium m : mycelia) {
-            sb.append(m.getName()).append(", ");
+            sb.append(m.printName()).append(", ");
         }
         if (sb.length() > 1) {
             sb.setLength(sb.length() - 2); // remove the last comma and space
@@ -471,7 +471,7 @@ public abstract class Tecton {
         StringBuilder sb = new StringBuilder();
         sb.append("[");
         for (Insect i : insects) {
-            sb.append(i.getName()).append(", ");
+            sb.append(i.printName()).append(", ");
         }
         if (sb.length() > 1) {
             sb.setLength(sb.length() - 2); // remove the last comma and space

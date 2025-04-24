@@ -89,32 +89,68 @@ public class Controller {
             System.out.println("Object not found in name map.");
             return;
         }
+        if (commandParts[0].equalsIgnoreCase("random")) {
+            if (isRandomOn) {
+                System.out.println("Random: ON");
+            } else {
+                System.out.println("Random: OFF");
+            }
+            return;
+        }
         if (object instanceof Tecton tecton) {
-            System.out.println(tecton.getName() + ":");
+            System.out.println(tecton.printName() + ":");
             System.out.println(Indent + "Type: " + tecton.printType());
-            System.out.println(Indent + "Size: " + tecton.getSize());
-            System.out.println(Indent + "maxMycelia: " + tecton.getMaxMycelia());
+            System.out.println(Indent + "Size: " + tecton.printSize());
+            System.out.println(Indent + "maxMycelia: " + tecton.printMaxMycelia());
             System.out.println(Indent + "Neighbors: " + tecton.printNeighbors());
             System.out.println(Indent + "MushroomBody: " + tecton.printMushroomBody());
             System.out.println(Indent + "Mycelia: " + tecton.printMycelia());
             System.out.println(Indent + "Spores: " + tecton.printSpores());
             System.out.println(Indent + "Insects: " + tecton.printInsects());
 
-        } else if (object instanceof Mycelium) {
-            Mycelium mycelium = (Mycelium) object;
-            System.out.println(mycelium.toString());
-        } else if (object instanceof Insect) {
-            Insect insect = (Insect) object;
-            System.out.println(insect.toString());
-        } else if (object instanceof MushroomBody) {
-            MushroomBody mushroomBody = (MushroomBody) object;
-            System.out.println(mushroomBody.toString());
-        } else if (object instanceof Spore) {
-            Spore spore = (Spore) object;
-            System.out.println(spore.toString());
-        } else if (object instanceof Player) {
-            Player player = (Player) object;
-            System.out.println(player.toString());
+        } else if (object instanceof Mycelium mycelium) {
+            System.out.println(mycelium.printName() + ":");
+            System.out.println(Indent + "canGrow: " + mycelium.printCanGrow());
+            System.out.println(Indent + "growthSpeed: " + mycelium.printGrowthSpeed());
+            System.out.println(Indent + "connectedTo: " + mycelium.printConnections());
+            System.out.println(Indent + "MushroomBodys: " + mycelium.printMushroomBodys());
+
+        } else if (object instanceof Insect insect) {
+            System.out.println(insect.printName() + ":");
+            System.out.println(Indent + "collectedNutrientPoints: " + insect.printCollectedNutrientPoints());
+            System.out.println(Indent + "nutrientMultiplier: " + insect.printNutrientMultiplier());
+            System.out.println(Indent + "canChewMycelium: " + insect.printCanChewMycelium());
+            System.out.println(Indent + "Speed: " + insect.printSpeed());
+            System.out.println(Indent + "isParalized: " + insect.printIsParalized());
+            System.out.println(Indent + "canEat: " + insect.printCanEat());
+            System.out.println(Indent + "Tecton: " + insect.printTecton());
+
+        } else if (object instanceof MushroomBody mushroomBody) {
+            System.out.println(mushroomBody.printName() + ":");
+            System.out.println(Indent + "Type: " + mushroomBody.printType());
+            System.out.println(Indent + "Level: " + mushroomBody.printLevel());
+            System.out.println(Indent + "State: " + mushroomBody.printState());
+            System.out.println(Indent + "canSpreadSpores: " + mushroomBody.printSporeSpread());
+            System.out.println(Indent + "sporeSpreadsLeft: " + mushroomBody.printSporeSpreadsLeft());
+
+        } else if (object instanceof Player player) {
+            System.out.println(player.printName() + ":");
+            System.out.println(Indent + "Type: " + player.printType());
+            System.out.println(Indent + "Score: " + player.printScore());
+            System.out.println(Indent + "isWinner: " + player.printIsWinner());
+            if (object instanceof Mycologist mycologist) {
+                System.out.println(Indent + "Species: " + mycologist.printSpecies());
+                System.out.println(Indent + "MushroomBodys: " + mycologist.printMushroomBodies());
+                System.out.println(Indent + "Bag: " + mycologist.printBag());
+                System.out.println(Indent + "Mycelia: " + mycologist.printMycelia());
+            } else if (object instanceof Entomologist entomologist) {
+                System.out.println(Indent + "Insects: " + entomologist.printInsects());
+            }
+
+        } else if (object instanceof GameTable gameTable) {
+            System.out.println(gameTable.printName() + ":");
+            System.out.println(Indent + "Tectons: " + gameTable.printTectons());
+            System.out.println(Indent + "Players: " + gameTable.printPlayers());
         }
     }
 

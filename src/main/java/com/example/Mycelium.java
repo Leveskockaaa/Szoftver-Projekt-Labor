@@ -478,7 +478,32 @@ public class Mycelium {
     =============================================================================================
      */
 
-    public String getName() {
+    public String printName() {
         return name;
+    }
+
+    public String printCanGrow() {
+        return canGrow ? "Yes" : "No";
+    }
+
+    public String printGrowthSpeed() {
+        return String.valueOf(growthSpeed);
+    }
+
+    public String printConnections() {
+        StringBuilder connections = new StringBuilder();
+        connections.append("[");
+        for (Mycelium mycelium : myceliumConnections) {
+            connections.append(mycelium.printName()).append(", ");
+        }
+        if (connections.length() > 0) {
+            connections.setLength(connections.length() - 2); // remove last comma and space
+        }
+        connections.append("]");
+        return connections.toString();
+    }
+
+    public String printMushroomBodys() {
+        return "TODO";
     }
 }

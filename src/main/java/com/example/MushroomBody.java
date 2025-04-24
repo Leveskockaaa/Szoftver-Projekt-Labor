@@ -108,10 +108,26 @@ public abstract class MushroomBody {
     =============================================================================================
      */
 
-    public String getName() {
+    public String printName() {
         return name;
     }
 
     public abstract String printType();
+
+    public String printLevel() {
+        return superBody ? "Super" : "Normal";
+    }
+
+    public String printState() {
+        return dead ? "Dead" : "Alive";
+    }
+
+    public String printSporeSpread() {
+        return canSpreadSpores ? "Yes" : "No";
+    }
+
+    public String printSporeSpreadsLeft() {
+        return String.valueOf(sporeSpreadsLeft);
+    }
 }
 

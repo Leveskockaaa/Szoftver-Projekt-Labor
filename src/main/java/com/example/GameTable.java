@@ -8,6 +8,10 @@ import java.util.List;
  */
 public class GameTable {
 
+    private String name;
+
+    private List<Player> players;
+
     /**
      * Tecton osztállyal való kapcsolat. A kapcsolat célja,
      * hogy a GameTable kezelni tudja a játéktéren elhelyezkedő tektonokat, amiket egy
@@ -39,5 +43,40 @@ public class GameTable {
         tectons.get(tectons.size() - 1).addTectonToNeighbors(tectons.get(0));
         Skeleton.logReturn(this, "initialize");
     }
-    
+
+    /*
+    =============================================================================================
+    Teszteléshez kiíró metódusok
+    =============================================================================================
+     */
+
+    public String printName() {
+        return this.name;
+    }
+
+    public String printTectons() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (Tecton t : tectons) {
+            sb.append(t.printName()).append(": ").append(t.printType()).append(", ");
+        }
+        if (sb.length() > 1) {
+            sb.setLength(sb.length() - 2);
+        }
+        sb.append("]");
+        return sb.toString();
+    }
+
+    public String printPlayers() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (Player p : players) {
+            sb.append(p.printName()).append(": ").append(p.printType()).append(", ");
+        }
+        if (sb.length() > 1) {
+            sb.setLength(sb.length() - 2);
+        }
+        sb.append("]");
+        return sb.toString();
+    }
 }
