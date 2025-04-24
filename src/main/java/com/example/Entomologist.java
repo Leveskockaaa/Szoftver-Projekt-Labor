@@ -9,8 +9,6 @@ import java.util.List;
  */
 public class Entomologist extends Player {
 
-    private int score;
-
     private List<Insect> insects;
 
     /**
@@ -20,8 +18,7 @@ public class Entomologist extends Player {
      */
     public Entomologist(String name) {
         super(name);
-        this.score = 0;
-        this.insects = new ArrayList<>();
+        insects = new ArrayList<Insect>();
     }
 
     /**
@@ -35,22 +32,8 @@ public class Entomologist extends Player {
      */
     @Override
     public void placeInitial(Tecton on) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'placeInitial'");
-    }
-
-    /**
-     * Beállítja az entomológus pontszámát.
-     *
-     * Ez a metódus hozzáadja a megadott pontszámot az entomológus aktuális pontszámához.
-     * Először naplózza a függvényhívást, majd frissíti a pontszámot, és végül naplózza a visszatérést.
-     *
-     * @param score A pontszám, amelyet hozzá kell adni az entomológus aktuális pontszámához.
-     */
-    public void setScore(int score) {
-        Skeleton.logFunctionCall(this, "setScore", Integer.toString(score));
-        this.score += score;
-        Skeleton.logReturn(this, "setScore");
+        insects.get(0).setTecton(on);
+        on.placeInsect(insects.get(0));
     }
 
     /*
@@ -75,4 +58,6 @@ public class Entomologist extends Player {
         sb.append("]");
         return sb.toString();
     }
+    public void addInsect(Insect i) { insects.add(i); }
+    public void removeInsect(Insect i) { insects.remove(i); }
 }

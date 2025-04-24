@@ -1,0 +1,24 @@
+e1: 
+Type: Entomologist 
+Score: 0 
+isWinner: No 
+Insects: [i1] 
+ 
+i1: 
+collectedNutrientPoints: 0 
+nutrientMultiplier: 1 
+canChewMycelium: Yes 
+Speed: 1 
+isParalised: No 
+canEat: Yes 
+Tecton: t1 
+ 
+t1: 
+Type: Transix 
+Size: GIANT 
+maxMycelia: 2 
+Neighbours: [] 
+Mushroombody: - 
+Mycelia: [] 
+Spores: [] 
+Insects: [i1] 

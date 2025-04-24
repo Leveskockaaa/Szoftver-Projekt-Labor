@@ -107,6 +107,10 @@ public abstract class MushroomBody {
      */
     public abstract boolean canEvolve();
 
+    public void setTecton(Tecton t) { this.tecton = t; }
+
+    public boolean isDead() { return dead; }
+
     /*
     =============================================================================================
     Teszteléshez kiíró metódusok

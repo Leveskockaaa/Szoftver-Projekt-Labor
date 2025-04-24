@@ -479,4 +479,6 @@ public abstract class Tecton {
         sb.append("]");
         return sb.toString();
     }
+    public String getName() { return this.name; }
+
 }
