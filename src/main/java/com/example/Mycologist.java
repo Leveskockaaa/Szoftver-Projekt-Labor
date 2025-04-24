@@ -47,8 +47,8 @@ public class Mycologist extends Player {
 
     public void addMushroomBody(MushroomBody mb) {mushroomBodies.add(mb);}
 
-    public MushroomBody createMushroomBody(Tecton tecton) {
-        MushroomBody initialMushroomBody = bag.getFirst();
+    public MushroomBody createMushroomBody(Tecton tecton, String name) {
+        MushroomBody initialMushroomBody = bag.get(0);
 
         try {
             if (initialMushroomBody == null) {
@@ -59,7 +59,7 @@ public class Mycologist extends Player {
             throw new IllegalArgumentException(exception.getMessage());
         }
 
-        return initialMushroomBody.createMushroomBody(tecton, this);
+        return initialMushroomBody.createMushroomBody(tecton, this, name);
     }
 
     /**
@@ -143,7 +143,7 @@ public class Mycologist extends Player {
     public String printMycelia() {
         StringBuilder sb = new StringBuilder();
         sb.append("[");
-        for (Mycelium my : myceliums) {
+        for (Mycelium my : mycelia) {
             sb.append(my.printName()).append(", ");
         }
         if (sb.length() > 1) {

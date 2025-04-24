@@ -127,8 +127,9 @@ public class Mycelium {
 
     /**
      * Gombatestet fejleszt az adott fonalon és tektonon.
+     * @return true, ha sikeresen kifejlesztett egy gombatestet, egyébként false.
      */
-    public void developMushroomBody() {
+    public boolean developMushroomBody(String name) {
         Skeleton.logFunctionCall(this, "developMushroomBody");
 
         try {
@@ -155,10 +156,11 @@ public class Mycelium {
             throw new IllegalArgumentException(exception.getMessage());
         }
 
-        MushroomBody mushroomBody = mycologist.createMushroomBody(tecton);
+        MushroomBody mushroomBody = mycologist.createMushroomBody(tecton, name);
+        Controller.nameMap.put(mushroomBody, name);
         tecton.placeMushroomBody(mushroomBody);
 
-        Skeleton.logReturn(this, "developMushroomBody");
+        return true;
     }
 
     /**
@@ -427,7 +429,7 @@ public class Mycelium {
             throw new IllegalArgumentException(exception.getMessage());
         }
 
-        Insect insect = tecton.getInsects();
+        Insect insect = tecton.getInsects().get(0);
 
         try {
             if (insect == null) {

@@ -12,8 +12,8 @@ public class Capulon extends MushroomBody{
      * 
      * @param tecton A tekton amire a gombatest kerül.
      */
-    Capulon(Tecton tecton, Mycologist mycologist) {
-        super(tecton, mycologist);
+    Capulon(Tecton tecton, Mycologist mycologist, String name) {
+        super(tecton, mycologist, name);
         sporeSpreadsLeft = 15;
     }
 
@@ -23,8 +23,8 @@ public class Capulon extends MushroomBody{
      * @return Új Capulon típusú gombatest.
      */
     @Override
-    public MushroomBody createMushroomBody(Tecton tecton, Mycologist mycologist) {
-        return new Capulon(tecton, mycologist);
+    public MushroomBody createMushroomBody(Tecton tecton, Mycologist mycologist, String name) {
+        return new Capulon(tecton, mycologist, name);
     }
 
     /**
