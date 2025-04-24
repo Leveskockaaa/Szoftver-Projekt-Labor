@@ -5,7 +5,7 @@ package com.example;
  *  *
  *  * Ősosztály: Tecton -> Magnox
  */
-public class Magmox extends Tecton {
+public class Magnox extends Tecton {
 
     /**
      * Amennyiben nincsen gombatest a
