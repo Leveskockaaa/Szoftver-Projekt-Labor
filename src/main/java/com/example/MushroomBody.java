@@ -43,7 +43,10 @@ public abstract class MushroomBody {
     protected List<Mycelium> myceliums;
 
     /**
-     * Default constructor.
+     * Konstruktor.
+     * 
+     * @param tecton A gombatesthez tartozó tekton.
+     * @param mycologist A gombatesthez tartozó gombász.
      */
     protected MushroomBody(Tecton tecton, Mycologist mycologist) {
         this.mycologist = mycologist;
@@ -61,9 +64,20 @@ public abstract class MushroomBody {
         return tecton;
     }
 
+    /**
+     * Getter a gombatesthez tartozó Mycologisthoz.
+     * 
+     * @return gombatesthez tartozó Mycologist.
+     */
+    public Mycologist getMycologist() {
+        return mycologist;
+    }
+
     public void setMycologist(Mycologist mycologist) {
         this.mycologist = mycologist;
     }
+
+    public abstract MushroomBody createMushroomBody(Tecton tecton, Mycologist mycologist);
 
     /**
      * Enables spore spread for this MushroomBody.

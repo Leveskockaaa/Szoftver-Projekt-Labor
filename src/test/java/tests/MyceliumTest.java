@@ -13,10 +13,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.example.GilledonSpore;
-import com.example.MushroomBody;
-import com.example.Spore;
-
 class MyceliumTest {
     private MycologistTestClass mycologist1, mycologist2;
     private TectonTestClass tecton1 ,tecton2, tecton3, tecton4;
@@ -149,6 +145,7 @@ class MyceliumTest {
 
     @Test
     void testEatInsect() {
+        MushroomBodyTestClass gilledonMushroomBody = new GilledonTestClass(tecton1, mycologist1);
         MyceliumTestClass mycelium = createMycelium(mycologist1, tecton1);
         InsectTestClass insect = new InsectTestClass("Insect1", tecton1);
 

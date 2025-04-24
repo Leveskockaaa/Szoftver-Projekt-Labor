@@ -6,11 +6,22 @@ package com.example;
 public class Capulon extends MushroomBody{
     /**
      * Capulon osztály konstruktora.
+     * 
      * @param tecton A tekton amire a gombatest kerül.
      */
     Capulon(Tecton tecton, Mycologist mycologist) {
         super(tecton, mycologist);
         sporeSpreadsLeft = 15;
+    }
+
+    /**
+     * Létrehoz egy új Capulon típusú gombatestet.
+     * 
+     * @return Új Capulon típusú gombatest.
+     */
+    @Override
+    public MushroomBody createMushroomBody(Tecton tecton, Mycologist mycologist) {
+        return new Capulon(tecton, mycologist);
     }
 
     /**

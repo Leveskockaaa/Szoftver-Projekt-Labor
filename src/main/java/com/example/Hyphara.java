@@ -3,7 +3,7 @@ package com.example;
 /**
  * A Hyphara gombafaj gombatestjeinek kezeléséért felelős osztály.
  */
-public class Hyphara extends MushroomBody{
+public class Hyphara extends MushroomBody {
     /**
      * Hyphara osztály konstruktora.
      * @param tecton A tekton amire a gombatest kerül.
@@ -11,6 +11,16 @@ public class Hyphara extends MushroomBody{
     Hyphara(Tecton tecton, Mycologist mycologist) {
         super(tecton, mycologist);
         sporeSpreadsLeft = 15;
+    }
+    
+    /**
+     * Létrehoz egy új Hyphara típusú gombatestet.
+     * 
+     * @return Új Hyphara típusú gombatest.
+     */
+    @Override
+    public MushroomBody createMushroomBody(Tecton tecton, Mycologist mycologist) {
+        return new Hyphara(tecton, mycologist);
     }
 
     /**

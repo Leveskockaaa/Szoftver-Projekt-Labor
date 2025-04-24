@@ -14,6 +14,16 @@ public class Gilledon extends MushroomBody{
     }
 
     /**
+     * Létrehoz egy új Gilledon típusú gombatestet.
+     * 
+     * @return Új Gilledon típusú gombatest.
+     */
+    @Override
+    public MushroomBody createMushroomBody(Tecton tecton, Mycologist mycologist) {
+        return new Gilledon(tecton, mycologist);
+    }
+
+    /**
      * A Gilledon verzióját valósítja meg a spóraszórásnak.
      * Gilledon spórákat szór.
      */
