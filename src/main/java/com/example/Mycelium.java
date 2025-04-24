@@ -432,7 +432,7 @@ public class Mycelium {
             throw new IllegalArgumentException(exception.getMessage());
         }
 
-        Insect insect = tecton.getInsect();
+        Insect insect = tecton.getInsects();
 
         try {
             if (insect == null) {

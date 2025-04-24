@@ -8,6 +8,25 @@ package com.example;
 public class Magmox extends Tecton {
 
     /**
+     * Alapértelmezett konstruktor a Magmox osztályhoz.
+     * Beállítja az alapértelmezett értékeket, például a maximális gombafonalak számát.
+     */
+    public Magmox() {
+        super();
+        maxMycelia = 1;
+    }
+
+    /**
+     * Konstruktor, amely beállítja a tekton méretét és az alapértelmezett maximális gombafonalak számát.
+     *
+     * @param size A tekton mérete.
+     */
+    public Magmox(TectonSize size) {
+        super(size);
+        maxMycelia = 1;
+    }
+
+    /**
      * Amennyiben nincsen gombatest a
      * tektonon és minden feltétel fennáll elhelyezi a paraaméterként kapott gombatestet a
      * tektonon.
@@ -16,7 +35,7 @@ public class Magmox extends Tecton {
      */
     @Override
     public void placeMushroomBody(MushroomBody mushroomBody) {
-        return;
+        this.mushroomBody = mushroomBody;
     }
 
     /**
@@ -27,8 +46,7 @@ public class Magmox extends Tecton {
      */
     @Override
     public boolean canAddMycelium() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'canAddMycelium'");
+        return mycelia.size() < maxMycelia;
     }
 
     /**
@@ -38,9 +56,7 @@ public class Magmox extends Tecton {
      */
     @Override
     public void addMycelium(Mycelium mycelium) {
-        Skeleton.logFunctionCall(this, "addMycelium", mycelium);
         this.mycelia.add(mycelium);
-        Skeleton.logReturn(this, "addMycelium");
     }
 
     /**
@@ -59,22 +75,15 @@ public class Magmox extends Tecton {
      */
     @Override
     public void placeInsect(Insect insect) {
-        Skeleton.logFunctionCall(this, "placeInsect", insect);
 
         if (insect.getTecton() == null){
             insect.setTecton(this);
-            Skeleton.logReturn(this, "placeInsect");
-            return;
-        }
-
-        if (this.insect != null || !hasConnection(insect)) {
-            Skeleton.logReturn(this, "placeInsect");
+            this.insects.add(insect);
         } else {
             insect.neutralizeTectonEffects();
             insect.getTecton().removeInsect();
             insect.setTecton(this);
-            insect.deductNutrientPoint();
-            Skeleton.logReturn(this, "placeInsect");
+            insect.setNutrientMultiplier(2);
         }
     }
    
