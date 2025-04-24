@@ -6,7 +6,7 @@ import java.util.LinkedList;
 /**
  * A Poralia gombafaj gombatestjeinek kezeléséért felelős osztály.
  */
-public class Poralia extends MushroomBody{
+public class Poralia extends MushroomBody {
     /**
      * Poralia osztály konstruktora.
      * @param tecton A tekton amire a gombatest kerül.
@@ -14,6 +14,16 @@ public class Poralia extends MushroomBody{
     Poralia(Tecton tecton, Mycologist mycologist) {
         super(tecton, mycologist);
         sporeSpreadsLeft = 15;
+    }
+
+    /**
+     * Létrehoz egy új Poralia típusú gombatestet.
+     * 
+     * @return Új Poralia típusú gombatest.
+     */
+    @Override
+    public MushroomBody createMushroomBody(Tecton tecton, Mycologist mycologist) {
+        return new Poralia(tecton, mycologist);
     }
 
     /**
