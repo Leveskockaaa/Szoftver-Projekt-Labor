@@ -55,4 +55,14 @@ public class Hyphara extends MushroomBody{
         Skeleton.logReturn(this, "canEvolve");
         return sporeCount >= 3 && my.getMyceliumConnections().size() >= 3;
     }
+
+    /*
+    =============================================================================================
+    Teszteléshez kiíró metódusok
+    =============================================================================================
+     */
+    @Override
+    public String printType() {
+        return this.getClass().getSimpleName();
+    }
 }

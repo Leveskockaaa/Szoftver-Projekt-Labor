@@ -83,7 +83,39 @@ public class Controller {
     }
 
     public void status(String[] commandParts) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Object object = getFromNameMap(commandParts[0]);
+        String Indent = "    ";
+        if (object == null) {
+            System.out.println("Object not found in name map.");
+            return;
+        }
+        if (object instanceof Tecton tecton) {
+            System.out.println(tecton.getName() + ":");
+            System.out.println(Indent + "Type: " + tecton.printType());
+            System.out.println(Indent + "Size: " + tecton.getSize());
+            System.out.println(Indent + "maxMycelia: " + tecton.getMaxMycelia());
+            System.out.println(Indent + "Neighbors: " + tecton.printNeighbors());
+            System.out.println(Indent + "MushroomBody: " + tecton.printMushroomBody());
+            System.out.println(Indent + "Mycelia: " + tecton.printMycelia());
+            System.out.println(Indent + "Spores: " + tecton.printSpores());
+            System.out.println(Indent + "Insects: " + tecton.printInsects());
+
+        } else if (object instanceof Mycelium) {
+            Mycelium mycelium = (Mycelium) object;
+            System.out.println(mycelium.toString());
+        } else if (object instanceof Insect) {
+            Insect insect = (Insect) object;
+            System.out.println(insect.toString());
+        } else if (object instanceof MushroomBody) {
+            MushroomBody mushroomBody = (MushroomBody) object;
+            System.out.println(mushroomBody.toString());
+        } else if (object instanceof Spore) {
+            Spore spore = (Spore) object;
+            System.out.println(spore.toString());
+        } else if (object instanceof Player) {
+            Player player = (Player) object;
+            System.out.println(player.toString());
+        }
     }
 
     private void createGameTable(String[] commandParts) {

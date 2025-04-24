@@ -23,4 +23,13 @@ public enum TectonSize {
             default -> null; // SMALL a legkisebb méret
         };
     }
+
+    public String toString() {
+        return switch (this) {
+            case GIANT -> "Giant";
+            case BIG -> "Big";
+            case MEDIUM -> "Medium";
+            case SMALL -> "Small";
+        };
+    }
 }

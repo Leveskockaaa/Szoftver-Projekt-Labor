@@ -302,6 +302,15 @@ public abstract class Tecton {
      * @return true, ha sikeresen elvette a spórákat, különben false.
      */
     public boolean takeSpore(Spore spore, int quantity) {
+        int count = 0;
+        for (Spore currentSpore : spores) {
+            if (currentSpore.getClass().equals(spore.getClass())) {
+                count++;
+            }
+        }
+        if (count < quantity) {
+            return false;
+        }
         int removedCount = 0;
         for (Iterator<Spore> iterator = spores.iterator(); iterator.hasNext() && removedCount < quantity; ) {
             Spore currentSpore = iterator.next();
@@ -310,7 +319,7 @@ public abstract class Tecton {
                 removedCount++;
             }
         }
-        return removedCount == quantity;
+        return true;
     }
 
 
@@ -391,4 +400,83 @@ public abstract class Tecton {
         return false;
     }
 
+    /*
+    =============================================================================================
+    Teszteléshez kiíró metódusok
+    =============================================================================================
+     */
+
+    public String getSize() {
+        return size.toString();
+    }
+
+    public String getMaxMycelia() {
+        return String.valueOf(maxMycelia);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String printNeighbors() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (Tecton t : neighbors) {
+            sb.append(t.getName()).append(": ").append(t.printType()).append(", ");
+        }
+        if (sb.length() > 1) {
+            sb.setLength(sb.length() - 2); // remove the last comma and space
+        }
+        sb.append("]");
+        return sb.toString();
+    }
+
+    public abstract String printType();
+
+    public String printMushroomBody() {
+        if (mushroomBody != null) {
+            return mushroomBody.getName() + ": " + mushroomBody.printType();
+        } else {
+            return "-";
+        }
+    }
+
+    public String printMycelia() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (Mycelium m : mycelia) {
+            sb.append(m.getName()).append(", ");
+        }
+        if (sb.length() > 1) {
+            sb.setLength(sb.length() - 2); // remove the last comma and space
+        }
+        sb.append("]");
+        return sb.toString();
+    }
+
+    public String printSpores() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (Spore s : spores) {
+            sb.append(s.printType()).append(", ");
+        }
+        if (sb.length() > 1) {
+            sb.setLength(sb.length() - 2); // remove the last comma and space
+        }
+        sb.append("]");
+        return sb.toString();
+    }
+
+    public String printInsects() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (Insect i : insects) {
+            sb.append(i.getName()).append(", ");
+        }
+        if (sb.length() > 1) {
+            sb.setLength(sb.length() - 2); // remove the last comma and space
+        }
+        sb.append("]");
+        return sb.toString();
+    }
 }

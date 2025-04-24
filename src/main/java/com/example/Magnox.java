@@ -5,13 +5,13 @@ package com.example;
  *  *
  *  * Ősosztály: Tecton -> Magnox
  */
-public class Magmox extends Tecton {
+public class Magnox extends Tecton {
 
     /**
      * Alapértelmezett konstruktor a Magmox osztályhoz.
      * Beállítja az alapértelmezett értékeket, például a maximális gombafonalak számát.
      */
-    public Magmox() {
+    public Magnox() {
         super();
         maxMycelia = 1;
     }
@@ -21,7 +21,7 @@ public class Magmox extends Tecton {
      *
      * @param size A tekton mérete.
      */
-    public Magmox(TectonSize size) {
+    public Magnox(TectonSize size) {
         super(size);
         maxMycelia = 1;
     }
@@ -86,5 +86,21 @@ public class Magmox extends Tecton {
             insect.setNutrientMultiplier(2);
         }
     }
-   
+
+    /*
+    =============================================================================================
+    Teszteléshez kiíró metódusok
+    =============================================================================================
+     */
+
+
+    /**
+     * Visszaadja a tekton típusát.
+     *
+     * @return A tekton típusa.
+     */
+    @Override
+    public String printType() {
+        return this.getClass().getSimpleName();
+    }
 }

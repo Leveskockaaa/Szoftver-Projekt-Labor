@@ -10,6 +10,8 @@ import java.util.List;
  */
 public class Mycelium {
 
+    private String name;
+
     /**
      * Egy igaz-hamis érték arról, hogy éppen tud-e növekedni a gombafonal.
      */
@@ -468,5 +470,15 @@ public class Mycelium {
         MushroomBody mushroomBody = MushroomBody.createMushroomBody(tecton, mycologist);
         tecton.placeMushroomBody(mushroomBody);
         insectEaten = true;
+    }
+
+    /*
+    =============================================================================================
+    Teszteléshez kiíró metódusok
+    =============================================================================================
+     */
+
+    public String getName() {
+        return name;
     }
 }

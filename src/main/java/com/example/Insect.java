@@ -274,4 +274,14 @@ public class Insect {
     public void setEntomologist(Entomologist entomologist) {
         this.entomologist = entomologist;
     }
+
+    /*
+    =============================================================================================
+    Teszteléshez kiíró metódusok
+    =============================================================================================
+     */
+
+    public String getName() {
+        return this.name;
+    }
 }

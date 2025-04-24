@@ -86,6 +86,22 @@ public class Orogenix extends Tecton {
             insect.setNutrientMultiplier(2);
         }
     }
-   
+
+    /*
+    =============================================================================================
+    Teszteléshez kiíró metódusok
+    =============================================================================================
+     */
+
+
+    /**
+     * Visszaadja a tekton típusát.
+     *
+     * @return A tekton típusa.
+     */
+    @Override
+    public String printType() {
+        return this.getClass().getSimpleName();
+    }
 }
 
