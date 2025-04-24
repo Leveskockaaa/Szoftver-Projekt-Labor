@@ -1,16 +1,17 @@
 package com.example;
 
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * A gombákat irányító játékosokat hivatott kezelni ez az osztály.
  */
-public class Mycologist extends Player{
+public class Mycologist extends Player {
     /**
      * Az gombászhoz tartozó élő gombatestek listája.
      */
-    private List<MushroomBody> mushroomBodies = new ArrayList<MushroomBody>();;
+    private List<MushroomBody> mushroomBodies = new ArrayList<>();
 
     /**
      * A gombász által begyűjtött halott gombatestjeinek listája.
@@ -24,6 +25,7 @@ public class Mycologist extends Player{
 
     /**
      * Mycologist konstruktora, amiben megadhatjuk a játékos nevét.
+     *
      * @param name A játékos neve.
      */
     Mycologist(String name) {
@@ -44,6 +46,21 @@ public class Mycologist extends Player{
     }
 
     public void addMushroomBody(MushroomBody mb) {mushroomBodies.add(mb);}
+
+    public MushroomBody createMushroomBody(Tecton tecton) {
+        MushroomBody initialMushroomBody = bag.getFirst();
+
+        try {
+            if (initialMushroomBody == null) {
+                throw new IllegalArgumentException("No initial mushroombody created");
+            }
+        } catch (IllegalArgumentException exception) {
+            System.out.println(exception.getMessage());
+            throw new IllegalArgumentException(exception.getMessage());
+        }
+
+        return initialMushroomBody.createMushroomBody(tecton, this);
+    }
 
     /**
      * Egy elhalt gombatestet a bag attribútum listába helyez.

@@ -5,15 +5,33 @@ package com.example;
  */
 public abstract class Spore {
     /**
+     * A spórát létrehozó gombatestet referenciája.
+     */
+    protected MushroomBody mushroomBody;
+
+    /**
      * A spóra tápanyagérték tartalmát tárolja a rovar számára.
      */
     protected int nutrientValue;
 
     /**
-     * Default constructor.
+     * Konstruktor.
+     * 
+     * @param mushroomBody A spórát létrehozó gombatest.
+     * @param nutrientValue A spóra tápanyagértéke.
      */
-    protected Spore(int nutrientValue) {
+    protected Spore(MushroomBody mushroomBody, int nutrientValue) {
+        this.mushroomBody = mushroomBody;
         this.nutrientValue = nutrientValue;
+    }
+
+    /**
+     * Getter: Visszaadja a spórát létrehozó gombatestet.
+     *
+     * @return A spórát létrehozó gombatest.
+     */
+    public MushroomBody getMushroomBody() {
+        return mushroomBody;
     }
 
     /**

@@ -17,11 +17,7 @@ public class PoraliaSpore extends Spore {
      */
     @Override
     public void takeEffectOn(Insect insect) {
-        Skeleton.logFunctionCall(this, "takeEffectOn", insect);
-        
         insect.paralize();
-        
-        Skeleton.logReturn(this, "takeEffectOn");
     }
 
     /*

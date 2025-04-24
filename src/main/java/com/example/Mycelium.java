@@ -115,14 +115,7 @@ public class Mycelium {
 
         int sporeCount = 0;
         for (Spore spore : tecton.sporesAvailable()) {
-            // mi lenne ha minden Spore-ban is eltárolnánk egy referenciát a
-            // Mycologist-ra vagy, hogy melyik MushroomBody-ból származik, mert
-            // akkor azon keresztül tudnánk ellenőrizni a típusát úgy, hogy
-            // igazából nem is néztük meg a típusát, de biztos, hogy jó, mert
-            // máskülönben nem az lenne a Mycologist referenciája vagy a MushroomBody-ban
-            // található Mycologist referenciája és ezzel teljesen kilőhető
-            // a típus ellenőrzés
-            if (spore.getClass() == HypharaSpore.class) {
+            if (spore.getMushroomBody().getMycologist() == mycologist) {
                 sporeCount++;
             }
         }
@@ -162,7 +155,7 @@ public class Mycelium {
             throw new IllegalArgumentException(exception.getMessage());
         }
 
-        MushroomBody mushroomBody = MushroomBody.createRandomMushroomBody(tecton, mycologist);
+        MushroomBody mushroomBody = mycologist.createMushroomBody(tecton);
         tecton.placeMushroomBody(mushroomBody);
 
         Skeleton.logReturn(this, "developMushroomBody");
@@ -424,7 +417,7 @@ public class Mycelium {
             if (insectEaten) {
                 throw new IllegalArgumentException("Insect already eaten");
             }
-            // ellenőrzés itt vagy meg a removeInsect() metódust és ha nincs
+            // ellenőrzés itt vagy hívjuk meg a removeInsect() metódust és ha nincs
             // insect a tecton-on akkor ott dobunk exception-t?
             if (!tecton.hasInsect()) {
                 throw new IllegalArgumentException("No insect to eat");
@@ -467,7 +460,7 @@ public class Mycelium {
             throw new IllegalArgumentException(exception.getMessage());
         }
 
-        MushroomBody mushroomBody = MushroomBody.createMushroomBody(tecton, mycologist);
+        MushroomBody mushroomBody = mycologist.createMushroomBody(tecton);
         tecton.placeMushroomBody(mushroomBody);
         insectEaten = true;
     }

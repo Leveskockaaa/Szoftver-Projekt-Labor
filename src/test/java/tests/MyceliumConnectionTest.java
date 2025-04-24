@@ -7,8 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.example.Mycelium;
-
+import models.GilledonTestClass;
 import models.MushroomBodyTestClass;
 import models.MyceliumTestClass;
 import models.MycologistTestClass;
@@ -42,7 +41,7 @@ class MyceliumConnectionTest {
     }
 
     private MushroomBodyTestClass createMushroomBody(MycologistTestClass mycologist, TectonTestClass tecton) {
-        MushroomBodyTestClass body = new MushroomBodyTestClass(tecton, mycologist);
+        MushroomBodyTestClass body = new GilledonTestClass(tecton, mycologist);
         mycologist.addMushroomBody(body);
         mushroomBodies.add(body);
         return body;
