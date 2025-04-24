@@ -58,43 +58,43 @@ public class GameTable {
     public void initialize() {
         Skeleton.logFunctionCall(this, "initialize");
 
-        //Ha van random
-        Random random = new Random();
-        for(int i = 0; i < 10; i++){
-            int randNum = random.nextInt(4);
-            System.out.println(randNum);
-            Tecton t = switch (randNum) {
-                case 0 -> new Transix();
-                case 1 -> new Mantleon();
-                case 2 -> new Magmox();
-                default -> new Orogenix();
-            };
-            tectons.add(t);
-            System.out.println(t);
-        }
+        if (Controller.isRandomOn()){
+            Random random = new Random();
+            for(int i = 0; i < 10; i++){
+                int randNum = random.nextInt(4);
+                System.out.println(randNum);
+                Tecton t = switch (randNum) {
+                    case 0 -> new Transix();
+                    case 1 -> new Mantleon();
+                    case 2 -> new Magmox();
+                    default -> new Orogenix();
+                };
+                tectons.add(t);
+                System.out.println(t);
+            }
+        } else {
+            Tecton t1 = new Transix();
+            Tecton t2 = new Transix();
+            Tecton t3 = new Transix();
+            Tecton t4 = new Mantleon();
+            Tecton t5 = new Mantleon();
+            Tecton t6 = new Magmox();
+            Tecton t7 = new Magmox();
+            Tecton t8 = new Orogenix();
+            Tecton t9 = new Orogenix();
+            Tecton t10 = new Orogenix();
 
-        //Ha nincs random
-//        Tecton t1 = new Transix();
-//        Tecton t2 = new Transix();
-//        Tecton t3 = new Transix();
-//        Tecton t4 = new Mantleon();
-//        Tecton t5 = new Mantleon();
-//        Tecton t6 = new Magmox();
-//        Tecton t7 = new Magmox();
-//        Tecton t8 = new Orogenix();
-//        Tecton t9 = new Orogenix();
-//        Tecton t10 = new Orogenix();
-//
-//        tectons.add(t1);
-//        tectons.add(t2);
-//        tectons.add(t3);
-//        tectons.add(t4);
-//        tectons.add(t5);
-//        tectons.add(t6);
-//        tectons.add(t7);
-//        tectons.add(t8);
-//        tectons.add(t9);
-//        tectons.add(t10);
+            tectons.add(t1);
+            tectons.add(t2);
+            tectons.add(t3);
+            tectons.add(t4);
+            tectons.add(t5);
+            tectons.add(t6);
+            tectons.add(t7);
+            tectons.add(t8);
+            tectons.add(t9);
+            tectons.add(t10);
+        }
 
         for (int i = 0; i < tectons.size() - 1; i++) {
             tectons.get(i).addTectonToNeighbors(tectons.get(i + 1));

@@ -491,7 +491,7 @@ public class Skeleton {
         Transix t1 = new Transix();
         logCreateInstance(t1, "Transix", "t1");
 
-        Magnox t2 = new Magnox();
+        Magmox t2 = new Magmox();
         logCreateInstance(t2, "Magmox", "t2");
 
         Mycelium my1 = new Mycelium(t1);

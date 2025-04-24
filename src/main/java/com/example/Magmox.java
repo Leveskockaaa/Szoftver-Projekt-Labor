@@ -1,17 +1,17 @@
 package com.example;
 
 /**
- * A Magnox típusú tektonért felel.
+ * A Magmox típusú tektonért felel.
  *  *
- *  * Ősosztály: Tecton -> Magnox
+ *  * Ősosztály: Tecton -> Magmox
  */
-public class Magnox extends Tecton {
+public class Magmox extends Tecton {
 
     /**
      * Alapértelmezett konstruktor a Magmox osztályhoz.
      * Beállítja az alapértelmezett értékeket, például a maximális gombafonalak számát.
      */
-    public Magnox() {
+    public Magmox() {
         super();
         maxMycelia = 1;
     }
@@ -21,7 +21,7 @@ public class Magnox extends Tecton {
      *
      * @param size A tekton mérete.
      */
-    public Magnox(TectonSize size) {
+    public Magmox(TectonSize size) {
         super(size);
         maxMycelia = 1;
     }
