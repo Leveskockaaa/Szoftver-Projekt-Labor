@@ -1,6 +1,9 @@
 package com.example;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 
 import static com.example.TectonSize.decreaseSize;
 
@@ -97,6 +100,10 @@ public abstract class Tecton {
      */
     public List<Mycelium> getMycelia() {
         return mycelia;
+    }
+
+    public Insect getInsect() {
+        return insect;
     }
 
     /**

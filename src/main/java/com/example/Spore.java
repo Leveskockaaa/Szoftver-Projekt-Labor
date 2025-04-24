@@ -17,13 +17,6 @@ public abstract class Spore {
     }
 
     /**
-     * Absztrakt függvény, amit a leszármazottak valósítanak meg
-     * egyesével. A spóra hatását fejti ki a rovaron.
-     * @param insect A rovar amire hatni kell.
-     */
-    public abstract void takeEffectOn(Insect insect);
-
-    /**
      * Getter: Visszaadja a spóra tápanyagértékét.
      *
      * @return A spóra tápanyagértéke.
@@ -40,5 +33,12 @@ public abstract class Spore {
     public void setNutrientValue(int nutrientValue) {
         this.nutrientValue = nutrientValue;
     }
+
+    /**
+     * Absztrakt függvény, amit a leszármazottak valósítanak meg
+     * egyesével. A spóra hatását fejti ki a rovaron.
+     * @param insect A rovar amire hatni kell.
+     */
+    public abstract void takeEffectOn(Insect insect);
 }
 
