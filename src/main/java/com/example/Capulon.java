@@ -8,8 +8,8 @@ public class Capulon extends MushroomBody{
      * Capulon osztály konstruktora.
      * @param tecton A tekton amire a gombatest kerül.
      */
-    Capulon(Tecton tecton){
-        super(tecton);
+    Capulon(Tecton tecton, Mycologist mycologist) {
+        super(tecton, mycologist);
         sporeSpreadsLeft = 15;
     }
 

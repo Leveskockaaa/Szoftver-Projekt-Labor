@@ -45,11 +45,20 @@ public abstract class MushroomBody {
     /**
      * Default constructor.
      */
-    public MushroomBody(Tecton tecton) {
+    protected MushroomBody(Tecton tecton, Mycologist mycologist) {
+        this.mycologist = mycologist;
         this.tecton = tecton;
         this.superBody = false;
         this.dead = false;
         this.canSpreadSpores = true;
+    }
+
+    /**
+     * Getter a gombatesthez tartozó tektonhoz.
+     * @return A gombatesthez tartozó tekton.
+     */
+    public Tecton getTecton() {
+        return tecton;
     }
 
     public void setMycologist(Mycologist mycologist) {
