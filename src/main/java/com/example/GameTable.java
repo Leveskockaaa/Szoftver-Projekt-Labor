@@ -28,11 +28,12 @@ public class GameTable {
 
     private int sizeY;
 
-    public GameTable(){
+    public GameTable(String name) {
+        this.name = name;
         sizeX = 0;
         sizeY = 0;
-        tectons = null;
-        players = null;
+        tectons = new ArrayList<>();
+        players = new ArrayList<>();
     }
 
     public GameTable(int x, int y){
@@ -215,6 +216,10 @@ public class GameTable {
 
     public void addTecton(Tecton t){
         tectons.add(t);
+    }
+
+    public void addPlayer(Player p){
+        players.add(p);
     }
 
     public List<Tecton> getTectons() { return tectons; }

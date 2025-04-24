@@ -55,7 +55,7 @@ public class Insect {
      *
      * @param entomologist Az entomológus, akihez a rovar tartozik.
      */
-    public Insect(Entomologist entomologist) {
+    public Insect(Entomologist entomologist, String name) {
         this.entomologist = entomologist;
     }
 

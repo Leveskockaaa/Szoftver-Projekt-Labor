@@ -1,8 +1,9 @@
 package com.example;
 
-import java.util.*;
-
-import static com.example.TectonSize.decreaseSize;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 
 
 /**
@@ -62,7 +63,8 @@ public abstract class Tecton {
     /**
      * Default Konstruktor.
      */
-    public Tecton() {
+    public Tecton(String name) {
+        this.name = name;
         size = TectonSize.GIANT;
         spores = new ArrayList<>();
         neighbors = new HashSet<>();
@@ -71,7 +73,8 @@ public abstract class Tecton {
         mycelia = new ArrayList<>();
     }
 
-    public Tecton(TectonSize size) {
+    public Tecton(TectonSize size, String name) {
+        this.name = name;
         this.size = size;
         spores = new ArrayList<>();
         neighbors = new HashSet<>();
@@ -111,89 +114,8 @@ public abstract class Tecton {
      *
      * @return A létrejött két új tekton listája.
      */
-    public List<Tecton> breakApart() {
-
-        //Két új tekton létrehozása
-        Transix t1 = new Transix(decreaseSize(this.size));
-        Transix t2 = new Transix(decreaseSize(this.size));
-
-        //Köztük kapcsolat létrehozása
-        t1.addTectonToNeighbors(t2);
-
-        if (this.hasInsect()) {
-            //Ha van rajta rovar, akkor a szomszédos tektonok közül az egyikre kerül
-            if (Controller.isRandomOn()) {
-                Random random = new Random();
-                int randomIndex = random.nextInt(2);
-                if (randomIndex == 0) {
-                    for (Insect insect : insects) {
-                        t1.placeInsect(insect);
-                    }
-                } else {
-                    for (Insect insect : insects) {
-                        t2.placeInsect(insect);
-                    }
-                }
-            } else {
-                for (Insect insect : insects) {
-                    t2.placeInsect(insect);
-                }
-            }
-        }
-
-        if (this.hasMushroomBody()) {
-            //Ha van rajta gombatest, akkor a szomszédos tektonok közül az egyikre kerül
-            if (Controller.isRandomOn()) {
-                Random random = new Random();
-                int randomIndex = random.nextInt(2);
-                if (randomIndex == 0) {
-                    t1.placeMushroomBody(this.mushroomBody);
-                } else {
-                    t2.placeMushroomBody(this.mushroomBody);
-                }
-            } else {
-                t2.placeMushroomBody(this.mushroomBody);
-            }
-        }
-
-        //A két új tektonra kerülnek a myceliumok
-        if (!this.mycelia.isEmpty()) {
-            for (Mycelium m : this.mycelia) {
-                t1.addMycelium(m);
-                t2.addMycelium(m);
-            }
-        }
-
-
-        //Veszünk egy tectont a szomszédaink közül
-        Tecton n1 = this.neighbors.iterator().next();
-        this.neighbors.remove(n1);
-
-        //Hozzáadjuk az egyik új tektonhoz
-        t1.addTectonToNeighbors(n1);
-        n1.changeNeighbour(this, t1);
-
-        while (n1.neighbors.iterator().hasNext()) {
-            Tecton n2 = n1.neighbors.iterator().next();
-            if (this.neighbors.contains(n2)) {
-                this.neighbors.remove(n2);
-                t1.addTectonToNeighbors(n2);
-                n2.changeNeighbour(this, t2);
-            }
-        }
-
-        while (!this.neighbors.isEmpty()) {
-            Tecton n = this.neighbors.iterator().next();
-            this.neighbors.remove(n);
-            t2.addTectonToNeighbors(n);
-            n.changeNeighbour(this, t2);
-        }
-
-
-
-        return new ArrayList<>(Arrays.asList(t1, t2));
-    }
-
+    public abstract List<Tecton> breakApart(String newTectonName1, String newTectonName2);
+    
     /**
      * Hozzáad egy szomszédos Tecton-t ehhez a Tecton-hoz.
      * És a szomszédos Tecton-nak is hozzáadja ezt a Tecton-t.

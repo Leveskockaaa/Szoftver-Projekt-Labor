@@ -11,8 +11,8 @@ public class Poralia extends MushroomBody {
      * Poralia osztály konstruktora.
      * @param tecton A tekton amire a gombatest kerül.
      */
-    Poralia(Tecton tecton, Mycologist mycologist) {
-        super(tecton, mycologist);
+    Poralia(Tecton tecton, Mycologist mycologist, String name) {
+        super(tecton, mycologist, name);
         sporeSpreadsLeft = 15;
     }
 
@@ -22,8 +22,8 @@ public class Poralia extends MushroomBody {
      * @return Új Poralia típusú gombatest.
      */
     @Override
-    public MushroomBody createMushroomBody(Tecton tecton, Mycologist mycologist) {
-        return new Poralia(tecton, mycologist);
+    public MushroomBody createMushroomBody(Tecton tecton, Mycologist mycologist, String name) {
+        return new Poralia(tecton, mycologist, name);
     }
 
     /**

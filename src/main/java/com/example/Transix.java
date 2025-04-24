@@ -1,5 +1,12 @@
 package com.example;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+
+import static com.example.TectonSize.decreaseSize;
+
 /**
  * A Transix típusú tektonért felel.
  *
@@ -7,13 +14,13 @@ package com.example;
  */
 public class Transix extends Tecton {
 
-    public Transix() {
-        super();
+    public Transix(String name) {
+        super(name);
         maxMycelia = 2;
     }
 
-    public Transix(TectonSize size) {
-        super(size);
+    public Transix(TectonSize size, String name) {
+        super(size, name);
         maxMycelia = 2;
     }
 
@@ -48,6 +55,101 @@ public class Transix extends Tecton {
     @Override
     public boolean canAddMycelium() {
         return mycelia.size() < maxMycelia;
+    }
+
+    /**
+     * A tekton kettétörését megvalósító metódus. Létrehoz két új tektont
+     * egyel kisebb méretkategóriába. Felelős a tekton szomszédainak a két új tekton között
+     * való elosztásáért, valamint a ha van rajta gombatest vagy rovar akkor azokat is el kell
+     * helyezze az egyik új tektonon.
+     *
+     * @return A létrejött két új tekton listája.
+     */
+    @Override
+    public List<Tecton> breakApart(String newTectonName1, String newTectonName2) {
+
+        //Két új tekton létrehozása
+        Transix t1 = new Transix(decreaseSize(this.size), newTectonName1);
+        Transix t2 = new Transix(decreaseSize(this.size), newTectonName2);
+
+        Controller.nameMap.put(t1, newTectonName1);
+        Controller.nameMap.put(t2, newTectonName2);
+
+        //Köztük kapcsolat létrehozása
+        t1.addTectonToNeighbors(t2);
+
+        if (this.hasInsect()) {
+            //Ha van rajta rovar, akkor a szomszédos tektonok közül az egyikre kerül
+            if (Controller.isRandomOn()) {
+                Random random = new Random();
+                int randomIndex = random.nextInt(2);
+                if (randomIndex == 0) {
+                    for (Insect insect : insects) {
+                        t1.placeInsect(insect);
+                    }
+                } else {
+                    for (Insect insect : insects) {
+                        t2.placeInsect(insect);
+                    }
+                }
+            } else {
+                for (Insect insect : insects) {
+                    t2.placeInsect(insect);
+                }
+            }
+        }
+
+        if (this.hasMushroomBody()) {
+            //Ha van rajta gombatest, akkor a szomszédos tektonok közül az egyikre kerül
+            if (Controller.isRandomOn()) {
+                Random random = new Random();
+                int randomIndex = random.nextInt(2);
+                if (randomIndex == 0) {
+                    t1.placeMushroomBody(this.mushroomBody);
+                } else {
+                    t2.placeMushroomBody(this.mushroomBody);
+                }
+            } else {
+                t2.placeMushroomBody(this.mushroomBody);
+            }
+        }
+
+        //A két új tektonra kerülnek a myceliumok
+        if (!this.mycelia.isEmpty()) {
+            for (Mycelium m : this.mycelia) {
+                t1.addMycelium(m);
+                t2.addMycelium(m);
+            }
+        }
+
+
+        //Veszünk egy tectont a szomszédaink közül
+        Tecton n1 = this.neighbors.iterator().next();
+        this.neighbors.remove(n1);
+
+        //Hozzáadjuk az egyik új tektonhoz
+        t1.addTectonToNeighbors(n1);
+        n1.changeNeighbour(this, t1);
+
+        while (n1.neighbors.iterator().hasNext()) {
+            Tecton n2 = n1.neighbors.iterator().next();
+            if (this.neighbors.contains(n2)) {
+                this.neighbors.remove(n2);
+                t1.addTectonToNeighbors(n2);
+                n2.changeNeighbour(this, t2);
+            }
+        }
+
+        while (!this.neighbors.isEmpty()) {
+            Tecton n = this.neighbors.iterator().next();
+            this.neighbors.remove(n);
+            t2.addTectonToNeighbors(n);
+            n.changeNeighbour(this, t2);
+        }
+
+
+
+        return new ArrayList<>(Arrays.asList(t1, t2));
     }
 
     /**
