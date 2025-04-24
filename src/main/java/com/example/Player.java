@@ -44,4 +44,11 @@ public abstract class Player {
      */
     public abstract void placeInitial(Tecton on);
 
+    public int getScore() { return score; }
+
+    public void setScore(int s) { score = s; }
+
+    public boolean getIsWinner() { return isWinner; }
+
+    public String getName() { return name; }
 }

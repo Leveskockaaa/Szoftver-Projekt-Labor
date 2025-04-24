@@ -88,5 +88,9 @@ public abstract class MushroomBody {
      * @return true if the MushroomBody can evolve, false otherwise
      */
     public abstract boolean canEvolve();
+
+    public void setTecton(Tecton t) { this.tecton = t; }
+
+    public boolean isDead() { return dead; }
 }
 
