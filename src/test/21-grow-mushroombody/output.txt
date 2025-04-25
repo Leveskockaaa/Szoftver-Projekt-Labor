@@ -1,0 +1,22 @@
+my1:
+    canGrow: false
+    growthSpeed: 1.0
+    connectedTo: []
+t1:
+    Type: Transix
+    Size: Big
+    maxMycelia: 2
+    Neighbours: [t2]
+    Mushroombody: b1
+    Mycelia: [my1]
+    Insects: []
+    Spores: []
+t2:
+    Type: Transix
+    Size: Big
+    maxMycelia: 2
+    Neighbours: [t1]
+    Mushroombody: b2
+    Mycelia: [my2]
+    Insects: []
+    Spores: []
