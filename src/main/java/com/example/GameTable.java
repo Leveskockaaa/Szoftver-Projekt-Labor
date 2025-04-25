@@ -36,7 +36,7 @@ public class GameTable {
         players = new ArrayList<>();
     }
 
-    public GameTable(int x, int y){
+    public GameTable(int x, int y, String name) {
         sizeX = x;
         sizeY = y;
         tectons = new ArrayList<Tecton>();
@@ -95,10 +95,10 @@ public class GameTable {
             tectons.add(t10);
         }
 
-        for (int i = 0; i < tectons.size() - 1; i++) {
+        for (int i = 0; i < tectons.size() - 2; i++) {
             tectons.get(i).addTectonToNeighbors(tectons.get(i + 1));
         }
-        tectons.get(tectons.size() - 1).addTectonToNeighbors(tectons.get(0));
+        tectons.get(tectons.size() - 2).addTectonToNeighbors(tectons.get(0));
 
         for (int i = 0; i < tectons.size() - 1; i++){
             tectons.get(i).addTectonToNeighbors(tectons.get(tectons.size() - 1));
