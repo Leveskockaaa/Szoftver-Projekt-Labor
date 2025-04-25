@@ -32,8 +32,11 @@ public class Entomologist extends Player {
      */
     @Override
     public void placeInitial(Tecton on) {
-        insects.get(0).setTecton(on);
         on.placeInsect(insects.get(0));
+    }
+
+    public List<Insect> getInsects() {
+        return insects;
     }
 
     /*

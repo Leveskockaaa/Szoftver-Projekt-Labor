@@ -120,20 +120,20 @@ public class GameTable {
         Scanner roleInput = new Scanner(System.in);
 
         System.out.println("Az első gombász adja meg a nevét!");
-        String name = roleInput.nextLine();
-        Mycologist m1 = new Mycologist(name);
+        String mycologist1 = roleInput.nextLine();
+        Mycologist m1 = new Mycologist(mycologist1);
 
         System.out.println("A második gombász adja meg a nevét!");
-        name = roleInput.nextLine();
-        Mycologist m2 = new Mycologist(name);
+        String mycologist2 = roleInput.nextLine();
+        Mycologist m2 = new Mycologist(mycologist2);
 
         System.out.println("Az első rovarász adja meg a nevét!");
-        name = roleInput.nextLine();
-        Entomologist e1 = new Entomologist(name);
+        String entomologist1 = roleInput.nextLine();
+        Entomologist e1 = new Entomologist(entomologist1);
 
         System.out.println("A második rovarász adja meg a nevét!");
-        name = roleInput.nextLine();
-        Entomologist e2 = new Entomologist(name);
+        String entomologist2 = roleInput.nextLine();
+        Entomologist e2 = new Entomologist(entomologist2);
 
         players.add(m1);
         players.add(m2);
@@ -142,29 +142,33 @@ public class GameTable {
 
         System.out.println("Hanyadik tektonra kerüljön a gombatest a listából? (1-10)");
         int initialTecton = roleInput.nextInt();
+        System.out.println("Adja meg a gombatest típusát! (Hyphara, Gilledon, Poralia, Capulon)");
         String mushroomType = roleInput.nextLine();
-        m1.addMushroomBody(chooseType(tectons.get(initialTecton), mushroomType, m1, "mb1"));
+        m1.addMushroomBody(chooseType(tectons.get(initialTecton), mushroomType, m1, m1.getName() + "_mb_" + (m1.getMushroomBodies().size() + 1)));
         Mycelium my1 = new Mycelium(tectons.get(initialTecton), m1);
         m1.addMycelium(my1);
         tectons.get(initialTecton).addMycelium(my1);
+        m1.placeInitial(tectons.get(initialTecton));
 
         System.out.println("Hanyadik tektonra kerüljön a gombatest a listából? (1-10)");
         initialTecton = roleInput.nextInt();
+        System.out.println("Adja meg a gombatest típusát! (Hyphara, Gilledon, Poralia, Capulon)");
         mushroomType = roleInput.nextLine();
-        m2.addMushroomBody(chooseType(tectons.get(initialTecton), mushroomType, m2, "mb2"));
+        m2.addMushroomBody(chooseType(tectons.get(initialTecton), mushroomType, m2, m2.getName() + "_mb_" + (m2.getMushroomBodies().size() + 1)));
         Mycelium my2 = new Mycelium(tectons.get(initialTecton), m2);
         m2.addMycelium(my2);
         tectons.get(initialTecton).addMycelium(my2);
+        m2.placeInitial(tectons.get(initialTecton));
 
         System.out.println("Hanyadik tektonra kerüljön a rovar a listából? (1-10)");
         initialTecton = roleInput.nextInt();
-        Insect i1 = new Insect(e1, "i1");
+        Insect i1 = new Insect(e1, e1.getName() + "_i_" + (e1.getInsects().size() + 1));
         e1.addInsect(i1);
         e1.placeInitial(tectons.get(initialTecton));
 
         System.out.println("Hanyadik tektonra kerüljön a rovar a listából? (1-10)");
         initialTecton = roleInput.nextInt();
-        Insect i2 = new Insect(e2, "i2");
+        Insect i2 = new Insect(e2, e2.getName() + "_i_" + (e2.getInsects().size() + 1));
         e2.addInsect(i2);
         e2.placeInitial(tectons.get(initialTecton));
 
@@ -202,7 +206,7 @@ public class GameTable {
     public void announceWinners(){
         for (Player player : players) {
             if (player.getIsWinner()) {
-                System.out.println(player.getName() + " " + player.getScore());
+                System.out.println(player.getName() + ": " + player.getScore());
             }
         }
     }

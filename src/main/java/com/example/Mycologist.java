@@ -90,7 +90,6 @@ public class Mycologist extends Player {
      * @param on A kezdő tektonunk.
      */
     public void placeInitial(Tecton on){
-        mushroomBodies.get(0).setTecton(on);
         on.placeMushroomBody(mushroomBodies.get(0));
     }
 
