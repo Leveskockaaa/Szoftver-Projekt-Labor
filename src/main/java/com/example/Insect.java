@@ -273,6 +273,10 @@ public class Insect {
         this.entomologist = entomologist;
     }
 
+    public String getName() {
+        return this.name;
+    }
+
     /*
     =============================================================================================
     Teszteléshez kiíró metódusok

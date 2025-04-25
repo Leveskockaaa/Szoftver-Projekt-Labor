@@ -67,12 +67,10 @@ public class Mycologist extends Player {
      * @param mb Az elhalt gombatest.
      */
     public void collect(MushroomBody mb){
-        Skeleton.logFunctionCall(this, "collect", mb);
         if (mb.isDead()){
             mushroomBodies.remove(mb);
             bag.add(mb);
         }
-        Skeleton.logReturn(this, "collect");
     }
 
     public void addMycelium(Mycelium my){
@@ -84,9 +82,7 @@ public class Mycologist extends Player {
      * @param my a gombafonál amit törölni szeretnénk.
      */
     public void removeMycelium(Mycelium my) {
-        Skeleton.logFunctionCall(this, "removeMycelium", my);
         mycelia.remove(my);
-        Skeleton.logReturn(this, "removeMycelium");
     }
 
     /**
@@ -94,10 +90,7 @@ public class Mycologist extends Player {
      * @param on A kezdő tektonunk.
      */
     public void placeInitial(Tecton on){
-        Skeleton.logFunctionCall(this, "placeInitial", on);
-        mushroomBodies.get(0).setTecton(on);
         on.placeMushroomBody(mushroomBodies.get(0));
-        Skeleton.logReturn(this, "placeInitial");
     }
 
     /*
