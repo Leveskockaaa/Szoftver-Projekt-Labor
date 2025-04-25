@@ -57,33 +57,31 @@ public class GameTable {
      * beállítja a szomszédos tektonokat.
      */
     public void initialize() {
-        Skeleton.logFunctionCall(this, "initialize");
-
         if (Controller.isRandomOn()){
             Random random = new Random();
             for(int i = 0; i < 10; i++){
                 int randNum = random.nextInt(4);
                 System.out.println(randNum);
                 Tecton t = switch (randNum) {
-                    case 0 -> new Transix();
-                    case 1 -> new Mantleon();
-                    case 2 -> new Magmox();
-                    default -> new Orogenix();
+                    case 0 -> new Transix(TectonSize.GIANT, "t" + i);
+                    case 1 -> new Mantleon(TectonSize.GIANT, "t" + i);
+                    case 2 -> new Magmox(TectonSize.GIANT, "t" + i);
+                    default -> new Orogenix(TectonSize.GIANT, "t" + i);
                 };
                 tectons.add(t);
                 System.out.println(t);
             }
         } else {
-            Tecton t1 = new Transix();
-            Tecton t2 = new Transix();
-            Tecton t3 = new Transix();
-            Tecton t4 = new Mantleon();
-            Tecton t5 = new Mantleon();
-            Tecton t6 = new Magmox();
-            Tecton t7 = new Magmox();
-            Tecton t8 = new Orogenix();
-            Tecton t9 = new Orogenix();
-            Tecton t10 = new Orogenix();
+            Tecton t1 = new Transix(TectonSize.GIANT, "t1");
+            Tecton t2 = new Transix(TectonSize.GIANT, "t2");
+            Tecton t3 = new Transix(TectonSize.GIANT, "t3");
+            Tecton t4 = new Mantleon(TectonSize.GIANT, "t4");
+            Tecton t5 = new Mantleon(TectonSize.GIANT, "t5");
+            Tecton t6 = new Magmox(TectonSize.GIANT, "t6");
+            Tecton t7 = new Magmox(TectonSize.GIANT, "t7");
+            Tecton t8 = new Orogenix(TectonSize.GIANT, "t8");
+            Tecton t9 = new Orogenix(TectonSize.GIANT, "t9");
+            Tecton t10 = new Orogenix(TectonSize.GIANT, "t10");
 
             tectons.add(t1);
             tectons.add(t2);
@@ -105,15 +103,14 @@ public class GameTable {
         for (int i = 0; i < tectons.size() - 1; i++){
             tectons.get(i).addTectonToNeighbors(tectons.get(tectons.size() - 1));
         }
-        Skeleton.logReturn(this, "initialize");
     }
 
-    private MushroomBody chooseType(Tecton tecton, String type, Mycologist m){
+    private MushroomBody chooseType(Tecton tecton, String type, Mycologist m, String name){
         MushroomBody mBody = switch (type) {
-            case "Hyphara" -> new Hyphara(tecton, m);
-            case "Gilledon" -> new Gilledon(tecton, m);
-            case "Poralia" -> new Poralia(tecton, m);
-            default -> new Capulon(tecton, m);
+            case "Hyphara" -> new Hyphara(tecton, m, name);
+            case "Gilledon" -> new Gilledon(tecton, m, name);
+            case "Poralia" -> new Poralia(tecton, m, name);
+            default -> new Capulon(tecton, m, name);
         };
 
         return mBody;
@@ -146,7 +143,7 @@ public class GameTable {
         System.out.println("Hanyadik tektonra kerüljön a gombatest a listából? (1-10)");
         int initialTecton = roleInput.nextInt();
         String mushroomType = roleInput.nextLine();
-        m1.addMushroomBody(chooseType(tectons.get(initialTecton), mushroomType, m1));
+        m1.addMushroomBody(chooseType(tectons.get(initialTecton), mushroomType, m1, "mb1"));
         Mycelium my1 = new Mycelium(tectons.get(initialTecton), m1);
         m1.addMycelium(my1);
         tectons.get(initialTecton).addMycelium(my1);
@@ -154,20 +151,20 @@ public class GameTable {
         System.out.println("Hanyadik tektonra kerüljön a gombatest a listából? (1-10)");
         initialTecton = roleInput.nextInt();
         mushroomType = roleInput.nextLine();
-        m2.addMushroomBody(chooseType(tectons.get(initialTecton), mushroomType, m2));
+        m2.addMushroomBody(chooseType(tectons.get(initialTecton), mushroomType, m2, "mb2"));
         Mycelium my2 = new Mycelium(tectons.get(initialTecton), m2);
         m2.addMycelium(my2);
         tectons.get(initialTecton).addMycelium(my2);
 
         System.out.println("Hanyadik tektonra kerüljön a rovar a listából? (1-10)");
         initialTecton = roleInput.nextInt();
-        Insect i1 = new Insect(e1);
+        Insect i1 = new Insect(e1, "i1");
         e1.addInsect(i1);
         e1.placeInitial(tectons.get(initialTecton));
 
         System.out.println("Hanyadik tektonra kerüljön a rovar a listából? (1-10)");
         initialTecton = roleInput.nextInt();
-        Insect i2 = new Insect(e2);
+        Insect i2 = new Insect(e2, "i2");
         e2.addInsect(i2);
         e2.placeInitial(tectons.get(initialTecton));
 
