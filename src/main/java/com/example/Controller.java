@@ -36,7 +36,6 @@ public class Controller {
             System.out.println("Invalid command: " + command);
             return;
         }
-        commandLog.add(command);
         String[] commandParts = command.split(" ");
         String commandName = commandParts[0].toUpperCase();
         try {
@@ -69,7 +68,7 @@ public class Controller {
                 default                  -> throw new AssertionError();
             }
 
-            commandsList.add(command);
+            commandLog.add(command);
             System.out.println("[INFO] Command executed successfuly: " + command);
         } catch (Exception exception) {
             System.out.println("[ERROR] Exception has been thrown while executing command: " + command);
@@ -224,7 +223,7 @@ public class Controller {
     }
 
     private void createPlayer(String[] commandParts) {
-        if (commandParts.length != 5) {
+        if (commandParts.length != 4 && commandParts.length != 5) {
             System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <name> <type> <gametableName> <gombatestFaj>");
             return;
         }
@@ -232,18 +231,38 @@ public class Controller {
         String type = commandParts[2];
         String gameTableName = commandParts[3];
 
-        Player player = null;
-        //TODO: meg kell akkor adni a mycologistnak a gombatestet?
         switch (type.toLowerCase()) {
-            case "mycologist" -> player = new Mycologist(name);
-            case "entomologist" -> player = new Entomologist(name);
-            default -> System.out.println("Invalid player type: " + type);
+            case "mycologist": {
+                Mycologist mycologist = new Mycologist(name);
+                if (commandParts.length == 5) {
+                    String gombatestFaj = commandParts[4];
+                    switch (gombatestFaj.toLowerCase()) {
+                        case "hyphara" -> mycologist.addMushroomBody(new Hyphara(null, mycologist, "hyphara_minta"));
+                        case "gilledon" -> mycologist.addMushroomBody(new Gilledon(null, mycologist, "gilledon_minta"));
+                        case "poralia" -> mycologist.addMushroomBody(new Poralia(null, mycologist, "poralia_minta"));
+                        case "capulon" -> mycologist.addMushroomBody(new Capulon(null, mycologist, "capulon_minta"));
+                        default -> System.out.println("Invalid mushroom body type: " + gombatestFaj);
+                    }
+                } else {
+                    System.out.println("[ERROR] Mycologist must have a mushroom body type.");
+                    return;
+                }
+                GameTable gameTable = (GameTable) getFromNameMap(gameTableName);
+                if (gameTable == null) return;
+                gameTable.addPlayer(mycologist);
+                nameMap.put(mycologist, name);
+            }
+            case "entomologist": {
+                Entomologist entomologist = new Entomologist(name);
+                GameTable gameTable = (GameTable) getFromNameMap(gameTableName);
+                if (gameTable == null) return;
+                gameTable.addPlayer(entomologist);
+                nameMap.put(entomologist, name);
+            }
+            default: {
+                System.out.println("Invalid player type: " + type);
+            }
         }
-        if (player == null) return;
-        GameTable gameTable = (GameTable) getFromNameMap(gameTableName);
-        if (gameTable == null) return;
-        gameTable.addPlayer(player);
-        nameMap.put(player, name);
     }
 
     private void createInsect(String[] commandParts) {
@@ -527,28 +546,38 @@ public class Controller {
 
         System.out.println("The game has ended!");
         System.out.println("Winners:");
-        Mycologist mycologistWinner = null;
-        Entomologist entomologistWinner = null;
+        List<Mycologist> mycologistWinner = new ArrayList<>();
+        List<Entomologist> entomologistWinner = new ArrayList<>();
         for (Object obj : nameMap.keySet()) {
             if (obj instanceof Mycologist mycologist) {
                 if (mycologist.printIsWinner().equals("Yes")) {
-                    mycologistWinner = mycologist;
+                    mycologistWinner.add(mycologist);
                 }
             } else if (obj instanceof Entomologist entomologist) {
                 if (entomologist.printIsWinner().equals("Yes")) {
-                    entomologistWinner = entomologist;
+                    entomologistWinner.add(entomologist);
                 }
             }
         }
-        if (mycologistWinner == null) {
+        if (mycologistWinner.isEmpty()) {
             System.out.println(Indent + "Mycologist: No winner");
+        } else if (mycologistWinner.size() == 1) {
+            System.out.println(Indent + "Mycologist: " + mycologistWinner.get(0).printName());
         } else {
-            System.out.println(Indent + "Mycologist: " + mycologistWinner.printName());
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append(Indent).append("Mycologist: ");
+            stringBuilder.append(mycologistWinner.get(0).printName()).append(", ");
+            stringBuilder.append(mycologistWinner.get(1).printName());
         }
-        if (entomologistWinner == null) {
+        if (entomologistWinner.isEmpty()) {
             System.out.println(Indent + "Entomologist: No winner");
+        } else if (entomologistWinner.size() == 1) {
+            System.out.println(Indent + "Entomologist: " + entomologistWinner.get(0).printName());
         } else {
-            System.out.println(Indent + "Entomologist: " + entomologistWinner.printName());
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append(Indent).append("Entomologist: ");
+            stringBuilder.append(entomologistWinner.get(0).printName()).append(", ");
+            stringBuilder.append(entomologistWinner.get(1).printName());
         }
     }
 

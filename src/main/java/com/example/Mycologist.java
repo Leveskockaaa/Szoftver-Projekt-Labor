@@ -12,6 +12,10 @@ public class Mycologist extends Player {
      * Az gombászhoz tartozó élő gombatestek listája.
      */
     private List<MushroomBody> mushroomBodies = new ArrayList<>();
+    /**
+     * A gombászhoz tartozó kezdeti gombatest.
+     */
+    private MushroomBody initialMushroomBody = null;
 
     /**
      * A gombász által begyűjtött halott gombatestjeinek listája.
@@ -45,10 +49,13 @@ public class Mycologist extends Player {
         return mushroomBodies;
     }
 
+    public void setMushroomBodyType(MushroomBody mb) {
+        this.initialMushroomBody = mb;
+    }
+
     public void addMushroomBody(MushroomBody mb) {mushroomBodies.add(mb);}
 
     public MushroomBody createMushroomBody(Tecton tecton, String name) {
-        MushroomBody initialMushroomBody = bag.get(0);
 
         try {
             if (initialMushroomBody == null) {
