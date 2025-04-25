@@ -1,0 +1,31 @@
+t1:
+    Type: Transix
+    Size: Big
+    maxMycelia: 2
+    Neighbours: [t2]
+    Mushroombody: -
+    Mycelia: []
+    Insects: []
+    Spores: []
+t2:
+    Type: Transix
+    Size: Big
+    maxMycelia: 2
+    Neighbours: [t1]
+    Mushroombody: -
+    Mycelia: []
+    Spores: [s1, s2, s3, s4, s5, s6, s7, s8, s9]
+    Insects: []
+b1:
+    Type: Capulon
+    Level: Normal
+    State: Dead
+    canSpreadSpore: No
+    sporeSpreadsLeft: 0
+mc1:
+    name: []
+    score: 0
+    isWinner: No
+    mycelia: []
+    mushroomBodies: []
+    deadBodies: [b1]
