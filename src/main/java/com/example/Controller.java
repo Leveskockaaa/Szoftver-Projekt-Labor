@@ -1,11 +1,15 @@
 package com.example;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class Controller {
     private static List<String> commandsList = new ArrayList<>();
+    private static final List<String> commandLog = new ArrayList<>();
     public static HashMap<Object, String> nameMap = new HashMap<>();
     private static int seconds;
     private static boolean isRandomOn;
@@ -32,7 +36,7 @@ public class Controller {
             System.out.println("Invalid command: " + command);
             return;
         }
-
+        commandLog.add(command);
         String[] commandParts = command.split(" ");
         String commandName = commandParts[0].toUpperCase();
         try {
@@ -85,7 +89,16 @@ public class Controller {
         return commandsList.contains(command);
     }
 
-    private void devour(String[] commandParts) {;
+    private void devour(String[] commandParts) {
+        if (commandParts.length != 2) {
+            System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <myceliumName>");
+            return;
+        }
+        String myceliumName = commandParts[1];
+
+        Mycelium mycelium = (Mycelium) getFromNameMap(myceliumName);
+        if (mycelium == null) return;
+        mycelium.eatInsect();
     }
 
     private void initialize(String[] commandParts) {
@@ -540,14 +553,48 @@ public class Controller {
     }
 
     private void load(String[] commandParts) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (commandParts.length != 2) {
+            System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <path>");
+            return;
+        }
+        String path = commandParts[1];
+        File file = new File(path);
+        if (!file.exists()) {
+            System.out.println("[ERROR] File not found: " + path);
+            return;
+        }
+        try {
+            List<String> lines = Files.readAllLines(file.toPath());
+            for (String line : lines) {
+                runCommand(line);
+            }
+            System.out.println("[INFO] Loaded successfully");
+        } catch (IOException e) {
+            System.out.println("[ERROR] Error while loading game: " + e.getMessage());
+        }
     }
 
     private void save(String[] commandParts) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (commandParts.length != 2) {
+            System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <filePath>");
+            return;
+        }
+        String path = commandParts[1];
+        File file = new File(path);
+        if (!file.exists()) {
+            System.out.println("[ERROR] File not found: " + path);
+            return;
+        }
+        try {
+            Files.write(file.toPath(), commandLog);
+            System.out.println("[INFO] Saved successfully");
+        } catch (IOException e) {
+            System.out.println("[ERROR] Error while saving game: " + e.getMessage());
+        }
     }
 
     private void exit(String[] commandParts) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        System.out.println("[INFO] Exiting game");
+        System.exit(0);
     }
 }
