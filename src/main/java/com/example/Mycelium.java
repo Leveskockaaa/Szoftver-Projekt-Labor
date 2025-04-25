@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * A gombafonalakat kezelő osztály. Egy-egy fonal egységet valósít meg.
@@ -111,16 +112,12 @@ public class Mycelium {
      * @return true, ha tud gombatestet növeszteni, egyébként false.
      */
     public boolean canDevelop() {
-        Skeleton.logFunctionCall(this, "canDevelop");
-
         int sporeCount = 0;
         for (Spore spore : tecton.sporesAvailable()) {
             if (spore.getMushroomBody().getMycologist() == mycologist) {
                 sporeCount++;
             }
         }
-
-        Skeleton.logReturn(this, "canDevelop");
 
         return sporeCount >= 6 && !tecton.hasMushroomBody();
     }
@@ -129,8 +126,6 @@ public class Mycelium {
      * Gombatestet fejleszt az adott fonalon és tektonon.
      */
     public void developMushroomBody() {
-        Skeleton.logFunctionCall(this, "developMushroomBody");
-
         try {
             if (!canDevelop()) {
                 throw new IllegalArgumentException("Cannot develop mushroom body");
@@ -157,17 +152,13 @@ public class Mycelium {
 
         MushroomBody mushroomBody = mycologist.createMushroomBody(tecton);
         tecton.placeMushroomBody(mushroomBody);
-
-        Skeleton.logReturn(this, "developMushroomBody");
     }
 
     /**
      * Engedélyezi a gombatest növesztését.
      */
     public void enableGrowth() {
-        Skeleton.logFunctionCall(this, "enableGrowth");
         canGrow = true;
-        Skeleton.logReturn(this, "enableGrowth");
     }
 
     /**
@@ -181,8 +172,6 @@ public class Mycelium {
      * egyébként null.
      */
     public Mycelium createNewBranch(Tecton tecton) {
-        Skeleton.logFunctionCall(this, "createNewBranch", tecton);
-
         try {
             if (!canGrow) {
                 throw new IllegalArgumentException("Cannot grow");
@@ -200,7 +189,6 @@ public class Mycelium {
         if (tecton.canAddMycelium()) {
             Mycelium newMycelium = new Mycelium(tecton, mycologist);
 
-            Skeleton.logCreateInstance(newMycelium, "Mycelium", "newMycelium");
             try {
                 tecton.addMycelium(newMycelium);
                 this.addConnection(newMycelium);
@@ -209,11 +197,9 @@ public class Mycelium {
                 throw new IllegalArgumentException(exception.getMessage());
             }
 
-            Skeleton.logReturn(this, "createNewBranch");
             return newMycelium;
         } else {
             for (Mycelium mycelium : tecton.getMycelia()) {
-                // így nem kell lekérdezni a típusát
                 if (mycelium.getMycologist() == mycologist) {
                     try {
                         this.addConnection(mycelium);
@@ -236,7 +222,6 @@ public class Mycelium {
             }
         }
 
-        Skeleton.logReturn(this, "createNewBranch");
         return null;
     }
 
@@ -246,8 +231,6 @@ public class Mycelium {
      * @param mycelium A gombafonal amivel kapcsolatba lépünk.
      */
     public void addConnection(Mycelium mycelium) {
-        Skeleton.logFunctionCall(this, "addConnection", mycelium);
-
         try {
             if (mycelium == null) {
                 throw new IllegalArgumentException("Mycelium cannot be null");
@@ -271,8 +254,6 @@ public class Mycelium {
 
         myceliumConnections.add(mycelium);
         mycelium.myceliumConnections.add(this);
-
-        Skeleton.logReturn(this, "addConnection");
     }
 
     /**
@@ -282,8 +263,6 @@ public class Mycelium {
      * @param mycelium A gombafonal amivel meg akarjuk szakítani a kapcsolatot.
      */
     public void removeConnection(Mycelium mycelium) {
-        Skeleton.logFunctionCall(this, "removeConnection", mycelium);
-
         try {
             if (mycelium == null) {
                 throw new IllegalArgumentException("Mycelium cannot be null");
@@ -301,8 +280,6 @@ public class Mycelium {
 
         myceliumConnections.remove(mycelium);
         mycelium.myceliumConnections.remove(this);
-
-        Skeleton.logReturn(this, "removeConnection");
     }
 
     /**
@@ -345,8 +322,6 @@ public class Mycelium {
      * @param time Az az idő, amivel csökkenteni szeretnénk a növekedési időt.
      */
     public void speedUpGrowth(float time) {
-        Skeleton.logFunctionCall(this, "speedUpGrowth");
-
         try {
             if (time <= 0) {
                 throw new IllegalArgumentException("Time cannot be negative or zero");
@@ -360,19 +335,13 @@ public class Mycelium {
         }
 
         growthSpeed -= time;
-
-        Skeleton.logReturn(this, "speedUpGrowth");
     }
 
     /**
      * Visszaállítja a növekedési sebességet az eredetire.
      */
     public void resetGrowthSpeed() {
-        Skeleton.logFunctionCall(this, "resetGrowthSpeed");
-
         growthSpeed = 10;
-
-        Skeleton.logReturn(this, "resetGrowthSpeed");
     }
 
     /**
@@ -380,8 +349,6 @@ public class Mycelium {
      * gombatesthez, akkor a fonal eltűnik.
      */
     public void wither() {
-        Skeleton.logFunctionCall(this, "wither");
-
         // egy új timer pélány indítása, ami elkezdi visszafelé számolni az időt
         // vagy 0-tól a megadott ideig és ha végetért a timer akkor eltűnik a fonál
         // és megszűnik a timer példány
@@ -393,12 +360,9 @@ public class Mycelium {
         // a timer példányt és végigmegy a kapcsolódó gombafonálakon és megszünteti
         // a timer példányokat mindegyik kapcsolódó gombafonálon
         // ha a timer lejár akkor megszünteti a gombafonalat
-        Skeleton.logReturn(this, "wither");
     }
 
     public float getChewDelay() {
-        Class<? extends MushroomBody> mushroomBodyType = getBodyType();
-        
         // kéne egy metódus a MushroomBody-ba ami ezt visszaadja
         // ezeket az értékeket a MushroomBody leszármazottaknak egy statikus változóban
         // kell tárolniuk
@@ -427,7 +391,10 @@ public class Mycelium {
             throw new IllegalArgumentException(exception.getMessage());
         }
 
-        Insect insect = tecton.getInsects();
+        List<Insect> insects = tecton.getInsects();
+        Random random = new Random();
+        int randomIndex = random.nextInt(insects.size());
+        Insect insect = insects.get(randomIndex);
 
         try {
             if (insect == null) {

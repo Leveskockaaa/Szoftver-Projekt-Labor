@@ -247,7 +247,7 @@ public class Controller {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    private void neighbors(String[] commandParts) {
+    private void neighbors(String[] commandParts) throws RuntimeException {
         String firstTectonName = commandParts[1];
         String secondTectonName = commandParts[2];
 
@@ -256,7 +256,11 @@ public class Controller {
 
         if (firstTecton == null || secondTecton == null) return;
 
-        firstTecton.addTectonToNeighbors(secondTecton);
+        try {
+            firstTecton.addTectonToNeighbors(secondTecton);
+        } catch (Exception exception) {
+            throw new RuntimeException("Error while adding tecton to neighbors", exception);
+        }
     }
 
     private void growTo(String[] commandParts) {
