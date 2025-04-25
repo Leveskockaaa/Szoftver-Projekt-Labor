@@ -125,7 +125,6 @@ public class Mycelium {
      * Gombatestet fejleszt az adott fonalon és tektonon.
      * @return true, ha sikeresen kifejlesztett egy gombatestet, egyébként false.
      */
-    public void developMushroomBody() {
     public boolean developMushroomBody(String name) {
         Skeleton.logFunctionCall(this, "developMushroomBody");
 
