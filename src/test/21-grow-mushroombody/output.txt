@@ -2,7 +2,6 @@ my1:
     canGrow: false
     growthSpeed: 1.0
     connectedTo: []
-    MushroomBodies: [b1, b2]
 t1:
     Type: Transix
     Size: Big

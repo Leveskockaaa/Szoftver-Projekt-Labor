@@ -2,7 +2,6 @@ my1:
     canGrow: false
     growthSpeed: 1.0
     connectedTo: [my2]
-    MushroomBodys: []
 my2:
     canGrow: false
     growthSpeed: 1.0
