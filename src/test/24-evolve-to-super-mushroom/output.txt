@@ -1,0 +1,6 @@
+b1:
+    Type: Capulon
+    Level: Super
+    State: Alive
+    canSpreadSpore: Yes
+    sporeSpreadsLeft: 9
