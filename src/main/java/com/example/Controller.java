@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Controller {
     private static List<String> commandsList = new ArrayList<>();
-    private static HashMap<Object, String> nameMap = new HashMap<>();
+    public static HashMap<Object, String> nameMap = new HashMap<>();
     private static int seconds;
     private static boolean isRandomOn;
 
@@ -18,6 +18,7 @@ public class Controller {
                 return object;
             }
         }
+        System.out.println("[ERROR] Object not found in name map: " + name);
         return null;
     }
 
@@ -59,6 +60,8 @@ public class Controller {
                 case "LOAD"              -> load(commandParts);
                 case "SAVE"              -> save(commandParts);
                 case "EXIT"              -> exit(commandParts);
+                case "INIT"              -> initialize(commandParts);
+                case "DEVOUR"            -> devour(commandParts);
                 default                  -> throw new AssertionError();
             }
 
@@ -82,13 +85,29 @@ public class Controller {
         return commandsList.contains(command);
     }
 
-    public void status(String[] commandParts) {
-        Object object = getFromNameMap(commandParts[0]);
-        String Indent = "    ";
-        if (object == null) {
-            System.out.println("Object not found in name map.");
+    private void devour(String[] commandParts) {;
+    }
+
+    private void initialize(String[] commandParts) {
+        if (commandParts.length != 2) {
+            System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <gametableName>");
             return;
         }
+        String gametableName = commandParts[1];
+
+        GameTable gameTable = (GameTable) getFromNameMap(gametableName);
+        if (gameTable == null) {
+            return;
+        }
+        gameTable.initialize();
+    }
+
+    public void status(String[] commandParts) {
+        if (commandParts.length != 2) {
+            System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <objectName>");
+            return;
+        }
+        String Indent = "    ";
         if (commandParts[0].equalsIgnoreCase("random")) {
             if (isRandomOn) {
                 System.out.println("Random: ON");
@@ -96,33 +115,10 @@ public class Controller {
                 System.out.println("Random: OFF");
             }
             return;
-        } else if (commandParts[0].equalsIgnoreCase("endgame")) {
-            System.out.println("The game has ended!");
-            System.out.println("Winners:");
-            Mycologist mycologistWinner = null;
-            Entomologist entomologistWinner = null;
-            for (Object obj : nameMap.keySet()) {
-                if (obj instanceof Mycologist mycologist) {
-                    if (mycologist.printIsWinner().equals("Yes")) {
-                        mycologistWinner = mycologist;
-                    }
-                } else if (obj instanceof Entomologist entomologist) {
-                    if (entomologist.printIsWinner().equals("Yes")) {
-                        entomologistWinner = entomologist;
-                    }
-                }
-            }
-            if (mycologistWinner == null) {
-                System.out.println(Indent + "Mycologist: No winner");
-            } else {
-                System.out.println(Indent + "Mycologist: " + mycologistWinner.printName());
-            }
-            if (entomologistWinner == null) {
-                System.out.println(Indent + "Entomologist: No winner");
-            } else {
-                System.out.println(Indent + "Entomologist: " + entomologistWinner.printName());
-            }
-
+        }
+        Object object = getFromNameMap(commandParts[1]);
+        if (object == null) {
+            return;
         }
         if (object instanceof Tecton tecton) {
             System.out.println(tecton.printName() + ":");
@@ -182,30 +178,149 @@ public class Controller {
     }
 
     private void createGameTable(String[] commandParts) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (commandParts.length != 2) {
+            System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <name>");
+            return;
+        }
+        GameTable gameTable = new GameTable(commandParts[1]);
+        nameMap.put(gameTable, commandParts[1]);
     }
 
     private void createTecton(String[] commandParts) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (commandParts.length != 4) {
+            System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <name> <type> <gametableName>");
+            return;
+        }
+        String name = commandParts[1];
+        String type = commandParts[2];
+        String gametableName = commandParts[3];
+
+        Tecton tecton = null;
+        switch (type.toLowerCase()) {
+            case "magmox" -> tecton = new Magmox(name);
+            case "mantleon" -> tecton = new Mantleon(name);
+            case "orogenix" -> tecton = new Orogenix(name);
+            case "transix" -> tecton = new Transix(name);
+            default -> System.out.println("Invalid tecton type: " + type);
+        }
+        if (tecton == null) return;
+        GameTable gameTable = (GameTable) getFromNameMap(gametableName);
+        if (gameTable == null) return;
+        gameTable.addTecton(tecton);
+        nameMap.put(tecton, name);
     }
 
     private void createPlayer(String[] commandParts) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (commandParts.length != 5) {
+            System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <name> <type> <gametableName> <gombatestFaj>");
+            return;
+        }
+        String name = commandParts[1];
+        String type = commandParts[2];
+        String gameTableName = commandParts[3];
+
+        Player player = null;
+        //TODO: meg kell akkor adni a mycologistnak a gombatestet?
+        switch (type.toLowerCase()) {
+            case "mycologist" -> player = new Mycologist(name);
+            case "entomologist" -> player = new Entomologist(name);
+            default -> System.out.println("Invalid player type: " + type);
+        }
+        if (player == null) return;
+        GameTable gameTable = (GameTable) getFromNameMap(gameTableName);
+        if (gameTable == null) return;
+        gameTable.addPlayer(player);
+        nameMap.put(player, name);
     }
 
     private void createInsect(String[] commandParts) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (commandParts.length != 4) {
+            System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <name> <playerName> <tectonName>");
+            return;
+        }
+        String name = commandParts[1];
+        String player = commandParts[2];
+        String tectonName = commandParts[3];
+
+        Entomologist entomologist = (Entomologist) getFromNameMap(player);
+        Insect insect = new Insect(entomologist, name);
+        Tecton tecton = (Tecton) getFromNameMap(tectonName);
+        if (tecton == null) return;
+        tecton.placeInsect(insect);
+        nameMap.put(insect, name);
     }
 
     private void createMushroomBody(String[] commandParts) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (commandParts.length != 5) {
+            System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <name> <type> <tectonName> <mycologistName>");
+            return;
+        }
+        String name = commandParts[1];
+        String type = commandParts[2];
+        String tectonName = commandParts[3];
+        String mycologistName = commandParts[4];
+
+        MushroomBody mushroomBody = null;
+        Tecton tecton = (Tecton) getFromNameMap(tectonName);
+        Mycologist mycologist = (Mycologist) getFromNameMap(mycologistName);
+        switch (type.toLowerCase()) {
+            case "hyphara" -> mushroomBody = new Hyphara(tecton, mycologist, name);
+            case "gilledon" -> mushroomBody = new Gilledon(tecton, mycologist, name);
+            case "poralia" -> mushroomBody = new Poralia(tecton, mycologist, name);
+            case "capulon" -> mushroomBody = new Capulon(tecton, mycologist, name);
+            default -> System.out.println("Invalid mushroom body type: " + type);
+        }
+        if (mushroomBody == null) return;
+        assert tecton != null;
+        tecton.placeMushroomBody(mushroomBody);
+        nameMap.put(mushroomBody, name);
     }
 
     private void createSpore(String[] commandParts) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (commandParts.length != 4) {
+            System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <type> <tectonName> <number>");
+            return;
+        }
+        String type = commandParts[1];
+        String tectonName = commandParts[2];
+        int number = Integer.parseInt(commandParts[3]);
+
+        Tecton tecton = (Tecton) getFromNameMap(tectonName);
+        if (tecton == null) return;
+        switch (type.toLowerCase()) {
+            case "hyphara" -> {
+                for (int i = 0; i < number; i++) {
+                    HypharaSpore spore = new HypharaSpore();
+                    tecton.addSpore(spore);
+                }
+            }
+            case "gilledon" -> {
+                for (int i = 0; i < number; i++) {
+                    GilledonSpore spore = new GilledonSpore();
+                    tecton.addSpore(spore);
+                }
+            }
+            case "capulon" -> {
+                for (int i = 0; i < number; i++) {
+                    CapulonSpore spore = new CapulonSpore();
+                    tecton.addSpore(spore);
+                }
+            }
+            case "poralia" -> {
+                for (int i = 0; i < number; i++) {
+                    PoraliaSpore spore = new PoraliaSpore();
+                    tecton.addSpore(spore);
+                }
+            }
+            default -> System.out.println("Invalid spore type: " + type);
+        }
     }
 
     private void createMycelium(String[] commandParts) {
+        if (commandParts.length != 4) {
+            System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <name> <mycologistName> <tectonName>");
+            return;
+        }
         String myceliumName = commandParts[1];
         String mycologistName = commandParts[2];
         String tectonName = commandParts[3];
@@ -216,38 +331,119 @@ public class Controller {
         if (mycologist == null || tecton == null) return;
 
         Mycelium mycelium = new Mycelium(tecton, mycologist);
+        tecton.addMycelium(mycelium);
+        mycologist.addMycelium(mycelium);
         nameMap.put(mycelium, myceliumName);
     }
 
     private void move(String[] commandParts) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (commandParts.length != 3) {
+            System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <insectName> <tectonName>");
+            return;
+        }
+        String insectName = commandParts[1];
+        String tectonName = commandParts[2];
+
+        Insect insect = (Insect) getFromNameMap(insectName);
+        Tecton tecton = (Tecton) getFromNameMap(tectonName);
+
+        if (insect == null || tecton == null) return;
+
+        insect.moveTo(tecton);
     }
 
     private void breakCommand(String[] commandParts) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (commandParts.length != 4) {
+            System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <tectonName> <newTectonName1> <newTectonName2>");
+            return;
+        }
+        String tectonName = commandParts[1];
+        String newTectonName1 = commandParts[2];
+        String newTectonName2 = commandParts[3];
+
+        Tecton tecton = (Tecton) getFromNameMap(tectonName);
+        if (tecton == null) return;
+        tecton.breakApart(newTectonName1, newTectonName2);
     }
 
     private static void random(String[] commandParts) {
-        isRandomOn = !isRandomOn;
+        if (commandParts.length != 2) {
+            System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <true/false>");
+            return;
+        }
+        String random = commandParts[1];
+        if (random.equalsIgnoreCase("true")) {
+            isRandomOn = true;
+        } else if (random.equalsIgnoreCase("false")) {
+            isRandomOn = false;
+        } else {
+            System.out.println("Invalid random value: " + random);
+        }
     }
 
     private void eatSpore(String[] commandParts) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (commandParts.length != 2) {
+            System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <insectName>");
+            return;
+        }
+        String insectName = commandParts[1];
+
+        Insect insect = (Insect) getFromNameMap(insectName);
+
+        if (insect == null) return;
+
+        insect.eatSpore();
     }
 
     private void chewMycelium(String[] commandParts) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (commandParts.length != 3) {
+            System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <insectName> <myceliumName>");
+            return;
+        }
+        String insectName = commandParts[1];
+        String myceliumName = commandParts[2];
+
+        Insect insect = (Insect) getFromNameMap(insectName);
+        Mycelium mycelium = (Mycelium) getFromNameMap(myceliumName);
+
+        if (insect == null || mycelium == null) return;
+
+        insect.chewMycelium(mycelium);
     }
 
     private void spreadSpores(String[] commandParts) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (commandParts.length != 2) {
+            System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <mushroomBodyName>");
+            return;
+        }
+        String mushroomBodyName = commandParts[1];
+
+        MushroomBody mushroomBody = (MushroomBody) getFromNameMap(mushroomBodyName);
+
+        if (mushroomBody == null) return;
+
+        mushroomBody.spreadSpores();
     }
 
     private void evolveSuper(String[] commandParts) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (commandParts.length != 2) {
+            System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <mushroomBodyName>");
+            return;
+        }
+        String mushroomBodyName = commandParts[1];
+
+        MushroomBody mushroomBody = (MushroomBody) getFromNameMap(mushroomBodyName);
+
+        if (mushroomBody == null) return;
+
+        mushroomBody.evolveSuper();
     }
 
-    private void neighbors(String[] commandParts) throws RuntimeException {
+    private void neighbors(String[] commandParts) {
+        if (commandParts.length != 3) {
+            System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <firstTectonName> <secondTectonName>");
+            return;
+        }
         String firstTectonName = commandParts[1];
         String secondTectonName = commandParts[2];
 
@@ -264,6 +460,10 @@ public class Controller {
     }
 
     private void growTo(String[] commandParts) {
+        if (commandParts.length != 4) {
+            System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <myceliumName> <tectonName> <newMyceliumName>");
+            return;
+        }
         String myceliumName = commandParts[1];
         String tectonName = commandParts[2];
         String newMyceliumName = commandParts[3];
@@ -279,15 +479,64 @@ public class Controller {
     }
 
     private void growBody(String[] commandParts) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (commandParts.length != 3) {
+            System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <myceliumName> <newMushroomBodyName>");
+            return;
+        }
+        String myceliumName = commandParts[1];
+        String newMushroomBodyName = commandParts[2];
+
+        Mycelium mycelium = (Mycelium) getFromNameMap(myceliumName);
+
+        if (mycelium == null) return;
+
+
+        mycelium.developMushroomBody(newMushroomBodyName);
     }
 
     private void delay(String[] commandParts) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (commandParts.length != 2) {
+            System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <seconds>");
+            return;
+        }
+        seconds += Integer.parseInt(commandParts[1]);
     }
 
     private void endGame(String[] commandParts) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (commandParts.length != 1) {
+            System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <gametableName>");
+            return;
+        }
+        GameTable gameTable = (GameTable) getFromNameMap(commandParts[0]);
+        if (gameTable == null) return;
+        gameTable.endGame();
+        String Indent = "    ";
+
+        System.out.println("The game has ended!");
+        System.out.println("Winners:");
+        Mycologist mycologistWinner = null;
+        Entomologist entomologistWinner = null;
+        for (Object obj : nameMap.keySet()) {
+            if (obj instanceof Mycologist mycologist) {
+                if (mycologist.printIsWinner().equals("Yes")) {
+                    mycologistWinner = mycologist;
+                }
+            } else if (obj instanceof Entomologist entomologist) {
+                if (entomologist.printIsWinner().equals("Yes")) {
+                    entomologistWinner = entomologist;
+                }
+            }
+        }
+        if (mycologistWinner == null) {
+            System.out.println(Indent + "Mycologist: No winner");
+        } else {
+            System.out.println(Indent + "Mycologist: " + mycologistWinner.printName());
+        }
+        if (entomologistWinner == null) {
+            System.out.println(Indent + "Entomologist: No winner");
+        } else {
+            System.out.println(Indent + "Entomologist: " + entomologistWinner.printName());
+        }
     }
 
     private void load(String[] commandParts) {

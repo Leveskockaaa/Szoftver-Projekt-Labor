@@ -52,12 +52,14 @@ public abstract class MushroomBody {
      * @param tecton A gombatesthez tartozó tekton.
      * @param mycologist A gombatesthez tartozó gombász.
      */
-    protected MushroomBody(Tecton tecton, Mycologist mycologist) {
+    protected MushroomBody(Tecton tecton, Mycologist mycologist, String name) {
+        this.name = name;
         this.mycologist = mycologist;
         this.tecton = tecton;
         this.superBody = false;
         this.dead = false;
         this.canSpreadSpores = true;
+        mycologist.addMushroomBody(this);
     }
 
     /**
@@ -81,7 +83,7 @@ public abstract class MushroomBody {
         this.mycologist = mycologist;
     }
 
-    public abstract MushroomBody createMushroomBody(Tecton tecton, Mycologist mycologist);
+    public abstract MushroomBody createMushroomBody(Tecton tecton, Mycologist mycologist, String name);
 
     /**
      * Enables spore spread for this MushroomBody.
@@ -106,6 +108,10 @@ public abstract class MushroomBody {
      * @return true if the MushroomBody can evolve, false otherwise
      */
     public abstract boolean canEvolve();
+
+    public void setTecton(Tecton t) { this.tecton = t; }
+
+    public boolean isDead() { return dead; }
 
     /*
     =============================================================================================

@@ -1,0 +1,3 @@
+gametable
+Tectons: [t1: Transix, t2: Transix, t3:Transix, t4: Transix, t5: Transix, t6: Transix, t7: Transix, t8: Transix, t9: Transix, t10: Transix]
+Players: []

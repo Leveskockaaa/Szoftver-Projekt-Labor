@@ -1,0 +1,7 @@
+CREATEGAMETABLE gametable 
+CREATETECTON t1 Transix gametable 
+CREATEPLAYER e1 Entomologist gametable 
+CREATEINSECT i1 e1 t1 
+STATUS e1 
+STATUS i1 
+STATUS t1 

@@ -8,19 +8,19 @@ import java.util.Random;
 import static com.example.TectonSize.decreaseSize;
 
 /**
- * A Orogenix típusú tektonért felel.
- *
- * Ősosztály: Tecton -> Orogenix
+ * A Magmox típusú tektonért felel.
+ *  *
+ *  * Ősosztály: Tecton -> Magmox
  */
-public class Orogenix extends Tecton {
+public class Magmox extends Tecton {
 
     /**
      * Alapértelmezett konstruktor a Magmox osztályhoz.
      * Beállítja az alapértelmezett értékeket, például a maximális gombafonalak számát.
      */
-    public Orogenix(String name) {
+    public Magmox(String name) {
         super(name);
-        maxMycelia = 2;
+        maxMycelia = 1;
     }
 
     /**
@@ -28,9 +28,9 @@ public class Orogenix extends Tecton {
      *
      * @param size A tekton mérete.
      */
-    public Orogenix(TectonSize size, String name) {
-        super(size, name);
-        maxMycelia = 2;
+    public Magmox(TectonSize size, String name) {
+        super(name);
+        maxMycelia = 1;
     }
 
     /**
@@ -78,8 +78,8 @@ public class Orogenix extends Tecton {
     public List<Tecton> breakApart(String newTectonName1, String newTectonName2) {
 
         //Két új tekton létrehozása
-        Orogenix t1 = new Orogenix(decreaseSize(this.size), newTectonName1);
-        Orogenix t2 = new Orogenix(decreaseSize(this.size), newTectonName2);
+        Mantleon t1 = new Mantleon(decreaseSize(this.size), newTectonName1);
+        Mantleon t2 = new Mantleon(decreaseSize(this.size), newTectonName2);
 
         Controller.nameMap.put(t1, newTectonName1);
         Controller.nameMap.put(t2, newTectonName2);
@@ -170,8 +170,8 @@ public class Orogenix extends Tecton {
      * Ha a tekton már tartalmaz egy rovarot, vagy nincs kapcsolat a rovar jelenlegi tektonja és ez a tekton között,
      * akkor a metódus visszatér anélkül, hogy bármit is változtatna.
      * Ha a rovar jelenleg egy másik tektonon van, és van kapcsolat a két tekton között, akkor a metódus
-     * semlegesíti a rovaron a tekton hatásait, eltávolítja a rovart a jelenlegi tektonjáról, beállítja a rovar tektonját erre a tektonra,
-     * és semlegesíti a rovar spóra hatásait.
+     * semlegesíti a rovar tekton hatásait, eltávolítja a rovarot a jelenlegi tektonjáról, beállítja a rovar tektonját erre a tektonra,
+     * és levon egy tápanyagértékpontot a rovartól, amit 30 másodpercenként fog majd ismételgetni, amég a rovar a tektonon tartózkodik.
      *
      * @param insect A rovar, amit el kell helyezni a tektonon.
      */
@@ -206,4 +206,3 @@ public class Orogenix extends Tecton {
         return this.getClass().getSimpleName();
     }
 }
-

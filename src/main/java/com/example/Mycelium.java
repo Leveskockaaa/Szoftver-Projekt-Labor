@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * A gombafonalakat kezelő osztály. Egy-egy fonal egységet valósít meg.
@@ -124,8 +123,12 @@ public class Mycelium {
 
     /**
      * Gombatestet fejleszt az adott fonalon és tektonon.
+     * @return true, ha sikeresen kifejlesztett egy gombatestet, egyébként false.
      */
     public void developMushroomBody() {
+    public boolean developMushroomBody(String name) {
+        Skeleton.logFunctionCall(this, "developMushroomBody");
+
         try {
             if (!canDevelop()) {
                 throw new IllegalArgumentException("Cannot develop mushroom body");
@@ -150,8 +153,11 @@ public class Mycelium {
             throw new IllegalArgumentException(exception.getMessage());
         }
 
-        MushroomBody mushroomBody = mycologist.createMushroomBody(tecton);
+        MushroomBody mushroomBody = mycologist.createMushroomBody(tecton, name);
+        Controller.nameMap.put(mushroomBody, name);
         tecton.placeMushroomBody(mushroomBody);
+
+        return true;
     }
 
     /**
@@ -391,10 +397,7 @@ public class Mycelium {
             throw new IllegalArgumentException(exception.getMessage());
         }
 
-        List<Insect> insects = tecton.getInsects();
-        Random random = new Random();
-        int randomIndex = random.nextInt(insects.size());
-        Insect insect = insects.get(randomIndex);
+        Insect insect = tecton.getInsects().get(0);
 
         try {
             if (insect == null) {
@@ -427,7 +430,8 @@ public class Mycelium {
             throw new IllegalArgumentException(exception.getMessage());
         }
 
-        MushroomBody mushroomBody = mycologist.createMushroomBody(tecton);
+        // TODO: a név bemenetet meghatározni valahogy
+        MushroomBody mushroomBody = mycologist.createMushroomBody(tecton, "name");
         tecton.placeMushroomBody(mushroomBody);
         insectEaten = true;
     }

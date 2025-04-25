@@ -16,16 +16,16 @@ public class Mycologist extends Player {
     /**
      * A gombász által begyűjtött halott gombatestjeinek listája.
      */
-    private List<MushroomBody> bag;
+    private List<MushroomBody> bag = new ArrayList<MushroomBody>();
 
     /**
      * A gombászhoz tartozó gombafonalak listája.
      */
-    private List<Mycelium> myceliums;
+    private List<Mycelium> mycelia = new ArrayList<Mycelium>();
 
     /**
      * Mycologist konstruktora, amiben megadhatjuk a játékos nevét.
-     * 
+     *
      * @param name A játékos neve.
      */
     Mycologist(String name) {
@@ -34,7 +34,7 @@ public class Mycologist extends Player {
         // Ez csak az adott tesztesetek belső működés nélküli megvalósításához szükséges, később törlendő.
         // (A mycelium.getType()-hoz kell, mert a mycelium csak úgy tudja, hogy milyen típusú gombafajhoz
         // tartozik, hogy megnézi a gombász gombatesteit, ez a funkció viszont nem része a skeletonnak)
-        mushroomBodies.add(new Hyphara(new Transix()));
+        //mushroomBodies.add(new Hyphara(new Transix()));
     }
 
     /**
@@ -45,9 +45,11 @@ public class Mycologist extends Player {
         return mushroomBodies;
     }
 
-    public MushroomBody createMushroomBody(Tecton tecton) {
-        MushroomBody initialMushroomBody = bag.getFirst();
-        
+    public void addMushroomBody(MushroomBody mb) {mushroomBodies.add(mb);}
+
+    public MushroomBody createMushroomBody(Tecton tecton, String name) {
+        MushroomBody initialMushroomBody = bag.get(0);
+
         try {
             if (initialMushroomBody == null) {
                 throw new IllegalArgumentException("No initial mushroombody created");
@@ -57,7 +59,7 @@ public class Mycologist extends Player {
             throw new IllegalArgumentException(exception.getMessage());
         }
 
-        return initialMushroomBody.createMushroomBody(tecton, this);
+        return initialMushroomBody.createMushroomBody(tecton, this, name);
     }
 
     /**
@@ -66,8 +68,15 @@ public class Mycologist extends Player {
      */
     public void collect(MushroomBody mb){
         Skeleton.logFunctionCall(this, "collect", mb);
-
+        if (mb.isDead()){
+            mushroomBodies.remove(mb);
+            bag.add(mb);
+        }
         Skeleton.logReturn(this, "collect");
+    }
+
+    public void addMycelium(Mycelium my){
+        mycelia.add(my);
     }
 
     /**
@@ -76,18 +85,8 @@ public class Mycologist extends Player {
      */
     public void removeMycelium(Mycelium my) {
         Skeleton.logFunctionCall(this, "removeMycelium", my);
-
+        mycelia.remove(my);
         Skeleton.logReturn(this, "removeMycelium");
-    }
-
-    /**
-     * Beállítja a score attribútum értékét s-re.
-     * @param s Az új score érték.
-     */
-    public void setScore(int s){
-        Skeleton.logFunctionCall(this, "setScore", score);
-
-        Skeleton.logReturn(this, "setScore");
     }
 
     /**
@@ -96,7 +95,8 @@ public class Mycologist extends Player {
      */
     public void placeInitial(Tecton on){
         Skeleton.logFunctionCall(this, "placeInitial", on);
-
+        mushroomBodies.get(0).setTecton(on);
+        on.placeMushroomBody(mushroomBodies.get(0));
         Skeleton.logReturn(this, "placeInitial");
     }
 
@@ -143,7 +143,7 @@ public class Mycologist extends Player {
     public String printMycelia() {
         StringBuilder sb = new StringBuilder();
         sb.append("[");
-        for (Mycelium my : myceliums) {
+        for (Mycelium my : mycelia) {
             sb.append(my.printName()).append(", ");
         }
         if (sb.length() > 1) {
