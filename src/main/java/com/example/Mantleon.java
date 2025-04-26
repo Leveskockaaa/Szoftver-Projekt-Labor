@@ -77,8 +77,8 @@ public class Mantleon extends Tecton {
         Mantleon t1 = new Mantleon(decreaseSize(this.size), newTectonName1);
         Mantleon t2 = new Mantleon(decreaseSize(this.size), newTectonName2);
 
-        Controller.nameMap.put(t1, newTectonName1);
-        Controller.nameMap.put(t2, newTectonName2);
+        Controller.putToNameMap(t1, newTectonName1);
+        Controller.putToNameMap(t2, newTectonName2);
 
         //Köztük kapcsolat létrehozása
         t1.addTectonToNeighbors(t2);
@@ -99,7 +99,7 @@ public class Mantleon extends Tecton {
                 }
             } else {
                 for (Insect insect : insects) {
-                    t2.placeInsect(insect);
+                    t1.placeInsect(insect);
                 }
             }
         }
@@ -152,7 +152,10 @@ public class Mantleon extends Tecton {
             n.changeNeighbour(this, t2);
         }
 
-
+        //Később a controllerben a helye
+        gameTable.removeTecton(this);
+        gameTable.addTecton(t1);
+        gameTable.addTecton(t2);
 
         return new ArrayList<>(Arrays.asList(t1, t2));
     }
@@ -179,6 +182,7 @@ public class Mantleon extends Tecton {
         } else {
             insect.neutralizeTectonEffects();
             insect.getTecton().removeInsect();
+            insects.add(insect);
             insect.setTecton(this);
             insect.setNutrientMultiplier(2);
         }

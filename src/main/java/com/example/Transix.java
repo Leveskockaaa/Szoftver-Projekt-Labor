@@ -1,9 +1,6 @@
 package com.example;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import static com.example.TectonSize.decreaseSize;
 
@@ -72,8 +69,8 @@ public class Transix extends Tecton {
         Transix t1 = new Transix(decreaseSize(this.size), newTectonName1);
         Transix t2 = new Transix(decreaseSize(this.size), newTectonName2);
 
-        Controller.nameMap.put(t1, newTectonName1);
-        Controller.nameMap.put(t2, newTectonName2);
+        Controller.putToNameMap(t1, newTectonName1);
+        Controller.putToNameMap(t2, newTectonName2);
 
         //Köztük kapcsolat létrehozása
         t1.addTectonToNeighbors(t2);
@@ -93,8 +90,9 @@ public class Transix extends Tecton {
                     }
                 }
             } else {
-                for (Insect insect : insects) {
-                    t2.placeInsect(insect);
+                for (int i = 0; i < insects.size(); i++) {
+                    Insect insect = insects.get(i);
+                    t1.placeInsect(insect);
                 }
             }
         }
@@ -131,8 +129,9 @@ public class Transix extends Tecton {
         t1.addTectonToNeighbors(n1);
         n1.changeNeighbour(this, t1);
 
-        while (n1.neighbors.iterator().hasNext()) {
-            Tecton n2 = n1.neighbors.iterator().next();
+        Iterator<Tecton> iterator = n1.neighbors.iterator();
+        while (iterator.hasNext()) {
+            Tecton n2 = iterator.next();
             if (this.neighbors.contains(n2)) {
                 this.neighbors.remove(n2);
                 t1.addTectonToNeighbors(n2);
@@ -147,7 +146,10 @@ public class Transix extends Tecton {
             n.changeNeighbour(this, t2);
         }
 
-
+        //Később a controllerben a helye
+        gameTable.removeTecton(this);
+        gameTable.addTecton(t1);
+        gameTable.addTecton(t2);
 
         return new ArrayList<>(Arrays.asList(t1, t2));
     }
@@ -175,6 +177,7 @@ public class Transix extends Tecton {
         } else {
             insect.neutralizeTectonEffects();
             insect.getTecton().removeInsect();
+            insects.add(insect);
             insect.setTecton(this);
             insect.setNutrientMultiplier(2);
         }
