@@ -3,6 +3,9 @@ package com.example;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +16,10 @@ public class Controller {
     public static HashMap<Object, String> nameMap = new HashMap<>();
     private static int seconds;
     private static boolean isRandomOn;
-
+    private static List<String> testCases = new ArrayList<>();
+    private static File folder = new File("src/test");
+    private static boolean isTestMode = false;
+    private static String logFilePath = "";
 
 
     public static Object getFromNameMap(String name) {
@@ -30,12 +36,16 @@ public class Controller {
         return isRandomOn;
     }
 
+    public static void setTestMode(boolean mode) {
+        isTestMode = mode;
+    }
+
     public void runCommand(String command) {
-        boolean isCommandValid = validateCommand(command);
-        if (!isCommandValid) {
-            System.out.println("Invalid command: " + command);
-            return;
-        }
+//        boolean isCommandValid = validateCommand(command);
+//        if (!isCommandValid) {
+//            System.out.println("Invalid command: " + command);
+//            return;
+//        }
         String[] commandParts = command.split(" ");
         String commandName = commandParts[0].toUpperCase();
         try {
@@ -76,12 +86,42 @@ public class Controller {
         }
     }
 
+    public List<String> initTests(String filePath) {
+        try {
+            testCases = Files.readAllLines(new File(filePath).toPath());
+        } catch (IOException exception) {
+            System.out.println("[ERROR] Error while loading test cases: " + exception.getMessage());
+        }
+        return testCases;
+    }
+
     public int chooseTest() {
         return 0;
     }
 
     public void runTest(int testNumber) {
-
+        File[] matchingDirectories = folder.listFiles(file ->
+                file.isDirectory() && file.getName().contains(testNumber + "")
+        );
+        if (matchingDirectories != null && matchingDirectories.length == 1) {
+            logFilePath = "src/test/" + matchingDirectories[0].getName() + "/test-output.txt";
+            File logFile = new File(logFilePath);
+            if (logFile.exists()) {
+                logFile.delete();
+            }
+            File testFile = new File(matchingDirectories[0].getAbsolutePath() + "/input.txt");
+            try {
+                List<String> lines = Files.readAllLines(testFile.toPath());
+                for (String line : lines) {
+                    runCommand(line);
+                }
+                System.out.println("[INFO] Test case executed successfully: " + testFile.getName());
+            } catch (IOException exception) {
+                System.out.println("[ERROR] Error while executing test case: " + exception.getMessage());
+            }
+        } else {
+            System.out.println("[ERROR] No matching test files found for test number: " + testNumber);
+        }
     }
 
     private boolean validateCommand(String command) {
@@ -114,13 +154,26 @@ public class Controller {
         gameTable.initialize();
     }
 
+    private void log(String message, Path path) {
+        if (isTestMode) {
+            try {
+                Files.write(path, (message + System.lineSeparator()).getBytes(),
+                        StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            } catch (IOException exception) {
+                System.out.println("[ERROR] Error while writing to log file: " + exception.getMessage());
+            }
+        } else {
+            System.out.println(message);
+        }
+    }
+
     public void status(String[] commandParts) {
         if (commandParts.length != 2) {
             System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <objectName>");
             return;
         }
         String Indent = "    ";
-        if (commandParts[0].equalsIgnoreCase("random")) {
+        if (commandParts[1].equalsIgnoreCase("random")) {
             if (isRandomOn) {
                 System.out.println("Random: ON");
             } else {
@@ -133,59 +186,59 @@ public class Controller {
             return;
         }
         if (object instanceof Tecton tecton) {
-            System.out.println(tecton.printName() + ":");
-            System.out.println(Indent + "Type: " + tecton.printType());
-            System.out.println(Indent + "Size: " + tecton.printSize());
-            System.out.println(Indent + "maxMycelia: " + tecton.printMaxMycelia());
-            System.out.println(Indent + "Neighbors: " + tecton.printNeighbors());
-            System.out.println(Indent + "MushroomBody: " + tecton.printMushroomBody());
-            System.out.println(Indent + "Mycelia: " + tecton.printMycelia());
-            System.out.println(Indent + "Spores: " + tecton.printSpores());
-            System.out.println(Indent + "Insects: " + tecton.printInsects());
+            log(tecton.printName() + ":", Paths.get(logFilePath));
+            log(Indent + "Type: " + tecton.printType(), Paths.get(logFilePath));
+            log(Indent + "Size: " + tecton.printSize(), Paths.get(logFilePath));
+            log(Indent + "maxMycelia: " + tecton.printMaxMycelia(), Paths.get(logFilePath));
+            log(Indent + "Neighbors: " + tecton.printNeighbors(), Paths.get(logFilePath));
+            log(Indent + "MushroomBody: " + tecton.printMushroomBody(), Paths.get(logFilePath));
+            log(Indent + "Mycelia: " + tecton.printMycelia(), Paths.get(logFilePath));
+            log(Indent + "Spores: " + tecton.printSpores(), Paths.get(logFilePath));
+            log(Indent + "Insects: " + tecton.printInsects(), Paths.get(logFilePath));
 
         } else if (object instanceof Mycelium mycelium) {
-            System.out.println(mycelium.printName() + ":");
-            System.out.println(Indent + "canGrow: " + mycelium.printCanGrow());
-            System.out.println(Indent + "growthSpeed: " + mycelium.printGrowthSpeed());
-            System.out.println(Indent + "connectedTo: " + mycelium.printConnections());
-            System.out.println(Indent + "MushroomBodys: " + mycelium.printMushroomBodys());
+            log(mycelium.printName() + ":", Paths.get(logFilePath));
+            log(Indent + "canGrow: " + mycelium.printCanGrow(), Paths.get(logFilePath));
+            log(Indent + "growthSpeed: " + mycelium.printGrowthSpeed(), Paths.get(logFilePath));
+            log(Indent + "connectedTo: " + mycelium.printConnections(), Paths.get(logFilePath));
+            log(Indent + "MushroomBodys: " + mycelium.printMushroomBodys(), Paths.get(logFilePath));
 
         } else if (object instanceof Insect insect) {
-            System.out.println(insect.printName() + ":");
-            System.out.println(Indent + "collectedNutrientPoints: " + insect.printCollectedNutrientPoints());
-            System.out.println(Indent + "nutrientMultiplier: " + insect.printNutrientMultiplier());
-            System.out.println(Indent + "canChewMycelium: " + insect.printCanChewMycelium());
-            System.out.println(Indent + "Speed: " + insect.printSpeed());
-            System.out.println(Indent + "isParalized: " + insect.printIsParalized());
-            System.out.println(Indent + "canEat: " + insect.printCanEat());
-            System.out.println(Indent + "Tecton: " + insect.printTecton());
+            log(insect.printName() + ":", Paths.get(logFilePath));
+            log(Indent + "collectedNutrientPoints: " + insect.printCollectedNutrientPoints(), Paths.get(logFilePath));
+            log(Indent + "nutrientMultiplier: " + insect.printNutrientMultiplier(), Paths.get(logFilePath));
+            log(Indent + "canChewMycelium: " + insect.printCanChewMycelium(), Paths.get(logFilePath));
+            log(Indent + "Speed: " + insect.printSpeed(), Paths.get(logFilePath));
+            log(Indent + "isParalized: " + insect.printIsParalized(), Paths.get(logFilePath));
+            log(Indent + "canEat: " + insect.printCanEat(), Paths.get(logFilePath));
+            log(Indent + "Tecton: " + insect.printTecton(), Paths.get(logFilePath));
 
         } else if (object instanceof MushroomBody mushroomBody) {
-            System.out.println(mushroomBody.printName() + ":");
-            System.out.println(Indent + "Type: " + mushroomBody.printType());
-            System.out.println(Indent + "Level: " + mushroomBody.printLevel());
-            System.out.println(Indent + "State: " + mushroomBody.printState());
-            System.out.println(Indent + "canSpreadSpores: " + mushroomBody.printSporeSpread());
-            System.out.println(Indent + "sporeSpreadsLeft: " + mushroomBody.printSporeSpreadsLeft());
+            log(mushroomBody.printName() + ":", Paths.get(logFilePath));
+            log(Indent + "Type: " + mushroomBody.printType(), Paths.get(logFilePath));
+            log(Indent + "Level: " + mushroomBody.printLevel(), Paths.get(logFilePath));
+            log(Indent + "State: " + mushroomBody.printState(), Paths.get(logFilePath));
+            log(Indent + "canSpreadSpores: " + mushroomBody.printSporeSpread(), Paths.get(logFilePath));
+            log(Indent + "sporeSpreadsLeft: " + mushroomBody.printSporeSpreadsLeft(), Paths.get(logFilePath));
 
         } else if (object instanceof Player player) {
-            System.out.println(player.printName() + ":");
-            System.out.println(Indent + "Type: " + player.printType());
-            System.out.println(Indent + "Score: " + player.printScore());
-            System.out.println(Indent + "isWinner: " + player.printIsWinner());
+            log(player.printName() + ":", Paths.get(logFilePath));
+            log(Indent + "Type: " + player.printType(), Paths.get(logFilePath));
+            log(Indent + "Score: " + player.printScore(), Paths.get(logFilePath));
+            log(Indent + "isWinner: " + player.printIsWinner(), Paths.get(logFilePath));
             if (object instanceof Mycologist mycologist) {
-                System.out.println(Indent + "Species: " + mycologist.printSpecies());
-                System.out.println(Indent + "MushroomBodys: " + mycologist.printMushroomBodies());
-                System.out.println(Indent + "Bag: " + mycologist.printBag());
-                System.out.println(Indent + "Mycelia: " + mycologist.printMycelia());
+                log(Indent + "Species: " + mycologist.printSpecies(), Paths.get(logFilePath));
+                log(Indent + "MushroomBodys: " + mycologist.printMushroomBodies(), Paths.get(logFilePath));
+                log(Indent + "Bag: " + mycologist.printBag(), Paths.get(logFilePath));
+                log(Indent + "Mycelia: " + mycologist.printMycelia(), Paths.get(logFilePath));
             } else if (object instanceof Entomologist entomologist) {
-                System.out.println(Indent + "Insects: " + entomologist.printInsects());
+                log(Indent + "Insects: " + entomologist.printInsects(), Paths.get(logFilePath));
             }
 
         } else if (object instanceof GameTable gameTable) {
-            System.out.println(gameTable.printName() + ":");
-            System.out.println(Indent + "Tectons: " + gameTable.printTectons());
-            System.out.println(Indent + "Players: " + gameTable.printPlayers());
+            log(gameTable.printName() + ":", Paths.get(logFilePath));
+            log(Indent + "Tectons: " + gameTable.printTectons(), Paths.get(logFilePath));
+            log(Indent + "Players: " + gameTable.printPlayers(), Paths.get(logFilePath));
         }
     }
 

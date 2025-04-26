@@ -1,5 +1,5 @@
 CREATEGAMETABLE gametable
-INITGAMETABLE gametable
+INIT gametable
 CREATEPLAYER m1 Mycologist gametable Hyphara
 CREATEPLAYER m2 Mycologist gametable Gilledon
 CREATEPLAYER e1 Entomologist gametable

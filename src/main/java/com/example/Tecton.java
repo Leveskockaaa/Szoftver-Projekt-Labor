@@ -69,7 +69,7 @@ public abstract class Tecton {
         spores = new ArrayList<>();
         neighbors = new HashSet<>();
         mushroomBody = null;
-        insects = null;
+        insects = new ArrayList<>();
         mycelia = new ArrayList<>();
     }
 
