@@ -1,20 +1,20 @@
 gt:
-    Tectons:[t1:Transix, t2:Transix, neigh1:Transix, neigh2:Transix]
-    Players: [e: Entomologist]
+    Tectons:[neigh1:Transix, neigh2:Transix, t1:Transix, t2:Transix]
+    Players: [e: Entomologist, myc: Mycologist]
 t1:
     Type: Transix
     Size: BIG
     maxMycelia: 2
-    Neighbours: [neigh1:Transix]
+    Neighbours: [t2: Transix, neigh2:Transix]
     Mushroombody: -
-    Mycelia: -
-    Spores: -
+    Mycelia: [my]
+    Spores: []
     Insects: [i]
 t2:
     Type: Transix
     Size: BIG
     maxMycelia: 2
-    Neighbours: [neigh2:Transix]
+    Neighbours: [neigh1:Transix, t1:Transix]
     Mushroombody: mb:Hyphara
     Mycelia: [my]
     Spores: []
