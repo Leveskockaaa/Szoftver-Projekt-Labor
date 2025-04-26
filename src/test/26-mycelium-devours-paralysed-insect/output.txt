@@ -1,0 +1,14 @@
+t1:
+    Type: Transix
+    Size: GIANT
+    maxMycelia: 2
+    Neighbours: []
+    Mushroombody: -
+    Mycelia: [my1]
+    Spores: []
+    Insects: []
+e1:
+    Type: Entomologist
+    Score: 0
+    isWinner: No
+    Insects: []

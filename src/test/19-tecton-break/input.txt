@@ -2,8 +2,9 @@ CREATEGAMETABLE gt
 CREATETECTON t Transix gt
 CREATEPLAYER e Entomologist gt
 CREATEINSECT i e t
-CREATEMUSHROOMBODY mb Hyphara t
-CREATEMYCELIUM my Hyphara t
+CREATEPLAYER myc mycologist gt Hyphara
+CREATEMUSHROOMBODY mb Hyphara t myc
+CREATEMYCELIUM my myc t
 CREATETECTON neigh1 Transix gt
 CREATETECTON neigh2 Transix gt
 NEIGHBORS t neigh1
