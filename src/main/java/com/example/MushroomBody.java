@@ -113,6 +113,10 @@ public abstract class MushroomBody {
 
     public boolean isDead() { return dead; }
 
+    public String getName() {
+        return name;
+    }
+
     /*
     =============================================================================================
     Teszteléshez kiíró metódusok

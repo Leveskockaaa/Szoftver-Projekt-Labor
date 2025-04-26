@@ -32,6 +32,10 @@ public class Controller {
         return null;
     }
 
+    public static void putToNameMap(Object object, String name) {
+        nameMap.put(object, name);
+    }
+
     public static boolean isRandomOn() {
         return isRandomOn;
     }
@@ -281,10 +285,10 @@ public class Controller {
             return;
         }
         String name = commandParts[1];
-        String type = commandParts[2];
+        String type = commandParts[2].toLowerCase();
         String gameTableName = commandParts[3];
 
-        switch (type.toLowerCase()) {
+        switch (type) {
             case "mycologist": {
                 Mycologist mycologist = new Mycologist(name);
                 if (commandParts.length == 5) {
@@ -304,6 +308,7 @@ public class Controller {
                 if (gameTable == null) return;
                 gameTable.addPlayer(mycologist);
                 nameMap.put(mycologist, name);
+                break;
             }
             case "entomologist": {
                 Entomologist entomologist = new Entomologist(name);
@@ -311,9 +316,11 @@ public class Controller {
                 if (gameTable == null) return;
                 gameTable.addPlayer(entomologist);
                 nameMap.put(entomologist, name);
+                break;
             }
             default: {
                 System.out.println("Invalid player type: " + type);
+                break;
             }
         }
     }

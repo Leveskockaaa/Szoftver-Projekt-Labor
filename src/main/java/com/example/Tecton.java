@@ -27,7 +27,7 @@ public abstract class Tecton {
      * A tecton eltárolja, hogy melyik rovar van éppen rajta egy
      * szimpla egy elemes változóban.
      */
-    protected List<Insect> insects;
+    protected List<Insect> insects = new ArrayList<Insect>();
 
     /**
      * Egyedi azonosítója a Tecton-nak.

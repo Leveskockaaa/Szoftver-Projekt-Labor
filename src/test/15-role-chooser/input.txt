@@ -1,13 +1,13 @@
 CREATEGAMETABLE gametable
 INIT gametable
-CREATEPLAYER m1 Mycologist gametable Hyphara
-CREATEPLAYER m2 Mycologist gametable Gilledon
-CREATEPLAYER e1 Entomologist gametable
-CREATEPLAYER e2 Entomologist gametable
-CREATEMUSHROOMBODY body1 m1 t1
-CREATEMYCELIUM my1 Hyphara t1
-CREATEMUSHROOMBODY body2 m2 t7
-CREATEMYCELIUM my2 Gilledon t7
+CREATEPLAYER m1 mycologist gametable Hyphara
+CREATEPLAYER m2 mycologist gametable Gilledon
+CREATEPLAYER e1 entomologist gametable
+CREATEPLAYER e2 entomologist gametable
+CREATEMUSHROOMBODY body1 Hyphara t1 m1
+CREATEMYCELIUM my1 m1 t1
+CREATEMUSHROOMBODY body2 Gilledon t7 m2
+CREATEMYCELIUM my2 m2 t7
 CREATEINSECT i1 e1 t1
 CREATEINSECT i2 e2 t7
 STATUS gametable

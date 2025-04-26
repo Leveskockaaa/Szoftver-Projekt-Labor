@@ -30,6 +30,9 @@ public class Main {
             } else if (mode == 2) {
                 Controller.setTestMode(true);
                 List<String> tests = controller.initTests("src/main/resources/test-cases.txt");
+
+                System.out.println("Tesztesetek kiírásához üss egy entert!");
+                scanner.nextLine();
                 for (int i = 0; i < tests.size(); i++) {
                     System.out.println((i + 1) + ". teszt: " + tests.get(i));
                 }
