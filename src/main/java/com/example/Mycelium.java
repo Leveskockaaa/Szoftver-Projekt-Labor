@@ -55,7 +55,8 @@ public class Mycelium {
      * @param tecton A tekton amin a gombafonál elhelyezkedik.
      * @param mycologist A gombafonálhoz tartozó gombász.
      */
-    public Mycelium(Tecton tecton, Mycologist mycologist) {
+    public Mycelium(Tecton tecton, Mycologist mycologist, String name) {
+        this.name = name;
         this.canGrow = true;
         this.insectEaten = false;
         this.growthSpeed = 10;
@@ -155,7 +156,7 @@ public class Mycelium {
         }
 
         MushroomBody mushroomBody = mycologist.createMushroomBody(tecton, name);
-        Controller.nameMap.put(mushroomBody, name);
+        Controller.putToNameMap(mushroomBody, name);
         tecton.placeMushroomBody(mushroomBody);
 
         return true;
@@ -178,7 +179,7 @@ public class Mycelium {
      * @return Ha sikerült átnőni, akkor az új gombafonál referenciája,
      * egyébként null.
      */
-    public Mycelium createNewBranch(Tecton tecton) {
+    public Mycelium createNewBranch(Tecton tecton, String name) {
         try {
             if (!canGrow) {
                 throw new IllegalArgumentException("Cannot grow");
@@ -194,7 +195,7 @@ public class Mycelium {
         }
 
         if (tecton.canAddMycelium()) {
-            Mycelium newMycelium = new Mycelium(tecton, mycologist);
+            Mycelium newMycelium = new Mycelium(tecton, mycologist, name);
 
             try {
                 tecton.addMycelium(newMycelium);

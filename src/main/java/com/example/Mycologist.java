@@ -84,6 +84,10 @@ public class Mycologist extends Player {
         mycelia.add(my);
     }
 
+    public List<Mycelium> getMycelia() {
+        return mycelia;
+    }
+
     /**
      * Kitöröl egy gombafonalat a gombafonalait tároló listájából.
      * @param my a gombafonál amit törölni szeretnénk.

@@ -44,6 +44,12 @@ public abstract class Tecton {
      */
     protected int maxMycelia;
 
+    /**
+     * A tektont eltároló játéktér. Tectonbreak esetén el kell hogy távolítsa a tekton, ehhez ismernie kell.
+     * Később csinálhatja a controller is.
+     */
+    protected GameTable gameTable;
+
 
     /**
      * A tekton eltárolja a rajta lévő spórákat. Fontos, hogy a
@@ -79,7 +85,7 @@ public abstract class Tecton {
         spores = new ArrayList<>();
         neighbors = new HashSet<>();
         mushroomBody = null;
-        insects = null;
+        insects = new ArrayList<>();
         mycelia = new ArrayList<>();
     }
 
@@ -100,6 +106,10 @@ public abstract class Tecton {
      */
     public List<Mycelium> getMycelia() {
         return mycelia;
+    }
+
+    public void setGameTable(GameTable gameTable) {
+        this.gameTable = gameTable;
     }
 
     public List<Insect> getInsects() {

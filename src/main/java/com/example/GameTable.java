@@ -154,7 +154,7 @@ public class GameTable {
         System.out.println("Adja meg a gombatest típusát! (Hyphara, Gilledon, Poralia, Capulon)");
         String mushroomType = roleInput.nextLine();
         m1.addMushroomBody(chooseType(tectons.get(initialTecton), mushroomType, m1, m1.getName() + "_mb_" + (m1.getMushroomBodies().size() + 1)));
-        Mycelium my1 = new Mycelium(tectons.get(initialTecton), m1);
+        Mycelium my1 = new Mycelium(tectons.get(initialTecton), m1, m1.getName() + "_my_" + (m1.getMycelia().size() + 1));
         Controller.putToNameMap(my1, my1.getName());
         m1.addMycelium(my1);
         tectons.get(initialTecton).addMycelium(my1);
@@ -165,7 +165,7 @@ public class GameTable {
         System.out.println("Adja meg a gombatest típusát! (Hyphara, Gilledon, Poralia, Capulon)");
         mushroomType = roleInput.nextLine();
         m2.addMushroomBody(chooseType(tectons.get(initialTecton), mushroomType, m2, m2.getName() + "_mb_" + (m2.getMushroomBodies().size() + 1)));
-        Mycelium my2 = new Mycelium(tectons.get(initialTecton), m2);
+        Mycelium my2 = new Mycelium(tectons.get(initialTecton), m2, m2.getName() + "_my_" + (m2.getMycelia().size() + 1));
         Controller.putToNameMap(my2, my2.getName());
         m2.addMycelium(my2);
         tectons.get(initialTecton).addMycelium(my2);

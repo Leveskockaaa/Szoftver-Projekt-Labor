@@ -57,6 +57,7 @@ public class Insect {
      */
     public Insect(Entomologist entomologist, String name) {
         this.entomologist = entomologist;
+        this.name = name;
     }
 
     /**
