@@ -27,7 +27,7 @@ public abstract class Tecton {
      * A tecton eltárolja, hogy melyik rovar van éppen rajta egy
      * szimpla egy elemes változóban.
      */
-    protected List<Insect> insects;
+    protected List<Insect> insects = new ArrayList<Insect>();
 
     /**
      * Egyedi azonosítója a Tecton-nak.
@@ -69,7 +69,7 @@ public abstract class Tecton {
         spores = new ArrayList<>();
         neighbors = new HashSet<>();
         mushroomBody = null;
-        insects = null;
+        insects = new ArrayList<>();
         mycelia = new ArrayList<>();
     }
 

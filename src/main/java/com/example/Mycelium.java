@@ -64,6 +64,10 @@ public class Mycelium {
         this.myceliumConnections = new ArrayList<>();
     }
 
+    public String getName() {
+        return name;
+    }
+
     /**
      * Getter a gobmafonálhoz tartozó tektonhoz.
      *

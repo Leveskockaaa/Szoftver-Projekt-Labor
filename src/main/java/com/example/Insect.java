@@ -63,22 +63,22 @@ public class Insect {
      * Engedélyezi a rovar számára a micélium rágását.
      */
     public void enableToChewMycelium() {
-        Skeleton.logFunctionCall(this, "enableToChewMycelium");
+
 
         this.canChewMycelium = true;
 
-        Skeleton.logReturn(this, "enableToChewMycelium");
+
     }
 
     /**
      * Letiltja a rovar számára a micélium rágását.
      */
     public void disableChewMycelium() {
-        Skeleton.logFunctionCall(this, "disableChewMycelium");
+
 
         this.canChewMycelium = false;
 
-        Skeleton.logReturn(this, "disableChewMycelium");
+
     }
 
     /**
@@ -87,7 +87,6 @@ public class Insect {
      * @param mycelium A micélium objektum, amit meg kell rágni.
      */
     public void chewMycelium(Mycelium mycelium) {
-        Skeleton.logFunctionCall(this, "chewMycelium", mycelium);
 
         if (this.canChewMycelium) {
             for (Mycelium m : this.getTecton().mycelia) {
@@ -98,7 +97,6 @@ public class Insect {
             }
         }
 
-        Skeleton.logReturn(this, "chewMycelium");
     }
 
     /**
@@ -107,18 +105,15 @@ public class Insect {
      * @param times Az új szorzó értéke.
      */
     public void setNutrientMultiplier(int times) {
-        Skeleton.logFunctionCall(this, "setNutrientMultiplier", Integer.toString(times));
 
         this.nutrientMultiplier = times;
 
-        Skeleton.logReturn(this, "setNutrientMultiplier");
     }
 
     /**
      * Lehetővé teszi a rovar számára, hogy megegyen egy spórát.
      */
     public void eatSpore() {
-        Skeleton.logFunctionCall(this, "eatSpore");
 
         Spore s1 = tecton.removeOldestSpore();
 
@@ -128,29 +123,28 @@ public class Insect {
             s1.takeEffectOn(this);
         }
 
-        Skeleton.logReturn(this, "eatSpore");
     }
 
     /**
      * Engedélyezi a rovar számára az evést.
      */
     public void enableEating() {
-        Skeleton.logFunctionCall(this, "enableEating");
+
 
         this.canEat = true;
 
-        Skeleton.logReturn(this, "enableEating");
+
     }
 
     /**
      * Letiltja a rovar számára az evést.
      */
     public void disableEating() {
-        Skeleton.logFunctionCall(this, "disableEating");
+
 
         this.canEat = false;
 
-        Skeleton.logReturn(this, "disableEating");
+
     }
 
     /**
@@ -159,22 +153,19 @@ public class Insect {
      * @param t A Tecton, ahová a rovart át kell helyezni.
      */
     public void moveTo(Tecton t) {
-        Skeleton.logFunctionCall(this, "moveTo", t);
+
 
         t.placeInsect(this);
 
-        Skeleton.logReturn(this, "moveTo");
     }
 
     /**
      * Levon egy tápanyag pontot a rovarból.
      */
     public void deductNutrientPoint() {
-        Skeleton.logFunctionCall(this, "deductNutrientPoint");
 
         this.entomologist.setScore(-1);
 
-        Skeleton.logReturn(this, "deductNutrientPoint");
     }
 
     /**
@@ -188,11 +179,9 @@ public class Insect {
      * Semlegesíti a tektonok hatásait.
      */
     public void neutralizeTectonEffects() {
-        Skeleton.logFunctionCall(this, "neutralizeTectonEffects");
 
         setNutrientMultiplier(1);
 
-        Skeleton.logReturn(this, "neutralizeTectonEffects");
     }
 
     /**
@@ -201,11 +190,9 @@ public class Insect {
      * @param speed A rovar új sebessége.
      */
     public void setSpeed(float speed) {
-        Skeleton.logFunctionCall(this, "setSpeed", Float.toString(speed));
 
         this.speed = speed;
 
-        Skeleton.logReturn(this, "setSpeed");
     }
 
     /**
@@ -219,22 +206,18 @@ public class Insect {
      * Bénítja a rovart.
      */
     public void paralize() {
-        Skeleton.logFunctionCall(this, "paralize");
 
         this.isParalized = true;
 
-        Skeleton.logReturn(this, "paralize");
     }
 
     /**
      * Eltávolítja a bénultságot a rovarról.
      */
     public void unParalized() {
-        Skeleton.logFunctionCall(this, "unParalized");
 
         this.isParalized = false;
 
-        Skeleton.logReturn(this, "unParalized");
     }
 
     /**
