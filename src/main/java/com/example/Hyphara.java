@@ -38,7 +38,7 @@ public class Hyphara extends MushroomBody {
             }
             else{
                 for(Tecton t : tecton.getNeighbors()){
-                    t.addSpore(new HypharaSpore());
+                    t.addSpore(new HypharaSpore(this));
                 }
             }
 
@@ -66,7 +66,7 @@ public class Hyphara extends MushroomBody {
         while (!queue.isEmpty()) {
             Tecton current = queue.poll();
             int depth = visited.get(current);
-            if(depth != 0) current.addSpore(new HypharaSpore());
+            if(depth != 0) current.addSpore(new HypharaSpore(this));
 
             for (Tecton neighbor : current.getNeighbors()) {
                 if (!visited.containsKey(current) && depth < 2) {
@@ -110,7 +110,7 @@ public class Hyphara extends MushroomBody {
     @Override
     public void evolveSuper() {
         if(canEvolve()){
-            tecton.takeSpore(new HypharaSpore(), 3);
+            tecton.takeSpore(new HypharaSpore(this), 3);
             superBody = true;
         }
     }

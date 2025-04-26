@@ -21,7 +21,6 @@ public class Controller {
     private static boolean isTestMode = false;
     private static String logFilePath = "";
 
-
     public static Object getFromNameMap(String name) {
         for (Object object : nameMap.keySet()) {
             if (nameMap.get(object).equals(name)) {
@@ -45,11 +44,6 @@ public class Controller {
     }
 
     public void runCommand(String command) {
-//        boolean isCommandValid = validateCommand(command);
-//        if (!isCommandValid) {
-//            System.out.println("Invalid command: " + command);
-//            return;
-//        }
         String[] commandParts = command.split(" ");
         String commandName = commandParts[0].toUpperCase();
         try {
@@ -86,7 +80,7 @@ public class Controller {
             System.out.println("[INFO] Command executed successfuly: " + command);
         } catch (Exception exception) {
             System.out.println("[ERROR] Exception has been thrown while executing command: " + command);
-            exception.printStackTrace();
+            // exception.printStackTrace();
         }
     }
 
@@ -128,33 +122,25 @@ public class Controller {
         }
     }
 
-    private boolean validateCommand(String command) {
-        return commandsList.contains(command);
-    }
-
     private void devour(String[] commandParts) {
         if (commandParts.length != 2) {
-            System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <myceliumName>");
-            return;
+            throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <myceliumName>");
         }
         String myceliumName = commandParts[1];
 
         Mycelium mycelium = (Mycelium) getFromNameMap(myceliumName);
-        if (mycelium == null) return;
+        if (mycelium == null) throw new RuntimeException("Mycelium not found: " + myceliumName);
         mycelium.eatInsect();
     }
 
     private void initialize(String[] commandParts) {
         if (commandParts.length != 2) {
-            System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <gametableName>");
-            return;
+            throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <gametableName>");
         }
         String gametableName = commandParts[1];
 
         GameTable gameTable = (GameTable) getFromNameMap(gametableName);
-        if (gameTable == null) {
-            return;
-        }
+        if (gameTable == null) throw new RuntimeException("GameTable not found: " + gametableName);
         gameTable.initialize();
     }
 
@@ -173,8 +159,7 @@ public class Controller {
 
     public void status(String[] commandParts) {
         if (commandParts.length != 2) {
-            System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <objectName>");
-            return;
+            throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <objectName>");
         }
         String Indent = "    ";
         if (commandParts[1].equalsIgnoreCase("random")) {
@@ -186,9 +171,7 @@ public class Controller {
             return;
         }
         Object object = getFromNameMap(commandParts[1]);
-        if (object == null) {
-            return;
-        }
+        if (object == null) throw new RuntimeException("Object not found: " + commandParts[1]);
         if (object instanceof Tecton tecton) {
             log(tecton.printName() + ":", Paths.get(logFilePath));
             log(Indent + "Type: " + tecton.printType(), Paths.get(logFilePath));
@@ -248,8 +231,7 @@ public class Controller {
 
     private void createGameTable(String[] commandParts) {
         if (commandParts.length != 2) {
-            System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <name>");
-            return;
+            throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <name>");
         }
         GameTable gameTable = new GameTable(commandParts[1]);
         nameMap.put(gameTable, commandParts[1]);
@@ -257,8 +239,7 @@ public class Controller {
 
     private void createTecton(String[] commandParts) {
         if (commandParts.length != 4) {
-            System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <name> <type> <gametableName>");
-            return;
+            throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <name> <type> <gametableName>");
         }
         String name = commandParts[1];
         String type = commandParts[2];
@@ -272,17 +253,16 @@ public class Controller {
             case "transix" -> tecton = new Transix(name);
             default -> System.out.println("Invalid tecton type: " + type);
         }
-        if (tecton == null) return;
+        if (tecton == null) throw new RuntimeException("Failed to initialize tecton");
         GameTable gameTable = (GameTable) getFromNameMap(gametableName);
-        if (gameTable == null) return;
+        if (gameTable == null) throw new RuntimeException("GameTable not found: " + gametableName);
         gameTable.addTecton(tecton);
         nameMap.put(tecton, name);
     }
 
     private void createPlayer(String[] commandParts) {
         if (commandParts.length != 4 && commandParts.length != 5) {
-            System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <name> <type> <gametableName> <gombatestFaj>");
-            return;
+            throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <name> <type> <gametableName> <gombatestFaj>");
         }
         String name = commandParts[1];
         String type = commandParts[2].toLowerCase();
@@ -300,12 +280,12 @@ public class Controller {
                         case "capulon" -> mycologist.addMushroomBody(new Capulon(null, mycologist, "capulon_minta"));
                         default -> System.out.println("Invalid mushroom body type: " + gombatestFaj);
                     }
-                } else {
-                    System.out.println("[ERROR] Mycologist must have a mushroom body type.");
-                    return;
+                }
+                else {
+                    throw new RuntimeException("Mycologist must have a mushroom body type.");
                 }
                 GameTable gameTable = (GameTable) getFromNameMap(gameTableName);
-                if (gameTable == null) return;
+                if (gameTable == null) throw new RuntimeException("GameTable not found: " + gameTableName);
                 gameTable.addPlayer(mycologist);
                 nameMap.put(mycologist, name);
                 break;
@@ -313,39 +293,37 @@ public class Controller {
             case "entomologist": {
                 Entomologist entomologist = new Entomologist(name);
                 GameTable gameTable = (GameTable) getFromNameMap(gameTableName);
-                if (gameTable == null) return;
+                if (gameTable == null) throw new RuntimeException("GameTable not found: " + gameTableName);
                 gameTable.addPlayer(entomologist);
                 nameMap.put(entomologist, name);
                 break;
             }
             default: {
-                System.out.println("Invalid player type: " + type);
-                break;
+                throw new RuntimeException("Invalid player type: " + type);
             }
         }
     }
 
     private void createInsect(String[] commandParts) {
         if (commandParts.length != 4) {
-            System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <name> <playerName> <tectonName>");
-            return;
+            throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <name> <playerName> <tectonName>");
         }
         String name = commandParts[1];
         String player = commandParts[2];
         String tectonName = commandParts[3];
 
         Entomologist entomologist = (Entomologist) getFromNameMap(player);
+        if (entomologist == null) throw new RuntimeException("Entomologist not found: " + player);
         Insect insect = new Insect(entomologist, name);
         Tecton tecton = (Tecton) getFromNameMap(tectonName);
-        if (tecton == null) return;
+        if (tecton == null) throw new RuntimeException("Tecton not found: " + tectonName);
         tecton.placeInsect(insect);
         nameMap.put(insect, name);
     }
 
     private void createMushroomBody(String[] commandParts) {
         if (commandParts.length != 5) {
-            System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <name> <type> <tectonName> <mycologistName>");
-            return;
+            throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <name> <type> <tectonName> <mycologistName>");
         }
         String name = commandParts[1];
         String type = commandParts[2];
@@ -354,7 +332,9 @@ public class Controller {
 
         MushroomBody mushroomBody = null;
         Tecton tecton = (Tecton) getFromNameMap(tectonName);
+        if (tecton == null) throw new RuntimeException("Tecton not found: " + tectonName);
         Mycologist mycologist = (Mycologist) getFromNameMap(mycologistName);
+        if (mycologist == null) throw new RuntimeException("Mycologist not found: " + mycologistName);
         switch (type.toLowerCase()) {
             case "hyphara" -> mushroomBody = new Hyphara(tecton, mycologist, name);
             case "gilledon" -> mushroomBody = new Gilledon(tecton, mycologist, name);
@@ -362,65 +342,62 @@ public class Controller {
             case "capulon" -> mushroomBody = new Capulon(tecton, mycologist, name);
             default -> System.out.println("Invalid mushroom body type: " + type);
         }
-        if (mushroomBody == null) return;
-        assert tecton != null;
+        if (mushroomBody == null) throw new RuntimeException("Failed to initialize mushroom body");
         tecton.placeMushroomBody(mushroomBody);
         nameMap.put(mushroomBody, name);
     }
 
     private void createSpore(String[] commandParts) {
         if (commandParts.length != 4) {
-            System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <type> <tectonName> <number>");
-            return;
+            throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <type> <tectonName> <number>");
         }
         String type = commandParts[1];
         String tectonName = commandParts[2];
         int number = Integer.parseInt(commandParts[3]);
 
         Tecton tecton = (Tecton) getFromNameMap(tectonName);
-        if (tecton == null) return;
+        if (tecton == null) throw new RuntimeException("Tecton not found: " + tectonName);
         switch (type.toLowerCase()) {
             case "hyphara" -> {
                 for (int i = 0; i < number; i++) {
-                    HypharaSpore spore = new HypharaSpore();
+                    HypharaSpore spore = new HypharaSpore(null);
                     tecton.addSpore(spore);
                 }
             }
             case "gilledon" -> {
                 for (int i = 0; i < number; i++) {
-                    GilledonSpore spore = new GilledonSpore();
+                    GilledonSpore spore = new GilledonSpore(null);
                     tecton.addSpore(spore);
                 }
             }
             case "capulon" -> {
                 for (int i = 0; i < number; i++) {
-                    CapulonSpore spore = new CapulonSpore();
+                    CapulonSpore spore = new CapulonSpore(null);
                     tecton.addSpore(spore);
                 }
             }
             case "poralia" -> {
                 for (int i = 0; i < number; i++) {
-                    PoraliaSpore spore = new PoraliaSpore();
+                    PoraliaSpore spore = new PoraliaSpore(null);
                     tecton.addSpore(spore);
                 }
             }
-            default -> System.out.println("Invalid spore type: " + type);
+            default -> throw new RuntimeException("Invalid spore type: " + type);
         }
     }
 
     private void createMycelium(String[] commandParts) {
         if (commandParts.length != 4) {
-            System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <name> <mycologistName> <tectonName>");
-            return;
+            throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <name> <mycologistName> <tectonName>");
         }
         String myceliumName = commandParts[1];
         String mycologistName = commandParts[2];
         String tectonName = commandParts[3];
 
         Mycologist mycologist = (Mycologist) getFromNameMap(mycologistName);
+        if (mycologist == null) throw new RuntimeException("Mycologist not found: " + mycologistName);
         Tecton tecton = (Tecton) getFromNameMap(tectonName);
-
-        if (mycologist == null || tecton == null) return;
+        if (tecton == null) throw new RuntimeException("Tecton not found: " + tectonName);
 
         Mycelium mycelium = new Mycelium(tecton, mycologist);
         tecton.addMycelium(mycelium);
@@ -430,38 +407,35 @@ public class Controller {
 
     private void move(String[] commandParts) {
         if (commandParts.length != 3) {
-            System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <insectName> <tectonName>");
-            return;
+            throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <insectName> <tectonName>");
         }
         String insectName = commandParts[1];
         String tectonName = commandParts[2];
 
         Insect insect = (Insect) getFromNameMap(insectName);
+        if (insect == null) throw new RuntimeException("Insect not found: " + insectName);
         Tecton tecton = (Tecton) getFromNameMap(tectonName);
-
-        if (insect == null || tecton == null) return;
+        if (tecton == null) throw new RuntimeException("Tecton not found: " + tectonName);
 
         insect.moveTo(tecton);
     }
 
     private void breakCommand(String[] commandParts) {
         if (commandParts.length != 4) {
-            System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <tectonName> <newTectonName1> <newTectonName2>");
-            return;
+            throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <tectonName> <newTectonName1> <newTectonName2>");
         }
         String tectonName = commandParts[1];
         String newTectonName1 = commandParts[2];
         String newTectonName2 = commandParts[3];
 
         Tecton tecton = (Tecton) getFromNameMap(tectonName);
-        if (tecton == null) return;
+        if (tecton == null) throw new RuntimeException("Tecton not found: " + tectonName);
         tecton.breakApart(newTectonName1, newTectonName2);
     }
 
     private static void random(String[] commandParts) {
         if (commandParts.length != 2) {
-            System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <true/false>");
-            return;
+            throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <true/false>");
         }
         String random = commandParts[1];
         if (random.equalsIgnoreCase("true")) {
@@ -469,80 +443,72 @@ public class Controller {
         } else if (random.equalsIgnoreCase("false")) {
             isRandomOn = false;
         } else {
-            System.out.println("Invalid random value: " + random);
+            throw new RuntimeException("Invalid random value: " + random);
         }
     }
 
     private void eatSpore(String[] commandParts) {
         if (commandParts.length != 2) {
-            System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <insectName>");
-            return;
+            throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <insectName>");
         }
         String insectName = commandParts[1];
 
         Insect insect = (Insect) getFromNameMap(insectName);
-
-        if (insect == null) return;
+        if (insect == null) throw new RuntimeException("Insect not found: " + insectName);
 
         insect.eatSpore();
     }
 
     private void chewMycelium(String[] commandParts) {
         if (commandParts.length != 3) {
-            System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <insectName> <myceliumName>");
-            return;
+            throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <insectName> <myceliumName>");
         }
         String insectName = commandParts[1];
         String myceliumName = commandParts[2];
 
         Insect insect = (Insect) getFromNameMap(insectName);
+        if (insect == null) throw new RuntimeException("Insect not found: " + insectName);
         Mycelium mycelium = (Mycelium) getFromNameMap(myceliumName);
-
-        if (insect == null || mycelium == null) return;
+        if (mycelium == null) throw new RuntimeException("Mycelium not found: " + myceliumName);
 
         insect.chewMycelium(mycelium);
     }
 
     private void spreadSpores(String[] commandParts) {
         if (commandParts.length != 2) {
-            System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <mushroomBodyName>");
-            return;
+            throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <mushroomBodyName>");
         }
         String mushroomBodyName = commandParts[1];
 
         MushroomBody mushroomBody = (MushroomBody) getFromNameMap(mushroomBodyName);
-
-        if (mushroomBody == null) return;
+        if (mushroomBody == null) throw new RuntimeException("MushroomBody not found: " + mushroomBodyName);
 
         mushroomBody.spreadSpores();
     }
 
     private void evolveSuper(String[] commandParts) {
         if (commandParts.length != 2) {
-            System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <mushroomBodyName>");
-            return;
+            throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <mushroomBodyName>");
         }
         String mushroomBodyName = commandParts[1];
 
         MushroomBody mushroomBody = (MushroomBody) getFromNameMap(mushroomBodyName);
-
-        if (mushroomBody == null) return;
+        if (mushroomBody == null) throw new RuntimeException("MushroomBody not found: " + mushroomBodyName);
 
         mushroomBody.evolveSuper();
     }
 
     private void neighbors(String[] commandParts) {
         if (commandParts.length != 3) {
-            System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <firstTectonName> <secondTectonName>");
-            return;
+            throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <firstTectonName> <secondTectonName>");
         }
         String firstTectonName = commandParts[1];
         String secondTectonName = commandParts[2];
 
         Tecton firstTecton = (Tecton) getFromNameMap(firstTectonName);
+        if (firstTecton == null) throw new RuntimeException("First Tecton not found: " + firstTectonName);
         Tecton secondTecton = (Tecton) getFromNameMap(secondTectonName);
-
-        if (firstTecton == null || secondTecton == null) return;
+        if (secondTecton == null) throw new RuntimeException("Second Tecton not found: " + secondTectonName);
 
         try {
             firstTecton.addTectonToNeighbors(secondTecton);
@@ -553,54 +519,49 @@ public class Controller {
 
     private void growTo(String[] commandParts) {
         if (commandParts.length != 4) {
-            System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <myceliumName> <tectonName> <newMyceliumName>");
-            return;
+            throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <myceliumName> <tectonName> <newMyceliumName>");
         }
         String myceliumName = commandParts[1];
         String tectonName = commandParts[2];
         String newMyceliumName = commandParts[3];
 
         Mycelium mycelium = (Mycelium) getFromNameMap(myceliumName);
+        if (mycelium == null) throw new RuntimeException("Mycelium not found: " + myceliumName);
         Tecton tecton = (Tecton) getFromNameMap(tectonName);
-
-        if (mycelium == null || tecton == null) return;
+        if (tecton == null) throw new RuntimeException("Tecton not found: " + tectonName);
 
         Mycelium newMycelium = mycelium.createNewBranch(tecton);
-        if (newMycelium == null) return;
+        if (newMycelium == null) throw new RuntimeException("Failed to create new mycelium branch");
         nameMap.put(newMycelium, newMyceliumName);
     }
 
     private void growBody(String[] commandParts) {
         if (commandParts.length != 3) {
-            System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <myceliumName> <newMushroomBodyName>");
-            return;
+            throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <myceliumName> <newMushroomBodyName>");
         }
         String myceliumName = commandParts[1];
         String newMushroomBodyName = commandParts[2];
 
         Mycelium mycelium = (Mycelium) getFromNameMap(myceliumName);
-
-        if (mycelium == null) return;
-
+        if (mycelium == null) throw new RuntimeException("Mycelium not found: " + myceliumName);
 
         mycelium.developMushroomBody(newMushroomBodyName);
     }
 
     private void delay(String[] commandParts) {
         if (commandParts.length != 2) {
-            System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <seconds>");
-            return;
+            throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <seconds>");
+
         }
         seconds += Integer.parseInt(commandParts[1]);
     }
 
     private void endGame(String[] commandParts) {
         if (commandParts.length != 1) {
-            System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <gametableName>");
-            return;
+            throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <gametableName>");
         }
         GameTable gameTable = (GameTable) getFromNameMap(commandParts[0]);
-        if (gameTable == null) return;
+        if (gameTable == null) throw new RuntimeException("GameTable not found: " + commandParts[0]);
         gameTable.endGame();
         String Indent = "    ";
 
@@ -643,8 +604,7 @@ public class Controller {
 
     private void load(String[] commandParts) {
         if (commandParts.length != 2) {
-            System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <path>");
-            return;
+            throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <path>");
         }
         String fileName = commandParts[1];
         File file = new File("src/main/resources/" + fileName);
@@ -665,8 +625,7 @@ public class Controller {
 
     private void save(String[] commandParts) {
         if (commandParts.length != 2) {
-            System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <filePath>");
-            return;
+            throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <filePath>");
         }
         String fileName = commandParts[1];
         File file = new File("src/main/resources/" + fileName);

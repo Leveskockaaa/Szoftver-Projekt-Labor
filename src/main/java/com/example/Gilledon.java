@@ -38,7 +38,7 @@ public class Gilledon extends MushroomBody{
             }
             else{
                 for(Tecton t : tecton.getNeighbors()){
-                    t.addSpore(new GilledonSpore());
+                    t.addSpore(new GilledonSpore(this));
                 }
             }
 
@@ -66,7 +66,7 @@ public class Gilledon extends MushroomBody{
         while (!queue.isEmpty()) {
             Tecton current = queue.poll();
             int depth = visited.get(current);
-            if(depth != 0) current.addSpore(new GilledonSpore());
+            if(depth != 0) current.addSpore(new GilledonSpore(this));
 
             for (Tecton neighbor : current.getNeighbors()) {
                 if (!visited.containsKey(current) && depth < 2) {
@@ -110,7 +110,7 @@ public class Gilledon extends MushroomBody{
     @Override
     public void evolveSuper() {
         if(canEvolve()){
-            tecton.takeSpore(new GilledonSpore(), 3);
+            tecton.takeSpore(new GilledonSpore(this), 3);
             superBody = true;
         }
     }

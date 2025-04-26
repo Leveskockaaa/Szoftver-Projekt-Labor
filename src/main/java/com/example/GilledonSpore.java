@@ -7,8 +7,8 @@ public class GilledonSpore extends Spore {
     /**
      * GilledonSpore konstruktora. Beállítja, hogy a spóra tápértéke 6 legyen.
      */
-    public GilledonSpore() {
-        super(6);
+    public GilledonSpore(MushroomBody mushroomBody) {
+        super(mushroomBody, 6);
     }
 
     /**

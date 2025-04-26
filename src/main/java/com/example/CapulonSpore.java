@@ -7,8 +7,8 @@ public class CapulonSpore extends Spore {
     /**
      * A CalulonSpore konstruktora. Beállítja, hogy a spóra tápértéke 6 legyen.
      */
-    public CapulonSpore() {
-        super(6);
+    public CapulonSpore(MushroomBody mushroomBody) {
+        super(mushroomBody, 6);
     }
 
     /**

@@ -38,7 +38,7 @@ public class Poralia extends MushroomBody {
             }
             else{
                 for(Tecton t : tecton.getNeighbors()){
-                    t.addSpore(new PoraliaSpore());
+                    t.addSpore(new PoraliaSpore(this));
                 }
             }
 
@@ -66,7 +66,7 @@ public class Poralia extends MushroomBody {
         while (!queue.isEmpty()) {
             Tecton current = queue.poll();
             int depth = visited.get(current);
-            if(depth != 0) current.addSpore(new PoraliaSpore());
+            if(depth != 0) current.addSpore(new PoraliaSpore(this));
 
             for (Tecton neighbor : current.getNeighbors()) {
                 if (!visited.containsKey(current) && depth < 2) {
@@ -110,7 +110,7 @@ public class Poralia extends MushroomBody {
     @Override
     public void evolveSuper() {
         if(canEvolve()){
-            tecton.takeSpore(new PoraliaSpore(), 3);
+            tecton.takeSpore(new PoraliaSpore(this), 3);
             superBody = true;
         }
     }

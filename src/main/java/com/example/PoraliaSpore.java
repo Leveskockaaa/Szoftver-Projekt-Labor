@@ -7,8 +7,8 @@ public class PoraliaSpore extends Spore {
     /**
      * A PoraliaSpore konstruktora. Beállítja, hogy a spóra tápértéke 5 legyen.
      */
-    protected PoraliaSpore() {
-        super(5);
+    protected PoraliaSpore(MushroomBody mushroomBody) {
+        super(mushroomBody ,5);
     }
 
     /**

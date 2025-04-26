@@ -43,7 +43,7 @@ public class Mycelium {
      * gombafonál. Attól, hogy szomszédos tektonon van egy azonos fajú
      * gombafonál még nem szomszédosak.
      */
-    private List<Mycelium> myceliumConnections;
+    private final List<Mycelium> myceliumConnections;
 
     // a tervekben még volt itt egy List<MushroomBody> mushroomBodies, de mivel
     // eltároljuk a gombafonálhoz tartozó gombászt, így nem szükséges, mert az

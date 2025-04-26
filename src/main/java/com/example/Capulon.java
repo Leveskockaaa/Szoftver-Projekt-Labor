@@ -39,7 +39,7 @@ public class Capulon extends MushroomBody{
             }
             else{
                 for(Tecton t : tecton.getNeighbors()){
-                    t.addSpore(new CapulonSpore());
+                    t.addSpore(new CapulonSpore(this));
                 }
             }
 
@@ -67,7 +67,7 @@ public class Capulon extends MushroomBody{
         while (!queue.isEmpty()) {
             Tecton current = queue.poll();
             int depth = visited.get(current);
-            if(depth != 0) current.addSpore(new CapulonSpore());
+            if(depth != 0) current.addSpore(new CapulonSpore(this));
 
             for (Tecton neighbor : current.getNeighbors()) {
                 if (!visited.containsKey(current) && depth < 2) {
@@ -111,7 +111,7 @@ public class Capulon extends MushroomBody{
     @Override
     public void evolveSuper() {
         if(canEvolve()){
-            tecton.takeSpore(new CapulonSpore(), 3);
+            tecton.takeSpore(new CapulonSpore(this), 3);
             superBody = true;
         }
     }

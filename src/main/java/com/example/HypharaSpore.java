@@ -7,8 +7,8 @@ public class HypharaSpore extends Spore {
     /**
      * A HypharaSpore konstruktora. Beállítja, hogy a spóra tápértéke 3 legyen.
      */
-    public HypharaSpore() {
-        super(3);
+    public HypharaSpore(MushroomBody mushroomBody) {
+        super(mushroomBody, 3);
     }
 
     /**
