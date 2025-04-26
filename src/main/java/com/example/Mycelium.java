@@ -126,8 +126,6 @@ public class Mycelium {
      * @return true, ha sikeresen kifejlesztett egy gombatestet, egyébként false.
      */
     public boolean developMushroomBody(String name) {
-        Skeleton.logFunctionCall(this, "developMushroomBody");
-
         try {
             if (!canDevelop()) {
                 throw new IllegalArgumentException("Cannot develop mushroom body");
@@ -212,17 +210,7 @@ public class Mycelium {
                         System.out.println(exception.getMessage());
                         throw new IllegalArgumentException(exception.getMessage());
                     }
-                    // ebben az esetben nem keletkzik új Mycelium, de létrejött kapcsolat
-                    // mivel térjen vissza a függvény? a már létező másik tekton-on lévő
-                    // mycelium referenciával vagy null mert nincs új objektum?
-                    // a null azért lenne valószíűleg jó megoldás, mert a Controller-ben
-                    // a visszatérési értéket eltároljuk, mint új mycelium, pedig nem új
-                    // ha null-al térünk vissza akkor azt tudjuk ellenőrizni és nem adjuk hozzá
-                    // vagy egy nameMap-ban hozzáadás előtt ellenőrizzük, hogy nem-e létező
-                    // objektumot adunk-e hozzá
-
-                    // return mycelium;
-                    // return null;
+                    return null;
                 }
             }
         }

@@ -557,10 +557,10 @@ public class Controller {
             System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <path>");
             return;
         }
-        String path = commandParts[1];
-        File file = new File(path);
+        String fileName = commandParts[1];
+        File file = new File("src/main/resources/" + fileName);
         if (!file.exists()) {
-            System.out.println("[ERROR] File not found: " + path);
+            System.out.println("[ERROR] File not found: " + fileName);
             return;
         }
         try {
@@ -569,8 +569,8 @@ public class Controller {
                 runCommand(line);
             }
             System.out.println("[INFO] Loaded successfully");
-        } catch (IOException e) {
-            System.out.println("[ERROR] Error while loading game: " + e.getMessage());
+        } catch (IOException exception) {
+            System.out.println("[ERROR] Error while loading game: " + exception.getMessage());
         }
     }
 
@@ -579,17 +579,17 @@ public class Controller {
             System.out.println("[ERROR] Invalid command usage: " + commandParts[0] + " <filePath>");
             return;
         }
-        String path = commandParts[1];
-        File file = new File(path);
+        String fileName = commandParts[1];
+        File file = new File("src/main/resources/" + fileName);
         if (!file.exists()) {
-            System.out.println("[ERROR] File not found: " + path);
+            System.out.println("[ERROR] File not found: " + fileName);
             return;
         }
         try {
             Files.write(file.toPath(), commandLog);
             System.out.println("[INFO] Saved successfully");
-        } catch (IOException e) {
-            System.out.println("[ERROR] Error while saving game: " + e.getMessage());
+        } catch (IOException exception) {
+            System.out.println("[ERROR] Error while saving game: " + exception.getMessage());
         }
     }
 
