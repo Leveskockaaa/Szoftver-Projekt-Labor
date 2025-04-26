@@ -13,7 +13,7 @@ import java.util.List;
 public class Controller {
     private static List<String> commandsList = new ArrayList<>();
     private static final List<String> commandLog = new ArrayList<>();
-    public static HashMap<Object, String> nameMap = new HashMap<>();
+    private static HashMap<Object, String> nameMap = new HashMap<>();
     private static int seconds;
     private static boolean isRandomOn;
     private static List<String> testCases = new ArrayList<>();
@@ -32,7 +32,11 @@ public class Controller {
     }
 
     public static void putToNameMap(Object object, String name) {
-        nameMap.put(object, name);
+        if (nameMap.containsValue(name)) {
+            System.out.println("[ERROR] Name already exists in name map: " + name + " Please try again with a different name.");
+        } else {
+            nameMap.put(object, name);
+        }
     }
 
     public static boolean isRandomOn() {
@@ -41,6 +45,7 @@ public class Controller {
 
     public static void setTestMode(boolean mode) {
         isTestMode = mode;
+        isRandomOn = false;
     }
 
     public void runCommand(String command) {
@@ -77,7 +82,6 @@ public class Controller {
             }
 
             commandLog.add(command);
-            System.out.println("[INFO] Command executed successfuly: " + command);
         } catch (Exception exception) {
             System.out.println("[ERROR] Exception has been thrown while executing command: " + command);
             // exception.printStackTrace();
@@ -113,7 +117,7 @@ public class Controller {
                 for (String line : lines) {
                     runCommand(line);
                 }
-                System.out.println("[INFO] Test case executed successfully: " + testFile.getName());
+                System.out.println("[INFO] Test case executed successfully");
             } catch (IOException exception) {
                 System.out.println("[ERROR] Error while executing test case: " + exception.getMessage());
             }
@@ -177,7 +181,7 @@ public class Controller {
             log(Indent + "Type: " + tecton.printType(), Paths.get(logFilePath));
             log(Indent + "Size: " + tecton.printSize(), Paths.get(logFilePath));
             log(Indent + "maxMycelia: " + tecton.printMaxMycelia(), Paths.get(logFilePath));
-            log(Indent + "Neighbors: " + tecton.printNeighbors(), Paths.get(logFilePath));
+            log(Indent + "Neighbours: " + tecton.printNeighbors(), Paths.get(logFilePath));
             log(Indent + "MushroomBody: " + tecton.printMushroomBody(), Paths.get(logFilePath));
             log(Indent + "Mycelia: " + tecton.printMycelia(), Paths.get(logFilePath));
             log(Indent + "Spores: " + tecton.printSpores(), Paths.get(logFilePath));
@@ -234,7 +238,7 @@ public class Controller {
             throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <name>");
         }
         GameTable gameTable = new GameTable(commandParts[1]);
-        nameMap.put(gameTable, commandParts[1]);
+        putToNameMap(gameTable, commandParts[1]);
     }
 
     private void createTecton(String[] commandParts) {
@@ -257,7 +261,8 @@ public class Controller {
         GameTable gameTable = (GameTable) getFromNameMap(gametableName);
         if (gameTable == null) throw new RuntimeException("GameTable not found: " + gametableName);
         gameTable.addTecton(tecton);
-        nameMap.put(tecton, name);
+        tecton.setGameTable(gameTable);
+        putToNameMap(tecton, name);
     }
 
     private void createPlayer(String[] commandParts) {
@@ -287,7 +292,7 @@ public class Controller {
                 GameTable gameTable = (GameTable) getFromNameMap(gameTableName);
                 if (gameTable == null) throw new RuntimeException("GameTable not found: " + gameTableName);
                 gameTable.addPlayer(mycologist);
-                nameMap.put(mycologist, name);
+                putToNameMap(mycologist, name);
                 break;
             }
             case "entomologist": {
@@ -295,7 +300,7 @@ public class Controller {
                 GameTable gameTable = (GameTable) getFromNameMap(gameTableName);
                 if (gameTable == null) throw new RuntimeException("GameTable not found: " + gameTableName);
                 gameTable.addPlayer(entomologist);
-                nameMap.put(entomologist, name);
+                putToNameMap(entomologist, name);
                 break;
             }
             default: {
@@ -318,7 +323,7 @@ public class Controller {
         Tecton tecton = (Tecton) getFromNameMap(tectonName);
         if (tecton == null) throw new RuntimeException("Tecton not found: " + tectonName);
         tecton.placeInsect(insect);
-        nameMap.put(insect, name);
+        putToNameMap(insect, name);
     }
 
     private void createMushroomBody(String[] commandParts) {
@@ -344,7 +349,7 @@ public class Controller {
         }
         if (mushroomBody == null) throw new RuntimeException("Failed to initialize mushroom body");
         tecton.placeMushroomBody(mushroomBody);
-        nameMap.put(mushroomBody, name);
+        putToNameMap(mushroomBody, name);
     }
 
     private void createSpore(String[] commandParts) {
@@ -399,10 +404,10 @@ public class Controller {
         Tecton tecton = (Tecton) getFromNameMap(tectonName);
         if (tecton == null) throw new RuntimeException("Tecton not found: " + tectonName);
 
-        Mycelium mycelium = new Mycelium(tecton, mycologist);
+        Mycelium mycelium = new Mycelium(tecton, mycologist, myceliumName);
         tecton.addMycelium(mycelium);
         mycologist.addMycelium(mycelium);
-        nameMap.put(mycelium, myceliumName);
+        putToNameMap(mycelium, myceliumName);
     }
 
     private void move(String[] commandParts) {
@@ -429,8 +434,11 @@ public class Controller {
         String newTectonName2 = commandParts[3];
 
         Tecton tecton = (Tecton) getFromNameMap(tectonName);
-        if (tecton == null) throw new RuntimeException("Tecton not found: " + tectonName);
-        tecton.breakApart(newTectonName1, newTectonName2);
+        if (tecton == null) throw new RuntimeException("[ERROR] Tecton not found: " + tectonName);
+
+        List<Tecton> newtectons = tecton.breakApart(newTectonName1, newTectonName2);
+        if (newtectons == null) throw new RuntimeException("[ERROR] Failed to break tecton");
+
     }
 
     private static void random(String[] commandParts) {
@@ -530,9 +538,9 @@ public class Controller {
         Tecton tecton = (Tecton) getFromNameMap(tectonName);
         if (tecton == null) throw new RuntimeException("Tecton not found: " + tectonName);
 
-        Mycelium newMycelium = mycelium.createNewBranch(tecton);
+        Mycelium newMycelium = mycelium.createNewBranch(tecton, newMyceliumName);
         if (newMycelium == null) throw new RuntimeException("Failed to create new mycelium branch");
-        nameMap.put(newMycelium, newMyceliumName);
+        putToNameMap(newMycelium, newMyceliumName);
     }
 
     private void growBody(String[] commandParts) {
