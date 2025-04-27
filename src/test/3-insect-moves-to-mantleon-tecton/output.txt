@@ -20,9 +20,9 @@ Insects: []
  
 i1: 
 collectedNutrientPoints: 0 
-nutrientMultiplier: 1.0 
+nutrientMultiplier: 1
 canChewMycelium: Yes 
 Speed: 1.0 
-isParalised: No 
+isParalized: No 
 canEat: Yes 
 Tecton: m1 

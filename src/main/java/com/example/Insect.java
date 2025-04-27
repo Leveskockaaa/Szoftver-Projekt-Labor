@@ -58,6 +58,12 @@ public class Insect {
     public Insect(Entomologist entomologist, String name) {
         this.entomologist = entomologist;
         this.name = name;
+        this.speed = 1.0f;
+        this.canChewMycelium = true;
+        this.canEat = true;
+        this.isParalized = false;
+        this.nutrientMultiplier = 1;
+        this.collectedNutrientPoints = 0;
     }
 
     /**
@@ -119,6 +125,7 @@ public class Insect {
         Spore s1 = tecton.removeOldestSpore();
 
         entomologist.setScore(s1.getNutrientValue());
+        collectedNutrientPoints += s1.getNutrientValue();
 
         if (!(tecton instanceof Orogenix)) {
             s1.takeEffectOn(this);
