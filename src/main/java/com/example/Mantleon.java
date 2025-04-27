@@ -98,9 +98,7 @@ public class Mantleon extends Tecton {
                     }
                 }
             } else {
-                for (Insect insect : insects) {
-                    t1.placeInsect(insect);
-                }
+                t1.setInsects(insects);
             }
         }
 

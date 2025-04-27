@@ -318,6 +318,19 @@ public abstract class Tecton {
         return false;
     }
 
+
+
+    /**
+     * Beállítja a tektonon lévő rovarok listáját. Akkor kell amikor tekton kettétörik és
+     * az egyik új tektonra kerülnek a rovarok. Mert ilyenkor nincs gombafonál kapcsolat a két
+     * tecton köuzött.
+     *
+     * @param insects A beállítandó rovarok listája.
+     */
+    public void setInsects(List<Insect> insects) {
+        this.insects = insects;
+    }
+
     /**
      * Leveszi a tektonról a rajta lévő my fonalat.
      *

@@ -90,10 +90,7 @@ public class Transix extends Tecton {
                     }
                 }
             } else {
-                for (int i = 0; i < insects.size(); i++) {
-                    Insect insect = insects.get(i);
-                    t1.placeInsect(insect);
-                }
+                t1.setInsects(insects);
             }
         }
 
