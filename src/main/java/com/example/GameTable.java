@@ -72,7 +72,7 @@ public class GameTable {
                     default -> new Orogenix(TectonSize.GIANT, "t" + i);
                 };
                 tectons.add(t);
-                Controller.putToNameMap(t, t.getName());
+                Controller.putToNameMap(t, t.printName());
             }
         } else {
             Tecton t1 = new Transix(TectonSize.GIANT, "t1");
@@ -98,7 +98,7 @@ public class GameTable {
             tectons.add(t10);
 
             for (Tecton t : tectons) {
-                Controller.putToNameMap(t, t.getName());
+                Controller.putToNameMap(t, t.printName());
             }
         }
 

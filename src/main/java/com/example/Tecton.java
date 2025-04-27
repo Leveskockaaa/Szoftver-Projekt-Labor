@@ -66,8 +66,12 @@ public abstract class Tecton {
      */
     protected List<Mycelium> mycelia;
 
+
     /**
-     * Default Konstruktor.
+     * Konstruktor, amely létrehoz egy új Tecton objektumot a megadott névvel.
+     * A méret alapértelmezetten GIANT, a spórák és szomszédok listája üres,
+     *
+     * @param name A Tecton egyedi azonosítója.
      */
     public Tecton(String name) {
         this.name = name;
@@ -79,6 +83,12 @@ public abstract class Tecton {
         mycelia = new ArrayList<>();
     }
 
+    /**
+     * Konstruktor, amely létrehoz egy új Tecton objektumot a megadott mérettel és névvel.
+     *
+     * @param size A Tecton mérete.
+     * @param name A Tecton egyedi azonosítója.
+     */
     public Tecton(TectonSize size, String name) {
         this.name = name;
         this.size = size;
@@ -108,6 +118,11 @@ public abstract class Tecton {
         return mycelia;
     }
 
+    /**
+     * Beállítja a tektonhoz tartozó játéktáblát.
+     *
+     * @param gameTable A játéktábla, amelyhez a tekton tartozik.
+     */
     public void setGameTable(GameTable gameTable) {
         this.gameTable = gameTable;
     }
@@ -123,6 +138,9 @@ public abstract class Tecton {
      * helyezze az egyik új tektonon.
      *
      * @return A létrejött két új tekton listája.
+     *
+     * @param newTectonName1 Az első új tekton neve.
+     * @param newTectonName2 Az második új tekton neve.
      */
     public abstract List<Tecton> breakApart(String newTectonName1, String newTectonName2);
     
@@ -351,18 +369,38 @@ public abstract class Tecton {
     =============================================================================================
      */
 
+    /**
+     * Visszaadja a Tecton méretét szöveges formában.
+     *
+     * @return A Tecton mérete szövegként.
+     */
     public String printSize() {
         return size.toString();
     }
 
+    /**
+     * Visszaadja a Tecton maximális gombafonalainak számát szöveges formában.
+     *
+     * @return A maximális gombafonalak száma szövegként.
+     */
     public String printMaxMycelia() {
         return String.valueOf(maxMycelia);
     }
 
+    /**
+     * Visszaadja a Tecton nevét.
+     *
+     * @return A Tecton neve.
+     */
     public String printName() {
         return name;
     }
 
+    /**
+     * Visszaadja a szomszédos Tecton-ok nevét és típusát szöveges formában.
+     *
+     * @return A szomszédos Tecton-ok neve és típusa szövegként.
+     */
     public String printNeighbors() {
         StringBuilder sb = new StringBuilder();
         sb.append("[");
@@ -376,8 +414,19 @@ public abstract class Tecton {
         return sb.toString();
     }
 
+    /**
+     * Visszaadja a Tecton típusát szöveges formában.
+     *
+     * @return A Tecton típusa szövegként.
+     */
     public abstract String printType();
 
+    /**
+     * Visszaadja a Tecton-on lévő gombatest nevét és típusát szöveges formában.
+     * Ha nincs gombatest, akkor "-" értéket ad vissza.
+     *
+     * @return A gombatest neve és típusa, vagy "-" ha nincs gombatest.
+     */
     public String printMushroomBody() {
         if (mushroomBody != null) {
             return mushroomBody.printName() + ": " + mushroomBody.printType();
@@ -386,6 +435,11 @@ public abstract class Tecton {
         }
     }
 
+    /**
+     * Visszaadja a Tecton-on lévő gombafonalak nevét szöveges formában.
+     *
+     * @return A gombafonalak nevei szövegként.
+     */
     public String printMycelia() {
         StringBuilder sb = new StringBuilder();
         sb.append("[");
@@ -399,6 +453,11 @@ public abstract class Tecton {
         return sb.toString();
     }
 
+    /**
+     * Visszaadja a Tecton-on lévő spórák típusát szöveges formában.
+     *
+     * @return A spórák típusai szövegként.
+     */
     public String printSpores() {
         StringBuilder sb = new StringBuilder();
         sb.append("[");
@@ -412,6 +471,11 @@ public abstract class Tecton {
         return sb.toString();
     }
 
+    /**
+     * Visszaadja a Tecton-on lévő rovarok nevét szöveges formában.
+     *
+     * @return A rovarok nevei szövegként.
+     */
     public String printInsects() {
         StringBuilder sb = new StringBuilder();
         sb.append("[");
@@ -424,6 +488,4 @@ public abstract class Tecton {
         sb.append("]");
         return sb.toString();
     }
-    public String getName() { return this.name; }
-
 }
