@@ -235,9 +235,13 @@ public class GameTable {
     }
 
     public void announceWinners(){
+        String Indent = "    ";
+
+        System.out.println("The game has ended!");
+        System.out.println("Winners:");
         for (Player player : players) {
             if (player.getIsWinner()) {
-                System.out.println(player.getName() + ": " + player.getScore());
+                System.out.println(Indent + player.getName() + ": " + player.getScore());
             }
         }
     }

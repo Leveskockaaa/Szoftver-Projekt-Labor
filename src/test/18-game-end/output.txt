@@ -12,13 +12,13 @@ Type: Mycologist
 Score: 1 
 isWinner: No 
 Species: Gilledon 
-Mushroombodys: [body2] 
+Mushroombodys: [mb2]
 Bag: [] 
 Mycelia: [my2] 
  
 e1: 
 Type: Entomologist 
-Score: 2 
+Score: 3
 isWinner: Yes 
 Insects: [i1] 
  

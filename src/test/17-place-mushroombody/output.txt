@@ -16,7 +16,7 @@ sporeSpreadsLeft: 15
  
 my1: 
 canGrow: Yes 
-growthSpeed: 1 
+growthSpeed: 10.0
 connectedTo: []
  
 t1: 

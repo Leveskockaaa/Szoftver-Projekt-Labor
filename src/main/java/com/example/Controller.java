@@ -213,7 +213,6 @@ public class Controller {
             log(Indent + "canGrow: " + mycelium.printCanGrow(), Paths.get(logFilePath));
             log(Indent + "growthSpeed: " + mycelium.printGrowthSpeed(), Paths.get(logFilePath));
             log(Indent + "connectedTo: " + mycelium.printConnections(), Paths.get(logFilePath));
-            //log(Indent + "MushroomBodys: " + mycelium.printMushroomBodys(), Paths.get(logFilePath));
 
         } else if (object instanceof Insect insect) {
             log(insect.printName() + ":", Paths.get(logFilePath));
@@ -365,6 +364,7 @@ public class Controller {
 
         if (mycologist.getMushroomBodies().size() == 1 && mycologist.getMushroomBodies().get(0).name.contains("_minta")) {
             mycologist.getMushroomBodies().remove(0);
+            mycologist.setScore(mycologist.getScore() - 1);
         }
         switch (type) {
             case "hyphara" -> mushroomBody = new Hyphara(tecton, mycologist, name);
@@ -591,11 +591,11 @@ public class Controller {
     }
 
     private void endGame(String[] commandParts) {
-        if (commandParts.length != 1) {
+        if (commandParts.length != 2) {
             throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <gametableName>");
         }
-        GameTable gameTable = (GameTable) getFromNameMap(commandParts[0]);
-        if (gameTable == null) throw new RuntimeException("GameTable not found: " + commandParts[0]);
+        GameTable gameTable = (GameTable) getFromNameMap(commandParts[1]);
+        if (gameTable == null) throw new RuntimeException("GameTable not found: " + commandParts[1]);
         gameTable.endGame();
         String Indent = "    ";
 
