@@ -19,14 +19,15 @@ public class Main {
         while (true) {
             if (mode == 1){
                 Controller.setTestMode(false);
+                Controller.setIsRandomOn(true);
                 String nextCommand = scanner.nextLine();
                 if (nextCommand.equalsIgnoreCase("exit")) {
-                    System.out.println("Kilépés a programból...");
                     break;
                 }
                 controller.runCommand(nextCommand);
             } else if (mode == 2) {
                 Controller.setTestMode(true);
+                Controller.setIsRandomOn(false);
                 List<String> tests = controller.initTests("src/main/resources/test-cases.txt");
 
                 System.out.println("Tesztesetek kiírásához üss egy entert!");
@@ -34,9 +35,14 @@ public class Main {
                 for (int i = 0; i < tests.size(); i++) {
                     System.out.println((i + 1) + ". teszt: " + tests.get(i));
                 }
-                int testCaseNumber = scanner.nextInt();
-                scanner.nextLine();
-                controller.runTest(testCaseNumber);
+                String testCaseNumber = scanner.nextLine();
+                int testCaseNumberInt;
+                if (testCaseNumber.equals("exit")) {
+                    break;
+                } else {
+                    testCaseNumberInt = Integer.parseInt(testCaseNumber);
+                }
+                controller.runTest(testCaseNumberInt);
             } else {
                 System.exit(0);
             }
