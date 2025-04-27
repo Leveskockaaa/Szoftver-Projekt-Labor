@@ -103,7 +103,7 @@ public class Controller {
 
     public void runTest(int testNumber) {
         File[] matchingDirectories = folder.listFiles(file ->
-                file.isDirectory() && file.getName().contains(testNumber + "")
+                file.isDirectory() && file.getName().startsWith(testNumber + "")
         );
         if (matchingDirectories != null && matchingDirectories.length == 1) {
             logFilePath = "src/test/" + matchingDirectories[0].getName() + "/test-output.txt";
