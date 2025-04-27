@@ -63,10 +63,18 @@ public class Mantleon extends Tecton {
     }
 
     /**
-     * A tekton kettétörését megvalósító metódus. Létrehoz két új tektont
-     * egyel kisebb méretkategóriába. Felelős a tekton szomszédainak a két új tekton között
-     * való elosztásáért, valamint a ha van rajta gombatest vagy rovar akkor azokat is el kell
-     * helyezze az egyik új tektonon.
+     * A tekton kettétörését megvalósító metódus. Létrehoz
+     * két új tektont egyel kisebb méretkategóriába. Felelős a tekton szomszédainak a két
+     * új tekton között való elosztásáért, valamint a, ha van rajta gombatest vagy rovar
+     * akkor azokat is el kell helyezze az egyik új tektonon. Ezt úgy valósítja meg, hogy
+     * veszi azt eredeti (t) tekton szomszédjainak listáját, majd ebből kiveszi a lista első
+     * elemét, hozzáadja az egyik létrejövő (t1) tekton szomszédjaihoz. Ezután a t1
+     * tekton listájához utoljára hozáadott tekton szomszédjai között keres olyat, ami még
+     * benne van a t szomszédai között, kiveszi az első ilyet a t szomszédai közül és
+     * hozzáadja t1 szomszédaihoz. Ezt addig ismétli amíg a t eredeti szomszédainak
+     * hozzának (kb.) felét eléri. Ezután a maradék tektonokat a t listájából átrakja a
+     * másik létrejövő tekton (t2) listájába. Ha van rajta Mycelium akkor azt átrakja mind
+     * a két új tectonra. Visszaadja a két létrejött tectont
      *
      * @return A létrejött két új tekton listája.
      */
@@ -98,9 +106,7 @@ public class Mantleon extends Tecton {
                     }
                 }
             } else {
-                for (Insect insect : insects) {
-                    t1.placeInsect(insect);
-                }
+                t1.setInsects(insects);
             }
         }
 
