@@ -1,0 +1,28 @@
+t1: 
+Type: Transix 
+Size: GIANT 
+maxMycelia: 2 
+Neighbours: [o1: Orogenix] 
+Mushroombody: - 
+Mycelia: [my2] 
+Spores: [] 
+Insects: [i1] 
+ 
+o1: 
+Type: Orogenix 
+Size: GIANT 
+maxMycelia: 2 
+Neighbours: [t1: Transix] 
+Mushroombody: - 
+Mycelia: [my1] 
+Spores: [] 
+Insects: [] 
+ 
+i1: 
+collectedNutrientPoints: 0 
+nutrientMultiplier: 2.0 
+canChewMycelium: Yes 
+Speed: 1.0 
+isParalised: No 
+canEat: Yes 
+Tecton: t1 
