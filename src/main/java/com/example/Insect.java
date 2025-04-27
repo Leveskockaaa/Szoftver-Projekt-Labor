@@ -107,9 +107,9 @@ public class Insect {
     }
 
     /**
-     * Visszaadja a rovart irányító gombászt.
+     * Visszaadja a rovart irányító rovarászt.
      *
-     * @return A rovart irányító gombász.
+     * @return A rovart irányító rovárász.
      */
     public Entomologist getEntomologist() {
         return this.entomologist;
