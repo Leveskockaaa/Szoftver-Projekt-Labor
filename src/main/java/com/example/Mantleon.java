@@ -184,7 +184,7 @@ public class Mantleon extends Tecton {
             insect.getTecton().removeInsect();
             insects.add(insect);
             insect.setTecton(this);
-            insect.setNutrientMultiplier(2);
+            insect.setNutrientMultiplier(1);
         }
     }
 
