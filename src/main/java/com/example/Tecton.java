@@ -223,7 +223,6 @@ public abstract class Tecton {
     public void removeInsect() {
         Insect insect = this.insects.get(0);
         insect.getEntomologist().removeInsect(insect);
-        this.insects.remove(insect);
     }
 
     /**

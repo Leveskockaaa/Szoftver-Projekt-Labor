@@ -410,6 +410,7 @@ public class Mycelium {
         }
 
         tecton.removeInsect();
+        insect.getEntomologist().removeInsect(insect);
 
         try {
             // ellenőrzés itt vagy hívjuk hozzuk létre az új gombatestet és
