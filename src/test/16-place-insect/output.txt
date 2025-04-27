@@ -8,8 +8,8 @@ i1:
 collectedNutrientPoints: 0 
 nutrientMultiplier: 1 
 canChewMycelium: Yes 
-Speed: 1 
-isParalised: No 
+Speed: 1.0
+isParalized: No
 canEat: Yes 
 Tecton: t1 
  

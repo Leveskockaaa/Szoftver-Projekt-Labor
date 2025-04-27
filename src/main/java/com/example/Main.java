@@ -17,10 +17,18 @@ public class Main {
         System.out.println("2. Teszt üzemmód");
         int mode = scanner.nextInt();
         scanner.nextLine();
+        if (mode == 1){
+            Controller.setTestMode(false);
+            Controller.setIsRandomOn(true);
+        } else if (mode == 2){
+            Controller.setTestMode(true);
+            Controller.setIsRandomOn(false);
+        } else {
+            System.out.println("Hibás üzemmód választás!");
+            System.exit(0);
+        }
         while (true) {
             if (mode == 1){
-                Controller.setTestMode(false);
-                Controller.setIsRandomOn(true);
                 if(scanner.hasNextLine()){
                     String nextCommand = scanner.nextLine();
                     if (nextCommand.equalsIgnoreCase("exit")) {
@@ -29,8 +37,6 @@ public class Main {
                     controller.runCommand(nextCommand);
                 }
             } else if (mode == 2) {
-                Controller.setTestMode(true);
-                Controller.setIsRandomOn(false);
                 List<String> tests = controller.initTests("src/main/resources/test-cases.txt");
 
                 System.out.println("Tesztesetek kiírásához üss egy entert!");

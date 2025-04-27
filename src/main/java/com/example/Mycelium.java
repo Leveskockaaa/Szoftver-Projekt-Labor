@@ -449,11 +449,13 @@ public class Mycelium {
     public String printConnections() {
         StringBuilder connections = new StringBuilder();
         connections.append("[");
-        for (Mycelium mycelium : myceliumConnections) {
-            connections.append(mycelium.printName()).append(", ");
-        }
-        if (connections.length() > 0) {
-            connections.setLength(connections.length() - 2); // remove last comma and space
+        if (myceliumConnections.size() > 0) {
+            for (Mycelium mycelium : myceliumConnections) {
+                connections.append(mycelium.printName()).append(", ");
+            }
+            if (connections.length() > 0) {
+                connections.setLength(connections.length() - 2); // remove last comma and space
+            }
         }
         connections.append("]");
         return connections.toString();

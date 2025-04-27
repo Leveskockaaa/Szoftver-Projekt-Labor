@@ -36,10 +36,14 @@ public class Controller {
 
     public static void putToNameMap(Object object, String name) {
         if (nameMap.containsValue(name)) {
-            System.out.println("[ERROR] Name already exists in name map: " + name + " Please try again with a different name.");
+            System.out.println("[ERROR] Name already exists in name map: " + getFromNameMap(name).toString() + " Please try again with a different name.");
         } else {
             nameMap.put(object, name);
         }
+    }
+
+    public static void clearNameMap() {
+        nameMap.clear();
     }
 
     public static boolean isRandomOn() {
@@ -209,7 +213,7 @@ public class Controller {
             log(Indent + "canGrow: " + mycelium.printCanGrow(), Paths.get(logFilePath));
             log(Indent + "growthSpeed: " + mycelium.printGrowthSpeed(), Paths.get(logFilePath));
             log(Indent + "connectedTo: " + mycelium.printConnections(), Paths.get(logFilePath));
-            log(Indent + "MushroomBodys: " + mycelium.printMushroomBodys(), Paths.get(logFilePath));
+            //log(Indent + "MushroomBodys: " + mycelium.printMushroomBodys(), Paths.get(logFilePath));
 
         } else if (object instanceof Insect insect) {
             log(insect.printName() + ":", Paths.get(logFilePath));
@@ -294,13 +298,13 @@ public class Controller {
             case "mycologist": {
                 Mycologist mycologist = new Mycologist(name);
                 if (commandParts.length == 5) {
-                    String gombatestFaj = commandParts[4];
-                    switch (gombatestFaj.toLowerCase()) {
-                        case "hyphara" -> mycologist.addMushroomBody(new Hyphara(null, mycologist, "hyphara_minta"));
-                        case "gilledon" -> mycologist.addMushroomBody(new Gilledon(null, mycologist, "gilledon_minta"));
-                        case "poralia" -> mycologist.addMushroomBody(new Poralia(null, mycologist, "poralia_minta"));
-                        case "capulon" -> mycologist.addMushroomBody(new Capulon(null, mycologist, "capulon_minta"));
-                        default -> System.out.println("Invalid mushroom body type: " + gombatestFaj);
+                    String gombatestFaj = commandParts[4].toLowerCase();
+                    switch (gombatestFaj) {
+                        case "hyphara":  Hyphara h = new Hyphara(null, mycologist, "hyphara_minta"); break;
+                        case "gilledon": Gilledon g = new Gilledon(null, mycologist, "gilledon_minta"); break;
+                        case "poralia": Poralia p = new Poralia(null, mycologist, "poralia_minta"); break;
+                        case "capulon": Capulon c = new Capulon(null, mycologist, "capulon_minta"); break;
+                        default: System.out.println("Invalid mushroom body type: " + gombatestFaj); break;
                     }
                 }
                 else {
@@ -337,6 +341,7 @@ public class Controller {
         Entomologist entomologist = (Entomologist) getFromNameMap(player);
         if (entomologist == null) throw new RuntimeException("Entomologist not found: " + player);
         Insect insect = new Insect(entomologist, name);
+        entomologist.addInsect(insect);
         Tecton tecton = (Tecton) getFromNameMap(tectonName);
         if (tecton == null) throw new RuntimeException("Tecton not found: " + tectonName);
         tecton.placeInsect(insect);
@@ -348,7 +353,7 @@ public class Controller {
             throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <name> <type> <tectonName> <mycologistName>");
         }
         String name = commandParts[1];
-        String type = commandParts[2];
+        String type = commandParts[2].toLowerCase();
         String tectonName = commandParts[3];
         String mycologistName = commandParts[4];
 
@@ -357,7 +362,11 @@ public class Controller {
         if (tecton == null) throw new RuntimeException("Tecton not found: " + tectonName);
         Mycologist mycologist = (Mycologist) getFromNameMap(mycologistName);
         if (mycologist == null) throw new RuntimeException("Mycologist not found: " + mycologistName);
-        switch (type.toLowerCase()) {
+
+        if (mycologist.getMushroomBodies().size() == 1 && mycologist.getMushroomBodies().get(0).name.contains("_minta")) {
+            mycologist.getMushroomBodies().remove(0);
+        }
+        switch (type) {
             case "hyphara" -> mushroomBody = new Hyphara(tecton, mycologist, name);
             case "gilledon" -> mushroomBody = new Gilledon(tecton, mycologist, name);
             case "poralia" -> mushroomBody = new Poralia(tecton, mycologist, name);

@@ -1,6 +1,6 @@
 gametable: 
-Tectons: [t1: Transix, t2: Transix, t3: Transix, t4: Transix, t5: Transix, t6: Transix, t7: Transix, t8: Transix, t9: Transix, t10: Transix,]
-Players: [e1: Entomologist, e2: Entomologist, m1: Mycologist, m2: 			    Mycologist] 
+Tectons: [t1: Transix, t2: Transix, t3: Transix, t4: Mantleon, t5: Mantleon, t6: Magmox, t7: Magmox, t8: Orogenix, t9: Orogenix, t10: Orogenix]
+Players: [m1: Mycologist, m2: Mycologist, e1: Entomologist, e2: Entomologist]
  
 m1: 
 Type: Mycologist 
@@ -30,4 +30,4 @@ e2:
 Type: Entomologist 
 Score: 0 
 isWinner: No 
-Insects: [i2] 
+Insects: [i2]
