@@ -11,6 +11,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         Scanner scanner = new Scanner(System.in);
+        Controller.setScanner(scanner);
         System.out.println("Játék vagy teszt üzemmódban szeretnéd elindítani a programot?");
         System.out.println("1. Játék üzemmód");
         System.out.println("2. Teszt üzemmód");
@@ -20,11 +21,13 @@ public class Main {
             if (mode == 1){
                 Controller.setTestMode(false);
                 Controller.setIsRandomOn(true);
-                String nextCommand = scanner.nextLine();
-                if (nextCommand.equalsIgnoreCase("exit")) {
-                    break;
+                if(scanner.hasNextLine()){
+                    String nextCommand = scanner.nextLine();
+                    if (nextCommand.equalsIgnoreCase("exit")) {
+                        break;
+                    }
+                    controller.runCommand(nextCommand);
                 }
-                controller.runCommand(nextCommand);
             } else if (mode == 2) {
                 Controller.setTestMode(true);
                 Controller.setIsRandomOn(false);
