@@ -452,7 +452,7 @@ public class Mycelium {
         for (Mycelium mycelium : myceliumConnections) {
             connections.append(mycelium.printName()).append(", ");
         }
-        if (connections.length() > 2) {
+        if (connections.length() > 1) {
             connections.setLength(connections.length() - 2); // remove last comma and space
         }
         connections.append("]");
