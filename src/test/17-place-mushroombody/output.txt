@@ -16,9 +16,8 @@ sporeSpreadsLeft: 15
  
 my1: 
 canGrow: Yes 
-growthSpeed: 1 
-connectedTo: [] 
-MushroomBodys: [mb1: Hyphara] 
+growthSpeed: 10.0
+connectedTo: []
  
 t1: 
 Type: Transix 

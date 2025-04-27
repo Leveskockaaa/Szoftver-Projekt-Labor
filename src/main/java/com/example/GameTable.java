@@ -58,14 +58,13 @@ public class GameTable {
      */
     public void initialize() {
         if (tectons.size() > 0) {
-            System.out.println("[ERROR] A játéktér már inicializálva van!");
-            return;
+            tectons.clear();
+            Controller.clearNameMap();
         }
         if (Controller.isRandomOn()){
             Random random = new Random();
             for(int i = 0; i < 10; i++){
                 int randNum = random.nextInt(4);
-                System.out.println(randNum);
                 Tecton t = switch (randNum) {
                     case 0 -> new Transix(TectonSize.GIANT, "t" + i);
                     case 1 -> new Mantleon(TectonSize.GIANT, "t" + i);
@@ -74,7 +73,6 @@ public class GameTable {
                 };
                 tectons.add(t);
                 Controller.putToNameMap(t, t.getName());
-                System.out.println(t);
             }
         } else {
             Tecton t1 = new Transix(TectonSize.GIANT, "t1");
@@ -115,11 +113,15 @@ public class GameTable {
     }
 
     private MushroomBody chooseType(Tecton tecton, String type, Mycologist m, String name){
-        MushroomBody mBody = switch (type) {
-            case "Hyphara" -> new Hyphara(tecton, m, name);
-            case "Gilledon" -> new Gilledon(tecton, m, name);
-            case "Poralia" -> new Poralia(tecton, m, name);
-            default -> new Capulon(tecton, m, name);
+        MushroomBody mBody = switch (type.toLowerCase()) {
+            case "hyphara" -> new Hyphara(tecton, m, name);
+            case "gilledon" -> new Gilledon(tecton, m, name);
+            case "poralia" -> new Poralia(tecton, m, name);
+            case "capulon" -> new Capulon(tecton, m, name);
+            default -> {
+                System.out.println("[ERROR] Nincs ilyen gombatest típus!");
+                yield null;
+            }
         };
         Controller.putToNameMap(mBody, mBody.getName());
         return mBody;
@@ -127,8 +129,7 @@ public class GameTable {
 
     public void roleChooser(Scanner roleInput) {
         if (players.size() > 0) {
-            System.out.println("[ERROR] A játék már elkezdődött!");
-            return;
+            players.clear();
         }
         System.out.println("Az első gombász adja meg a nevét!");
         String mycologist1 = roleInput.nextLine();
@@ -162,7 +163,7 @@ public class GameTable {
         String mushroomType = roleInput.nextLine();
         System.out.println("Adja meg a gombatest nevét!");
         String mushroomName = roleInput.nextLine();
-        m1.addMushroomBody(chooseType(tectons.get(initialTecton), mushroomType, m1, mushroomName));
+        chooseType(tectons.get(initialTecton), mushroomType, m1, mushroomName);
         Mycelium my1 = new Mycelium(tectons.get(initialTecton), m1, m1.getName() + "_my_" + (m1.getMycelia().size() + 1));
         Controller.putToNameMap(my1, my1.getName());
         m1.addMycelium(my1);
@@ -176,7 +177,7 @@ public class GameTable {
         mushroomType = roleInput.nextLine();
         System.out.println("Adja meg a gombatest nevét!");
         mushroomName = roleInput.nextLine();
-        m2.addMushroomBody(chooseType(tectons.get(initialTecton), mushroomType, m2, mushroomName));
+        chooseType(tectons.get(initialTecton), mushroomType, m2, mushroomName);
         Mycelium my2 = new Mycelium(tectons.get(initialTecton), m2, m2.getName() + "_my_" + (m2.getMycelia().size() + 1));
         Controller.putToNameMap(my2, my2.getName());
         m2.addMycelium(my2);
@@ -203,7 +204,6 @@ public class GameTable {
         e2.addInsect(i2);
         e2.placeInitial(tectons.get(initialTecton));
 
-        //roleInput.close();
     }
 
     public void startGame(){
@@ -235,9 +235,13 @@ public class GameTable {
     }
 
     public void announceWinners(){
+        String Indent = "    ";
+
+        System.out.println("The game has ended!");
+        System.out.println("Winners:");
         for (Player player : players) {
             if (player.getIsWinner()) {
-                System.out.println(player.getName() + ": " + player.getScore());
+                System.out.println(Indent + player.getName() + ": " + player.getScore());
             }
         }
     }

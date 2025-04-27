@@ -60,6 +60,7 @@ public abstract class MushroomBody {
         this.dead = false;
         this.canSpreadSpores = true;
         mycologist.addMushroomBody(this);
+        mycologist.setScore(mycologist.getScore() + 1);
     }
 
     /**

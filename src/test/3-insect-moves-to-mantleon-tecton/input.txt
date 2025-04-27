@@ -1,0 +1,13 @@
+CREATEGAMETABLE gt 
+CREATETECTON o1 Orogenix gt 
+CREATETECTON m1 Mantleon gt 
+NEIGHBORS o1 m1 
+CREATEPLAYER e1 Entomologist gt 
+CREATEINSECT i1 e1 o1 
+CREATEPLAYER myc1 Mycologist gt Hyphara
+CREATEMYCELIUM my1 myc1 o1
+GROWTO my1 m1 my2 
+MOVE i1 m1 
+STATUS m1 
+STATUS o1 
+STATUS i1 

@@ -1,0 +1,28 @@
+m1: 
+Type: Magmox 
+Size: GIANT 
+maxMycelia: 1 
+Neighbours: [o1: Orogenix] 
+Mushroombody: - 
+Mycelia: [my2] 
+Spores: [] 
+Insects: [i1] 
+ 
+o1: 
+Type: Orogenix 
+Size: GIANT 
+maxMycelia: 2 
+Neighbours: [m1: Magmox] 
+Mushroombody: - 
+Mycelia: [my1] 
+Spores: [] 
+Insects: [] 
+ 
+i1: 
+collectedNutrientPoints: 0 
+nutrientMultiplier: 1
+canChewMycelium: Yes 
+Speed: 1.0 
+isParalized: No 
+canEat: Yes 
+Tecton: m1 
