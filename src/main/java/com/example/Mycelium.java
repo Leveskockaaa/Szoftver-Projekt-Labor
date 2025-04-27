@@ -252,6 +252,7 @@ public class Mycelium {
         myceliumConnections.add(mycelium);
         mycelium.myceliumConnections.add(this);
         this.canGrow = false;
+        mycelium.canGrow = false;
     }
 
     /**
