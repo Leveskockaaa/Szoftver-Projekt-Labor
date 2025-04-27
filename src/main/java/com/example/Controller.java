@@ -1,5 +1,6 @@
 package com.example;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -45,7 +46,10 @@ public class Controller {
 
     public static void setTestMode(boolean mode) {
         isTestMode = mode;
-        isRandomOn = false;
+    }
+
+    public static void setIsRandomOn(boolean rand) {
+        isRandomOn = rand;
     }
 
     public void runCommand(String command) {
@@ -107,6 +111,7 @@ public class Controller {
         );
         if (matchingDirectories != null && matchingDirectories.length == 1) {
             logFilePath = "src/test/" + matchingDirectories[0].getName() + "/test-output.txt";
+            nameMap.clear();
             File logFile = new File(logFilePath);
             if (logFile.exists()) {
                 logFile.delete();
@@ -121,9 +126,11 @@ public class Controller {
             } catch (IOException exception) {
                 System.out.println("[ERROR] Error while executing test case: " + exception.getMessage());
             }
+
         } else {
             System.out.println("[ERROR] No matching test files found for test number: " + testNumber);
         }
+
     }
 
     private void devour(String[] commandParts) {
@@ -150,12 +157,13 @@ public class Controller {
 
     private void log(String message, Path path) {
         if (isTestMode) {
-            try {
-                Files.write(path, (message + System.lineSeparator()).getBytes(),
-                        StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            try (BufferedWriter writer = Files.newBufferedWriter(path, StandardOpenOption.CREATE, StandardOpenOption.APPEND)){
+                writer.write(message + System.lineSeparator());
+                writer.flush();
             } catch (IOException exception) {
                 System.out.println("[ERROR] Error while writing to log file: " + exception.getMessage());
             }
+
         } else {
             System.out.println(message);
         }
