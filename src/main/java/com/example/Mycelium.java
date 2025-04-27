@@ -34,26 +34,23 @@ public class Mycelium {
 
     /**
      * A gombatesthez tartozó gombász. final mert a gombafonálhoz tartozó
-     * gombász nem változhat
+     * gombász nem változhat.
      */
     private final Mycologist mycologist;
 
     /**
-     * Az olyan gombafonalak listája amelyekkel közvetlen kapcsolatban van a
+     * Az olyan gombafonalak listája, amelyekkel közvetlen kapcsolatban van a
      * gombafonál. Attól, hogy szomszédos tektonon van egy azonos fajú
-     * gombafonál még nem szomszédosak.
+     * gombafonál, még nem szomszédosak.
      */
     private final List<Mycelium> myceliumConnections;
-
-    // a tervekben még volt itt egy List<MushroomBody> mushroomBodies, de mivel
-    // eltároljuk a gombafonálhoz tartozó gombászt, így nem szükséges, mert az
-    // úgyis tárolja ezt a listát és egyszerűen lekérdezhető
 
     /**
      * Konstruktor.
      *
-     * @param tecton A tekton amin a gombafonál elhelyezkedik.
+     * @param tecton A tekton, amin a gombafonál elhelyezkedik.
      * @param mycologist A gombafonálhoz tartozó gombász.
+     * @param name A gombafonál neve.
      */
     public Mycelium(Tecton tecton, Mycologist mycologist, String name) {
         this.name = name;
@@ -70,27 +67,27 @@ public class Mycelium {
     }
 
     /**
-     * Getter a gobmafonálhoz tartozó tektonhoz.
+     * Getter a gombafonálhoz tartozó tektonhoz.
      *
-     * @return A gombafonalhoz tartozó tekton.
+     * @return A gombafonálhoz tartozó tekton.
      */
     public Tecton getTecton() {
         return tecton;
     }
 
     /**
-     * Getter a gobmafonálhoz tartozó gombászhoz.
+     * Getter a gombafonálhoz tartozó gombászhoz.
      *
-     * @return A gombafonalhoz tartozó gombász.
+     * @return A gombafonálhoz tartozó gombász.
      */
     public Mycologist getMycologist() {
         return mycologist;
     }
 
     /**
-     * Getter az olyan gombafonalak listájához amelyekkel közvetlen kapcsolatban
+     * Getter az olyan gombafonalak listájához, amelyekkel közvetlen kapcsolatban
      * van a gombafonál. Attól, hogy szomszédos tektonon van egy azonos fajú
-     * gombafonál még nem szomszédosak.
+     * gombafonál, még nem szomszédosak.
      *
      * @return A kapcsolódó gombafonalak listája.
      */
@@ -108,7 +105,6 @@ public class Mycelium {
     public Class<? extends MushroomBody> getBodyType() {
         return mycologist.getMushroomBodies().get(0).getClass();
     }
-    // ki lehet ezt küszöbölni :D
 
     /**
      * Megadja, hogy tud-e gombatestet növeszteni a tektonon fonal.
@@ -128,6 +124,8 @@ public class Mycelium {
 
     /**
      * Gombatestet fejleszt az adott fonalon és tektonon.
+     *
+     * @param name A gombatest neve.
      * @return true, ha sikeresen kifejlesztett egy gombatestet, egyébként false.
      */
     public boolean developMushroomBody(String name) {
@@ -171,11 +169,12 @@ public class Mycelium {
 
     /**
      * Először ellenőrzi, hogy képes-e az új tektonra átnőni a gombafonál, majd
-     * egy új összeköttetést hoz létre tecton tektonnal. Ha már volt ott
-     * ugyanahoz a gombászhoz tartozó gombafonál, akkor csak összeköti azokat,
-     * ha nem akkor újat hoz létre ott.
+     * egy új összeköttetést hoz létre a megadott tektonnal. Ha már volt ott
+     * ugyanahhoz a gombászhoz tartozó gombafonál, akkor csak összeköti azokat,
+     * ha nem, akkor újat hoz létre ott.
      *
-     * @param tecton A tekton amire át akarunk nőni.
+     * @param tecton A tekton, amire át akarunk nőni.
+     * @param name Az új gombafonál neve.
      * @return Ha sikerült átnőni, akkor az új gombafonál referenciája,
      * egyébként null.
      */
@@ -224,9 +223,9 @@ public class Mycelium {
     }
 
     /**
-     * A bemenetként kapott mycelium gombafonanalat kapcsolja össze önamgával.
+     * A bemenetként kapott gombafonalat kapcsolja össze önmagával.
      *
-     * @param mycelium A gombafonal amivel kapcsolatba lépünk.
+     * @param mycelium A gombafonal, amivel kapcsolatba lépünk.
      */
     public void addConnection(Mycelium mycelium) {
         try {
@@ -255,10 +254,10 @@ public class Mycelium {
     }
 
     /**
-     * my gombafonallal megszakítja a kapcsolatot. Kiveszi a kapcsolatban lévő
-     * fonalak listájából my-t.
+     * A megadott gombafonallal megszakítja a kapcsolatot. Kiveszi a kapcsolatban
+     * lévő fonalak listájából a megadott gombafonalat.
      *
-     * @param mycelium A gombafonal amivel meg akarjuk szakítani a kapcsolatot.
+     * @param mycelium A gombafonal, amivel meg akarjuk szakítani a kapcsolatot.
      */
     public void removeConnection(Mycelium mycelium) {
         try {
@@ -315,7 +314,7 @@ public class Mycelium {
 
     /**
      * Felgyorsítja a növekedést, azaz csökkenti a szükséges időt, aminek két
-     * növekedést között el kell telnie.
+     * növekedés között el kell telnie.
      *
      * @param time Az az idő, amivel csökkenteni szeretnénk a növekedési időt.
      */
@@ -371,9 +370,13 @@ public class Mycelium {
         // létrehozza az első gombatestjét, ami biztosan lesz, mert a játék elején ez biztosan megtörténik
         // így akkor is lekérdezhető lesz a fajhoz tartozó érték ha éppen nincs gombatestje sem
         // és akkor itt se kell használni ezt a csúnya Class getter-t
+
         return 0.0f;
     }
 
+    /**
+     * Rovart eszik a gombafonal.
+     */
     public void eatInsect() {
         try {
             if (insectEaten) {
@@ -434,18 +437,40 @@ public class Mycelium {
     =============================================================================================
      */
 
+    /**
+     * Visszaadja a gombafonál nevét.
+     *
+     * @return A gombafonál neve.
+     */
     public String printName() {
         return name;
     }
 
+    /**
+     * Visszaadja, hogy a gombafonál képes-e növekedni.
+     *
+     * @return "Yes", ha képes növekedni, különben "No".
+     */
     public String printCanGrow() {
         return canGrow ? "Yes" : "No";
     }
 
+    /**
+     * Visszaadja a gombafonál növekedési sebességét.
+     *
+     * @return A növekedési sebesség szöveges formában.
+     */
     public String printGrowthSpeed() {
         return String.valueOf(growthSpeed);
     }
 
+    /**
+     * Visszaadja a mycelium kapcsolatok nevét egy formázott szövegként.
+     * A kapcsolatok nevei egy listában jelennek meg, vesszővel elválasztva.
+     * Ha nincsenek kapcsolatok, akkor egy üres lista ("[]") kerül visszaadásra.
+     *
+     * @return A kapcsolatok neveit tartalmazó szöveg formázott listaként.
+     */
     public String printConnections() {
         StringBuilder connections = new StringBuilder();
         connections.append("[");
