@@ -2,10 +2,10 @@ my1:
 canGrow: No 
 growthSpeed: 1.0 
 connectedTo: [] 
-MushroomBodys: [b1] 
+MushroomBodies: [b1] 
  
 my2: 
 canGrow: No 
 growthSpeed: 1.0 
 connectedTo: [] 
-MushroomBodys: [] 
+MushroomBodies: [] 

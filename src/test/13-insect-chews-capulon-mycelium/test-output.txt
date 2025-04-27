@@ -1,0 +1,10 @@
+my1:
+    canGrow: Yes
+    growthSpeed: 10.0
+    connectedTo: []
+    MushroomBodys: TODO
+my2:
+    canGrow: Yes
+    growthSpeed: 10.0
+    connectedTo: []
+    MushroomBodys: TODO
