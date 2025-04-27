@@ -103,7 +103,7 @@ public class Controller {
 
     public void runTest(int testNumber) {
         File[] matchingDirectories = folder.listFiles(file ->
-                file.isDirectory() && file.getName().startsWith(testNumber + "")
+                file.isDirectory() && file.getName().startsWith(testNumber + "-")
         );
         if (matchingDirectories != null && matchingDirectories.length == 1) {
             logFilePath = "src/test/" + matchingDirectories[0].getName() + "/test-output.txt";
@@ -115,8 +115,7 @@ public class Controller {
             try {
                 List<String> lines = Files.readAllLines(testFile.toPath());
                 for (String line : lines) {
-                    runCommand(line);
-                }
+                    runCommand(line);                }
                 System.out.println("[INFO] Test case executed successfully");
             } catch (IOException exception) {
                 System.out.println("[ERROR] Error while executing test case: " + exception.getMessage());
