@@ -10,6 +10,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Scanner;
 
 public class Controller {
     private static List<String> commandsList = new ArrayList<>();
@@ -21,6 +22,7 @@ public class Controller {
     private static File folder = new File("src/test");
     private static boolean isTestMode = false;
     private static String logFilePath = "";
+    private static Scanner scanner;
 
     public static Object getFromNameMap(String name) {
         for (Object object : nameMap.keySet()) {
@@ -50,6 +52,10 @@ public class Controller {
 
     public static void setIsRandomOn(boolean rand) {
         isRandomOn = rand;
+    }
+
+    public static void setScanner(Scanner s) {
+        scanner = s;
     }
 
     public void runCommand(String command) {
@@ -107,7 +113,7 @@ public class Controller {
 
     public void runTest(int testNumber) {
         File[] matchingDirectories = folder.listFiles(file ->
-                file.isDirectory() && file.getName().contains(testNumber + "")
+                file.isDirectory() && file.getName().startsWith(testNumber + "")
         );
         if (matchingDirectories != null && matchingDirectories.length == 1) {
             logFilePath = "src/test/" + matchingDirectories[0].getName() + "/test-output.txt";
@@ -153,6 +159,9 @@ public class Controller {
         GameTable gameTable = (GameTable) getFromNameMap(gametableName);
         if (gameTable == null) throw new RuntimeException("GameTable not found: " + gametableName);
         gameTable.initialize();
+        if (!isTestMode) {
+            gameTable.roleChooser(scanner);
+        }
     }
 
     private void log(String message, Path path) {
