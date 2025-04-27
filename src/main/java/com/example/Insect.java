@@ -107,6 +107,15 @@ public class Insect {
     }
 
     /**
+     * Visszaadja a rovart irányító gombászt.
+     *
+     * @return A rovart irányító gombász.
+     */
+    public Entomologist getEntomologist() {
+        return this.entomologist;
+    }
+
+    /**
      * Beállítja a tápanyag szorzót ehhez a rovarhoz.
      *
      * @param times Az új szorzó értéke.

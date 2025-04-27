@@ -143,13 +143,18 @@ public class Controller {
     }
 
     private void devour(String[] commandParts) {
-        if (commandParts.length != 2) {
-            throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <myceliumName>");
+        if (commandParts.length != 3) {
+            throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <myceliumName> <insectName>");
         }
         String myceliumName = commandParts[1];
+        String insectName = commandParts[2];
 
         Mycelium mycelium = (Mycelium) getFromNameMap(myceliumName);
         if (mycelium == null) throw new RuntimeException("Mycelium not found: " + myceliumName);
+        Insect insect = (Insect) getFromNameMap(insectName);
+        if (insect == null) throw new RuntimeException("Insect not found: " + insectName);
+
+        insect.paralize();
         mycelium.eatInsect();
     }
 
@@ -298,10 +303,10 @@ public class Controller {
                 if (commandParts.length == 5) {
                     String gombatestFaj = commandParts[4].toLowerCase();
                     switch (gombatestFaj) {
-                        case "hyphara":  Hyphara h = new Hyphara(null, mycologist, "hyphara_minta"); break;
-                        case "gilledon": Gilledon g = new Gilledon(null, mycologist, "gilledon_minta"); break;
-                        case "poralia": Poralia p = new Poralia(null, mycologist, "poralia_minta"); break;
-                        case "capulon": Capulon c = new Capulon(null, mycologist, "capulon_minta"); break;
+                        case "hyphara":  Hyphara h = new Hyphara(null, mycologist, "hyphara_minta"); mycologist.setMushroomBodyType(h); break;
+                        case "gilledon": Gilledon g = new Gilledon(null, mycologist, "gilledon_minta"); mycologist.setMushroomBodyType(g); break;
+                        case "poralia": Poralia p = new Poralia(null, mycologist, "poralia_minta"); mycologist.setMushroomBodyType(p); break;
+                        case "capulon": Capulon c = new Capulon(null, mycologist, "capulon_minta"); mycologist.setMushroomBodyType(c); break;
                         default: System.out.println("Invalid mushroom body type: " + gombatestFaj); break;
                     }
                 }

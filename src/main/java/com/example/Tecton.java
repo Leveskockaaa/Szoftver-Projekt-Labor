@@ -221,7 +221,9 @@ public abstract class Tecton {
      * Eltávolítja a tektonon elhelyezkedő rovart.
      */
     public void removeInsect() {
-        this.insects.remove(this.insects.get(0));
+        Insect insect = this.insects.get(0);
+        insect.getEntomologist().removeInsect(insect);
+        this.insects.remove(insect);
     }
 
     /**
