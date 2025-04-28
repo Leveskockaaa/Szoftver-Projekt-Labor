@@ -2,7 +2,7 @@ t2:
     Type: Mantleon
     Size: GIANT
     maxMycelia: 2
-    Neighbours: [t1]
+    Neighbours: [t3: Mantleon]
     Mushroombody: -
     Mycelia: [my2]
     Spores: []

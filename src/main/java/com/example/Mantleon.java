@@ -1,9 +1,6 @@
 package com.example;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import static com.example.TectonSize.decreaseSize;
 
@@ -97,13 +94,9 @@ public class Mantleon extends Tecton {
                 Random random = new Random();
                 int randomIndex = random.nextInt(2);
                 if (randomIndex == 0) {
-                    for (Insect insect : insects) {
-                        t1.placeInsect(insect);
-                    }
+                    t1.setInsects(insects);
                 } else {
-                    for (Insect insect : insects) {
-                        t2.placeInsect(insect);
-                    }
+                    t2.setInsects(insects);
                 }
             } else {
                 t1.setInsects(insects);
@@ -142,8 +135,8 @@ public class Mantleon extends Tecton {
         t1.addTectonToNeighbors(n1);
         n1.changeNeighbour(this, t1);
 
-        while (n1.neighbors.iterator().hasNext()) {
-            Tecton n2 = n1.neighbors.iterator().next();
+        for (Iterator<Tecton> it = n1.neighbors.iterator(); it.hasNext(); ) {
+            Tecton n2 = it.next();
             if (this.neighbors.contains(n2)) {
                 this.neighbors.remove(n2);
                 t1.addTectonToNeighbors(n2);
