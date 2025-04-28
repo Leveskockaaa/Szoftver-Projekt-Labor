@@ -115,7 +115,7 @@ public class Mycologist extends Player {
     }
 
     public String printSpecies() {
-        return this.mushroomBodies.get(0).getClass().getSimpleName();
+        return this.initialMushroomBody.getClass().getSimpleName();
     }
 
     public String printMushroomBodies() {

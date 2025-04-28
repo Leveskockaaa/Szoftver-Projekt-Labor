@@ -14,7 +14,7 @@ public class Capulon extends MushroomBody{
      */
     Capulon(Tecton tecton, Mycologist mycologist, String name) {
         super(tecton, mycologist, name);
-        sporeSpreadsLeft = 15;
+        sporeSpreadsLeft = 9;
     }
 
     /**
@@ -44,8 +44,10 @@ public class Capulon extends MushroomBody{
             }
 
             sporeSpreadsLeft--;
+            System.out.println("Spore Spreads Left: " + sporeSpreadsLeft);
             if(sporeSpreadsLeft == 0){
                 dead = true;
+                canSpreadSpores = false;
                 mycologist.collect(this);
                 tecton.removeMushroomBody();
             }

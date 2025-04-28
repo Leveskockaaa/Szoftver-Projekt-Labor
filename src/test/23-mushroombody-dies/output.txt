@@ -1,31 +1,32 @@
 t1:
     Type: Transix
-    Size: Big
+    Size: Giant
     maxMycelia: 2
-    Neighbours: [t2]
-    Mushroombody: -
+    Neighbours: [t2: Transix]
+    MushroomBody: -
     Mycelia: []
-    Insects: []
     Spores: []
+    Insects: []
 t2:
     Type: Transix
-    Size: Big
+    Size: Giant
     maxMycelia: 2
-    Neighbours: [t1]
-    Mushroombody: -
+    Neighbours: [t1: Transix]
+    MushroomBody: -
     Mycelia: []
-    Spores: [s1, s2, s3, s4, s5, s6, s7, s8, s9]
+    Spores: [CapulonSpore, CapulonSpore, CapulonSpore, CapulonSpore, CapulonSpore, CapulonSpore, CapulonSpore, CapulonSpore, CapulonSpore]
     Insects: []
 b1:
     Type: Capulon
     Level: Normal
     State: Dead
-    canSpreadSpore: No
+    canSpreadSpores: No
     sporeSpreadsLeft: 0
 mc1:
-    name: []
-    score: 0
+    Type: Mycologist
+    Score: 1
     isWinner: No
-    mycelia: []
-    mushroomBodies: []
-    deadBodies: [b1]
+    Species: Capulon
+    MushroomBodys: []
+    Bag: [b1]
+    Mycelia: []
