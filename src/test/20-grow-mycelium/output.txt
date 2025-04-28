@@ -3,7 +3,7 @@ my1:
     growthSpeed: 10.0
     connectedTo: [my2]
 my2:
-    canGrow: Yes
+    canGrow: No
     growthSpeed: 10.0
     connectedTo: [my1]
 t2:
