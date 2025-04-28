@@ -110,7 +110,7 @@ public class Hyphara extends MushroomBody {
     @Override
     public void evolveSuper() {
         if(canEvolve()){
-            tecton.takeSpore(new HypharaSpore(this), 3);
+            tecton.takeSpore(mycologist, 3);
             superBody = true;
         }
     }

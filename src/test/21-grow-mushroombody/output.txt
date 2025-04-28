@@ -1,22 +1,22 @@
 my1:
-    canGrow: false
-    growthSpeed: 1.0
-    connectedTo: []
+    canGrow: No
+    growthSpeed: 10.0
+    connectedTo: [my2]
 t1:
     Type: Transix
-    Size: Big
+    Size: Giant
     maxMycelia: 2
-    Neighbours: [t2]
-    Mushroombody: b1
+    Neighbours: [t2: Transix]
+    MushroomBody: b1: Capulon
     Mycelia: [my1]
-    Insects: []
     Spores: []
+    Insects: []
 t2:
     Type: Transix
-    Size: Big
+    Size: Giant
     maxMycelia: 2
-    Neighbours: [t1]
-    Mushroombody: b2
+    Neighbours: [t1: Transix]
+    MushroomBody: b2: Capulon
     Mycelia: [my2]
-    Insects: []
     Spores: []
+    Insects: []

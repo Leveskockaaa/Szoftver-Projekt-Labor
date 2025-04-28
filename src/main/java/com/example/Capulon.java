@@ -111,7 +111,7 @@ public class Capulon extends MushroomBody{
     @Override
     public void evolveSuper() {
         if(canEvolve()){
-            tecton.takeSpore(new CapulonSpore(this), 3);
+            tecton.takeSpore(mycologist, 3);
             superBody = true;
         }
     }

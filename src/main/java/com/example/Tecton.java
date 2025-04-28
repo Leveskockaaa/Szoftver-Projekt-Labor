@@ -253,10 +253,10 @@ public abstract class Tecton {
      * @param quantity A spórák száma, amit el kell venni.
      * @return true, ha sikeresen elvette a spórákat, különben false.
      */
-    public boolean takeSpore(Spore spore, int quantity) {
+    public boolean takeSpore(Mycologist mycologist, int quantity) {
         int count = 0;
         for (Spore currentSpore : spores) {
-            if (currentSpore.getClass().equals(spore.getClass())) {
+            if (currentSpore.getMushroomBody().getMycologist().equals(mycologist)) {
                 count++;
             }
         }
@@ -266,7 +266,7 @@ public abstract class Tecton {
         int removedCount = 0;
         for (Iterator<Spore> iterator = spores.iterator(); iterator.hasNext() && removedCount < quantity; ) {
             Spore currentSpore = iterator.next();
-            if (currentSpore.getClass().equals(spore.getClass())) {
+            if (currentSpore.getMushroomBody().getMycologist().equals(mycologist)) {
                 iterator.remove();
                 removedCount++;
             }

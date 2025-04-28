@@ -110,7 +110,7 @@ public class Gilledon extends MushroomBody{
     @Override
     public void evolveSuper() {
         if(canEvolve()){
-            tecton.takeSpore(new GilledonSpore(this), 3);
+            tecton.takeSpore(mycologist, 3);
             superBody = true;
         }
     }

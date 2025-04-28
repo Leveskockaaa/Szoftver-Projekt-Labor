@@ -98,7 +98,7 @@ public class Controller {
             commandLog.add(command);
         } catch (Exception exception) {
             System.out.println("[ERROR] Exception has been thrown while executing command: " + command);
-            // exception.printStackTrace();
+            exception.printStackTrace();
         }
     }
 
