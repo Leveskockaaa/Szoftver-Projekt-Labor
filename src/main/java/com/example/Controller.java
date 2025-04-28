@@ -3,6 +3,7 @@ package com.example;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
+import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -174,13 +175,15 @@ public class Controller {
 
     private void log(String message, Path path) {
         if (isTestMode) {
-            try (BufferedWriter writer = Files.newBufferedWriter(path, StandardOpenOption.CREATE, StandardOpenOption.APPEND)){
+            try (BufferedWriter writer = Files.newBufferedWriter(path, StandardOpenOption.CREATE, StandardOpenOption.APPEND)) {
                 writer.write(message + System.lineSeparator());
                 writer.flush();
+                try (var channel = FileChannel.open(path, StandardOpenOption.WRITE)) {
+                    channel.force(true);
+                }
             } catch (IOException exception) {
                 System.out.println("[ERROR] Error while writing to log file: " + exception.getMessage());
             }
-
         } else {
             System.out.println(message);
         }
