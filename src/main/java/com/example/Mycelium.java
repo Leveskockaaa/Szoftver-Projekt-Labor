@@ -181,7 +181,7 @@ public class Mycelium {
      */
     public Mycelium createNewBranch(Tecton tecton, String name) {
         try {
-            if (!canGrow) {
+            if (!canGrow && Controller.isRandomOn()) {
                 throw new IllegalArgumentException("Cannot grow");
             }
             for (Mycelium mycelium : myceliumConnections) {

@@ -14,7 +14,7 @@ CREATEPLAYER e1 Entomologist gametable
 CREATEINSECT i1 e1 t1 
 CREATEPLAYER e2 Entomologist gametable 
 CREATEINSECT i2 e2 t2 
-CREATESPORE Hyphara t1 2 
+CREATESPORE Hyphara t1 2 mb1
 EATSPORE i1 
 EATSPORE i1 
 ENDGAME gametable

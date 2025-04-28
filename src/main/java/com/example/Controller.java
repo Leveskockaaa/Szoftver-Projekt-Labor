@@ -386,37 +386,40 @@ public class Controller {
     }
 
     private void createSpore(String[] commandParts) {
-        if (commandParts.length != 4) {
-            throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <type> <tectonName> <number>");
+        if (commandParts.length != 5) {
+            throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <type> <tectonName> <number> <mushroomBodyName>");
         }
         String type = commandParts[1];
         String tectonName = commandParts[2];
+        String mushroomBodyName = commandParts[4];
         int number = Integer.parseInt(commandParts[3]);
 
         Tecton tecton = (Tecton) getFromNameMap(tectonName);
         if (tecton == null) throw new RuntimeException("Tecton not found: " + tectonName);
+        MushroomBody mushroomBody = (MushroomBody) getFromNameMap(mushroomBodyName);
+        if (mushroomBody == null) throw new RuntimeException("MushroomBody not found: " + mushroomBodyName);
         switch (type.toLowerCase()) {
             case "hyphara" -> {
                 for (int i = 0; i < number; i++) {
-                    HypharaSpore spore = new HypharaSpore(null);
+                    HypharaSpore spore = new HypharaSpore(mushroomBody);
                     tecton.addSpore(spore);
                 }
             }
             case "gilledon" -> {
                 for (int i = 0; i < number; i++) {
-                    GilledonSpore spore = new GilledonSpore(null);
+                    GilledonSpore spore = new GilledonSpore(mushroomBody);
                     tecton.addSpore(spore);
                 }
             }
             case "capulon" -> {
                 for (int i = 0; i < number; i++) {
-                    CapulonSpore spore = new CapulonSpore(null);
+                    CapulonSpore spore = new CapulonSpore(mushroomBody);
                     tecton.addSpore(spore);
                 }
             }
             case "poralia" -> {
                 for (int i = 0; i < number; i++) {
-                    PoraliaSpore spore = new PoraliaSpore(null);
+                    PoraliaSpore spore = new PoraliaSpore(mushroomBody);
                     tecton.addSpore(spore);
                 }
             }

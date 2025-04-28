@@ -1,29 +1,29 @@
-m1: 
-Type: Mycologist 
-Score: 2 
-isWinner: Yes 
-Species: Hyphara 
-Mushroombodys: [mb1, mb3] 
-Bag: [] 
-Mycelia: [my1, my3] 
- 
-m2: 
-Type: Mycologist 
-Score: 1 
-isWinner: No 
-Species: Gilledon 
-Mushroombodys: [mb2]
-Bag: [] 
-Mycelia: [my2] 
- 
-e1: 
-Type: Entomologist 
+m1:
+Type: Mycologist
+Score: 2
+isWinner: Yes
+Species: Hyphara
+MushroomBodys: [mb1, mb3]
+Bag: []
+Mycelia: [my1, my3]
+
+m2:
+Type: Mycologist
+Score: 1
+isWinner: No
+Species: Gilledon
+MushroomBodys: [mb2]
+Bag: []
+Mycelia: [my2]
+
+e1:
+Type: Entomologist
 Score: 3
-isWinner: Yes 
-Insects: [i1] 
- 
-e2: 
-Type: Entomologist 
-Score: 0 
-isWinner: No 
-Insects: [i2] 
+isWinner: Yes
+Insects: [i1]
+
+e2:
+Type: Entomologist
+Score: 0
+isWinner: No
+Insects: [i2]
