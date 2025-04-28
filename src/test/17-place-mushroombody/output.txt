@@ -1,30 +1,27 @@
-m1: 
-Type: Mycologist 
-Score: 0 
-isWinner: No 
-Species: Hyphara 
-Mushroombodys: [mb1] 
-Bag: [] 
-Mycelia: [my1] 
- 
-mb1: 
-Type: Hyphara 
-Level: Normal 
-State: Alive 
-canSpreadSpore: Yes 
-sporeSpreadsLeft: 15 
- 
-my1: 
-canGrow: Yes 
-growthSpeed: 10.0
-connectedTo: []
- 
-t1: 
-Type: Transix 
-Size: GIANT 
-maxMycelia: 2 
-Neighbours: [] 
-Mushroombody: mb1: Hyphara 
-Mycelia: [my1] 
-Spores: [] 
-Insects: [] 
+m1:
+    Type: Mycologist
+    Score: 1
+    isWinner: No
+    Species: Hyphara
+    MushroomBodys: [mb1]
+    Bag: []
+    Mycelia: [my1]
+mb1:
+    Type: Hyphara
+    Level: Normal
+    State: Alive
+    canSpreadSpores: Yes
+    sporeSpreadsLeft: 15
+my1:
+    canGrow: Yes
+    growthSpeed: 10.0
+    connectedTo: []
+t1:
+    Type: Transix
+    Size: Giant
+    maxMycelia: 2
+    Neighbours: []
+    MushroomBody: mb1: Hyphara
+    Mycelia: [my1]
+    Spores: []
+    Insects: []

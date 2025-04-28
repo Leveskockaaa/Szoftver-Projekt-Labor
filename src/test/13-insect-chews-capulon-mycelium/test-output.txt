@@ -1,8 +1,0 @@
-my1:
-    canGrow: No
-    growthSpeed: 10.0
-    connectedTo: []
-my2:
-    canGrow: No
-    growthSpeed: 10.0
-    connectedTo: []
