@@ -44,7 +44,6 @@ public class Capulon extends MushroomBody{
             }
 
             sporeSpreadsLeft--;
-            System.out.println("Spore Spreads Left: " + sporeSpreadsLeft);
             if(sporeSpreadsLeft == 0){
                 dead = true;
                 canSpreadSpores = false;

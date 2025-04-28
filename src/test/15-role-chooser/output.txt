@@ -1,33 +1,29 @@
-gametable: 
-Tectons: [t1: Transix, t2: Transix, t3: Transix, t4: Mantleon, t5: Mantleon, t6: Magmox, t7: Magmox, t8: Orogenix, t9: Orogenix, t10: Orogenix]
-Players: [m1: Mycologist, m2: Mycologist, e1: Entomologist, e2: Entomologist]
- 
-m1: 
-Type: Mycologist 
-Score: 0 
-isWinner: No 
-Species: Hyphara 
-Mushroombodys: [body1] 
-Bag: [] 
-Mycelia: [my1] 
- 
-m2: 
-Type: Mycologist 
-Score: 0 
-isWinner: No 
-Species: Gilledon 
-Mushroombodys: [body2] 
-Bag: [] 
-Mycelia: [my2] 
- 
-e1: 
-Type: Entomologist 
-Score: 0 
-isWinner: No 
-Insects: [i1] 
- 
-e2: 
-Type: Entomologist 
-Score: 0 
-isWinner: No 
-Insects: [i2]
+gametable:
+    Tectons: [t1: Transix, t2: Transix, t3: Transix, t4: Mantleon, t5: Mantleon, t6: Magmox, t7: Magmox, t8: Orogenix, t9: Orogenix, t10: Orogenix]
+    Players: [m1: Mycologist, m2: Mycologist, e1: Entomologist, e2: Entomologist]
+m1:
+    Type: Mycologist
+    Score: 1
+    isWinner: No
+    Species: Hyphara
+    MushroomBodys: [body1]
+    Bag: []
+    Mycelia: [my1]
+m2:
+    Type: Mycologist
+    Score: 1
+    isWinner: No
+    Species: Gilledon
+    MushroomBodys: [body2]
+    Bag: []
+    Mycelia: [my2]
+e1:
+    Type: Entomologist
+    Score: 0
+    isWinner: No
+    Insects: [i1]
+e2:
+    Type: Entomologist
+    Score: 0
+    isWinner: No
+    Insects: [i2]
