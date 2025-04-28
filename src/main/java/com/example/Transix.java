@@ -100,13 +100,9 @@ public class Transix extends Tecton {
                 Random random = new Random();
                 int randomIndex = random.nextInt(2);
                 if (randomIndex == 0) {
-                    for (Insect insect : insects) {
-                        t1.placeInsect(insect);
-                    }
+                    t1.setInsects(insects);
                 } else {
-                    for (Insect insect : insects) {
-                        t2.placeInsect(insect);
-                    }
+                    t2.setInsects(insects);
                 }
             } else {
                 t1.setInsects(insects);
