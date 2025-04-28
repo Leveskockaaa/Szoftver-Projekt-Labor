@@ -9,6 +9,6 @@ t1:
     Insects: []
 e1:
     Type: Entomologist
-    Score: 6
+    Score: 3
     isWinner: No
     Insects: []
