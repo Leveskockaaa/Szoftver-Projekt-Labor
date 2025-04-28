@@ -25,6 +25,13 @@ public class Controller {
     private static String logFilePath = "";
     private static Scanner scanner;
 
+    /**
+     * Visszaadja a megadott névhez tartozó objektumot a név-objektum leképezésből.
+     * Ha az objektum nem található, hibaüzenetet ír ki és null-t ad vissza.
+     *
+     * @param name A keresett objektum neve.
+     * @return A névhez tartozó objektum, vagy null, ha nem található.
+     */
     public static Object getFromNameMap(String name) {
         for (Object object : nameMap.keySet()) {
             if (nameMap.get(object).equals(name)) {
@@ -35,6 +42,13 @@ public class Controller {
         return null;
     }
 
+    /**
+     * Hozzáad egy objektumot és a hozzá tartozó nevet a név-objektum leképezéshez.
+     * Ha a név már létezik a leképezésben, hibaüzenetet ír ki.
+     *
+     * @param object A hozzáadandó objektum.
+     * @param name Az objektumhoz társítandó név.
+     */
     public static void putToNameMap(Object object, String name) {
         if (nameMap.containsValue(name)) {
             System.out.println("[ERROR] Name already exists in name map: " + getFromNameMap(name).toString() + " Please try again with a different name.");
@@ -43,26 +57,53 @@ public class Controller {
         }
     }
 
+    /**
+     * Törli a név-objektum leképezést.
+     */
     public static void clearNameMap() {
         nameMap.clear();
     }
 
+    /**
+     * Visszaadja, hogy a véletlenszerűség be van-e kapcsolva.
+     * @return true, ha a véletlenszerűség be van kapcsolva, egyébként false.
+     */
     public static boolean isRandomOn() {
         return isRandomOn;
     }
 
+    /**
+     * Beállítja a teszt módot.
+     * @param mode A teszt mód új állapota.
+     */
     public static void setTestMode(boolean mode) {
         isTestMode = mode;
     }
 
+    /**
+     * Beállítja a véletlenszerűség állapotát.
+     * @param rand A véletlenszerűség új állapota.
+     */
     public static void setIsRandomOn(boolean rand) {
         isRandomOn = rand;
     }
 
+    /**
+     * Beállítja a bemeneti szkennert.
+     * @param s A használni kívánt Scanner objektum.
+     */
     public static void setScanner(Scanner s) {
         scanner = s;
     }
 
+    /**
+     * Végrehajt egy parancsot a megadott string alapján.
+     * A parancsot szóközök mentén részekre bontja, azonosítja a parancs nevét,
+     * és a megfelelő metódust hívja meg a végrehajtáshoz.
+     * A végrehajtott parancsot naplózza. Hiba esetén hibaüzenetet ír ki.
+     *
+     * @param command A végrehajtandó parancs string formátumban.
+     */
     public void runCommand(String command) {
         String[] commandParts = command.split(" ");
         String commandName = commandParts[0].toUpperCase();
@@ -98,10 +139,19 @@ public class Controller {
 
             commandLog.add(command);
         } catch (Exception exception) {
-            System.out.println("[ERROR] Exception has been thrown while executing command: " + command);
+            System.out.println("[ERROR] Exception has been thrown while executing command: " + command + "\n" +
+                    "Exception message: " + exception.getMessage());
             exception.printStackTrace();
         }
     }
+
+    /**
+     * Inicializálja a tesztelési környezetet a megadott fájlpath alapján.
+     * A mappában található teszt esetek listáját beolvassa és visszaadja.
+     *
+     * @param filePath A fájl elérési útja, amely a teszt eseteket tartalmazza.
+     * @return A teszt esetek listája.
+     */
 
     public List<String> initTests(String filePath) {
         try {
@@ -112,10 +162,15 @@ public class Controller {
         return testCases;
     }
 
-    public int chooseTest() {
-        return 0;
-    }
-
+    /**
+     * Futtat egy tesztesetet a megadott tesztszám alapján.
+     * Megkeresi a megfelelő tesztkönyvtárat, törli a korábbi kimeneti fájlt,
+     * beolvassa a bemeneti parancsokat az `input.txt` fájlból, és végrehajtja azokat.
+     * A kimenetet a `test-output.txt` fájlba írja.
+     * Hiba esetén hibaüzenetet ír ki a konzolra.
+     *
+     * @param testNumber A futtatandó teszteset sorszáma.
+     */
     public void runTest(int testNumber) {
         File[] matchingDirectories = folder.listFiles(file ->
                 file.isDirectory() && file.getName().startsWith(testNumber + "-")
@@ -131,7 +186,8 @@ public class Controller {
             try {
                 List<String> lines = Files.readAllLines(testFile.toPath());
                 for (String line : lines) {
-                    runCommand(line);                }
+                    runCommand(line);
+                }
                 System.out.println("[INFO] Test case executed successfully");
             } catch (IOException exception) {
                 System.out.println("[ERROR] Error while executing test case: " + exception.getMessage());
@@ -143,6 +199,15 @@ public class Controller {
 
     }
 
+    /**
+     * Egy micélium megeszi a megadott rovar objektumot.
+     * A parancs paraméterei: <myceliumName> <insectName>.
+     * Először megkeresi a névtérben a micéliumot és a rovart, majd
+     * megbénítja a rovart, végül a micélium megeszi azt.
+     *
+     * @param commandParts A parancs argumentumai: [parancs, micélium neve, rovar neve]
+     * @throws RuntimeException ha a paraméterek száma hibás, vagy ha a micélium vagy rovar nem található
+     */
     private void devour(String[] commandParts) {
         if (commandParts.length != 3) {
             throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <myceliumName> <insectName>");
@@ -159,6 +224,13 @@ public class Controller {
         mycelium.eatInsect();
     }
 
+    /**
+     * Inicializálja a megadott nevű játéktáblát.
+     * Ha nem teszt módban fut, akkor bekéri a szerepköröket a felhasználótól.
+     *
+     * @param commandParts A parancs argumentumai: [parancs, játéktábla neve]
+     * @throws RuntimeException ha a parancs hibás vagy a játéktábla nem található
+     */
     private void initialize(String[] commandParts) {
         if (commandParts.length != 2) {
             throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <gametableName>");
@@ -173,6 +245,14 @@ public class Controller {
         }
     }
 
+    /**
+     * Naplóz egy üzenetet a megadott fájlba, ha teszt módban fut a program.
+     * Ha nem teszt módban fut, akkor a konzolra írja ki az üzenetet.
+     * A fájlba írás után biztosítja, hogy az adatok ténylegesen le legyenek mentve a lemezre.
+     *
+     * @param message A naplózandó üzenet.
+     * @param path A naplófájl elérési útja.
+     */
     private void log(String message, Path path) {
         if (isTestMode) {
             try (BufferedWriter writer = Files.newBufferedWriter(path, StandardOpenOption.CREATE, StandardOpenOption.APPEND)) {
@@ -189,6 +269,15 @@ public class Controller {
         }
     }
 
+    /**
+     * Kiírja vagy naplózza a megadott objektum vagy állapot adatait.
+     * Ha a parancs argumentuma "random", akkor a véletlenszerűség állapotát írja ki.
+     * Egyébként a névtérből kikeresi az objektumot, és annak típusától függően részletes információkat naplóz.
+     * Hibát dob, ha az argumentumok száma nem megfelelő vagy az objektum nem található.
+     *
+     * @param commandParts A parancs argumentumai: [parancs, objektum neve vagy "random"]
+     * @throws RuntimeException ha hibás a parancs vagy az objektum nem található
+     */
     public void status(String[] commandParts) {
         if (commandParts.length != 2) {
             throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <objectName>");
@@ -260,6 +349,12 @@ public class Controller {
         }
     }
 
+    /**
+     * Létrehoz egy új játéktáblát a megadott névvel, és hozzáadja a névtérhez.
+     *
+     * @param commandParts A parancs argumentumai: [parancs, játéktábla neve]
+     * @throws RuntimeException ha a parancs argumentumainak száma nem megfelelő
+     */
     private void createGameTable(String[] commandParts) {
         if (commandParts.length != 2) {
             throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <name>");
@@ -268,6 +363,14 @@ public class Controller {
         putToNameMap(gameTable, commandParts[1]);
     }
 
+    /**
+     * Létrehoz egy új Tecton objektumot a megadott paraméterek alapján, és hozzáadja a játéktáblához.
+     * A parancs argumentumai: [parancs, név, típus, játéktábla neve].
+     * Hibát dob, ha a parancs argumentumainak száma nem megfelelő, vagy ha a típus vagy játéktábla érvénytelen.
+     *
+     * @param commandParts A parancs argumentumai: [parancs, név, típus, játéktábla neve]
+     * @throws RuntimeException ha a parancs hibás, a típus ismeretlen, vagy a játéktábla nem található
+     */
     private void createTecton(String[] commandParts) {
         if (commandParts.length != 4) {
             throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <name> <type> <gametableName>");
@@ -282,19 +385,27 @@ public class Controller {
             case "mantleon" -> tecton = new Mantleon(name);
             case "orogenix" -> tecton = new Orogenix(name);
             case "transix" -> tecton = new Transix(name);
-            default -> System.out.println("Invalid tecton type: " + type);
+            default -> throw new RuntimeException("[ERROR] Invalid tecton type: " + type);
         }
-        if (tecton == null) throw new RuntimeException("Failed to initialize tecton");
+        if (tecton == null) throw new RuntimeException("[ERROR] Failed to initialize tecton");
         GameTable gameTable = (GameTable) getFromNameMap(gametableName);
-        if (gameTable == null) throw new RuntimeException("GameTable not found: " + gametableName);
+        if (gameTable == null) return;
         gameTable.addTecton(tecton);
         tecton.setGameTable(gameTable);
         putToNameMap(tecton, name);
     }
 
+    /**
+     * Létrehoz egy új játékost a megadott paraméterek alapján, és hozzáadja a megfelelő játéktáblához.
+     * A parancs argumentumai: [parancs, név, típus, játéktábla neve, (opcionális) gombatestFaj].
+     * Hibát dob, ha a parancs argumentumainak száma nem megfelelő, vagy ha a típus, játéktábla vagy gombatestFaj érvénytelen.
+     *
+     * @param commandParts A parancs argumentumai: [parancs, név, típus, játéktábla neve, (opcionális) gombatestFaj]
+     * @throws RuntimeException ha a parancs hibás, a típus vagy a játéktábla nem található, vagy a gombatestFaj érvénytelen
+     */
     private void createPlayer(String[] commandParts) {
         if (commandParts.length != 4 && commandParts.length != 5) {
-            throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <name> <type> <gametableName> <gombatestFaj>");
+            throw new RuntimeException("Invalid command usage: " + commandParts[0] + " <name> <type> <gametableName> <gombatestFaj>");
         }
         String name = commandParts[1];
         String type = commandParts[2].toLowerCase();
@@ -310,7 +421,7 @@ public class Controller {
                         case "gilledon": Gilledon g = new Gilledon(null, mycologist, "gilledon_minta"); mycologist.setMushroomBodyType(g); break;
                         case "poralia": Poralia p = new Poralia(null, mycologist, "poralia_minta"); mycologist.setMushroomBodyType(p); break;
                         case "capulon": Capulon c = new Capulon(null, mycologist, "capulon_minta"); mycologist.setMushroomBodyType(c); break;
-                        default: System.out.println("Invalid mushroom body type: " + gombatestFaj); break;
+                        default: throw new RuntimeException("Invalid gombatestFaj: " + gombatestFaj);
                     }
                 }
                 else {
@@ -336,6 +447,14 @@ public class Controller {
         }
     }
 
+    /**
+     * Létrehoz egy új rovar objektumot a megadott paraméterek alapján, és hozzáadja a megfelelő entomológushoz és tektonhoz.
+     * A parancs argumentumai: [parancs, név, entomológus neve, tekton neve].
+     * Hibát dob, ha a parancs argumentumainak száma nem megfelelő, vagy ha az entomológus vagy tekton nem található.
+     *
+     * @param commandParts A parancs argumentumai: [parancs, név, entomológus neve, tekton neve]
+     * @throws RuntimeException ha a parancs hibás, az entomológus vagy a tekton nem található
+     */
     private void createInsect(String[] commandParts) {
         if (commandParts.length != 4) {
             throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <name> <playerName> <tectonName>");
@@ -354,6 +473,14 @@ public class Controller {
         putToNameMap(insect, name);
     }
 
+    /**
+     * Létrehoz egy új MushroomBody objektumot a megadott paraméterek alapján,
+     * hozzáadja a megfelelő Tectonhoz és Mycologisthoz, majd elmenti a névtérbe.
+     * Ha a Mycologist-nek csak egy "_minta" nevű gombateste van, azt eltávolítja és csökkenti a pontszámát.
+     *
+     * @param commandParts A parancs argumentumai: [parancs, név, típus, tecton neve, mycologist neve]
+     * @throws RuntimeException ha a parancs hibás, a Tecton vagy Mycologist nem található, vagy a típus érvénytelen
+     */
     private void createMushroomBody(String[] commandParts) {
         if (commandParts.length != 5) {
             throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <name> <type> <tectonName> <mycologistName>");
@@ -385,6 +512,14 @@ public class Controller {
         putToNameMap(mushroomBody, name);
     }
 
+    /**
+     * Létrehoz egy vagy több spórát a megadott típus, tekton és darabszám alapján,
+     * majd hozzáadja azokat a megfelelő Tecton objektumhoz.
+     * Hibát dob, ha a parancs argumentumainak száma nem megfelelő, vagy ha a típus vagy tekton érvénytelen.
+     *
+     * @param commandParts A parancs argumentumai: [parancs, típus, tecton neve, darabszám]
+     * @throws RuntimeException ha a parancs hibás, a típus vagy a tecton nem található
+     */
     private void createSpore(String[] commandParts) {
         if (commandParts.length != 4) {
             throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <type> <tectonName> <number>");
@@ -424,6 +559,14 @@ public class Controller {
         }
     }
 
+    /**
+     * Létrehoz egy új micéliumot a megadott paraméterek alapján,
+     * hozzáadja a megfelelő Tectonhoz és Mycologisthoz, majd elmenti a névtérbe.
+     * Hibát dob, ha a parancs argumentumainak száma nem megfelelő, vagy ha a Mycologist vagy Tecton nem található.
+     *
+     * @param commandParts A parancs argumentumai: [parancs, micélium neve, mycologist neve, tecton neve]
+     * @throws RuntimeException ha a parancs hibás, a Mycologist vagy a Tecton nem található
+     */
     private void createMycelium(String[] commandParts) {
         if (commandParts.length != 4) {
             throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <name> <mycologistName> <tectonName>");
@@ -443,6 +586,14 @@ public class Controller {
         putToNameMap(mycelium, myceliumName);
     }
 
+    /**
+     * Egy rovart áthelyez egy másik tektonra a megadott paraméterek alapján.
+     * A parancs argumentumai: [parancs, rovar neve, tekton neve].
+     * Hibát dob, ha a parancs argumentumainak száma nem megfelelő, vagy ha a rovar vagy tekton nem található.
+     *
+     * @param commandParts A parancs argumentumai: [parancs, rovar neve, tekton neve]
+     * @throws RuntimeException ha a parancs hibás, a rovar vagy a tekton nem található
+     */
     private void move(String[] commandParts) {
         if (commandParts.length != 3) {
             throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <insectName> <tectonName>");
@@ -458,6 +609,15 @@ public class Controller {
         insect.moveTo(tecton);
     }
 
+    /**
+     * Feldarabol egy meglévő Tecton objektumot két új Tecton-ra a megadott nevekkel.
+     * A parancs argumentumai: [parancs, eredetiTectonNeve, újTectonNév1, újTectonNév2].
+     * Hibát dob, ha a parancs argumentumainak száma nem megfelelő, vagy ha az eredeti Tecton nem található,
+     * vagy ha a feldarabolás sikertelen.
+     *
+     * @param commandParts A parancs argumentumai: [parancs, eredetiTectonNeve, újTectonNév1, újTectonNév2]
+     * @throws RuntimeException ha hibás a parancs, az eredeti Tecton nem található, vagy a feldarabolás sikertelen
+     */
     private void breakCommand(String[] commandParts) {
         if (commandParts.length != 4) {
             throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <tectonName> <newTectonName1> <newTectonName2>");
@@ -474,6 +634,14 @@ public class Controller {
 
     }
 
+    /**
+     * Beállítja a véletlenszerűség állapotát a parancs argumentuma alapján.
+     * A parancs argumentumai: [parancs, "true"/"false"].
+     * Hibát dob, ha az argumentum nem "true" vagy "false".
+     *
+     * @param commandParts A parancs argumentumai: [parancs, "true"/"false"]
+     * @throws RuntimeException ha az argumentum hibás
+     */
     private static void random(String[] commandParts) {
         if (commandParts.length != 2) {
             throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <true/false>");
@@ -488,6 +656,14 @@ public class Controller {
         }
     }
 
+    /**
+     * Egy rovar megeszik egy spórát a megadott név alapján.
+     * A parancs argumentuma: [parancs, rovar neve].
+     * Hibát dob, ha a parancs argumentumainak száma nem megfelelő, vagy ha a rovar nem található.
+     *
+     * @param commandParts A parancs argumentumai: [parancs, rovar neve]
+     * @throws RuntimeException ha a parancs hibás vagy a rovar nem található
+     */
     private void eatSpore(String[] commandParts) {
         if (commandParts.length != 2) {
             throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <insectName>");
@@ -500,6 +676,14 @@ public class Controller {
         insect.eatSpore();
     }
 
+    /**
+     * Egy rovar elrág egy micéliumot a megadott paraméterek alapján.
+     * A parancs argumentumai: [parancs, rovar neve, micélium neve].
+     * Hibát dob, ha a parancs argumentumainak száma nem megfelelő, vagy ha a rovar vagy micélium nem található.
+     *
+     * @param commandParts A parancs argumentumai: [parancs, rovar neve, micélium neve]
+     * @throws RuntimeException ha a parancs hibás, a rovar vagy a micélium nem található
+     */
     private void chewMycelium(String[] commandParts) {
         if (commandParts.length != 3) {
             throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <insectName> <myceliumName>");
@@ -515,6 +699,14 @@ public class Controller {
         insect.chewMycelium(mycelium);
     }
 
+    /**
+     * Egy gombatest szórja a spóráit a megadott név alapján.
+     * A parancs argumentuma: [parancs, gombatest neve].
+     * Hibát dob, ha a parancs argumentumainak száma nem megfelelő, vagy ha a gombatest nem található.
+     *
+     * @param commandParts A parancs argumentumai: [parancs, gombatest neve]
+     * @throws RuntimeException ha a parancs hibás vagy a gombatest nem található
+     */
     private void spreadSpores(String[] commandParts) {
         if (commandParts.length != 2) {
             throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <mushroomBodyName>");
@@ -527,6 +719,14 @@ public class Controller {
         mushroomBody.spreadSpores();
     }
 
+    /**
+     * Egy gombatest szuper gombatesté fejlődik a megadott név alapján.
+     * A parancs argumentuma: [parancs, gombatest neve].
+     * Hibát dob, ha a parancs argumentumainak száma nem megfelelő, vagy ha a gombatest nem található.
+     *
+     * @param commandParts A parancs argumentumai: [parancs, gombatest neve]
+     * @throws RuntimeException ha a parancs hibás vagy a gombatest nem található
+     */
     private void evolveSuper(String[] commandParts) {
         if (commandParts.length != 2) {
             throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <mushroomBodyName>");
@@ -539,6 +739,14 @@ public class Controller {
         mushroomBody.evolveSuper();
     }
 
+    /**
+     * Két Tecton objektumot szomszédossá tesz egymással a megadott neveik alapján.
+     * A parancs argumentumai: [parancs, elsőTectonNeve, másodikTectonNeve].
+     * Hibát dob, ha a parancs argumentumainak száma nem megfelelő, vagy ha bármelyik Tecton nem található.
+     *
+     * @param commandParts A parancs argumentumai: [parancs, elsőTectonNeve, másodikTectonNeve]
+     * @throws RuntimeException ha hibás a parancs vagy a Tecton objektumok nem találhatók
+     */
     private void neighbors(String[] commandParts) {
         if (commandParts.length != 3) {
             throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <firstTectonName> <secondTectonName>");
@@ -558,6 +766,15 @@ public class Controller {
         }
     }
 
+    /**
+     * Egy meglévő micéliumot egy másik tektonra növeszt, új micéliumot hozva létre a megadott névvel.
+     * A parancs argumentumai: [parancs, micélium neve, tecton neve, új micélium neve].
+     * Hibát dob, ha a parancs argumentumainak száma nem megfelelő, vagy ha a micélium vagy tecton nem található,
+     * vagy ha az új micélium ág létrehozása sikertelen.
+     *
+     * @param commandParts A parancs argumentumai: [parancs, micélium neve, tecton neve, új micélium neve]
+     * @throws RuntimeException ha hibás a parancs, a micélium vagy a tecton nem található, vagy az új ág létrehozása sikertelen
+     */
     private void growTo(String[] commandParts) {
         if (commandParts.length != 4) {
             throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <myceliumName> <tectonName> <newMyceliumName>");
@@ -576,6 +793,14 @@ public class Controller {
         putToNameMap(newMycelium, newMyceliumName);
     }
 
+    /**
+     * Egy meglévő micéliumhoz új gombatestet növeszt a megadott névvel.
+     * A parancs argumentumai: [parancs, micélium neve, új gombatest neve].
+     * Hibát dob, ha a parancs argumentumainak száma nem megfelelő, vagy ha a micélium nem található.
+     *
+     * @param commandParts A parancs argumentumai: [parancs, micélium neve, új gombatest neve]
+     * @throws RuntimeException ha hibás a parancs vagy a micélium nem található
+     */
     private void growBody(String[] commandParts) {
         if (commandParts.length != 3) {
             throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <myceliumName> <newMushroomBodyName>");
@@ -589,6 +814,14 @@ public class Controller {
         mycelium.developMushroomBody(newMushroomBodyName);
     }
 
+    /**
+     * Növeli a játékban eltelt másodpercek számát a megadott értékkel.
+     * A parancs argumentumai: [parancs, másodpercek száma].
+     * Hibát dob, ha a parancs argumentumainak száma nem megfelelő.
+     *
+     * @param commandParts A parancs argumentumai: [parancs, másodpercek száma]
+     * @throws RuntimeException ha hibás a parancs argumentumainak száma
+     */
     private void delay(String[] commandParts) {
         if (commandParts.length != 2) {
             throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <seconds>");
@@ -597,6 +830,14 @@ public class Controller {
         seconds += Integer.parseInt(commandParts[1]);
     }
 
+    /**
+     * Lezárja a játékot a megadott játéktábla alapján.
+     * Kiírja a győzteseket a konzolra, külön a gombászok és rovarászok között.
+     * Hibát dob, ha a parancs argumentumainak száma nem megfelelő vagy a játéktábla nem található.
+     *
+     * @param commandParts A parancs argumentumai: [parancs, játéktábla neve]
+     * @throws RuntimeException ha hibás a parancs vagy a játéktábla nem található
+     */
     private void endGame(String[] commandParts) {
         if (commandParts.length != 2) {
             throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <gametableName>");
@@ -643,6 +884,13 @@ public class Controller {
         }
     }
 
+    /**
+     * Betölti a játék állapotát a megadott fájlból, és végrehajtja a benne található parancsokat.
+     * Ha a fájl nem található vagy hiba történik a beolvasás során, hibaüzenetet ír ki.
+     *
+     * @param commandParts A parancs argumentumai: [parancs, fájl neve]
+     * @throws RuntimeException ha a parancs argumentumainak száma nem megfelelő
+     */
     private void load(String[] commandParts) {
         if (commandParts.length != 2) {
             throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <path>");
@@ -664,16 +912,20 @@ public class Controller {
         }
     }
 
+    /**
+     * Elmenti a játék parancsainak naplóját a megadott fájlba.
+     * Ha a fájl nem létezik, hibaüzenetet ír ki.
+     * Sikeres mentés esetén információs üzenetet jelenít meg.
+     *
+     * @param commandParts A parancs argumentumai: [parancs, fájl neve]
+     * @throws RuntimeException ha a parancs argumentumainak száma nem megfelelő
+     */
     private void save(String[] commandParts) {
         if (commandParts.length != 2) {
             throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <filePath>");
         }
         String fileName = commandParts[1];
         File file = new File("src/main/resources/" + fileName);
-        if (!file.exists()) {
-            System.out.println("[ERROR] File not found: " + fileName);
-            return;
-        }
         try {
             Files.write(file.toPath(), commandLog);
             System.out.println("[INFO] Saved successfully");
@@ -682,6 +934,12 @@ public class Controller {
         }
     }
 
+    /**
+     * Kilép a játékból.
+     * Kiír egy információs üzenetet, majd leállítja a programot.
+     *
+     * @param commandParts A parancs argumentumai (nem használt).
+     */
     private void exit(String[] commandParts) {
         System.out.println("[INFO] Exiting game");
         System.exit(0);
