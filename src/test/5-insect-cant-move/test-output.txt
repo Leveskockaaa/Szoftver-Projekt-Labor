@@ -6,7 +6,7 @@ t1:
     MushroomBody: -
     Mycelia: []
     Spores: []
-    Insects: [i1]
+    Insects: []
 o1:
     Type: Orogenix
     Size: Giant
@@ -15,12 +15,12 @@ o1:
     MushroomBody: -
     Mycelia: [my1]
     Spores: []
-    Insects: []
+    Insects: [i1]
 i1:
     collectedNutrientPoints: 0
-    nutrientMultiplier: 2
+    nutrientMultiplier: 1
     canChewMycelium: Yes
     Speed: 1.0
     isParalized: No
     canEat: Yes
-    Tecton: t1
+    Tecton: o1
