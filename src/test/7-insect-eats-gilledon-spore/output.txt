@@ -14,4 +14,4 @@ m1:
     MushroomBody: -
     Mycelia: []
     Spores: []
-    Insects: [i1]
+    Insects: [i1, i1b]
