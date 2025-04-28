@@ -17,6 +17,7 @@ public class GilledonSpore extends Spore {
      */
     @Override
     public void takeEffectOn(Insect insect) {
+        insect.setSpeed(.66f);
         Insect newInsect = new Insect(insect.getEntomologist(), insect.getName()+'b');
         insect.getEntomologist().addInsect(newInsect);
 
