@@ -5,7 +5,7 @@ t1:
     Type: Transix
     Size: Big
     maxMycelia: 2
-    Neighbours: [neigh2: Transix, t2: Transix]
+    Neighbours: [t2: Transix, neigh1: Transix]
     MushroomBody: -
     Mycelia: [my]
     Spores: []
@@ -14,7 +14,7 @@ t2:
     Type: Transix
     Size: Big
     maxMycelia: 2
-    Neighbours: [t1: Transix, neigh1: Transix]
+    Neighbours: [t1: Transix, neigh2: Transix]
     MushroomBody: mb: Hyphara
     Mycelia: [my]
     Spores: []

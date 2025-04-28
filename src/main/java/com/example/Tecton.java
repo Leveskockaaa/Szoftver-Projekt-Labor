@@ -15,7 +15,7 @@ public abstract class Tecton {
     /**
      * A tecton eltárolja a szomszédos tectonokat egy halmazban.
      */
-    protected HashSet<Tecton> neighbors;
+    protected List<Tecton> neighbors;
 
     /**
      * A tekton eltárolja a rajta lévő gombatestet, ha
@@ -77,7 +77,7 @@ public abstract class Tecton {
         this.name = name;
         size = TectonSize.GIANT;
         spores = new ArrayList<>();
-        neighbors = new HashSet<>();
+        neighbors = new ArrayList<>();
         mushroomBody = null;
         insects = new ArrayList<>();
         mycelia = new ArrayList<>();
@@ -93,7 +93,7 @@ public abstract class Tecton {
         this.name = name;
         this.size = size;
         spores = new ArrayList<>();
-        neighbors = new HashSet<>();
+        neighbors = new ArrayList<>();
         mushroomBody = null;
         insects = new ArrayList<>();
         mycelia = new ArrayList<>();
@@ -105,7 +105,7 @@ public abstract class Tecton {
      *
      * @return A szomszédos Tecton-ok halmaza.
      */
-    public HashSet<Tecton> getNeighbors() {
+    public List<Tecton> getNeighbors() {
         return neighbors;
     }
 

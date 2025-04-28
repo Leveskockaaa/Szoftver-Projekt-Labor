@@ -141,9 +141,8 @@ public class Transix extends Tecton {
         t1.addTectonToNeighbors(n1);
         n1.changeNeighbour(this, t1);
 
-        Iterator<Tecton> iterator = n1.neighbors.iterator();
-        while (iterator.hasNext()) {
-            Tecton n2 = iterator.next();
+        for (Iterator<Tecton> it = n1.neighbors.iterator(); it.hasNext(); ) {
+            Tecton n2 = it.next();
             if (this.neighbors.contains(n2)) {
                 this.neighbors.remove(n2);
                 t1.addTectonToNeighbors(n2);
