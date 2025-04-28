@@ -1,12 +1,15 @@
 package com.example;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Az Entomologist osztály egy játékos entomológust reprezentál, aki rovarokkal foglalkozik.
  * Az entomológus pontszámot gyűjt a játék során, és különböző műveleteket hajt végre a rovarokkal.
  */
 public class Entomologist extends Player {
 
-    private int score;
+    private List<Insect> insects;
 
     /**
      * Konstruktor, amely inicializálja az entomológus nevét és pontszámát.
@@ -15,7 +18,7 @@ public class Entomologist extends Player {
      */
     public Entomologist(String name) {
         super(name);
-        this.score = 0;
+        insects = new ArrayList<Insect>();
     }
 
     /**
@@ -29,21 +32,35 @@ public class Entomologist extends Player {
      */
     @Override
     public void placeInitial(Tecton on) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'placeInitial'");
+        on.placeInsect(insects.get(0));
     }
 
-    /**
-     * Beállítja az entomológus pontszámát.
-     *
-     * Ez a metódus hozzáadja a megadott pontszámot az entomológus aktuális pontszámához.
-     * Először naplózza a függvényhívást, majd frissíti a pontszámot, és végül naplózza a visszatérést.
-     *
-     * @param score A pontszám, amelyet hozzá kell adni az entomológus aktuális pontszámához.
-     */
-    public void setScore(int score) {
-        Skeleton.logFunctionCall(this, "setScore", Integer.toString(score));
-        this.score += score;
-        Skeleton.logReturn(this, "setScore");
+    public List<Insect> getInsects() {
+        return insects;
     }
+
+    /*
+    =============================================================================================
+    Teszteléshez kiíró metódusok
+    =============================================================================================
+     */
+
+    public String printType() {
+        return this.getClass().getSimpleName();
+    }
+
+    public String printInsects() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (Insect insect : insects) {
+            sb.append(insect.printName()).append(", ");
+        }
+        if (sb.length() > 1) {
+            sb.setLength(sb.length() - 2); // Remove the last comma and space
+        }
+        sb.append("]");
+        return sb.toString();
+    }
+    public void addInsect(Insect i) { insects.add(i); }
+    public void removeInsect(Insect i) { insects.remove(i); }
 }

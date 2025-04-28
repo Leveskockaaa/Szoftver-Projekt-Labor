@@ -7,8 +7,8 @@ public class CapulonSpore extends Spore {
     /**
      * A CalulonSpore konstruktora. Beállítja, hogy a spóra tápértéke 6 legyen.
      */
-    public CapulonSpore() {
-        super(6);
+    public CapulonSpore(MushroomBody mushroomBody) {
+        super(mushroomBody, 6);
     }
 
     /**
@@ -17,11 +17,16 @@ public class CapulonSpore extends Spore {
      */
     @Override
     public void takeEffectOn(Insect insect) {
-        Skeleton.logFunctionCall(this, "takeEffectOn", insect);
-        
         insect.disableChewMycelium();
-        
-        Skeleton.logReturn(this, "takeEffectOn");
     }
-    
+
+    /*
+    =============================================================================================
+    Teszteléshez kiíró metódusok
+    =============================================================================================
+     */
+    @Override
+    public String printType() {
+        return this.getClass().getSimpleName();
+    }
 }

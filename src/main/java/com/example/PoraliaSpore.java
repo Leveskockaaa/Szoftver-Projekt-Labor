@@ -7,8 +7,8 @@ public class PoraliaSpore extends Spore {
     /**
      * A PoraliaSpore konstruktora. Beállítja, hogy a spóra tápértéke 5 legyen.
      */
-    protected PoraliaSpore() {
-        super(5);
+    protected PoraliaSpore(MushroomBody mushroomBody) {
+        super(mushroomBody ,5);
     }
 
     /**
@@ -17,11 +17,16 @@ public class PoraliaSpore extends Spore {
      */
     @Override
     public void takeEffectOn(Insect insect) {
-        Skeleton.logFunctionCall(this, "takeEffectOn", insect);
-        
         insect.paralize();
-        
-        Skeleton.logReturn(this, "takeEffectOn");
     }
-    
+
+    /*
+    =============================================================================================
+    Teszteléshez kiíró metódusok
+    =============================================================================================
+     */
+    @Override
+    public String printType() {
+        return this.getClass().getSimpleName();
+    }
 }

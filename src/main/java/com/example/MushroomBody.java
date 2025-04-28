@@ -8,6 +8,10 @@ import java.util.List;
  */
 public abstract class MushroomBody {
     /**
+     * A gombatesthez tartozó egyedi név.
+     */
+    protected String name;
+    /**
      * Egy igaz-hamis érték arról, hogy a gombatest szupergomba-e.
      */
     protected boolean superBody;
@@ -43,39 +47,56 @@ public abstract class MushroomBody {
     protected List<Mycelium> myceliums;
 
     /**
-     * Default constructor.
+     * Konstruktor.
+     * 
+     * @param tecton A gombatesthez tartozó tekton.
+     * @param mycologist A gombatesthez tartozó gombász.
      */
-    public MushroomBody(Tecton tecton) {
+    protected MushroomBody(Tecton tecton, Mycologist mycologist, String name) {
+        this.name = name;
+        this.mycologist = mycologist;
         this.tecton = tecton;
         this.superBody = false;
         this.dead = false;
         this.canSpreadSpores = true;
+        mycologist.addMushroomBody(this);
+        mycologist.setScore(mycologist.getScore() + 1);
+    }
+
+    /**
+     * Getter a gombatesthez tartozó tektonhoz.
+     * @return A gombatesthez tartozó tekton.
+     */
+    public Tecton getTecton() {
+        return tecton;
+    }
+
+    /**
+     * Getter a gombatesthez tartozó Mycologisthoz.
+     * 
+     * @return gombatesthez tartozó Mycologist.
+     */
+    public Mycologist getMycologist() {
+        return mycologist;
     }
 
     public void setMycologist(Mycologist mycologist) {
         this.mycologist = mycologist;
     }
 
+    public abstract MushroomBody createMushroomBody(Tecton tecton, Mycologist mycologist, String name);
+
     /**
      * Enables spore spread for this MushroomBody.
      */
     public void enableSporeSpread() {
-        Skeleton.logFunctionCall(this, "enableSporeSpread");
         canSpreadSpores = true;
-        Skeleton.logReturn(this, "enableSporeSpread");
     }
 
     /**
      * Evolves to Mushroom Body to Super Mushroom
      */
-    public void evolveSuper() {
-        Skeleton.logFunctionCall(this, "evolveSuper");
-        if(canEvolve()){
-            superBody = true;
-            //System.out.println("Evolved");
-        }
-        Skeleton.logReturn(this, "evolveSuper");
-    }
+    public abstract void evolveSuper();
 
     /**
      * Spreads spores.
@@ -88,5 +109,41 @@ public abstract class MushroomBody {
      * @return true if the MushroomBody can evolve, false otherwise
      */
     public abstract boolean canEvolve();
+
+    public void setTecton(Tecton t) { this.tecton = t; }
+
+    public boolean isDead() { return dead; }
+
+    public String getName() {
+        return name;
+    }
+
+    /*
+    =============================================================================================
+    Teszteléshez kiíró metódusok
+    =============================================================================================
+     */
+
+    public String printName() {
+        return name;
+    }
+
+    public abstract String printType();
+
+    public String printLevel() {
+        return superBody ? "Super" : "Normal";
+    }
+
+    public String printState() {
+        return dead ? "Dead" : "Alive";
+    }
+
+    public String printSporeSpread() {
+        return canSpreadSpores ? "Yes" : "No";
+    }
+
+    public String printSporeSpreadsLeft() {
+        return String.valueOf(sporeSpreadsLeft);
+    }
 }
 

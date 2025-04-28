@@ -1,0 +1,9 @@
+CREATEGAMETABLE gametable 
+CREATETECTON t1 Transix gametable 
+CREATEPLAYER m1 Mycologist gametable Hyphara 
+CREATEMUSHROOMBODY mb1 Hyphara t1 m1
+CREATEMYCELIUM my1 m1 t1
+STATUS m1 
+STATUS mb1 
+STATUS my1 
+STATUS t1 

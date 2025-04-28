@@ -1,0 +1,9 @@
+t2:
+    Type: Transix
+    Size: Giant
+    maxMycelia: 2
+    Neighbours: [t1: Transix]
+    MushroomBody: -
+    Mycelia: []
+    Spores: [CapulonSpore]
+    Insects: []

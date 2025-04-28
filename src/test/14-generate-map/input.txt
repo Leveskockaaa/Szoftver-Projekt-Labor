@@ -1,0 +1,3 @@
+CREATEGAMETABLE gametable
+INIT gametable
+STATUS gametable

@@ -7,8 +7,8 @@ public class HypharaSpore extends Spore {
     /**
      * A HypharaSpore konstruktora. Beállítja, hogy a spóra tápértéke 3 legyen.
      */
-    public HypharaSpore() {
-        super(3);
+    public HypharaSpore(MushroomBody mushroomBody) {
+        super(mushroomBody, 3);
     }
 
     /**
@@ -17,11 +17,16 @@ public class HypharaSpore extends Spore {
      */
     @Override
     public void takeEffectOn(Insect insect) {
-        Skeleton.logFunctionCall(this, "takeEffectOn", insect);
-        
         insect.setSpeed(1.5f);
-
-        Skeleton.logReturn(this, "takeEffectOn");
     }
-    
+
+    /*
+    =============================================================================================
+    Teszteléshez kiíró metódusok
+    =============================================================================================
+     */
+    @Override
+    public String printType() {
+        return this.getClass().getSimpleName();
+    }
 }

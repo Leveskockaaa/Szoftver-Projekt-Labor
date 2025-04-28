@@ -1,5 +1,9 @@
 package com.example;
 
+import java.util.*;
+
+import static com.example.TectonSize.decreaseSize;
+
 /**
  * A Mantleon típusú tektonért felel.
  *
@@ -8,12 +12,30 @@ package com.example;
 public class Mantleon extends Tecton {
 
     /**
+     * Alapértelmezett konstruktor a Magmox osztályhoz.
+     * Beállítja az alapértelmezett értékeket, például a maximális gombafonalak számát.
+     */
+    public Mantleon(String name) {
+        super(name);
+        maxMycelia = 2;
+    }
+
+    /**
+     * Konstruktor, amely beállítja a tekton méretét és az alapértelmezett maximális gombafonalak számát.
+     *
+     * @param size A tekton mérete.
+     */
+    public Mantleon(TectonSize size, String name) {
+        super(size, name);
+        maxMycelia = 2;
+    }
+
+    /**
      * Mivel a Mantleon nem tartalmaz gombatestet, ezért a gombatestet kezelő metódusok nem csinálnak semmit.
      */
     @Override
     public void placeMushroomBody(MushroomBody mushroomBody) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'placeMushroomBody'");
+        return;
     }
 
     /**
@@ -24,8 +46,7 @@ public class Mantleon extends Tecton {
      */
     @Override
     public boolean canAddMycelium() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'canAddMycelium'");
+        return mycelia.size() < maxMycelia;
     }
 
     /**
@@ -35,9 +56,107 @@ public class Mantleon extends Tecton {
      */
     @Override
     public void addMycelium(Mycelium mycelium) {
-        Skeleton.logFunctionCall(this, "addMycelium", mycelium);
         this.mycelia.add(mycelium);
-        Skeleton.logReturn(this, "addMycelium");
+    }
+
+    /**
+     * A tekton kettétörését megvalósító metódus. Létrehoz
+     * két új tektont egyel kisebb méretkategóriába. Felelős a tekton szomszédainak a két
+     * új tekton között való elosztásáért, valamint a, ha van rajta gombatest vagy rovar
+     * akkor azokat is el kell helyezze az egyik új tektonon. Ezt úgy valósítja meg, hogy
+     * veszi azt eredeti (t) tekton szomszédjainak listáját, majd ebből kiveszi a lista első
+     * elemét, hozzáadja az egyik létrejövő (t1) tekton szomszédjaihoz. Ezután a t1
+     * tekton listájához utoljára hozáadott tekton szomszédjai között keres olyat, ami még
+     * benne van a t szomszédai között, kiveszi az első ilyet a t szomszédai közül és
+     * hozzáadja t1 szomszédaihoz. Ezt addig ismétli amíg a t eredeti szomszédainak
+     * hozzának (kb.) felét eléri. Ezután a maradék tektonokat a t listájából átrakja a
+     * másik létrejövő tekton (t2) listájába. Ha van rajta Mycelium akkor azt átrakja mind
+     * a két új tectonra. Visszaadja a két létrejött tectont
+     *
+     * @return A létrejött két új tekton listája.
+     */
+    @Override
+    public List<Tecton> breakApart(String newTectonName1, String newTectonName2) {
+
+        //Két új tekton létrehozása
+        Mantleon t1 = new Mantleon(decreaseSize(this.size), newTectonName1);
+        Mantleon t2 = new Mantleon(decreaseSize(this.size), newTectonName2);
+
+        Controller.putToNameMap(t1, newTectonName1);
+        Controller.putToNameMap(t2, newTectonName2);
+
+        //Köztük kapcsolat létrehozása
+        t1.addTectonToNeighbors(t2);
+
+        if (this.hasInsect()) {
+            //Ha van rajta rovar, akkor a szomszédos tektonok közül az egyikre kerül
+            if (Controller.isRandomOn()) {
+                Random random = new Random();
+                int randomIndex = random.nextInt(2);
+                if (randomIndex == 0) {
+                    t1.setInsects(insects);
+                } else {
+                    t2.setInsects(insects);
+                }
+            } else {
+                t1.setInsects(insects);
+            }
+        }
+
+        if (this.hasMushroomBody()) {
+            //Ha van rajta gombatest, akkor a szomszédos tektonok közül az egyikre kerül
+            if (Controller.isRandomOn()) {
+                Random random = new Random();
+                int randomIndex = random.nextInt(2);
+                if (randomIndex == 0) {
+                    t1.placeMushroomBody(this.mushroomBody);
+                } else {
+                    t2.placeMushroomBody(this.mushroomBody);
+                }
+            } else {
+                t2.placeMushroomBody(this.mushroomBody);
+            }
+        }
+
+        //A két új tektonra kerülnek a myceliumok
+        if (!this.mycelia.isEmpty()) {
+            for (Mycelium m : this.mycelia) {
+                t1.addMycelium(m);
+                t2.addMycelium(m);
+            }
+        }
+
+
+        //Veszünk egy tectont a szomszédaink közül
+        Tecton n1 = this.neighbors.iterator().next();
+        this.neighbors.remove(n1);
+
+        //Hozzáadjuk az egyik új tektonhoz
+        t1.addTectonToNeighbors(n1);
+        n1.changeNeighbour(this, t1);
+
+        for (Iterator<Tecton> it = n1.neighbors.iterator(); it.hasNext(); ) {
+            Tecton n2 = it.next();
+            if (this.neighbors.contains(n2)) {
+                this.neighbors.remove(n2);
+                t1.addTectonToNeighbors(n2);
+                n2.changeNeighbour(this, t2);
+            }
+        }
+
+        while (!this.neighbors.isEmpty()) {
+            Tecton n = this.neighbors.iterator().next();
+            this.neighbors.remove(n);
+            t2.addTectonToNeighbors(n);
+            n.changeNeighbour(this, t2);
+        }
+
+        //Később a controllerben a helye
+        gameTable.removeTecton(this);
+        gameTable.addTecton(t1);
+        gameTable.addTecton(t2);
+
+        return new ArrayList<>(Arrays.asList(t1, t2));
     }
 
     /**
@@ -55,23 +174,34 @@ public class Mantleon extends Tecton {
      */
     @Override
     public void placeInsect(Insect insect) {
-        Skeleton.logFunctionCall(this, "placeInsect", insect);
 
         if (insect.getTecton() == null){
             insect.setTecton(this);
-            Skeleton.logReturn(this, "placeInsect");
-            return;
-        }
-
-        if (this.insect != null || !hasConnection(insect)) {
-            Skeleton.logReturn(this, "placeInsect");
-        } else {
+            this.insects.add(insect);
+        } else if (hasConnection(insect)) {
             insect.neutralizeTectonEffects();
             insect.getTecton().removeInsect();
+            insects.add(insect);
             insect.setTecton(this);
-            Skeleton.logReturn(this, "placeInsect");
+            insect.setNutrientMultiplier(1);
         }
     }
-    
+
+    /*
+    =============================================================================================
+    Teszteléshez kiíró metódusok
+    =============================================================================================
+     */
+
+
+    /**
+     * Visszaadja a tekton típusát.
+     *
+     * @return A tekton típusa.
+     */
+    @Override
+    public String printType() {
+        return this.getClass().getSimpleName();
+    }
 }
 

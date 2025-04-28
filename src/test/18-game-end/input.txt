@@ -1,0 +1,24 @@
+CREATEGAMETABLE gametable 
+CREATETECTON t1 Transix gametable 
+CREATETECTON t2 Transix gametable 
+CREATETECTON t3 Transix gametable 
+CREATEPLAYER m1 Mycologist gametable Hyphara 
+CREATEPLAYER m2 Mycologist gametable Gilledon 
+CREATEMUSHROOMBODY mb1 Hyphara t1 m1
+CREATEMUSHROOMBODY mb2 Gilledon t2 m2
+CREATEMUSHROOMBODY mb3 Hyphara t3 m1
+CREATEMYCELIUM my1 m1 t1
+CREATEMYCELIUM my2 m2 t2
+CREATEMYCELIUM my3 m1 t3
+CREATEPLAYER e1 Entomologist gametable 
+CREATEINSECT i1 e1 t1 
+CREATEPLAYER e2 Entomologist gametable 
+CREATEINSECT i2 e2 t2 
+CREATESPORE Hyphara t1 2 mb1
+EATSPORE i1 
+EATSPORE i1 
+ENDGAME gametable
+STATUS m1 
+STATUS m2 
+STATUS e1 
+STATUS e2 

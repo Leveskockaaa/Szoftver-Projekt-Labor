@@ -1,21 +1,31 @@
 package com.example;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
  * A gombafonalakat kezelő osztály. Egy-egy fonal egységet valósít meg.
  */
 public class Mycelium {
+
+    private String name;
+
     /**
      * Egy igaz-hamis érték arról, hogy éppen tud-e növekedni a gombafonal.
      */
     private boolean canGrow;
 
     /**
+     * Egy igaz-hamis érték arról, hogy a gombafonál megevett-e egy rovart.
+     */
+    private boolean insectEaten;
+
+    /**
      * Egy időtartam, amelynek leteltekor a fonal újra növekedhet.
      */
-    private int growthSpeed;
+    private float growthSpeed;
 
     /**
      * A tekton amin a gombafonál elhelyezkedik.
@@ -23,45 +33,62 @@ public class Mycelium {
     private final Tecton tecton;
 
     /**
-     * A gombatesthez tartozó gombász.
+     * A gombatesthez tartozó gombász. final mert a gombafonálhoz tartozó
+     * gombász nem változhat.
      */
-    private Mycologist mycologist;
+    private final Mycologist mycologist;
 
     /**
-     * Az olyan gombafonalak listája amelyekkel közvetlen kapcsolatban van a gombafonál.
-     * Attól, hogy szomszédos tektonon van egy azonos fajú gombafonál még nem szomszédosak.
+     * Az olyan gombafonalak listája, amelyekkel közvetlen kapcsolatban van a
+     * gombafonál. Attól, hogy szomszédos tektonon van egy azonos fajú
+     * gombafonál, még nem szomszédosak.
      */
     private final List<Mycelium> myceliumConnections;
 
     /**
-     * Default constructor.
+     * Konstruktor.
+     *
+     * @param tecton A tekton, amin a gombafonál elhelyezkedik.
+     * @param mycologist A gombafonálhoz tartozó gombász.
+     * @param name A gombafonál neve.
      */
-    public Mycelium(Tecton tecton) {
-        this.growthSpeed = 0;
+    public Mycelium(Tecton tecton, Mycologist mycologist, String name) {
+        this.name = name;
+        this.canGrow = true;
+        this.insectEaten = false;
+        this.growthSpeed = 10;
         this.tecton = tecton;
-        this.mycologist = null;
-        myceliumConnections = new ArrayList<Mycelium>();
+        this.mycologist = mycologist;
+        this.myceliumConnections = new ArrayList<>();
+    }
+
+    public String getName() {
+        return name;
     }
 
     /**
-     * Getter a gobmafonálhoz tartozó gombászhoz.
-     * @return A gombafonalhoz tartozó gombász.
+     * Getter a gombafonálhoz tartozó tektonhoz.
+     *
+     * @return A gombafonálhoz tartozó tekton.
+     */
+    public Tecton getTecton() {
+        return tecton;
+    }
+
+    /**
+     * Getter a gombafonálhoz tartozó gombászhoz.
+     *
+     * @return A gombafonálhoz tartozó gombász.
      */
     public Mycologist getMycologist() {
         return mycologist;
     }
 
     /**
-     * Setter a gobmafonálhoz tartozó gombászhoz.
-     * @param mycologist Az új gobmafonálhoz tartozó gombász.
-     */
-    public void setMycologist(Mycologist mycologist) {
-        this.mycologist = mycologist;
-    }
-
-    /**
-     * Getter az olyan gombafonalak listájához amelyekkel közvetlen kapcsolatban van a gombafonál.
-     * Attól, hogy szomszédos tektonon van egy azonos fajú gombafonál még nem szomszédosak.
+     * Getter az olyan gombafonalak listájához, amelyekkel közvetlen kapcsolatban
+     * van a gombafonál. Attól, hogy szomszédos tektonon van egy azonos fajú
+     * gombafonál, még nem szomszédosak.
+     *
      * @return A kapcsolódó gombafonalak listája.
      */
     public List<Mycelium> getMyceliumConnections() {
@@ -69,135 +96,252 @@ public class Mycelium {
     }
 
     /**
-     * Getter a gombafonálhoz tartozó gombatest típusához. Ezzel a függvénnyel vagyunk képesek
-     * megállapítani a gombafonál "faját", míg ezt külön nem tároljuk.
+     * Getter a gombafonálhoz tartozó gombatest típusához. Ezzel a függvénnyel
+     * vagyunk képesek megállapítani a gombafonál "faját", míg ezt külön nem
+     * tároljuk.
+     *
      * @return A gombafonálhoz tartozó gombatest osztály típusa.
      */
-    public Class<? extends MushroomBody> getBodyType(){
+    public Class<? extends MushroomBody> getBodyType() {
         return mycologist.getMushroomBodies().get(0).getClass();
     }
 
     /**
      * Megadja, hogy tud-e gombatestet növeszteni a tektonon fonal.
+     *
      * @return true, ha tud gombatestet növeszteni, egyébként false.
      */
     public boolean canDevelop() {
-        Skeleton.logFunctionCall(this, "canDevelop");
-
         int sporeCount = 0;
-        for (Spore s : tecton.sporesAvailable()){
-            if(s.getClass() == HypharaSpore.class){ //Spore type?
+        for (Spore spore : tecton.sporesAvailable()) {
+            if (spore.getMushroomBody().getMycologist() == mycologist) {
                 sporeCount++;
             }
         }
 
-        Skeleton.logReturn(this, "canDevelop");
-        if(sporeCount >= 6 && !tecton.hasMushroomBody())
-            return true;
-        return false;
+        return sporeCount >= 6 && !tecton.hasMushroomBody();
     }
 
     /**
      * Gombatestet fejleszt az adott fonalon és tektonon.
+     *
+     * @param name A gombatest neve.
+     * @return true, ha sikeresen kifejlesztett egy gombatestet, egyébként false.
      */
-    public void developMushroomBody() {
-        Skeleton.logFunctionCall(this, "developMushroomBody");
-
-        if(canDevelop()) {
-            tecton.placeMushroomBody(new Hyphara(tecton));
+    public boolean developMushroomBody(String name) {
+        try {
+            if (!canDevelop()) {
+                throw new IllegalArgumentException("Cannot develop mushroom body");
+            }
+        } catch (IllegalArgumentException exception) {
+            System.out.println(exception.getMessage());
+            throw new IllegalArgumentException(exception.getMessage());
         }
 
-        Skeleton.logReturn(this, "developMushroomBody");
+        try {
+            // ellenőrzés itt vagy hívjuk hozzuk létre az új gombatestet és
+            // hívjuk meg a tecont-on a placeMushroomBody() metódust és ha már van
+            // akkor ott dobunk exception-t?
+            // viszont így feleslegesen hozzuk létre a gombatestet ha true a hasMushroomBody()
+            // legyen a mushroomBody létrehozása is már a tecton-on?
+            // de akkor nem kell bemeneti paraméter!
+            if (tecton.hasMushroomBody()) {
+                throw new IllegalArgumentException("Tecton already has a mushroom body");
+            }
+        } catch (IllegalArgumentException exception) {
+            System.out.println(exception.getMessage());
+            throw new IllegalArgumentException(exception.getMessage());
+        }
+
+        MushroomBody mushroomBody = mycologist.createMushroomBody(tecton, name);
+        Controller.putToNameMap(mushroomBody, name);
+        tecton.placeMushroomBody(mushroomBody);
+        tecton.takeSpore(mycologist, 6);
+
+        return true;
     }
 
     /**
      * Engedélyezi a gombatest növesztését.
      */
     public void enableGrowth() {
-        Skeleton.logFunctionCall(this, "enableGrowth");
         canGrow = true;
-        Skeleton.logReturn(this, "enableGrowth");
     }
 
     /**
      * Először ellenőrzi, hogy képes-e az új tektonra átnőni a gombafonál, majd
-     * egy új összeköttetést hoz létre t tektonnal. Ha már volt ott ugyanahoz a gombászhoz
-     * tartozó gombafonál, akkor csak összeköti azokat, ha nem akkor újat hoz létre ott.
-     * @param tecton A tekton amire át akarunk nőni.
-     * @return Ha sikerült átnőni, akkor az új gombafonál referenciája, egyébként null.
+     * egy új összeköttetést hoz létre a megadott tektonnal. Ha már volt ott
+     * ugyanahhoz a gombászhoz tartozó gombafonál, akkor csak összeköti azokat,
+     * ha nem, akkor újat hoz létre ott.
+     *
+     * @param tecton A tekton, amire át akarunk nőni.
+     * @param name Az új gombafonál neve.
+     * @return Ha sikerült átnőni, akkor az új gombafonál referenciája,
+     * egyébként null.
      */
-    public Mycelium createNewBranch(Tecton tecton) {
-        Skeleton.logFunctionCall(this, "createNewBranch", tecton);
-
-        if(canGrow){
-            if(tecton.canAddMycelium()){
-                Mycelium newMycelium = new Mycelium(tecton);
-                Skeleton.logCreateInstance(newMycelium, "Mycelium", "newMycelium");
-                newMycelium.setMycologist(this.mycologist);
-
-                tecton.addMycelium(newMycelium);
-                myceliumConnections.add(newMycelium);
-                newMycelium.myceliumConnections.add(this);
-
-                Skeleton.logReturn(this, "createNewBranch");
-                return newMycelium;
+    public Mycelium createNewBranch(Tecton tecton, String name) {
+        try {
+            if (!canGrow && Controller.isRandomOn()) {
+                throw new IllegalArgumentException("Cannot grow");
             }
-            else{
-                for(Mycelium mycelium : tecton.getMycelia()){
-                    if(mycelium.getBodyType() == getBodyType()){
-                        myceliumConnections.add(mycelium);
-                        mycelium.myceliumConnections.add(this);
-                        break;
+            for (Mycelium mycelium : myceliumConnections) {
+                if (mycelium.getTecton() == tecton) {
+                    throw new IllegalArgumentException("Already connected to this tecton");
+                }
+            }
+        } catch (IllegalArgumentException exception) {
+            System.out.println(exception.getMessage());
+            throw new IllegalArgumentException(exception.getMessage());
+        }
+
+        if (tecton.canAddMycelium()) {
+            Mycelium newMycelium = new Mycelium(tecton, mycologist, name);
+
+            try {
+                tecton.addMycelium(newMycelium);
+                this.addConnection(newMycelium);
+            } catch (IllegalArgumentException exception) {
+                System.out.println(exception.getMessage());
+                throw new IllegalArgumentException(exception.getMessage());
+            }
+
+            return newMycelium;
+        } else {
+            for (Mycelium mycelium : tecton.getMycelia()) {
+                if (mycelium.getMycologist() == mycologist) {
+                    try {
+                        this.addConnection(mycelium);
+                    } catch (IllegalArgumentException exception) {
+                        System.out.println(exception.getMessage());
+                        throw new IllegalArgumentException(exception.getMessage());
                     }
+                    return null;
                 }
             }
         }
 
-        Skeleton.logReturn(this, "createNewBranch");
         return null;
     }
 
     /**
-     * my gombafonallal megszakítja a kapcsolatot.
-     * Kiveszi a kapcsolatban lévő fonalak listájából my-t.
-     * @param my A gombafonal amivel meg akarjuk szakítani a kapcsolatot.
+     * A bemenetként kapott gombafonalat kapcsolja össze önmagával.
+     *
+     * @param mycelium A gombafonal, amivel kapcsolatba lépünk.
      */
-    public void removeConnection(Mycelium my) {
-        Skeleton.logFunctionCall(this, "removeConnection", my);
+    public void addConnection(Mycelium mycelium) {
+        try {
+            if (mycelium == null) {
+                throw new IllegalArgumentException("Mycelium cannot be null");
+            }
+            if (mycelium.getMycologist() != mycologist) {
+                throw new IllegalArgumentException("Mycelium must belong to the same Mycologist");
+            }
+            if (mycelium == this) {
+                throw new IllegalArgumentException("Cannot add connection to itself");
+            }
+            if (!mycelium.getTecton().getNeighbors().contains(tecton)) {
+                throw new IllegalArgumentException("Mycelium must be on a neighboring Tecton");
+            }
+            if (myceliumConnections.contains(mycelium)) {
+                throw new IllegalArgumentException("Connection already exists");
+            }
+        } catch (IllegalArgumentException exception) {
+            System.out.println(exception.getMessage());
+            throw new IllegalArgumentException(exception.getMessage());
+        }
 
-        myceliumConnections.remove(my);
+        myceliumConnections.add(mycelium);
+        mycelium.myceliumConnections.add(this);
+        this.canGrow = false;
+        mycelium.canGrow = false;
+    }
 
-        Skeleton.logReturn(this, "removeConnection");
+    /**
+     * A megadott gombafonallal megszakítja a kapcsolatot. Kiveszi a kapcsolatban
+     * lévő fonalak listájából a megadott gombafonalat.
+     *
+     * @param mycelium A gombafonal, amivel meg akarjuk szakítani a kapcsolatot.
+     */
+    public void removeConnection(Mycelium mycelium) {
+        try {
+            if (mycelium == null) {
+                throw new IllegalArgumentException("Mycelium cannot be null");
+            }
+            if (mycelium.getMycologist() != mycologist) {
+                throw new IllegalArgumentException("Mycelium must belong to the same Mycologist");
+            }
+            if (mycelium == this) {
+                throw new IllegalArgumentException("Cannot remove connection to itself");
+            }
+        } catch (IllegalArgumentException exception) {
+            System.out.println(exception.getMessage());
+            throw new IllegalArgumentException(exception.getMessage());
+        }
+
+        myceliumConnections.remove(mycelium);
+        mycelium.myceliumConnections.remove(this);
     }
 
     /**
      * Megadja, hogy a fonal kapcsolódik-e gombatesthez.
+     *
      * @return true, ha kapcsolódik gombatesthez, egyébként false.
      */
     public boolean isConnectedToMushroomBody() {
-        Skeleton.logFunctionCall(this, "isConnectedToMushroomBody");
+        HashSet<Mycelium> visitedMycelia = new HashSet<>();
+        LinkedList<Mycelium> queue = new LinkedList<>();
+        queue.add(this);
+        visitedMycelia.add(this);
 
-        Skeleton.logReturn(this, "isConnectedToMushroomBody");
+        while (!queue.isEmpty()) {
+            Mycelium current = queue.poll();
+
+            Tecton currentTecton = current.getTecton();
+            Mycologist thisMycologist = this.getMycologist();
+            for (MushroomBody body : thisMycologist.getMushroomBodies()) {
+                if (body.getTecton() == currentTecton) {
+                    return true;
+                }
+            }
+
+            for (Mycelium neighbor : current.getMyceliumConnections()) {
+                if (!visitedMycelia.contains(neighbor) && neighbor.getMycologist() == mycologist) {
+                    visitedMycelia.add(neighbor);
+                    queue.add(neighbor);
+                }
+            }
+        }
+
         return false;
     }
 
     /**
-     * Felgyorsítja a növekedést, azaz csökkenti a szükséges időt,
-     * aminek két növekedést között el kell telnie.
+     * Felgyorsítja a növekedést, azaz csökkenti a szükséges időt, aminek két
+     * növekedés között el kell telnie.
+     *
+     * @param time Az az idő, amivel csökkenteni szeretnénk a növekedési időt.
      */
-    public void speedUpGrowth() {
-        Skeleton.logFunctionCall(this, "speedUpGrowth");
+    public void speedUpGrowth(float time) {
+        try {
+            if (time <= 0) {
+                throw new IllegalArgumentException("Time cannot be negative or zero");
+            }
+            if (growthSpeed - time < 0) {
+                throw new IllegalArgumentException("Growth speed cannot be negative");
+            }
+        } catch (IllegalArgumentException exception) {
+            System.out.println(exception.getMessage());
+            throw new IllegalArgumentException(exception.getMessage());
+        }
 
-        Skeleton.logReturn(this, "speedUpGrowth");
+        growthSpeed -= time;
     }
 
     /**
      * Visszaállítja a növekedési sebességet az eredetire.
      */
     public void resetGrowthSpeed() {
-        Skeleton.logFunctionCall(this, "resetGrowthSpeed");
-
-        Skeleton.logReturn(this, "resetGrowthSpeed");
+        growthSpeed = 10;
     }
 
     /**
@@ -205,10 +349,146 @@ public class Mycelium {
      * gombatesthez, akkor a fonal eltűnik.
      */
     public void wither() {
-        Skeleton.logFunctionCall(this, "wither");
+        // egy új timer pélány indítása, ami elkezdi visszafelé számolni az időt
+        // vagy 0-tól a megadott ideig és ha végetért a timer akkor eltűnik a fonál
+        // és megszűnik a timer példány
+        // timer példány tárolása minden gombafonalhoz?
+        // végigmenni az összes elérhető gombafonálon mindegyikhez új timer?
+        // természetesen csak akkor ha a fonal nem kapcsolódik gombatesthez
+        // ha ezzel a fonállal kapcsolat jön létre akkor az kivált egy eseményt
+        // ami megnézi, hogy kapcsolódik-e gombatesthez és ha igen akkor megszünteti
+        // a timer példányt és végigmegy a kapcsolódó gombafonálakon és megszünteti
+        // a timer példányokat mindegyik kapcsolódó gombafonálon
+        // ha a timer lejár akkor megszünteti a gombafonalat
+    }
 
-        Skeleton.logReturn(this, "wither");
+    public float getChewDelay() {
+        // kéne egy metódus a MushroomBody-ba ami ezt visszaadja
+        // ezeket az értékeket a MushroomBody leszármazottaknak egy statikus változóban
+        // kell tárolniuk
+        // return mushroomBodyType.getChewDelay();
+
+        // vagy, ami szerintem objektum orientáltabb lenne az az, hogy a Mycologist eltárolja
+        // a gombafajához tartozó statikus alap értéket, amit akkor inicializál magában (Mycologist), amikor
+        // létrehozza az első gombatestjét, ami biztosan lesz, mert a játék elején ez biztosan megtörténik
+        // így akkor is lekérdezhető lesz a fajhoz tartozó érték ha éppen nincs gombatestje sem
+        // és akkor itt se kell használni ezt a csúnya Class getter-t
+
+        return 0.0f;
+    }
+
+    /**
+     * Rovart eszik a gombafonal.
+     */
+    public void eatInsect() {
+        try {
+            if (insectEaten) {
+                throw new IllegalArgumentException("Insect already eaten");
+            }
+            // ellenőrzés itt vagy hívjuk meg a removeInsect() metódust és ha nincs
+            // insect a tecton-on akkor ott dobunk exception-t?
+            if (!tecton.hasInsect()) {
+                throw new IllegalArgumentException("No insect to eat");
+            }
+        } catch (IllegalArgumentException exception) {
+            System.out.println(exception.getMessage());
+            throw new IllegalArgumentException(exception.getMessage());
+        }
+
+        Insect insect = tecton.getInsects().get(0);
+
+        try {
+            if (insect == null) {
+                throw new IllegalArgumentException("Insect is null");
+            }
+            // ellenőrzés itt vagy hívjuk meg tecton-on a removeInsect() metódust
+            // és ha az isParalized() false akkor ott dobunk exception-t?
+            if (!insect.isParalized()) {
+                throw new IllegalArgumentException("Insect is not paralyzed");
+            }
+        } catch (IllegalArgumentException exception) {
+            System.out.println(exception.getMessage());
+            throw new IllegalArgumentException(exception.getMessage());
+        }
+
+        tecton.removeInsect();
+        insect.getEntomologist().removeInsect(insect);
+
+        try {
+            // ellenőrzés itt vagy hívjuk hozzuk létre az új gombatestet és
+            // hívjuk meg a tecont-on a placeMushroomBody() metódust és ha már van
+            // akkor ott dobunk exception-t?
+            // viszont így feleslegesen hozzuk létre a gombatestet ha true a hasMushroomBody()
+            // legyen a mushroomBody létrehozása is már a tecton-on?
+            // de akkor nem kell bemeneti paraméter!
+            if (tecton.hasMushroomBody()) {
+                throw new IllegalArgumentException("Tecton already has a mushroom body");
+            }
+        } catch (IllegalArgumentException exception) {
+            System.out.println(exception.getMessage());
+            throw new IllegalArgumentException(exception.getMessage());
+        }
+
+        // TODO: a név bemenetet meghatározni valahogy
+        MushroomBody mushroomBody = mycologist.createMushroomBody(tecton, "name");
+        tecton.placeMushroomBody(mushroomBody);
+        insectEaten = true;
+    }
+
+    /*
+    =============================================================================================
+    Teszteléshez kiíró metódusok
+    =============================================================================================
+     */
+
+    /**
+     * Visszaadja a gombafonál nevét.
+     *
+     * @return A gombafonál neve.
+     */
+    public String printName() {
+        return name;
+    }
+
+    /**
+     * Visszaadja, hogy a gombafonál képes-e növekedni.
+     *
+     * @return "Yes", ha képes növekedni, különben "No".
+     */
+    public String printCanGrow() {
+        return canGrow ? "Yes" : "No";
+    }
+
+    /**
+     * Visszaadja a gombafonál növekedési sebességét.
+     *
+     * @return A növekedési sebesség szöveges formában.
+     */
+    public String printGrowthSpeed() {
+        return String.valueOf(growthSpeed);
+    }
+
+    /**
+     * Visszaadja a mycelium kapcsolatok nevét egy formázott szövegként.
+     * A kapcsolatok nevei egy listában jelennek meg, vesszővel elválasztva.
+     * Ha nincsenek kapcsolatok, akkor egy üres lista ("[]") kerül visszaadásra.
+     *
+     * @return A kapcsolatok neveit tartalmazó szöveg formázott listaként.
+     */
+    public String printConnections() {
+        StringBuilder connections = new StringBuilder();
+        connections.append("[");
+        for (Mycelium mycelium : myceliumConnections) {
+            connections.append(mycelium.printName()).append(", ");
+        }
+        if (connections.length() > 1) {
+            connections.setLength(connections.length() - 2); // remove last comma and space
+        }
+        connections.append("]");
+        return connections.toString();
+    }
+
+    public String printMushroomBodys() {
+        return "TODO";
     }
 }
-
-
