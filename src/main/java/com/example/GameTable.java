@@ -53,8 +53,9 @@ public class GameTable {
     }
 
     /**
-     * Inicializálja a játéktáblát. A tektonok listáján végighaladva
-     * beállítja a szomszédos tektonokat.
+     * Inicializálja a játéktáblát. Létrehozza a tektonokat és a tektonok listáján végighaladva
+     * beállítja a szomszédos tektonokat. A tektonokat random módban véletlenszerűen generálja (típus),
+     * random kikapcsolása esetén pedig egy megadott módon.
      */
     public void initialize() {
         if (tectons.size() > 0) {
@@ -112,6 +113,15 @@ public class GameTable {
         }
     }
 
+    /**
+     * Választ egy gombatestet a megadott típus alapján, és létrehozza azt.
+     *
+     * @param tecton A tekton, amelyhez a gombatestet hozzárendeljük.
+     * @param type   A gombatest típusa (Hyphara, Gilledon, Poralia, Capulon).
+     * @param m      A mycologist, aki létrehozza a gombatestet.
+     * @param name   A gombatest neve.
+     * @return A létrehozott gombatest.
+     */
     private MushroomBody chooseType(Tecton tecton, String type, Mycologist m, String name){
         MushroomBody mBody = switch (type.toLowerCase()) {
             case "hyphara" -> new Hyphara(tecton, m, name);
@@ -127,6 +137,12 @@ public class GameTable {
         return mBody;
     }
 
+    /**
+     * A játék szerepválasztását végzi. Két gombászt és két rovarászt kér be a felhasználótól. Ezeket létrehozza és a kért helyre
+     * helyezi a tektonok listáján. Valamint a gombászok fajt is választhatnak.
+     *
+     * @param roleInput Beolvasást végző Scanner objektum.
+     */
     public void roleChooser(Scanner roleInput) {
         if (players.size() > 0) {
             players.clear();
@@ -210,6 +226,10 @@ public class GameTable {
         //TODO
     }
 
+    /**
+     * A játék végén hirdeti ki a győzteseket. A győztesek nevét és pontszámát kiírja a konzolra.
+     * A győztesek a játékosok közül kerülnek ki, akiknek a pontszáma a legmagasabb.
+     */
     public void endGame(){
         if(players.get(0).getScore() > players.get(1).getScore()){
             players.get(0).setAsWinner();
@@ -234,6 +254,9 @@ public class GameTable {
         announceWinners();
     }
 
+    /**
+     * Kihirdeti a győzteseket a játék végén. A győztesek nevét és pontszámát kiírja a konzolra.
+     */
     public void announceWinners(){
         String Indent = "    ";
 
