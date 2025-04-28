@@ -12,35 +12,41 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
         Controller.setScanner(scanner);
-        System.out.println("Játék vagy teszt üzemmódban szeretnéd elindítani a programot?");
-        System.out.println("1. Játék üzemmód");
-        System.out.println("2. Teszt üzemmód");
-        int mode = scanner.nextInt();
-        scanner.nextLine();
-        if (mode == 1){
-            Controller.setTestMode(false);
-            Controller.setIsRandomOn(true);
-        } else if (mode == 2){
-            Controller.setTestMode(true);
-            Controller.setIsRandomOn(false);
-        } else {
-            System.out.println("Hibás üzemmód választás!");
-            System.exit(0);
+        System.out.println("Would you like to start the program in game mode or test mode?");
+        System.out.println("1. Game mode");
+        System.out.println("2. Test mode");
+        boolean modeSet = false;
+        String mode = "";
+        while (!modeSet) {
+            mode = scanner.nextLine();
+            if (Objects.equals(mode, "1")){
+                Controller.setTestMode(false);
+                Controller.setIsRandomOn(true);
+                modeSet = true;
+            } else if (Objects.equals(mode, "2")){
+                Controller.setTestMode(true);
+                Controller.setIsRandomOn(false);
+                modeSet = true;
+            } else {
+                System.out.println("Invalid input. Please enter 1 for game mode or 2 for test mode.");
+            }
         }
         while (true) {
-            if (mode == 1){
+            if (Objects.equals(mode, "1")) {
                 if(scanner.hasNextLine()){
                     String nextCommand = scanner.nextLine();
                     if (nextCommand.equalsIgnoreCase("exit")) {
                         break;
                     }
-                    controller.runCommand(nextCommand);
+                    try {
+                        controller.runCommand(nextCommand);
+                    } catch (AssertionError e) {
+                        System.out.println("Invalid command: " + nextCommand);
+                    }
                 }
-            } else if (mode == 2) {
+            } else if (Objects.equals(mode, "2")) {
                 List<String> tests = controller.initTests("src/main/resources/test-cases.txt");
 
-                System.out.println("Tesztesetek kiírásához üss egy entert!");
-                scanner.nextLine();
                 for (int i = 0; i < tests.size(); i++) {
                     System.out.println((i + 1) + ". teszt: " + tests.get(i));
                 }
@@ -49,11 +55,14 @@ public class Main {
                 if (testCaseNumber.equals("exit")) {
                     break;
                 } else {
-                    testCaseNumberInt = Integer.parseInt(testCaseNumber);
+                    try {
+                        testCaseNumberInt = Integer.parseInt(testCaseNumber);
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid input. Please enter a number.");
+                        continue;
+                    }
                 }
                 controller.runTest(testCaseNumberInt);
-            } else {
-                System.exit(0);
             }
         }
         scanner.close();
