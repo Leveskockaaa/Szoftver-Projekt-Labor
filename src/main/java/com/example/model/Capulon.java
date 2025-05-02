@@ -12,7 +12,7 @@ public class Capulon extends MushroomBody {
      * 
      * @param tecton A tekton amire a gombatest kerül.
      */
-    Capulon(Tecton tecton, Mycologist mycologist, String name) {
+    public Capulon(Tecton tecton, Mycologist mycologist, String name) {
         super(tecton, mycologist, name);
         sporeSpreadsLeft = 9;
     }

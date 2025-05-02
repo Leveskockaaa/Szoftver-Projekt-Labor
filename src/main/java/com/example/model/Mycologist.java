@@ -31,7 +31,7 @@ public class Mycologist extends Player {
      *
      * @param name A játékos neve.
      */
-    Mycologist(String name) {
+    public Mycologist(String name) {
         super(name);
 
         // Ez csak az adott tesztesetek belső működés nélküli megvalósításához szükséges, később törlendő.

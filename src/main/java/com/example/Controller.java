@@ -1,4 +1,5 @@
 package com.example;
+import com.example.model.*;
 
 import com.example.model.*;
 

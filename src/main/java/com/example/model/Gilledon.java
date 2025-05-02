@@ -11,7 +11,7 @@ public class Gilledon extends MushroomBody{
      * Gilledon osztály konstruktora.
      * @param tecton A tekton amire a gombatest kerül.
      */
-    Gilledon(Tecton tecton, Mycologist mycologist, String name) {
+    public Gilledon(Tecton tecton, Mycologist mycologist, String name) {
         super(tecton, mycologist, name);
         sporeSpreadsLeft = 15;
     }

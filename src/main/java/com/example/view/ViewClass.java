@@ -1,4 +1,7 @@
 package com.example.view;
 
-public class ViewClass {
+public interface ViewClass {
+
+
+    public void draw(Position position);
 }

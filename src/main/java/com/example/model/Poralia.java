@@ -11,7 +11,7 @@ public class Poralia extends MushroomBody {
      * Poralia osztály konstruktora.
      * @param tecton A tekton amire a gombatest kerül.
      */
-    Poralia(Tecton tecton, Mycologist mycologist, String name) {
+    public Poralia(Tecton tecton, Mycologist mycologist, String name) {
         super(tecton, mycologist, name);
         sporeSpreadsLeft = 15;
     }
