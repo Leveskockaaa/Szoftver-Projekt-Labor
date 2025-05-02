@@ -489,4 +489,8 @@ public abstract class Tecton {
         sb.append("]");
         return sb.toString();
     }
+
+    public MushroomBody getMushroomBody() {
+        return mushroomBody;
+    }
 }
