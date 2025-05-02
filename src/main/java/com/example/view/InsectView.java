@@ -1,6 +1,6 @@
 package com.example.view;
 
-public class InsectView implements ViewClass {
+public class InsectView implements Drawable {
     @Override
     public void draw(Position position) {
         // Implement the drawing logic for the insect here

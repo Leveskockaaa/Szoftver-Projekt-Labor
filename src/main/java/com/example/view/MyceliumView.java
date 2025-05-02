@@ -1,6 +1,6 @@
 package com.example.view;
 
-public class MyceliumView implements ViewClass {
+public class MyceliumView implements Drawable {
     @Override
     public void draw(Position position) {
         // Implement the drawing logic for the mycelium here

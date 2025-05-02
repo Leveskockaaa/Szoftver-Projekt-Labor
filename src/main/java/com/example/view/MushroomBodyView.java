@@ -1,6 +1,6 @@
 package com.example.view;
 
-public class MushroomBodyView implements ViewClass{
+public class MushroomBodyView implements Drawable {
     @Override
     public void draw(Position position) {
         // Implement the drawing logic for the mushroom body here

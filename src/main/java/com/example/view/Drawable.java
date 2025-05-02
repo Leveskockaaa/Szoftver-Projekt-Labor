@@ -1,6 +1,6 @@
 package com.example.view;
 
-public interface ViewClass {
+public interface Drawable {
 
 
     public void draw(Position position);

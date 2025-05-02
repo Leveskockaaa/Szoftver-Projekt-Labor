@@ -5,7 +5,7 @@ import com.example.model.Tecton;
 import java.awt.Color;
 import java.util.*;
 
-public class TectonView  implements ViewClass {
+public class TectonView  implements Drawable {
     Tecton tecton;
     Color color;
     MushroomBodyView mushroomBodyView;
