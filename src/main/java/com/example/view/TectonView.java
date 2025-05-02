@@ -38,7 +38,7 @@ public class TectonView  implements Drawable {
     }
 
     @Override
-    public void draw(Position position) {
+    public void draw(Position position, float scale) {
 
     }
 
