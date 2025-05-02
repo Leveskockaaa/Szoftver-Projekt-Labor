@@ -1,34 +1,34 @@
-package com.example;
+package com.example.model;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 
 /**
- * A Poralia gombafaj gombatestjeinek kezeléséért felelős osztály.
+ * A Hyphara gombafaj gombatestjeinek kezeléséért felelős osztály.
  */
-public class Poralia extends MushroomBody {
+public class Hyphara extends MushroomBody {
     /**
-     * Poralia osztály konstruktora.
+     * Hyphara osztály konstruktora.
      * @param tecton A tekton amire a gombatest kerül.
      */
-    Poralia(Tecton tecton, Mycologist mycologist, String name) {
+    Hyphara(Tecton tecton, Mycologist mycologist, String name) {
         super(tecton, mycologist, name);
         sporeSpreadsLeft = 15;
     }
-
+    
     /**
-     * Létrehoz egy új Poralia típusú gombatestet.
+     * Létrehoz egy új Hyphara típusú gombatestet.
      * 
-     * @return Új Poralia típusú gombatest.
+     * @return Új Hyphara típusú gombatest.
      */
     @Override
     public MushroomBody createMushroomBody(Tecton tecton, Mycologist mycologist, String name) {
-        return new Poralia(tecton, mycologist, name);
+        return new Hyphara(tecton, mycologist, name);
     }
 
     /**
-     * A Poralia verzióját valósítja meg a spóraszórásnak.
-     * Poralia spórákat szór.
+     * A Hyphara verzióját valósítja meg a spóraszórásnak.
+     * Hyphara spórákat szór.
      */
     @Override
     public void spreadSpores() {
@@ -38,7 +38,7 @@ public class Poralia extends MushroomBody {
             }
             else{
                 for(Tecton t : tecton.getNeighbors()){
-                    t.addSpore(new PoraliaSpore(this));
+                    t.addSpore(new HypharaSpore(this));
                 }
             }
 
@@ -66,7 +66,7 @@ public class Poralia extends MushroomBody {
         while (!queue.isEmpty()) {
             Tecton current = queue.poll();
             int depth = visited.get(current);
-            if(depth != 0) current.addSpore(new PoraliaSpore(this));
+            if(depth != 0) current.addSpore(new HypharaSpore(this));
 
             for (Tecton neighbor : current.getNeighbors()) {
                 if (!visited.containsKey(current) && depth < 2) {
@@ -78,7 +78,7 @@ public class Poralia extends MushroomBody {
     }
 
     /**
-     * Egy igaz-hamis érték arról, hogy a Poralia gombatest
+     * Egy igaz-hamis érték arról, hogy a Hyphara gombatest
      * szupergombává tud-e fejlődni.
      * @return true, ha szupergombává tud fejlődni, false ha nem.
      */
@@ -86,7 +86,7 @@ public class Poralia extends MushroomBody {
     public boolean canEvolve() {
         int sporeCount = 0;
         for (Spore s : tecton.sporesAvailable()){
-            if(s.getClass() == PoraliaSpore.class){ //Spore type?
+            if(s.getClass() == HypharaSpore.class){ //Spore type?
                 sporeCount++;
             }
         }

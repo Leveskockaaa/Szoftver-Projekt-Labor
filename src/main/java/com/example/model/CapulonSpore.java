@@ -1,14 +1,14 @@
-package com.example;
+package com.example.model;
 
 /**
- * A Poralia gombafajhoz tartozó spórákat kezeli.
+ * A Capulon gombafajhoz tartozó spórákat kezeli.
  */
-public class PoraliaSpore extends Spore {
+public class CapulonSpore extends Spore {
     /**
-     * A PoraliaSpore konstruktora. Beállítja, hogy a spóra tápértéke 5 legyen.
+     * A CalulonSpore konstruktora. Beállítja, hogy a spóra tápértéke 6 legyen.
      */
-    protected PoraliaSpore(MushroomBody mushroomBody) {
-        super(mushroomBody ,5);
+    public CapulonSpore(MushroomBody mushroomBody) {
+        super(mushroomBody, 6);
     }
 
     /**
@@ -17,7 +17,7 @@ public class PoraliaSpore extends Spore {
      */
     @Override
     public void takeEffectOn(Insect insect) {
-        insect.paralize();
+        insect.disableChewMycelium();
     }
 
     /*

@@ -1,6 +1,5 @@
-package com.example;
+package com.example.model;
 
-import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
 

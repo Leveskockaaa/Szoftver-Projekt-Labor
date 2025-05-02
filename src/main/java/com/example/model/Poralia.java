@@ -1,34 +1,34 @@
-package com.example;
+package com.example.model;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 
 /**
- * A Gilledon gombafaj gombatestjeinek kezeléséért felelős osztály.
+ * A Poralia gombafaj gombatestjeinek kezeléséért felelős osztály.
  */
-public class Gilledon extends MushroomBody{
+public class Poralia extends MushroomBody {
     /**
-     * Gilledon osztály konstruktora.
+     * Poralia osztály konstruktora.
      * @param tecton A tekton amire a gombatest kerül.
      */
-    Gilledon(Tecton tecton, Mycologist mycologist, String name) {
+    Poralia(Tecton tecton, Mycologist mycologist, String name) {
         super(tecton, mycologist, name);
         sporeSpreadsLeft = 15;
     }
 
     /**
-     * Létrehoz egy új Gilledon típusú gombatestet.
+     * Létrehoz egy új Poralia típusú gombatestet.
      * 
-     * @return Új Gilledon típusú gombatest.
+     * @return Új Poralia típusú gombatest.
      */
     @Override
     public MushroomBody createMushroomBody(Tecton tecton, Mycologist mycologist, String name) {
-        return new Gilledon(tecton, mycologist, name);
+        return new Poralia(tecton, mycologist, name);
     }
 
     /**
-     * A Gilledon verzióját valósítja meg a spóraszórásnak.
-     * Gilledon spórákat szór.
+     * A Poralia verzióját valósítja meg a spóraszórásnak.
+     * Poralia spórákat szór.
      */
     @Override
     public void spreadSpores() {
@@ -38,7 +38,7 @@ public class Gilledon extends MushroomBody{
             }
             else{
                 for(Tecton t : tecton.getNeighbors()){
-                    t.addSpore(new GilledonSpore(this));
+                    t.addSpore(new PoraliaSpore(this));
                 }
             }
 
@@ -66,7 +66,7 @@ public class Gilledon extends MushroomBody{
         while (!queue.isEmpty()) {
             Tecton current = queue.poll();
             int depth = visited.get(current);
-            if(depth != 0) current.addSpore(new GilledonSpore(this));
+            if(depth != 0) current.addSpore(new PoraliaSpore(this));
 
             for (Tecton neighbor : current.getNeighbors()) {
                 if (!visited.containsKey(current) && depth < 2) {
@@ -78,7 +78,7 @@ public class Gilledon extends MushroomBody{
     }
 
     /**
-     * Egy igaz-hamis érték arról, hogy a Gilledon gombatest
+     * Egy igaz-hamis érték arról, hogy a Poralia gombatest
      * szupergombává tud-e fejlődni.
      * @return true, ha szupergombává tud fejlődni, false ha nem.
      */
@@ -86,7 +86,7 @@ public class Gilledon extends MushroomBody{
     public boolean canEvolve() {
         int sporeCount = 0;
         for (Spore s : tecton.sporesAvailable()){
-            if(s.getClass() == GilledonSpore.class){ //Spore type?
+            if(s.getClass() == PoraliaSpore.class){ //Spore type?
                 sporeCount++;
             }
         }

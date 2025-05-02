@@ -11,4 +11,4 @@
 javac -d target/classes src/main/java/com/example/*.java
 
 ## Run the compiled Java program with
-java -cp target/classes com.example.Main
+java -cp target/classes com.example.model.Main

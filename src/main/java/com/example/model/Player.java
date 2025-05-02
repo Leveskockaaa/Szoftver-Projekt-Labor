@@ -1,4 +1,4 @@
-package com.example;
+package com.example.model;
 
 /**
  * A játékosokat összefogó absztrakt ősosztály.

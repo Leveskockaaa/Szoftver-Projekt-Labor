@@ -1,4 +1,4 @@
-package com.example;
+package com.example.model;
 
 /**
  * Egy rovar entitást reprezentál különböző attribútumokkal és viselkedésekkel,

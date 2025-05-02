@@ -1,35 +1,34 @@
-package com.example;
+package com.example.model;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 
 /**
- * A Capulon gombafaj gombatestjeinek kezeléséért felelős osztály.
+ * A Gilledon gombafaj gombatestjeinek kezeléséért felelős osztály.
  */
-public class Capulon extends MushroomBody{
+public class Gilledon extends MushroomBody{
     /**
-     * Capulon osztály konstruktora.
-     * 
+     * Gilledon osztály konstruktora.
      * @param tecton A tekton amire a gombatest kerül.
      */
-    Capulon(Tecton tecton, Mycologist mycologist, String name) {
+    Gilledon(Tecton tecton, Mycologist mycologist, String name) {
         super(tecton, mycologist, name);
-        sporeSpreadsLeft = 9;
+        sporeSpreadsLeft = 15;
     }
 
     /**
-     * Létrehoz egy új Capulon típusú gombatestet.
+     * Létrehoz egy új Gilledon típusú gombatestet.
      * 
-     * @return Új Capulon típusú gombatest.
+     * @return Új Gilledon típusú gombatest.
      */
     @Override
     public MushroomBody createMushroomBody(Tecton tecton, Mycologist mycologist, String name) {
-        return new Capulon(tecton, mycologist, name);
+        return new Gilledon(tecton, mycologist, name);
     }
 
     /**
-     * A Capulon verzióját valósítja meg a spóraszórásnak.
-     * Capulon spórákat szór.
+     * A Gilledon verzióját valósítja meg a spóraszórásnak.
+     * Gilledon spórákat szór.
      */
     @Override
     public void spreadSpores() {
@@ -39,14 +38,13 @@ public class Capulon extends MushroomBody{
             }
             else{
                 for(Tecton t : tecton.getNeighbors()){
-                    t.addSpore(new CapulonSpore(this));
+                    t.addSpore(new GilledonSpore(this));
                 }
             }
 
             sporeSpreadsLeft--;
             if(sporeSpreadsLeft == 0){
                 dead = true;
-                canSpreadSpores = false;
                 mycologist.collect(this);
                 tecton.removeMushroomBody();
             }
@@ -68,7 +66,7 @@ public class Capulon extends MushroomBody{
         while (!queue.isEmpty()) {
             Tecton current = queue.poll();
             int depth = visited.get(current);
-            if(depth != 0) current.addSpore(new CapulonSpore(this));
+            if(depth != 0) current.addSpore(new GilledonSpore(this));
 
             for (Tecton neighbor : current.getNeighbors()) {
                 if (!visited.containsKey(current) && depth < 2) {
@@ -80,7 +78,7 @@ public class Capulon extends MushroomBody{
     }
 
     /**
-     * Egy igaz-hamis érték arról, hogy a Capulon gombatest
+     * Egy igaz-hamis érték arról, hogy a Gilledon gombatest
      * szupergombává tud-e fejlődni.
      * @return true, ha szupergombává tud fejlődni, false ha nem.
      */
@@ -88,7 +86,7 @@ public class Capulon extends MushroomBody{
     public boolean canEvolve() {
         int sporeCount = 0;
         for (Spore s : tecton.sporesAvailable()){
-            if(s.getClass() == CapulonSpore.class){ //Spore type?
+            if(s.getClass() == GilledonSpore.class){ //Spore type?
                 sporeCount++;
             }
         }
@@ -122,10 +120,8 @@ public class Capulon extends MushroomBody{
     Teszteléshez kiíró metódusok
     =============================================================================================
      */
-
     @Override
     public String printType() {
         return this.getClass().getSimpleName();
     }
-
 }

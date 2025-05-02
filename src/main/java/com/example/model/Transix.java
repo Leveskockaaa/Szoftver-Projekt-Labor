@@ -1,41 +1,59 @@
-package com.example;
+package com.example.model;
+
+import com.example.Controller;
 
 import java.util.*;
 
-import static com.example.TectonSize.decreaseSize;
+import static com.example.model.TectonSize.decreaseSize;
 
 /**
- * A Mantleon típusú tektonért felel.
+ * A Transix típusú tektonért felel.
  *
- * Ősosztály: Tecton -> Mantleon
+ * Ősosztály: Tecton -> Transix
  */
-public class Mantleon extends Tecton {
+public class Transix extends Tecton {
 
     /**
-     * Alapértelmezett konstruktor a Magmox osztályhoz.
-     * Beállítja az alapértelmezett értékeket, például a maximális gombafonalak számát.
+     * Létrehoz egy új Transix objektumot a megadott névvel.
+     *
+     * @param name A Transix neve.
      */
-    public Mantleon(String name) {
+    public Transix(String name) {
         super(name);
         maxMycelia = 2;
     }
 
     /**
-     * Konstruktor, amely beállítja a tekton méretét és az alapértelmezett maximális gombafonalak számát.
+     * Létrehoz egy új Transix objektumot a megadott méretkategóriával és névvel.
      *
-     * @param size A tekton mérete.
+     * @param size A Transix méretkategóriája.
+     * @param name A Transix neve.
      */
-    public Mantleon(TectonSize size, String name) {
+    public Transix(TectonSize size, String name) {
         super(size, name);
         maxMycelia = 2;
     }
 
     /**
-     * Mivel a Mantleon nem tartalmaz gombatestet, ezért a gombatestet kezelő metódusok nem csinálnak semmit.
+     * Amennyiben nincsen gombatest a
+     * tektonon és minden feltétel fennáll elhelyezi a paraaméterként kapott gombatestet a
+     * tektonon.
+     *
+     * @param mushroomBody A gombatest, amit el kell helyezni.
      */
     @Override
     public void placeMushroomBody(MushroomBody mushroomBody) {
-        return;
+       this.mushroomBody = mushroomBody;
+    }
+
+    /**
+     * Hozzáadja a tektonhoz a my fonalat.
+     *
+     * @param mycelium A hozzáadandó mycelium.
+     */
+    @Override
+    public void addMycelium(Mycelium mycelium) {
+        this.mycelia.add(mycelium);
     }
 
     /**
@@ -47,16 +65,6 @@ public class Mantleon extends Tecton {
     @Override
     public boolean canAddMycelium() {
         return mycelia.size() < maxMycelia;
-    }
-
-    /**
-     * Hozzáadja a tektonhoz a my fonalat.
-     *
-     * @param mycelium A hozzáadandó mycelium.
-     */
-    @Override
-    public void addMycelium(Mycelium mycelium) {
-        this.mycelia.add(mycelium);
     }
 
     /**
@@ -79,8 +87,8 @@ public class Mantleon extends Tecton {
     public List<Tecton> breakApart(String newTectonName1, String newTectonName2) {
 
         //Két új tekton létrehozása
-        Mantleon t1 = new Mantleon(decreaseSize(this.size), newTectonName1);
-        Mantleon t2 = new Mantleon(decreaseSize(this.size), newTectonName2);
+        Transix t1 = new Transix(decreaseSize(this.size), newTectonName1);
+        Transix t2 = new Transix(decreaseSize(this.size), newTectonName2);
 
         Controller.putToNameMap(t1, newTectonName1);
         Controller.putToNameMap(t2, newTectonName2);
@@ -168,7 +176,8 @@ public class Mantleon extends Tecton {
      * Ha a tekton már tartalmaz egy rovarot, vagy nincs kapcsolat a rovar jelenlegi tektonja és ez a tekton között,
      * akkor a metódus visszatér anélkül, hogy bármit is változtatna.
      * Ha a rovar jelenleg egy másik tektonon van, és van kapcsolat a két tekton között, akkor a metódus
-     * semlegesíti a rovar tekton hatásait, eltávolítja a rovarot a jelenlegi tektonjáról, beállítja a rovar tektonját erre a tektonra.
+     * semlegesíti a rovar tekton hatásait, eltávolítja a rovarot a jelenlegi tektonjáról, beállítja a rovar tektonját erre a tektonra,
+     * és a duplájára növeli a tápanyagérték szorzót.
      *
      * @param insect A rovar, amit el kell helyezni a tektonon.
      */
@@ -183,7 +192,7 @@ public class Mantleon extends Tecton {
             insect.getTecton().removeInsect();
             insects.add(insect);
             insect.setTecton(this);
-            insect.setNutrientMultiplier(1);
+            insect.setNutrientMultiplier(2);
         }
     }
 

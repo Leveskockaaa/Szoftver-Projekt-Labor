@@ -1,14 +1,14 @@
-package com.example;
+package com.example.model;
 
 /**
- * A Hyphara gombafajhoz tartozó spórákat kezeli.
+ * A Gilledon gombafajhoz tartozó spórákat kezeli.
  */
-public class HypharaSpore extends Spore {
+public class GilledonSpore extends Spore {
     /**
-     * A HypharaSpore konstruktora. Beállítja, hogy a spóra tápértéke 3 legyen.
+     * GilledonSpore konstruktora. Beállítja, hogy a spóra tápértéke 6 legyen.
      */
-    public HypharaSpore(MushroomBody mushroomBody) {
-        super(mushroomBody, 3);
+    public GilledonSpore(MushroomBody mushroomBody) {
+        super(mushroomBody, 6);
     }
 
     /**
@@ -17,7 +17,11 @@ public class HypharaSpore extends Spore {
      */
     @Override
     public void takeEffectOn(Insect insect) {
-        insect.setSpeed(1.5f);
+        insect.setSpeed(.66f);
+        Insect newInsect = new Insect(insect.getEntomologist(), insect.getName()+'b');
+        insect.getEntomologist().addInsect(newInsect);
+
+        insect.getTecton().placeInsect(newInsect);
     }
 
     /*

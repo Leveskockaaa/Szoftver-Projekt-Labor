@@ -1,14 +1,14 @@
-package com.example;
+package com.example.model;
 
 /**
- * A Gilledon gombafajhoz tartozó spórákat kezeli.
+ * A Poralia gombafajhoz tartozó spórákat kezeli.
  */
-public class GilledonSpore extends Spore {
+public class PoraliaSpore extends Spore {
     /**
-     * GilledonSpore konstruktora. Beállítja, hogy a spóra tápértéke 6 legyen.
+     * A PoraliaSpore konstruktora. Beállítja, hogy a spóra tápértéke 5 legyen.
      */
-    public GilledonSpore(MushroomBody mushroomBody) {
-        super(mushroomBody, 6);
+    protected PoraliaSpore(MushroomBody mushroomBody) {
+        super(mushroomBody ,5);
     }
 
     /**
@@ -17,11 +17,7 @@ public class GilledonSpore extends Spore {
      */
     @Override
     public void takeEffectOn(Insect insect) {
-        insect.setSpeed(.66f);
-        Insect newInsect = new Insect(insect.getEntomologist(), insect.getName()+'b');
-        insect.getEntomologist().addInsect(newInsect);
-
-        insect.getTecton().placeInsect(newInsect);
+        insect.paralize();
     }
 
     /*

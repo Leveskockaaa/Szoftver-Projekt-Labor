@@ -1,34 +1,35 @@
-package com.example;
+package com.example.model;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 
 /**
- * A Hyphara gombafaj gombatestjeinek kezeléséért felelős osztály.
+ * A Capulon gombafaj gombatestjeinek kezeléséért felelős osztály.
  */
-public class Hyphara extends MushroomBody {
+public class Capulon extends MushroomBody {
     /**
-     * Hyphara osztály konstruktora.
+     * Capulon osztály konstruktora.
+     * 
      * @param tecton A tekton amire a gombatest kerül.
      */
-    Hyphara(Tecton tecton, Mycologist mycologist, String name) {
+    Capulon(Tecton tecton, Mycologist mycologist, String name) {
         super(tecton, mycologist, name);
-        sporeSpreadsLeft = 15;
-    }
-    
-    /**
-     * Létrehoz egy új Hyphara típusú gombatestet.
-     * 
-     * @return Új Hyphara típusú gombatest.
-     */
-    @Override
-    public MushroomBody createMushroomBody(Tecton tecton, Mycologist mycologist, String name) {
-        return new Hyphara(tecton, mycologist, name);
+        sporeSpreadsLeft = 9;
     }
 
     /**
-     * A Hyphara verzióját valósítja meg a spóraszórásnak.
-     * Hyphara spórákat szór.
+     * Létrehoz egy új Capulon típusú gombatestet.
+     * 
+     * @return Új Capulon típusú gombatest.
+     */
+    @Override
+    public MushroomBody createMushroomBody(Tecton tecton, Mycologist mycologist, String name) {
+        return new Capulon(tecton, mycologist, name);
+    }
+
+    /**
+     * A Capulon verzióját valósítja meg a spóraszórásnak.
+     * Capulon spórákat szór.
      */
     @Override
     public void spreadSpores() {
@@ -38,13 +39,14 @@ public class Hyphara extends MushroomBody {
             }
             else{
                 for(Tecton t : tecton.getNeighbors()){
-                    t.addSpore(new HypharaSpore(this));
+                    t.addSpore(new CapulonSpore(this));
                 }
             }
 
             sporeSpreadsLeft--;
             if(sporeSpreadsLeft == 0){
                 dead = true;
+                canSpreadSpores = false;
                 mycologist.collect(this);
                 tecton.removeMushroomBody();
             }
@@ -66,7 +68,7 @@ public class Hyphara extends MushroomBody {
         while (!queue.isEmpty()) {
             Tecton current = queue.poll();
             int depth = visited.get(current);
-            if(depth != 0) current.addSpore(new HypharaSpore(this));
+            if(depth != 0) current.addSpore(new CapulonSpore(this));
 
             for (Tecton neighbor : current.getNeighbors()) {
                 if (!visited.containsKey(current) && depth < 2) {
@@ -78,7 +80,7 @@ public class Hyphara extends MushroomBody {
     }
 
     /**
-     * Egy igaz-hamis érték arról, hogy a Hyphara gombatest
+     * Egy igaz-hamis érték arról, hogy a Capulon gombatest
      * szupergombává tud-e fejlődni.
      * @return true, ha szupergombává tud fejlődni, false ha nem.
      */
@@ -86,7 +88,7 @@ public class Hyphara extends MushroomBody {
     public boolean canEvolve() {
         int sporeCount = 0;
         for (Spore s : tecton.sporesAvailable()){
-            if(s.getClass() == HypharaSpore.class){ //Spore type?
+            if(s.getClass() == CapulonSpore.class){ //Spore type?
                 sporeCount++;
             }
         }
@@ -120,8 +122,10 @@ public class Hyphara extends MushroomBody {
     Teszteléshez kiíró metódusok
     =============================================================================================
      */
+
     @Override
     public String printType() {
         return this.getClass().getSimpleName();
     }
+
 }
