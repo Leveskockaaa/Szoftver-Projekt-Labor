@@ -7,7 +7,6 @@ import java.util.List;
 
 public class GameTableView {
     GameTable gameTable;
-
     List<TectonView> tectonViews;
 
     public GameTableView(GameTable gameTable) {
