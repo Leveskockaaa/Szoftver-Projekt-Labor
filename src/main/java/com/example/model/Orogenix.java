@@ -1,11 +1,13 @@
-package com.example;
+package com.example.model;
+
+import com.example.Controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import static com.example.TectonSize.decreaseSize;
+import static com.example.model.TectonSize.decreaseSize;
 
 /**
  * A Orogenix típusú tektonért felel.

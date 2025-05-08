@@ -1,4 +1,4 @@
-package com.example;
+package com.example.model;
 
 /**
  * A Tecton méretét reprezentáló enum.

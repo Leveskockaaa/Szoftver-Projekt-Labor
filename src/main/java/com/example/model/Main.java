@@ -1,4 +1,6 @@
-package com.example;
+package com.example.model;
+
+import com.example.Controller;
 
 import java.io.IOException;
 import java.util.*;

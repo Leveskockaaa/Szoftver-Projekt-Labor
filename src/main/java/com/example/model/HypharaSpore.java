@@ -1,14 +1,14 @@
-package com.example;
+package com.example.model;
 
 /**
- * A Capulon gombafajhoz tartozó spórákat kezeli.
+ * A Hyphara gombafajhoz tartozó spórákat kezeli.
  */
-public class CapulonSpore extends Spore {
+public class HypharaSpore extends Spore {
     /**
-     * A CalulonSpore konstruktora. Beállítja, hogy a spóra tápértéke 6 legyen.
+     * A HypharaSpore konstruktora. Beállítja, hogy a spóra tápértéke 3 legyen.
      */
-    public CapulonSpore(MushroomBody mushroomBody) {
-        super(mushroomBody, 6);
+    public HypharaSpore(MushroomBody mushroomBody) {
+        super(mushroomBody, 3);
     }
 
     /**
@@ -17,7 +17,7 @@ public class CapulonSpore extends Spore {
      */
     @Override
     public void takeEffectOn(Insect insect) {
-        insect.disableChewMycelium();
+        insect.setSpeed(1.5f);
     }
 
     /*

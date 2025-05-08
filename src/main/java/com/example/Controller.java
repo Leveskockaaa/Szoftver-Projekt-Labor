@@ -1,5 +1,5 @@
 package com.example;
-
+import com.example.model.*;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
@@ -496,7 +496,7 @@ public class Controller {
         Mycologist mycologist = (Mycologist) getFromNameMap(mycologistName);
         if (mycologist == null) throw new RuntimeException("Mycologist not found: " + mycologistName);
 
-        if (mycologist.getMushroomBodies().size() == 1 && mycologist.getMushroomBodies().get(0).name.contains("_minta")) {
+        if (mycologist.getMushroomBodies().size() == 1 && mycologist.getMushroomBodies().get(0).printName().contains("_minta")) {
             mycologist.getMushroomBodies().remove(0);
             mycologist.setScore(mycologist.getScore() - 1);
         }

@@ -1,4 +1,4 @@
-package com.example;
+package com.example.model;
 
 /**
  * Egy rovar entitást reprezentál különböző attribútumokkal és viselkedésekkel,
@@ -70,22 +70,14 @@ public class Insect {
      * Engedélyezi a rovar számára a micélium rágását.
      */
     public void enableToChewMycelium() {
-
-
         this.canChewMycelium = true;
-
-
     }
 
     /**
      * Letiltja a rovar számára a micélium rágását.
      */
     public void disableChewMycelium() {
-
-
         this.canChewMycelium = false;
-
-
     }
 
     /**
@@ -94,7 +86,6 @@ public class Insect {
      * @param mycelium A micélium objektum, amit meg kell rágni.
      */
     public void chewMycelium(Mycelium mycelium) {
-
         if (this.canChewMycelium) {
             for (Mycelium m : this.getTecton().mycelia) {
                 if (m.getMyceliumConnections().contains(mycelium)) {
@@ -116,14 +107,21 @@ public class Insect {
     }
 
     /**
+     * Visszaadja a rovar színét.
+     *
+     * @return A rovar színe.
+     */
+    public String getColor() {
+        return this.color;
+    }
+
+    /**
      * Beállítja a tápanyag szorzót ehhez a rovarhoz.
      *
      * @param times Az új szorzó értéke.
      */
     public void setNutrientMultiplier(int times) {
-
         this.nutrientMultiplier = times;
-
     }
 
     /**
@@ -146,22 +144,14 @@ public class Insect {
      * Engedélyezi a rovar számára az evést.
      */
     public void enableEating() {
-
-
         this.canEat = true;
-
-
     }
 
     /**
      * Letiltja a rovar számára az evést.
      */
     public void disableEating() {
-
-
         this.canEat = false;
-
-
     }
 
     /**
@@ -170,10 +160,7 @@ public class Insect {
      * @param t A Tecton, ahová a rovart át kell helyezni.
      */
     public void moveTo(Tecton t) {
-
-
         t.placeInsect(this);
-
     }
 
     /**
@@ -263,6 +250,8 @@ public class Insect {
     public Tecton getTecton() {
         return this.tecton;
     }
+
+
 
     /**
      * Beállítja a rovar entomológusát a megadott entomológusra.

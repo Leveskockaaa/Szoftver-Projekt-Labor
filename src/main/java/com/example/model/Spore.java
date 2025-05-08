@@ -1,4 +1,4 @@
-package com.example;
+package com.example.model;
 
 /**
  * A spóra osztályokat összefogó absztrakt osztály. Az általános tulajdonságokat valósítja meg.

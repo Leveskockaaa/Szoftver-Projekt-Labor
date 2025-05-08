@@ -1,4 +1,4 @@
-package com.example;
+package com.example.model;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -6,13 +6,13 @@ import java.util.LinkedList;
 /**
  * A Capulon gombafaj gombatestjeinek kezeléséért felelős osztály.
  */
-public class Capulon extends MushroomBody{
+public class Capulon extends MushroomBody {
     /**
      * Capulon osztály konstruktora.
      * 
      * @param tecton A tekton amire a gombatest kerül.
      */
-    Capulon(Tecton tecton, Mycologist mycologist, String name) {
+    public Capulon(Tecton tecton, Mycologist mycologist, String name) {
         super(tecton, mycologist, name);
         sporeSpreadsLeft = 9;
     }

@@ -1,4 +1,4 @@
-package com.example;
+package com.example.model;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -11,7 +11,7 @@ public class Gilledon extends MushroomBody{
      * Gilledon osztály konstruktora.
      * @param tecton A tekton amire a gombatest kerül.
      */
-    Gilledon(Tecton tecton, Mycologist mycologist, String name) {
+    public Gilledon(Tecton tecton, Mycologist mycologist, String name) {
         super(tecton, mycologist, name);
         sporeSpreadsLeft = 15;
     }

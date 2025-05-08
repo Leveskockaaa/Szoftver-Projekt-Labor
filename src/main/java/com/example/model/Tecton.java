@@ -1,7 +1,6 @@
-package com.example;
+package com.example.model;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
@@ -489,5 +488,9 @@ public abstract class Tecton {
         }
         sb.append("]");
         return sb.toString();
+    }
+
+    public MushroomBody getMushroomBody() {
+        return mushroomBody;
     }
 }
