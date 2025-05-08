@@ -1,9 +1,9 @@
 package com.example.view;
 
 public class Position {
-    int x;
-    int y;
-    int width;
-    int height;
-    int rotation;
+    public int x;
+    public int y;
+    public int width;
+    public int height;
+    public int rotation;
 }
