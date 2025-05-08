@@ -1,8 +1,5 @@
 package com.example;
 import com.example.model.*;
-
-import com.example.model.*;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
