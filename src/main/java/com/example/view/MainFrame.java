@@ -4,7 +4,10 @@ import java.awt.Color;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.UIManager;
 import javax.swing.WindowConstants;
+
+import util.FontStyles;
 
 public class MainFrame extends JFrame {
     public MainFrame() {
@@ -13,6 +16,18 @@ public class MainFrame extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
+
+        setUIFont();
+    }
+
+    public void setUIFont() {
+        UIManager.put("Button.font", FontStyles.JETBRAINS_MONO_FONT);
+        UIManager.put("Label.font", FontStyles.JETBRAINS_MONO_FONT);
+        UIManager.put("TextField.font", FontStyles.JETBRAINS_MONO_FONT);
+        UIManager.put("ComboBox.font", FontStyles.JETBRAINS_MONO_FONT);
+        UIManager.put("CheckBox.font", FontStyles.JETBRAINS_MONO_FONT);
+        UIManager.put("RadioButton.font", FontStyles.JETBRAINS_MONO_FONT);
+        UIManager.put("TitledBorder.font", FontStyles.JETBRAINS_MONO_BOLD_FONT);
     }
 
     public void showStartScreen() {

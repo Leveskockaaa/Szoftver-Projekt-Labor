@@ -1,6 +1,7 @@
 package util;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -17,6 +18,7 @@ public class StyledButton extends BasicButtonUI {
         AbstractButton button = (AbstractButton) component;
         button.setOpaque(false);
         button.setBorder(new EmptyBorder(5, 15, 5, 15));
+        button.setFont(new Font(FontStyles.JETBRAINS_MONO_FONT, Font.BOLD, FontStyles.FONT_SIZE_MEDIUM));
     }
 
     @Override
@@ -34,6 +36,10 @@ public class StyledButton extends BasicButtonUI {
         graphics.fillRoundRect(0, yOffset, size.width, size.height - yOffset, 10, 10);
         graphics.setColor(component.getBackground());
         graphics.fillRoundRect(0, yOffset, size.width, size.height + yOffset - 5, 10, 10);
+    }
+
+    public static StyledButton getInstance() {
+        return new StyledButton();
     }
 }
 

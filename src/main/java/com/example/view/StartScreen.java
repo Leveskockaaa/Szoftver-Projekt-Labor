@@ -3,15 +3,16 @@ package com.example.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import com.example.model.Main;
-
 import util.Colors;
+import util.FontStyles;
+import util.StyledButton;
 
 public class StartScreen extends JPanel {
     private final transient Object lock = new Object();
@@ -29,7 +30,7 @@ public class StartScreen extends JPanel {
         
         // Create title
         JLabel titleLabel = new JLabel("Character Selection", SwingConstants.CENTER);
-        titleLabel.setFont(Main.getJetBrainsFontTitle());
+        titleLabel.setFont(new Font(FontStyles.JETBRAINS_MONO_FONT, Font.PLAIN, FontStyles.FONT_SIZE_LARGE));
         this.add(titleLabel, BorderLayout.CENTER);
         
         // Create start button
@@ -37,8 +38,7 @@ public class StartScreen extends JPanel {
         startButton.setPreferredSize(new Dimension(450, 120));
         startButton.setForeground(Color.WHITE);
         startButton.setBackground(new Color(Colors.BLUE));
-        startButton.setUI(Main.getStyledButton());
-        startButton.setFont(Main.getJetBrainsFontBold());
+        startButton.setUI(StyledButton.getInstance());
         
         // Center the button this
         JPanel buttonPanel = new JPanel();

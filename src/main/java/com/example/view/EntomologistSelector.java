@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
@@ -12,9 +13,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import com.example.model.Main;
-
 import util.Colors;
+import util.FontStyles;
+import util.StyledButton;
 
 public class EntomologistSelector extends JPanel {
     private final transient Object lock = new Object();
@@ -43,7 +44,7 @@ public class EntomologistSelector extends JPanel {
         // Header
         String header = "Choose a color for Entomologist";
         JLabel titleLabel = new JLabel(header, SwingConstants.CENTER);
-        titleLabel.setFont(Main.getJetBrainsFontBold());
+        titleLabel.setFont(new Font(FontStyles.JETBRAINS_MONO_FONT, Font.PLAIN, FontStyles.FONT_SIZE_LARGE));
         this.add(titleLabel, BorderLayout.NORTH);
         
         // Main content panel
@@ -61,7 +62,7 @@ public class EntomologistSelector extends JPanel {
             final String colorName = colorNames[i];
             
             JButton button = new JButton(colorName);
-            button.setUI(Main.getStyledButton());
+            button.setUI(StyledButton.getInstance());
             button.setBackground(color);
             button.setForeground(Color.WHITE);
             button.addActionListener(event -> {

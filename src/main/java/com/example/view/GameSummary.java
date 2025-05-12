@@ -3,6 +3,7 @@ package com.example.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.util.List;
 
@@ -11,7 +12,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import com.example.model.Main;
+import util.FontStyles;
+import util.StyledButton;
 
 public class GameSummary extends JPanel {
     private final transient Object lock = new Object();
@@ -34,7 +36,7 @@ public class GameSummary extends JPanel {
     private void setupUI() {
         // Title at the top
         JLabel titleLabel = new JLabel("Start Game", SwingConstants.CENTER);
-        titleLabel.setFont(Main.getJetBrainsFontTitle());
+        titleLabel.setFont(new Font(FontStyles.JETBRAINS_MONO_FONT, Font.PLAIN, FontStyles.FONT_SIZE_LARGE));
         this.add(titleLabel, BorderLayout.NORTH);
 
         // Central panel for character selection (2x2 grid)
@@ -46,12 +48,12 @@ public class GameSummary extends JPanel {
         mycologistsColumn.setBackground(Color.WHITE);
         
         JLabel firstMycologistLabel = new JLabel("1st Mycologist", SwingConstants.CENTER);
-        firstMycologistLabel.setFont(Main.getJetBrainsFont());
+        firstMycologistLabel.setFont(new Font(FontStyles.JETBRAINS_MONO_FONT, Font.PLAIN, FontStyles.FONT_SIZE_LARGE));
         mycologistsColumn.add(firstMycologistLabel);
         
         JButton firstMycologistButton = new JButton(selectedMycologists.get(0));
         firstMycologistButton.setMaximumSize(new Dimension(500, 200));
-        firstMycologistButton.setUI(Main.getStyledButton());
+        firstMycologistButton.setUI(StyledButton.getInstance());
         mycologistsColumn.add(firstMycologistButton);
         
         characterPanel.add(mycologistsColumn);
@@ -61,13 +63,13 @@ public class GameSummary extends JPanel {
         insectsColumn.setBackground(Color.WHITE);
         
         JLabel firstInsectLabel = new JLabel("1st Insect", SwingConstants.CENTER);
-        firstInsectLabel.setFont(Main.getJetBrainsFont());
+        firstInsectLabel.setFont(new Font(FontStyles.JETBRAINS_MONO_FONT, Font.PLAIN, FontStyles.FONT_SIZE_LARGE));
         insectsColumn.add(firstInsectLabel);
         
         JButton firstInsectButton = new JButton();
         firstInsectButton.setBackground(selectedInsectColors.get(0));
         firstInsectButton.setMaximumSize(new Dimension(500, 200));
-        firstInsectButton.setUI(Main.getStyledButton());
+        firstInsectButton.setUI(StyledButton.getInstance());
         insectsColumn.add(firstInsectButton);
         
         characterPanel.add(insectsColumn);
@@ -77,12 +79,12 @@ public class GameSummary extends JPanel {
         secondMycologistsColumn.setBackground(Color.WHITE);
         
         JLabel secondMycologistLabel = new JLabel("2nd Mycologist", SwingConstants.CENTER);
-        secondMycologistLabel.setFont(Main.getJetBrainsFont());
+        secondMycologistLabel.setFont(new Font(FontStyles.JETBRAINS_MONO_FONT, Font.PLAIN, FontStyles.FONT_SIZE_LARGE));
         secondMycologistsColumn.add(secondMycologistLabel);
         
         JButton secondMycologistButton = new JButton(selectedMycologists.get(1));
         secondMycologistButton.setMaximumSize(new Dimension(500, 200));
-        secondMycologistButton.setUI(Main.getStyledButton());
+        secondMycologistButton.setUI(StyledButton.getInstance());
         secondMycologistsColumn.add(secondMycologistButton);
         
         characterPanel.add(secondMycologistsColumn);
@@ -92,13 +94,13 @@ public class GameSummary extends JPanel {
         secondInsectsColumn.setBackground(Color.WHITE);
         
         JLabel secondInsectLabel = new JLabel("2nd Insect", SwingConstants.CENTER);
-        secondInsectLabel.setFont(Main.getJetBrainsFont());
+        secondInsectLabel.setFont(new Font(FontStyles.JETBRAINS_MONO_FONT, Font.PLAIN, FontStyles.FONT_SIZE_LARGE));
         secondInsectsColumn.add(secondInsectLabel);
         
         JButton secondInsectButton = new JButton();
         secondInsectButton.setBackground(selectedInsectColors.get(1));
         secondInsectButton.setMaximumSize(new Dimension(500, 200));
-        secondInsectButton.setUI(Main.getStyledButton());
+        secondInsectButton.setUI(StyledButton.getInstance());
         secondInsectsColumn.add(secondInsectButton);
         
         characterPanel.add(secondInsectsColumn);
@@ -108,7 +110,7 @@ public class GameSummary extends JPanel {
         // Start Game button at the bottom
         JButton startGameButton = new JButton("Start Game");
         startGameButton.setPreferredSize(new Dimension(450, 120));
-        startGameButton.setUI(Main.getStyledButton());
+        startGameButton.setUI(StyledButton.getInstance());
         startGameButton.addActionListener(e -> {
             synchronized (lock) {
                 lock.notifyAll();
