@@ -5,8 +5,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -62,16 +60,13 @@ public class MycologistSelector extends JFrame {
             button.setForeground(Color.WHITE);
             button.setBackground(new Color(Colors.GREEN));
             button.setUI(Main.getStyledButton());
-            button.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    selectedMushroomBodyType = type;
+            button.addActionListener(event -> {
+                selectedMushroomBodyType = type;
 
-                    synchronized (lock) {
-                        lock.notifyAll();
-                    }
-                    dispose();
+                synchronized (lock) {
+                    lock.notifyAll();
                 }
+                dispose();
             });
             selectionPanel.add(button);
         }
@@ -81,17 +76,6 @@ public class MycologistSelector extends JFrame {
         
         setContentPane(panel);
     }
-    
-    // public void setSelectedMushrooms(List<String> mushrooms) {
-    //     this.selectedMushrooms.clear();
-    //     this.selectedMushrooms.addAll(mushrooms);
-    //     Main.setSelectedMushrooms(selectedMushrooms);
-        
-    //     // Update the header text
-    //     JPanel contentPane = (JPanel) getContentPane();
-    //     JLabel titleLabel = (JLabel) ((BorderLayout) contentPane.getLayout()).getLayoutComponent(BorderLayout.NORTH);
-    //     titleLabel.setText("Choose a mushroom type for Mycologist " + (selectedMushrooms.size() + 1));
-    // }
 
     public String getSelectedMushroomBodyType() {
         return selectedMushroomBodyType;

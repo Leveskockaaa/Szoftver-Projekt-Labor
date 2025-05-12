@@ -2,7 +2,6 @@ package com.example.model;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.UIManager;
@@ -18,63 +17,27 @@ import util.StyledButton;
  * A fő osztály, amely a program belépési pontját tartalmazza.
  */
 public class Main {
-    // These lists will store the selected mushroom types and insect colors
-    private static List<String> selectedMushroomBodyTypes = new ArrayList<>();
-    private static List<Color> selectedInsectColors = new ArrayList<>();
-    
     // Fonts and UI elements that will be shared across screens
     private static final String jetBrainsMonoFont = "JetBrains Mono";
     private static final Font jetBrainsFont = new Font(jetBrainsMonoFont, Font.BOLD, 30);
     private static final Font jetBrainsFontBold = new Font(jetBrainsMonoFont, Font.BOLD, 36);
     private static final Font jetBrainsFontTitle = new Font(jetBrainsMonoFont, Font.BOLD, 48);
     private static final StyledButton styledButton = new StyledButton();
-    
     public static void main(String[] args) {
         // Set UI font for the entire application
         setUIFont();
-        
-        StartScreen startScreen = new StartScreen();
-        startScreen.setVisible(true);
 
-        try {
-            synchronized (startScreen.getLock()) {
-                startScreen.getLock().wait();
-            }
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            e.printStackTrace();
-        }
+        showStartScreen();
 
+        String firstMycologist = selectMycologistType();
+        String secondMycologist = selectMycologistType();
+        System.out.println("Selected Mushroom Body Types: " + firstMycologist + ", " + secondMycologist);
 
-        MycologistSelector firstMycologistSelector = new MycologistSelector();
-        firstMycologistSelector.setVisible(true);
+        Color firstInsectColor = selectInsectColor();
+        Color secondInsectColor = selectInsectColor();
+        System.out.println("Selected Insect Colors: " + firstInsectColor + ", " + secondInsectColor);
 
-        try {
-            synchronized (firstMycologistSelector.getLock()) {
-                firstMycologistSelector.getLock().wait();
-            }
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            e.printStackTrace();
-        }
-
-        String firstMushroomBodyType = firstMycologistSelector.getSelectedMushroomBodyType();
-
-        MycologistSelector secondMycologistSelector = new MycologistSelector();
-        secondMycologistSelector.setVisible(true);
-
-        try {
-            synchronized (secondMycologistSelector.getLock()) {
-                secondMycologistSelector.getLock().wait();
-            }
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            e.printStackTrace();
-        }
-
-        String secondMushroomBodyType = firstMycologistSelector.getSelectedMushroomBodyType();
-
-        System.out.println("Selected Mushroom Body Types: " + firstMushroomBodyType + ", " + secondMushroomBodyType);
+        showGameSummary(List.of(firstMycologist, secondMycologist), List.of(firstInsectColor, secondInsectColor));
     }
     
     // Set JetBrains Mono font for all UI components
@@ -87,58 +50,65 @@ public class Main {
         UIManager.put("RadioButton.font", jetBrainsFont);
         UIManager.put("TitledBorder.font", jetBrainsFontBold);
     }
-    
-    // Method to proceed to mycologist selection
-    public static void startMycologistSelection() {
-        // Clear previous selections when starting a new game
-        selectedMushroomBodyTypes.clear();
-        selectedInsectColors.clear();
-        
-        MycologistSelector mycologistSelector = new MycologistSelector();
-        mycologistSelector.setVisible(true);
-    }
 
-    public static void setSelectedMushrooms(List<String> mushrooms) {
-        selectedMushroomBodyTypes.addAll(mushrooms);
-    }
-    
-    // Method to proceed to entomologist selection with mushroom selections
-    public static void startEntomologistSelection(List<String> mushroomTypes) {
-        // Store the selected mushroom types
-        selectedMushroomBodyTypes.addAll(mushroomTypes);
-        
-        EntomologistSelector entomologistSelector = new EntomologistSelector();
-        entomologistSelector.setVisible(true);
-    }
-
-    public static void setSelectedInsectColors(List<Color> insectColors) {
-        selectedInsectColors.addAll(insectColors);
-    }
-    
-    // Method to proceed to game summary with color selections
-    public static void startGameSummary(List<Color> insectColors) {
-        // Store the selected insect colors
-        selectedInsectColors.addAll(insectColors);
-        
-        GameSummary gameSummary = new GameSummary(selectedMushroomBodyTypes, selectedInsectColors);
-        gameSummary.setVisible(true);
-    }
-    
-    // Method to start the actual game after summary
-    public static void startGame() {
-        // This is where you would start the actual game using the selected characters
-        // For now, we just go back to the start screen
+    private static void showStartScreen() {
         StartScreen startScreen = new StartScreen();
         startScreen.setVisible(true);
+
+        try {
+            synchronized (startScreen.getLock()) {
+                startScreen.getLock().wait();
+            }
+        } catch (InterruptedException exception) {
+            Thread.currentThread().interrupt();
+            System.err.println("An error occurred while waiting for the start screen lock: " + exception.getMessage());
+        }
     }
-    
-    // Getter methods to access selections from other parts of the application
-    public static List<String> getSelectedMushroomBodyTypes() {
-        return selectedMushroomBodyTypes;
+
+    private static String selectMycologistType() {
+        MycologistSelector mycologistSelector = new MycologistSelector();
+        mycologistSelector.setVisible(true);
+
+        try {
+            synchronized (mycologistSelector.getLock()) {
+                mycologistSelector.getLock().wait();
+            }
+        } catch (InterruptedException exception) {
+            Thread.currentThread().interrupt();
+            System.err.println("An error occurred while waiting for the start screen lock: " + exception.getMessage());
+        }
+
+        return mycologistSelector.getSelectedMushroomBodyType();
     }
-    
-    public static List<Color> getSelectedInsectColors() {
-        return selectedInsectColors;
+
+    private static Color selectInsectColor() {
+        EntomologistSelector entomologistSelector = new EntomologistSelector();
+        entomologistSelector.setVisible(true);
+
+        try {
+            synchronized (entomologistSelector.getLock()) {
+                entomologistSelector.getLock().wait();
+            }
+        } catch (InterruptedException exception) {
+            Thread.currentThread().interrupt();
+            System.err.println("An error occurred while waiting for the start screen lock: " + exception.getMessage());
+        }
+
+        return entomologistSelector.getSelectedColor();
+    }
+
+    private static void showGameSummary(List<String> selectedMycologists, List<Color> selectedInsectColors) {
+        GameSummary gameSummary = new GameSummary(selectedMycologists, selectedInsectColors);
+        gameSummary.setVisible(true);
+
+        try {
+            synchronized (gameSummary.getLock()) {
+                gameSummary.getLock().wait();
+            }
+        } catch (InterruptedException exception) {
+            Thread.currentThread().interrupt();
+            System.err.println("An error occurred while waiting for the start screen lock: " + exception.getMessage());
+        }
     }
     
     // Method to get shared UI components

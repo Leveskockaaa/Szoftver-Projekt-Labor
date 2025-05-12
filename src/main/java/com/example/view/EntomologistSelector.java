@@ -5,8 +5,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +20,8 @@ import com.example.model.Main;
 import util.Colors;
 
 public class EntomologistSelector extends JFrame {
-    private final List<Color> selectedColors = new ArrayList<>();
+    private final transient Object lock = new Object();
+    private Color selectedColor;
     private final List<String> selectedEntomologists = new ArrayList<>();
     
     // Entomologist colors
@@ -45,12 +44,16 @@ public class EntomologistSelector extends JFrame {
         
         setupUI();
     }
+
+    public Object getLock() {
+        return lock;
+    }
     
     private void setupUI() {
         JPanel panel = new JPanel(new BorderLayout());
         
         // Header
-        String header = "Choose a color for Entomologist " + (selectedColors.size() + 1);
+        String header = "Choose a color for Entomologist";
         JLabel titleLabel = new JLabel(header, SwingConstants.CENTER);
         titleLabel.setFont(Main.getJetBrainsFontBold());
         panel.add(titleLabel, BorderLayout.NORTH);
@@ -73,25 +76,14 @@ public class EntomologistSelector extends JFrame {
             button.setUI(Main.getStyledButton());
             button.setBackground(color);
             button.setForeground(Color.WHITE);
-            button.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    selectedEntomologists.add("Entomologist");
-                    selectedColors.add(color);
-                    
-                    // If we've selected 2 colors, proceed to next screen
-                    if (selectedColors.size() >= 2) {
-                        dispose(); // Close this window
-                        Main.startGameSummary(selectedColors);
-                    } else {
-                        // Otherwise refresh this screen for next selection
-                        dispose();
-                        EntomologistSelector nextSelector = new EntomologistSelector();
-                        nextSelector.setSelectedColors(selectedColors);
-                        nextSelector.setSelectedEntomologists(selectedEntomologists);
-                        nextSelector.setVisible(true);
-                    }
+            button.addActionListener(event -> {
+                selectedEntomologists.add("Entomologist");
+                selectedColor = color;
+
+                synchronized (lock) {
+                    lock.notifyAll();
                 }
+                dispose();
             });
             selectionPanel.add(button);
         }
@@ -102,19 +94,7 @@ public class EntomologistSelector extends JFrame {
         setContentPane(panel);
     }
     
-    public void setSelectedColors(List<Color> colors) {
-        this.selectedColors.clear();
-        this.selectedColors.addAll(colors);
-        Main.setSelectedInsectColors(selectedColors);
-        
-        // Update the header text
-        JPanel contentPane = (JPanel) getContentPane();
-        JLabel titleLabel = (JLabel) ((BorderLayout) contentPane.getLayout()).getLayoutComponent(BorderLayout.NORTH);
-        titleLabel.setText("Choose a color for Entomologist " + (selectedColors.size() + 1));
-    }
-    
-    public void setSelectedEntomologists(List<String> entomologists) {
-        this.selectedEntomologists.clear();
-        this.selectedEntomologists.addAll(entomologists);
+    public Color getSelectedColor() {
+        return selectedColor;
     }
 }

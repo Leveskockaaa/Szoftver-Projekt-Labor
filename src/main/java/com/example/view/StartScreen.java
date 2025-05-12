@@ -3,8 +3,6 @@ package com.example.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -57,14 +55,11 @@ public class StartScreen extends JFrame {
         panel.add(buttonPanel, BorderLayout.SOUTH);
         
         // Button event handler
-        startButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                synchronized (lock) {
-                    lock.notifyAll();
-                }
-                dispose(); // Close this window
+        startButton.addActionListener(event -> {
+            synchronized (lock) {
+                lock.notifyAll();
             }
+            dispose();
         });
         
         // Set panel to window
