@@ -2,74 +2,76 @@ package com.example.model;
 
 import com.example.Controller;
 
-import java.io.IOException;
-import java.util.*;
+import javax.swing.*;
+import java.awt.*;
 
-/**
- * A fő osztály, amely a program belépési pontját tartalmazza.
- */
 public class Main {
-    static Controller controller = new Controller();
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
+        // Create a JFrame to test key handling
+        JFrame frame = new JFrame("Controller Key Handling Test");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(400, 300);
+        frame.setLayout(new BorderLayout());
 
-        Scanner scanner = new Scanner(System.in);
-        Controller.setScanner(scanner);
-        System.out.println("Would you like to start the program in game mode or test mode?");
-        System.out.println("1. Game mode");
-        System.out.println("2. Test mode");
-        boolean modeSet = false;
-        String mode = "";
-        while (!modeSet) {
-            mode = scanner.nextLine();
-            if (Objects.equals(mode, "1")){
-                Controller.setTestMode(false);
-                Controller.setIsRandomOn(true);
-                modeSet = true;
-            } else if (Objects.equals(mode, "2")){
-                Controller.setTestMode(true);
-                Controller.setIsRandomOn(false);
-                modeSet = true;
-            } else {
-                System.out.println("Invalid input. Please enter 1 for game mode or 2 for test mode.");
-            }
-        }
-        while (true) {
-            if (Objects.equals(mode, "1")) {
-                if(scanner.hasNextLine()){
-                    String nextCommand = scanner.nextLine();
-                    if (nextCommand.equalsIgnoreCase("exit")) {
-                        break;
-                    }
-                    try {
-                        controller.runCommand(nextCommand);
-                    } catch (AssertionError e) {
-                        System.out.println("Invalid command: " + nextCommand);
-                    }
-                }
-            } else if (Objects.equals(mode, "2")) {
-                List<String> tests = controller.initTests("src/main/resources/test-cases.txt");
+        // Create a label to display key press information
+        JLabel label = new JLabel("Press keys to test key handling...", SwingConstants.CENTER);
+        frame.add(label, BorderLayout.CENTER);
 
-                for (int i = 0; i < tests.size(); i++) {
-                    System.out.println((i + 1) + ". teszt: " + tests.get(i));
-                }
-                String testCaseNumber = scanner.nextLine();
-                int testCaseNumberInt;
-                if (testCaseNumber.equals("exit")) {
-                    break;
-                } else {
-                    try {
-                        testCaseNumberInt = Integer.parseInt(testCaseNumber);
-                    } catch (NumberFormatException e) {
-                        System.out.println("Invalid input. Please enter a number.");
-                        continue;
-                    }
-                }
-                controller.runTest(testCaseNumberInt);
-            }
-        }
-        scanner.close();
+        // Create an instance of the Controller
+        Controller controller = new Controller();
 
+        // Add the Controller as a KeyListener
+        frame.addKeyListener(controller);
+
+        // Make the frame visible
+        frame.setVisible(true);
     }
+}
+
+///**
+// * A fő osztály, amely a program belépési pontját tartalmazza.
+// */
+//public class Main {
+//    static Controller controller = new Controller();
+//    public static void main(String[] args) throws IOException {
+//
+//        Scanner scanner = new Scanner(System.in);
+//        System.out.println("Would you like to start the program in game mode or test mode?");
+//        System.out.println("1. Game mode");
+//        System.out.println("2. Test mode");
+//        boolean modeSet = false;
+//        String mode = "";
+//        while (!modeSet) {
+//            mode = scanner.nextLine();
+//            if (Objects.equals(mode, "1")){
+//                modeSet = true;
+//            } else if (Objects.equals(mode, "2")){
+//                modeSet = true;
+//            } else {
+//                System.out.println("Invalid input. Please enter 1 for game mode or 2 for test mode.");
+//            }
+//        }
+//        while (true) {
+//            if (Objects.equals(mode, "1")) {
+//                if(scanner.hasNextLine()){
+//                    String nextCommand = scanner.nextLine();
+//                    if (nextCommand.equalsIgnoreCase("exit")) {
+//                        break;
+//                    }
+//                    try {
+//                        controller.runCommand(nextCommand);
+//                    } catch (AssertionError e) {
+//                        System.out.println("Invalid command: " + nextCommand);
+//                    }
+//                }
+//            } else if (Objects.equals(mode, "2")) {
+//
+//                ;
+//            }
+//        }
+//        scanner.close();
+//
+//    }
 
 //    /**
 //     * Beolvassa a megadott fájlból a használati esetek listáját és visszaadja egy Mapet.
@@ -120,4 +122,4 @@ public class Main {
 //            System.out.println("Error executing method: " + exception.getMessage());
 //        }
 //    }
-}
+//}

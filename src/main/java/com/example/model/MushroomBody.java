@@ -46,14 +46,14 @@ public abstract class MushroomBody {
      */
     protected List<Mycelium> myceliums;
 
+
     /**
      * Konstruktor.
      * 
      * @param tecton A gombatesthez tartozó tekton.
      * @param mycologist A gombatesthez tartozó gombász.
      */
-    protected MushroomBody(Tecton tecton, Mycologist mycologist, String name) {
-        this.name = name;
+    protected MushroomBody(Tecton tecton, Mycologist mycologist) {
         this.mycologist = mycologist;
         this.tecton = tecton;
         this.superBody = false;
@@ -84,13 +84,14 @@ public abstract class MushroomBody {
         this.mycologist = mycologist;
     }
 
-    public abstract MushroomBody createMushroomBody(Tecton tecton, Mycologist mycologist, String name);
+    public abstract MushroomBody createMushroomBody(Tecton tecton, Mycologist mycologist);
 
     /**
      * Enables spore spread for this MushroomBody.
      */
-    public void enableSporeSpread() {
-        canSpreadSpores = true;
+    public void setSporeSpread(boolean in) {
+        System.out.println("Spore spread set to " + in);
+        this.canSpreadSpores = in;
     }
 
     /**
@@ -101,7 +102,7 @@ public abstract class MushroomBody {
     /**
      * Spreads spores.
      */
-    public abstract void spreadSpores();
+    public abstract boolean spreadSpores();
 
     /**
      * Determines if the MushroomBody can evolve.

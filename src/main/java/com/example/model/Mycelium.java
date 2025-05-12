@@ -54,8 +54,7 @@ public class Mycelium {
      * @param mycologist A gombafonálhoz tartozó gombász.
      * @param name A gombafonál neve.
      */
-    public Mycelium(Tecton tecton, Mycologist mycologist, String name) {
-        this.name = name;
+    public Mycelium(Tecton tecton, Mycologist mycologist) {
         this.canGrow = true;
         this.insectEaten = false;
         this.growthSpeed = 10;
@@ -130,7 +129,7 @@ public class Mycelium {
      * @param name A gombatest neve.
      * @return true, ha sikeresen kifejlesztett egy gombatestet, egyébként false.
      */
-    public boolean developMushroomBody(String name) {
+    public boolean developMushroomBody() {
         try {
             if (!canDevelop()) {
                 throw new IllegalArgumentException("Cannot develop mushroom body");
@@ -167,7 +166,13 @@ public class Mycelium {
      * Engedélyezi a gombatest növesztését.
      */
     public void enableGrowth() {
+        System.out.println("Growth enabled");
         canGrow = true;
+    }
+
+    public void disableGrowth() {
+        System.out.println("Growth disabled");
+        canGrow = false;
     }
 
     /**
@@ -181,7 +186,7 @@ public class Mycelium {
      * @return Ha sikerült átnőni, akkor az új gombafonál referenciája,
      * egyébként null.
      */
-    public Mycelium createNewBranch(Tecton tecton, String name) {
+    public Mycelium createNewBranch(Tecton tecton) {
         try {
             if (!canGrow && Controller.isRandomOn()) {
                 throw new IllegalArgumentException("Cannot grow");
@@ -197,7 +202,7 @@ public class Mycelium {
         }
 
         if (tecton.canAddMycelium()) {
-            Mycelium newMycelium = new Mycelium(tecton, mycologist, name);
+            Mycelium newMycelium = new Mycelium(tecton, mycologist);
 
             try {
                 tecton.addMycelium(newMycelium);
