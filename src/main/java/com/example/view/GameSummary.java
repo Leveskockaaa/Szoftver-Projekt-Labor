@@ -4,19 +4,16 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import com.example.model.Main;
 
-public class GameSummary extends JFrame {
+public class GameSummary extends JPanel {
     private final transient Object lock = new Object();
     private final List<String> selectedMycologists;
     private final List<Color> selectedInsectColors;
@@ -25,11 +22,8 @@ public class GameSummary extends JFrame {
         this.selectedMycologists = selectedMycologists;
         this.selectedInsectColors = selectedInsectColors;
 
-        // Basic window settings
-        setTitle("Game Summary");
-        setSize(1600, 900);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
+        setLayout(new BorderLayout(10, 10));
+        setBackground(Color.WHITE);
         setupUI();
     }
 
@@ -38,13 +32,10 @@ public class GameSummary extends JFrame {
     }
 
     private void setupUI() {
-        JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
-        mainPanel.setBackground(Color.WHITE);
-
         // Title at the top
         JLabel titleLabel = new JLabel("Start Game", SwingConstants.CENTER);
         titleLabel.setFont(Main.getJetBrainsFontTitle());
-        mainPanel.add(titleLabel, BorderLayout.NORTH);
+        this.add(titleLabel, BorderLayout.NORTH);
 
         // Central panel for character selection (2x2 grid)
         JPanel characterPanel = new JPanel(new GridLayout(2, 2, 10, 10));
@@ -112,27 +103,21 @@ public class GameSummary extends JFrame {
         
         characterPanel.add(secondInsectsColumn);
 
-        mainPanel.add(characterPanel, BorderLayout.CENTER);
+        this.add(characterPanel, BorderLayout.CENTER);
 
         // Start Game button at the bottom
         JButton startGameButton = new JButton("Start Game");
         startGameButton.setPreferredSize(new Dimension(450, 120));
         startGameButton.setUI(Main.getStyledButton());
-        startGameButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                synchronized (lock) {
-                    lock.notifyAll();
-                }
-                dispose();
+        startGameButton.addActionListener(e -> {
+            synchronized (lock) {
+                lock.notifyAll();
             }
         });
 
         JPanel bottomPanel = new JPanel();
         bottomPanel.setBackground(Color.WHITE);
         bottomPanel.add(startGameButton);
-        mainPanel.add(bottomPanel, BorderLayout.SOUTH);
-
-        setContentPane(mainPanel);
+        this.add(bottomPanel, BorderLayout.SOUTH);
     }
 }

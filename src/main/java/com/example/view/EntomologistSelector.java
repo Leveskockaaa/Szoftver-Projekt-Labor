@@ -5,12 +5,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -19,12 +16,10 @@ import com.example.model.Main;
 
 import util.Colors;
 
-public class EntomologistSelector extends JFrame {
+public class EntomologistSelector extends JPanel {
     private final transient Object lock = new Object();
     private Color selectedColor;
-    private final List<String> selectedEntomologists = new ArrayList<>();
     
-    // Entomologist colors
     private final Color[] colors = {
         new Color(Colors.RED),
         new Color(Colors.BLUE),
@@ -36,12 +31,7 @@ public class EntomologistSelector extends JFrame {
     private final String[] colorNames = {"Red", "Blue", "Green", "Yellow", "Orange", "Pink"};
     
     public EntomologistSelector() {
-        // Basic window settings
-        setTitle("Entomologist Selection");
-        setSize(1600, 900);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-        
+        setLayout(new BorderLayout());
         setupUI();
     }
 
@@ -50,13 +40,11 @@ public class EntomologistSelector extends JFrame {
     }
     
     private void setupUI() {
-        JPanel panel = new JPanel(new BorderLayout());
-        
         // Header
         String header = "Choose a color for Entomologist";
         JLabel titleLabel = new JLabel(header, SwingConstants.CENTER);
         titleLabel.setFont(Main.getJetBrainsFontBold());
-        panel.add(titleLabel, BorderLayout.NORTH);
+        this.add(titleLabel, BorderLayout.NORTH);
         
         // Main content panel
         JPanel contentPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -77,21 +65,17 @@ public class EntomologistSelector extends JFrame {
             button.setBackground(color);
             button.setForeground(Color.WHITE);
             button.addActionListener(event -> {
-                selectedEntomologists.add("Entomologist");
                 selectedColor = color;
 
                 synchronized (lock) {
                     lock.notifyAll();
                 }
-                dispose();
             });
             selectionPanel.add(button);
         }
         contentPanel.add(selectionPanel);
         
-        panel.add(contentPanel, BorderLayout.CENTER);
-        
-        setContentPane(panel);
+        this.add(contentPanel, BorderLayout.CENTER);
     }
     
     public Color getSelectedColor() {

@@ -8,7 +8,6 @@ import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -17,18 +16,13 @@ import com.example.model.Main;
 
 import util.Colors;
 
-public class MycologistSelector extends JFrame {
+public class MycologistSelector extends JPanel {
     private final transient Object lock = new Object();
     private String selectedMushroomBodyType;
     private final String[] mushroomTypes = {"Capulon", "Gilledon", "Hyphara", "Poralia"};
     
     public MycologistSelector() {
-        // Basic window settings
-        setTitle("Mycologist Selection");
-        setSize(1600, 900);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-        
+        setLayout(new BorderLayout());
         setupUI();
     }
     
@@ -37,13 +31,11 @@ public class MycologistSelector extends JFrame {
     }
 
     private void setupUI() {
-        JPanel panel = new JPanel(new BorderLayout());
-        
         // Header
         String header = "Choose a mushroom type for Mycologist";
         JLabel titleLabel = new JLabel(header, SwingConstants.CENTER);
         titleLabel.setFont(Main.getJetBrainsFontBold());
-        panel.add(titleLabel, BorderLayout.NORTH);
+        this.add(titleLabel, BorderLayout.NORTH);
         
         // Main content panel
         JPanel contentPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -66,15 +58,12 @@ public class MycologistSelector extends JFrame {
                 synchronized (lock) {
                     lock.notifyAll();
                 }
-                dispose();
             });
             selectionPanel.add(button);
         }
         contentPanel.add(selectionPanel);
         
-        panel.add(contentPanel, BorderLayout.CENTER);
-        
-        setContentPane(panel);
+        this.add(contentPanel, BorderLayout.CENTER);
     }
 
     public String getSelectedMushroomBodyType() {
