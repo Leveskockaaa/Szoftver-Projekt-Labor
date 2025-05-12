@@ -34,6 +34,9 @@ public class Controller implements KeyListener {
         mycologist1.addMycelium(new Mycelium(t, mycologist1));
         MushroomBody mushroomBody = new Hyphara(t, mycologist1);
 
+        mycologist2.addMycelium(new Mycelium(t, mycologist2));
+        mycologist2.addMycelium(new Mycelium(t, mycologist2));
+
         Tecton t2 = new Transix("Tecton2");
         Tecton t3 = new Transix("Tecton3");
         t.addTectonToNeighbors(t2);
@@ -128,8 +131,92 @@ public class Controller implements KeyListener {
                 System.out.println("Selected tecton for mycologist1 index: " + selectedTectonIndexM1);
             }
         }
-        
-        
+
+        // Spóra szórás mycologist2-nek
+        if (e.getKeyCode() == KeyEvent.VK_F) {
+            for (MushroomBody mushroomBody : mycologist2.getMushroomBodies()) {
+                boolean success = mushroomBody.spreadSpores();
+                if (success) {
+                    mushroomBody.setSporeSpread(false);
+                    timers.add(new Timer(15, () -> mushroomBody.setSporeSpread(true)));
+                }
+            }
+        }
+
+        // Supergomba fejlesztés mycologist2-nek
+        if (e.getKeyCode() == KeyEvent.VK_G) {
+            for (MushroomBody mushroomBody : mycologist2.getMushroomBodies()) {
+                mushroomBody.evolveSuper();
+            }
+        }
+
+        // Fonalból test növesztés mycologist2-nek
+        if (e.getKeyCode() == KeyEvent.VK_H) {
+            for (Mycelium mycelium : mycologist2.getMycelia()) {
+                mycelium.developMushroomBody();
+            }
+        }
+
+        // Fonal növesztés mycologist2-nek
+        if (e.getKeyCode() == KeyEvent.VK_T) {
+            List<Mycelium> mycelia = mycologist2.getMycelia();
+            if (!myceliumSelectionActiveM2 && !tectonSelectionActiveM2) {
+                // Start mycelium selection
+                myceliumSelectionActiveM2 = true;
+                selectedMyceliumIndexM2 = 0;
+                if (!mycelia.isEmpty()) {
+                    System.out.println("Selected mycelium for mycologist2 index: " + selectedMyceliumIndexM2);
+                }
+            } else if (myceliumSelectionActiveM2) {
+                // Finalize mycelium selection, start tecton selection
+                System.out.println("Finalized mycelium for mycologist2 index: " + selectedMyceliumIndexM2);
+                myceliumSelectionActiveM2 = false;
+                tectonSelectionActiveM2 = true;
+                selectedTectonIndexM2 = 0;
+                List<Tecton> neighbors = mycelia.get(selectedMyceliumIndexM2).getTecton().getNeighbors();
+                if (!neighbors.isEmpty()) {
+                    System.out.println("Selected tecton for mycologist2 index: " + selectedTectonIndexM2);
+                }
+            } else if (tectonSelectionActiveM2) {
+                // Finalize tecton selection
+                List<Tecton> neighbors = mycelia.get(selectedMyceliumIndexM2).getTecton().getNeighbors();
+                if (!neighbors.isEmpty()) {
+                    System.out.println("Finalized tecton for mycologist2 index: " + selectedTectonIndexM2);
+                    mycelia.get(selectedMyceliumIndexM2).createNewBranch(neighbors.get(selectedTectonIndexM2));
+                    System.out.println("Created new branch for mycologist2 at tecton index: " + selectedTectonIndexM2);
+                    mycelia.get(selectedMyceliumIndexM2).disableGrowth();
+                    int myceliumIndex = selectedMyceliumIndexM2; // capture current index
+                    timers.add(new Timer(10, new Runnable() {
+                        @Override
+                        public void run() {
+                            mycologist2.getMycelia().get(myceliumIndex).enableGrowth();
+                        }
+                    }));
+                }
+                tectonSelectionActiveM2 = false;
+                selectedTectonIndexM2 = -1;
+                selectedMyceliumIndexM2 = -1;
+            }
+        }
+
+        // Step through mycelia
+        if (e.getKeyCode() == KeyEvent.VK_Z && myceliumSelectionActiveM2) {
+            List<Mycelium> mycelia = mycologist2.getMycelia();
+            if (!mycelia.isEmpty()) {
+                selectedMyceliumIndexM2 = (selectedMyceliumIndexM2 + 1) % mycelia.size();
+                System.out.println("Selected mycelium for mycologist2 index: " + selectedMyceliumIndexM2);
+            }
+        }
+
+        // Step through tecton neighbors
+        if (e.getKeyCode() == KeyEvent.VK_Z && tectonSelectionActiveM2) {
+            List<Mycelium> mycelia = mycologist2.getMycelia();
+            List<Tecton> neighbors = mycelia.get(selectedMyceliumIndexM2).getTecton().getNeighbors();
+            if (!neighbors.isEmpty()) {
+                selectedTectonIndexM2 = (selectedTectonIndexM2 + 1) % neighbors.size();
+                System.out.println("Selected tecton for mycologist2 index: " + selectedTectonIndexM2);
+            }
+        }
     }
 
     @Override
