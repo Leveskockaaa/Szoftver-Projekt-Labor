@@ -7,6 +7,9 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import util.StyledButton;
+import util.Colors;
+
 public class CharacterSelector extends JFrame {
     private final List<String> selectedMushroomerTypes = new ArrayList<>();
     private final List<String> selectedInsectologists = new ArrayList<>();
@@ -14,31 +17,23 @@ public class CharacterSelector extends JFrame {
     
     // Mushroom types
     private final String[] mushroomTypes = {"Capulon", "Gilledon", "Hyphara", "Poralia"};
-    
-    // Used Catpuccin#Mocha colors
-    private static final int RED = 0xf38ba8;
-    private static final int BLUE = 0x89b4fa;
-    private static final int GREEN = 0xa6e3a1;
-    private static final int YELLOW = 0xf9e2af;
-    private static final int ORANGE = 0xfab387;
-    private static final int PINK = 0xf5c2e7;
 
     // Entomolgist colors
     private final Color[] colors = {
-        new Color(RED),
-        new Color(BLUE),
-        new Color(GREEN),
-        new Color(YELLOW),
-        new Color(ORANGE),
-        new Color(PINK)
+        new Color(Colors.RED),
+        new Color(Colors.BLUE),
+        new Color(Colors.GREEN),
+        new Color(Colors.YELLOW),
+        new Color(Colors.ORANGE),
+        new Color(Colors.PINK)
     };
     private final String[] colorNames = {"Red", "Blue", "Green", "Yellow", "Orange", "Pink"};
     
     // JetBrains Mono font
     String jetBrainsMonoFont = "JetBrains Mono";
-    private final Font jetBrainsFont = new Font(jetBrainsMonoFont, Font.PLAIN, 14);
-    private final Font jetBrainsFontBold = new Font(jetBrainsMonoFont, Font.BOLD, 18);
-    private final Font jetBrainsFontTitle = new Font(jetBrainsMonoFont, Font.BOLD, 24);
+    private final Font jetBrainsFont = new Font(jetBrainsMonoFont, Font.BOLD, 30);
+    private final Font jetBrainsFontBold = new Font(jetBrainsMonoFont, Font.BOLD, 36);
+    private final Font jetBrainsFontTitle = new Font(jetBrainsMonoFont, Font.BOLD, 48);
 
     private final StyledButton styledButton = new StyledButton();
     
@@ -58,7 +53,7 @@ public class CharacterSelector extends JFrame {
     
     // Set JetBrains Mono font for all UI components
     private void setUIFont() {
-        UIManager.put("Button.font", jetBrainsFontBold);
+        UIManager.put("Button.font", jetBrainsFont);
         UIManager.put("Label.font", jetBrainsFont);
         UIManager.put("TextField.font", jetBrainsFont);
         UIManager.put("ComboBox.font", jetBrainsFont);
@@ -79,9 +74,9 @@ public class CharacterSelector extends JFrame {
         
         // Create start button
         JButton startButton = new JButton("Start");
-        startButton.setPreferredSize(new Dimension(400, 100));
+        startButton.setPreferredSize(new Dimension(450, 120));
         startButton.setForeground(Color.WHITE);
-        startButton.setBackground(new Color(BLUE));
+        startButton.setBackground(new Color(Colors.BLUE));
         startButton.setUI(styledButton);
         startButton.setFont(jetBrainsFontBold);
         
@@ -118,8 +113,8 @@ public class CharacterSelector extends JFrame {
         
         // Header
         String header = selectedMushroomerTypes.size() < 2 ? 
-                "Choose a mushroom type for Mushroomer " + (selectedMushroomerTypes.size() + 1) : 
-                "Choose a color for Insectologist " + (selectedInsectologists.size() + 1);
+                "Choose a mushroom type for Mycologist " + (selectedMushroomerTypes.size() + 1) : 
+                "Choose a color for Entomologist " + (selectedInsectologists.size() + 1);
         
         JLabel titleLabel = new JLabel(header, SwingConstants.CENTER);
         titleLabel.setFont(jetBrainsFontBold);
@@ -133,13 +128,13 @@ public class CharacterSelector extends JFrame {
             // Panel for mushroom selection with fixed size
             JPanel selectionPanel = new JPanel();
             selectionPanel.setLayout(new GridLayout(2, 2, 10, 10)); // 2x2 grid with 10px gap
-            selectionPanel.setPreferredSize(new Dimension(420, 120)); // Control the overall size
+            selectionPanel.setPreferredSize(new Dimension(500, 200)); // Control the overall size
             
             // Display mushroom types
             for (final String type : mushroomTypes) {
                 JButton button = new JButton(type);
                 button.setForeground(Color.WHITE);
-                button.setBackground(new Color(GREEN));
+                button.setBackground(new Color(Colors.GREEN));
                 button.setUI(styledButton);
                 button.addActionListener(new ActionListener() {
                     @Override
@@ -169,7 +164,7 @@ public class CharacterSelector extends JFrame {
                 button.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        selectedInsectologists.add("Insectologist");
+                        selectedInsectologists.add("Entomologist ");
                         selectedColors.add(color);
                         showCharacterSelection();
                     }
@@ -199,19 +194,19 @@ public class CharacterSelector extends JFrame {
         
         // Mushroomer panel
         JPanel mushroomerPanel = new JPanel(new GridLayout(2, 1));
-        mushroomerPanel.setBorder(BorderFactory.createTitledBorder("Mushroomers"));
+        mushroomerPanel.setBorder(BorderFactory.createTitledBorder("Mycologists"));
         for (int i = 0; i < selectedMushroomerTypes.size(); i++) {
-            JLabel label = new JLabel("Mushroomer " + (i+1) + ": " + selectedMushroomerTypes.get(i));
+            JLabel label = new JLabel("Mycologist " + (i+1) + ": " + selectedMushroomerTypes.get(i));
             label.setFont(jetBrainsFont);
             mushroomerPanel.add(label);
         }
         
         // Insectologist panel
         JPanel insectologistPanel = new JPanel(new GridLayout(2, 1));
-        insectologistPanel.setBorder(BorderFactory.createTitledBorder("Insectologists"));
+        insectologistPanel.setBorder(BorderFactory.createTitledBorder("Entomologists"));
         for (int i = 0; i < selectedInsectologists.size(); i++) {
             JPanel insectologistInfo = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            JLabel label = new JLabel("Insectologist " + (i+1) + ": ");
+            JLabel label = new JLabel("Entomologist " + (i+1) + ": ");
             label.setFont(jetBrainsFont);
             
             JPanel colorPanel = new JPanel();
@@ -228,9 +223,10 @@ public class CharacterSelector extends JFrame {
         panel.add(infoPanel, BorderLayout.CENTER);
         
         // New game button
-        JButton newGameButton = new JButton("New Game");
-        newGameButton.setUI(styledButton);
-        newGameButton.addActionListener(new ActionListener() {
+        JButton startGameButton = new JButton("Start Game");
+        startGameButton.setPreferredSize(new Dimension(450, 120));
+        startGameButton.setUI(styledButton);
+        startGameButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 showStartScreen();
@@ -238,21 +234,11 @@ public class CharacterSelector extends JFrame {
         });
         
         JPanel buttonPanel = new JPanel();
-        buttonPanel.add(newGameButton);
+        buttonPanel.add(startGameButton);
         panel.add(buttonPanel, BorderLayout.SOUTH);
         
         setContentPane(panel);
         revalidate();
         repaint();
-    }
-    
-    public static void main(String[] args) {
-        // Run Swing application on EDT (Event Dispatch Thread)
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new CharacterSelector().setVisible(true);
-            }
-        });
     }
 }

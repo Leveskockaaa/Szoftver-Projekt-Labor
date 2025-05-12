@@ -1,123 +1,160 @@
 package com.example.model;
 
-import com.example.Controller;
+import java.awt.Color;
+import java.awt.Font;
+import java.util.ArrayList;
+import java.util.List;
 
-import java.io.IOException;
-import java.util.*;
+import javax.swing.UIManager;
+
+import com.example.view.EntomologistSelector;
+import com.example.view.GameSummary;
+import com.example.view.MycologistSelector;
+import com.example.view.StartScreen;
+
+import util.StyledButton;
 
 /**
  * A fő osztály, amely a program belépési pontját tartalmazza.
  */
 public class Main {
-    static Controller controller = new Controller();
-    public static void main(String[] args) throws IOException {
+    // These lists will store the selected mushroom types and insect colors
+    private static List<String> selectedMushroomBodyTypes = new ArrayList<>();
+    private static List<Color> selectedInsectColors = new ArrayList<>();
+    
+    // Fonts and UI elements that will be shared across screens
+    private static final String jetBrainsMonoFont = "JetBrains Mono";
+    private static final Font jetBrainsFont = new Font(jetBrainsMonoFont, Font.BOLD, 30);
+    private static final Font jetBrainsFontBold = new Font(jetBrainsMonoFont, Font.BOLD, 36);
+    private static final Font jetBrainsFontTitle = new Font(jetBrainsMonoFont, Font.BOLD, 48);
+    private static final StyledButton styledButton = new StyledButton();
+    
+    public static void main(String[] args) {
+        // Set UI font for the entire application
+        setUIFont();
+        
+        StartScreen startScreen = new StartScreen();
+        startScreen.setVisible(true);
 
-        Scanner scanner = new Scanner(System.in);
-        Controller.setScanner(scanner);
-        System.out.println("Would you like to start the program in game mode or test mode?");
-        System.out.println("1. Game mode");
-        System.out.println("2. Test mode");
-        boolean modeSet = false;
-        String mode = "";
-        while (!modeSet) {
-            mode = scanner.nextLine();
-            if (Objects.equals(mode, "1")){
-                Controller.setTestMode(false);
-                Controller.setIsRandomOn(true);
-                modeSet = true;
-            } else if (Objects.equals(mode, "2")){
-                Controller.setTestMode(true);
-                Controller.setIsRandomOn(false);
-                modeSet = true;
-            } else {
-                System.out.println("Invalid input. Please enter 1 for game mode or 2 for test mode.");
+        try {
+            synchronized (startScreen.getLock()) {
+                startScreen.getLock().wait();
             }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            e.printStackTrace();
         }
-        while (true) {
-            if (Objects.equals(mode, "1")) {
-                if(scanner.hasNextLine()){
-                    String nextCommand = scanner.nextLine();
-                    if (nextCommand.equalsIgnoreCase("exit")) {
-                        break;
-                    }
-                    try {
-                        controller.runCommand(nextCommand);
-                    } catch (AssertionError e) {
-                        System.out.println("Invalid command: " + nextCommand);
-                    }
-                }
-            } else if (Objects.equals(mode, "2")) {
-                List<String> tests = controller.initTests("src/main/resources/test-cases.txt");
 
-                for (int i = 0; i < tests.size(); i++) {
-                    System.out.println((i + 1) + ". teszt: " + tests.get(i));
-                }
-                String testCaseNumber = scanner.nextLine();
-                int testCaseNumberInt;
-                if (testCaseNumber.equals("exit")) {
-                    break;
-                } else {
-                    try {
-                        testCaseNumberInt = Integer.parseInt(testCaseNumber);
-                    } catch (NumberFormatException e) {
-                        System.out.println("Invalid input. Please enter a number.");
-                        continue;
-                    }
-                }
-                controller.runTest(testCaseNumberInt);
+
+        MycologistSelector firstMycologistSelector = new MycologistSelector();
+        firstMycologistSelector.setVisible(true);
+
+        try {
+            synchronized (firstMycologistSelector.getLock()) {
+                firstMycologistSelector.getLock().wait();
             }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            e.printStackTrace();
         }
-        scanner.close();
 
+        String firstMushroomBodyType = firstMycologistSelector.getSelectedMushroomBodyType();
+
+        MycologistSelector secondMycologistSelector = new MycologistSelector();
+        secondMycologistSelector.setVisible(true);
+
+        try {
+            synchronized (secondMycologistSelector.getLock()) {
+                secondMycologistSelector.getLock().wait();
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            e.printStackTrace();
+        }
+
+        String secondMushroomBodyType = firstMycologistSelector.getSelectedMushroomBodyType();
+
+        System.out.println("Selected Mushroom Body Types: " + firstMushroomBodyType + ", " + secondMushroomBodyType);
+    }
+    
+    // Set JetBrains Mono font for all UI components
+    private static void setUIFont() {
+        UIManager.put("Button.font", jetBrainsFont);
+        UIManager.put("Label.font", jetBrainsFont);
+        UIManager.put("TextField.font", jetBrainsFont);
+        UIManager.put("ComboBox.font", jetBrainsFont);
+        UIManager.put("CheckBox.font", jetBrainsFont);
+        UIManager.put("RadioButton.font", jetBrainsFont);
+        UIManager.put("TitledBorder.font", jetBrainsFontBold);
+    }
+    
+    // Method to proceed to mycologist selection
+    public static void startMycologistSelection() {
+        // Clear previous selections when starting a new game
+        selectedMushroomBodyTypes.clear();
+        selectedInsectColors.clear();
+        
+        MycologistSelector mycologistSelector = new MycologistSelector();
+        mycologistSelector.setVisible(true);
     }
 
-//    /**
-//     * Beolvassa a megadott fájlból a használati esetek listáját és visszaadja egy Mapet.
-//     *
-//     * @param filePath A fájl elérési útja, amely a használati eseteket tartalmazza.
-//     * @return Egy Map, amely a használati esetek nevét és a hozzájuk tartozó metódusneveket tartalmazza.
-//     * @throws IOException Ha hiba történik a fájl beolvasása közben.
-//     */
-//    private static Map<String, String> getUseCaseMap(String filePath) throws IOException {
-//        Map<String, String> useCaseMap = new LinkedHashMap<>();
-//        List<String> lines = Files.readAllLines(Path.of(filePath));
-//        for (String line : lines) {
-//            String[] parts = line.split(",", 2);
-//            String useCaseName = parts[0].trim();
-//            String methodName = (parts.length > 1 && !parts[1].trim().isEmpty()) ? parts[1].trim() : null;
-//            useCaseMap.put(useCaseName, methodName);
-//        }
-//        return useCaseMap;
-//    }
-//
-//    /**
-//     * Kiírja a konzolra az elérhető használati esetek listáját.
-//     *
-//     * @param useCaseMap A használati esetek nevét és a hozzájuk tartozó metódusneveket tartalmazó Map.
-//     */
-//    private static void printUseCases(Map<String,String> useCaseMap) {
-//        System.out.println("Available use cases:");
-//        int useCaseCount = 1;
-//        for (String useCase : useCaseMap.keySet()) {
-//            String format = useCaseCount < 10 ? "0" + useCaseCount : "" + useCaseCount;
-//            System.out.println(format + "\t" + useCase);
-//            useCaseCount++;
-//        }
-//    }
-//
-//    /**
-//     * Meghívja a Skeleton osztályban található metódust a megadott metódusnév alapján.
-//     *
-//     * @param methodName A meghívandó metódus neve.
-//     */
-//    private static void invokeSkeletonMethod(String methodName) {
-//        try {
-//            Class<?> skeletonClass = Skeleton.class;
-//            skeletonClass.getMethod(methodName).invoke(null);
-//        } catch (NoSuchMethodException exception) {
-//            System.out.println("No such method in Skeleton: " + methodName);
-//        } catch (Exception exception) {
-//            System.out.println("Error executing method: " + exception.getMessage());
-//        }
-//    }
+    public static void setSelectedMushrooms(List<String> mushrooms) {
+        selectedMushroomBodyTypes.addAll(mushrooms);
+    }
+    
+    // Method to proceed to entomologist selection with mushroom selections
+    public static void startEntomologistSelection(List<String> mushroomTypes) {
+        // Store the selected mushroom types
+        selectedMushroomBodyTypes.addAll(mushroomTypes);
+        
+        EntomologistSelector entomologistSelector = new EntomologistSelector();
+        entomologistSelector.setVisible(true);
+    }
+
+    public static void setSelectedInsectColors(List<Color> insectColors) {
+        selectedInsectColors.addAll(insectColors);
+    }
+    
+    // Method to proceed to game summary with color selections
+    public static void startGameSummary(List<Color> insectColors) {
+        // Store the selected insect colors
+        selectedInsectColors.addAll(insectColors);
+        
+        GameSummary gameSummary = new GameSummary(selectedMushroomBodyTypes, selectedInsectColors);
+        gameSummary.setVisible(true);
+    }
+    
+    // Method to start the actual game after summary
+    public static void startGame() {
+        // This is where you would start the actual game using the selected characters
+        // For now, we just go back to the start screen
+        StartScreen startScreen = new StartScreen();
+        startScreen.setVisible(true);
+    }
+    
+    // Getter methods to access selections from other parts of the application
+    public static List<String> getSelectedMushroomBodyTypes() {
+        return selectedMushroomBodyTypes;
+    }
+    
+    public static List<Color> getSelectedInsectColors() {
+        return selectedInsectColors;
+    }
+    
+    // Method to get shared UI components
+    public static Font getJetBrainsFont() {
+        return jetBrainsFont;
+    }
+    
+    public static Font getJetBrainsFontBold() {
+        return jetBrainsFontBold;
+    }
+    
+    public static Font getJetBrainsFontTitle() {
+        return jetBrainsFontTitle;
+    }
+    
+    public static StyledButton getStyledButton() {
+        return styledButton;
+    }
 }

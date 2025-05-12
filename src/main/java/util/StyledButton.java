@@ -1,4 +1,4 @@
-package com.example.view;
+package util;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -10,7 +10,7 @@ import javax.swing.JComponent;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.basic.BasicButtonUI;
 
-class StyledButton extends BasicButtonUI {
+public class StyledButton extends BasicButtonUI {
 
     @Override
     public void installUI (JComponent c) {
