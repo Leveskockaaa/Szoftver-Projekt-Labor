@@ -102,6 +102,10 @@ public abstract class Tecton {
         return size;
     }
 
+    public List<Spore> getSpores() {
+        return spores;
+    }
+
     /**
      * Visszaadja a szomszédos Tecton-ok halmazát.
      *

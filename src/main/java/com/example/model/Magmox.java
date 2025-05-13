@@ -32,6 +32,7 @@ public class Magmox extends Tecton {
      */
     public Magmox(TectonSize size, String name) {
         super(name);
+        this.size = size;
         maxMycelia = 1;
     }
 

@@ -7,7 +7,7 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
 
-public class SporesView implements Drawable {
+public class SporesView extends JPanel implements Drawable {
     private List<Spore> sporeList;
     private HashMap<String, Color> colorMap = new HashMap<>();
 
@@ -25,5 +25,10 @@ public class SporesView implements Drawable {
         // For example, you might use a graphics library to draw the spore shape
         // at the specified position with the given width, height, and rotation.
         ;
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+
     }
 }
