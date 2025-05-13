@@ -207,7 +207,7 @@ public class GameTable {
         roleInput.nextLine();
         System.out.println("Adja meg a rovar nevét!");
         String insectName = roleInput.nextLine();
-        Insect i1 = new Insect(e1, insectName);
+        Insect i1 = new Insect(e1);
         Controller.putToNameMap(i1, i1.getName());
         e1.addInsect(i1);
         e1.placeInitial(tectons.get(initialTecton));
@@ -217,7 +217,7 @@ public class GameTable {
         roleInput.nextLine();
         System.out.println("Adja meg a rovar nevét!");
         insectName = roleInput.nextLine();
-        Insect i2 = new Insect(e2, insectName);
+        Insect i2 = new Insect(e2);
         Controller.putToNameMap(i2, i2.getName());
         e2.addInsect(i2);
         e2.placeInitial(tectons.get(initialTecton));

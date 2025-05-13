@@ -61,6 +61,7 @@ public class Mycelium {
         this.tecton = tecton;
         this.mycologist = mycologist;
         this.myceliumConnections = new ArrayList<>();
+        tecton.addMycelium(this);
     }
 
     public String getName() {

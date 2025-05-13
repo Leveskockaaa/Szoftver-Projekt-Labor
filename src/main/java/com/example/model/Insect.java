@@ -55,9 +55,9 @@ public class Insect {
      *
      * @param entomologist Az entomológus, akihez a rovar tartozik.
      */
-    public Insect(Entomologist entomologist, String name) {
+    public Insect(Entomologist entomologist) {
         this.entomologist = entomologist;
-        this.name = name;
+        entomologist.addInsect(this);
         this.speed = 1.0f;
         this.canChewMycelium = true;
         this.canEat = true;
