@@ -1,76 +1,30 @@
 package com.example.model;
 
 import com.example.Controller;
+import com.example.view.Position;
+import com.example.view.TectonView;
 
 import java.io.IOException;
 import java.util.*;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.geom.Arc2D;
 
-/**
- * A fő osztály, amely a program belépési pontját tartalmazza.
- */
+import static com.example.model.TectonSize.GIANT;
+
 public class Main {
-    static Controller controller = new Controller();
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            JFrame frame = new JFrame("Divided Circles");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setSize(1200, 900);
 
-        Scanner scanner = new Scanner(System.in);
-        Controller.setScanner(scanner);
-        System.out.println("Would you like to start the program in game mode or test mode?");
-        System.out.println("1. Game mode");
-        System.out.println("2. Test mode");
-        boolean modeSet = false;
-        String mode = "";
-        while (!modeSet) {
-            mode = scanner.nextLine();
-            if (Objects.equals(mode, "1")){
-                Controller.setTestMode(false);
-                Controller.setIsRandomOn(true);
-                modeSet = true;
-            } else if (Objects.equals(mode, "2")){
-                Controller.setTestMode(true);
-                Controller.setIsRandomOn(false);
-                modeSet = true;
-            } else {
-                System.out.println("Invalid input. Please enter 1 for game mode or 2 for test mode.");
-            }
-        }
-        while (true) {
-            if (Objects.equals(mode, "1")) {
-                if(scanner.hasNextLine()){
-                    String nextCommand = scanner.nextLine();
-                    if (nextCommand.equalsIgnoreCase("exit")) {
-                        break;
-                    }
-                    try {
-                        controller.runCommand(nextCommand);
-                    } catch (AssertionError e) {
-                        System.out.println("Invalid command: " + nextCommand);
-                    }
-                }
-            } else if (Objects.equals(mode, "2")) {
-                List<String> tests = controller.initTests("src/main/resources/test-cases.txt");
-
-                for (int i = 0; i < tests.size(); i++) {
-                    System.out.println((i + 1) + ". teszt: " + tests.get(i));
-                }
-                String testCaseNumber = scanner.nextLine();
-                int testCaseNumberInt;
-                if (testCaseNumber.equals("exit")) {
-                    break;
-                } else {
-                    try {
-                        testCaseNumberInt = Integer.parseInt(testCaseNumber);
-                    } catch (NumberFormatException e) {
-                        System.out.println("Invalid input. Please enter a number.");
-                        continue;
-                    }
-                }
-                controller.runTest(testCaseNumberInt);
-            }
-        }
-        scanner.close();
-
+            TectonView t1 = new TectonView(new Magmox(GIANT, "Magmox"));
+            t1.draw(new Position(400, 400), 1.0f, frame);
+            frame.setVisible(true);
+        });
     }
-
+}
 //    /**
 //     * Beolvassa a megadott fájlból a használati esetek listáját és visszaadja egy Mapet.
 //     *
@@ -120,4 +74,4 @@ public class Main {
 //            System.out.println("Error executing method: " + exception.getMessage());
 //        }
 //    }
-}
+//}

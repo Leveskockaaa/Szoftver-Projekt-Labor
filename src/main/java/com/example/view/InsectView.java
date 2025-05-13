@@ -2,6 +2,7 @@ package com.example.view;
 
 import com.example.model.Insect;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class InsectView implements Drawable {
@@ -13,7 +14,7 @@ public class InsectView implements Drawable {
         this.color = Color.decode(insect.getColor());
     }
     @Override
-    public void draw(Position position, float scale) {
+    public void draw(Position position, float scale, JFrame frame) {
         // Implement the drawing logic for the mycelium here
         // For example, you might use a graphics library to draw the mycelium shape
         // at the specified position with the given width, height, and rotation.

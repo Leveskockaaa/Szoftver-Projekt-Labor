@@ -2,6 +2,7 @@ package com.example.view;
 
 import com.example.model.MushroomBody;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class MushroomBodyView implements Drawable {
@@ -26,7 +27,7 @@ public class MushroomBodyView implements Drawable {
         }
     }
     @Override
-    public void draw(Position position, float scale) {
+    public void draw(Position position, float scale, JFrame frame) {
         // Implement the drawing logic for the mycelium here
         // For example, you might use a graphics library to draw the mycelium shape
         // at the specified position with the given width, height, and rotation.

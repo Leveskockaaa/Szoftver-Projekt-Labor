@@ -98,6 +98,9 @@ public abstract class Tecton {
         mycelia = new ArrayList<>();
     }
 
+    public TectonSize getSize() {
+        return size;
+    }
 
     /**
      * Visszaadja a szomszédos Tecton-ok halmazát.
@@ -248,7 +251,7 @@ public abstract class Tecton {
      * Az s típusú spórából quantity darabot elvesz a
      * tektonról, azaz kiveszi őket a tektonon lévő spórák listájából.
      *
-     * @param spore    A spóra, amit el kell venni.
+     *
      * @param quantity A spórák száma, amit el kell venni.
      * @return true, ha sikeresen elvette a spórákat, különben false.
      */

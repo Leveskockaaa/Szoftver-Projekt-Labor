@@ -2,6 +2,7 @@ package com.example.view;
 
 import com.example.model.Spore;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
@@ -19,7 +20,7 @@ public class SporesView implements Drawable {
     }
 
 
-    public void draw(Position position, float scale) {
+    public void draw(Position position, float scale, JFrame frame) {
         // Implement the drawing logic for the spore here
         // For example, you might use a graphics library to draw the spore shape
         // at the specified position with the given width, height, and rotation.
