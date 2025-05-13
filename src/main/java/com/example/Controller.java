@@ -304,6 +304,8 @@ public class Controller implements KeyListener {
                     if (myceliums.contains(mycelium)) {
                         System.out.println("Chewing mycelium: " + mycelium.getName());
                         selectedInsectE1.chewMycelium(mycelium);
+                        selectedInsectE1.disableChewMycelium();
+                        timers.add(new Timer(10, () -> selectedInsectE1.enableToChewMycelium()));
                     }
                 }
                 chewTectonE1 = null;
