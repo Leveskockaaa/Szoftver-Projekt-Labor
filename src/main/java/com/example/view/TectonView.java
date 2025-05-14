@@ -48,7 +48,7 @@ import java.util.List;
 //    }
 //}
 
-public class TectonView extends JPanel implements Drawable {
+public class TectonView implements Drawable {
     private Tecton tecton;
     private Color color;
     private float scale = 1.0f;
@@ -63,8 +63,9 @@ public class TectonView extends JPanel implements Drawable {
 
 
 
-    public TectonView(Tecton tecton) {
+    public TectonView(Tecton tecton, Position position) {
         this.tecton = tecton;
+        this.position = position;
         switch (tecton.printType()) {
             case "Transix":
                 color = new Color(0xFE9C9D);
@@ -93,11 +94,12 @@ public class TectonView extends JPanel implements Drawable {
                 radius = 200;
                 break;
         }
+        this.sporeViews = new SporesView(tecton.getSpores());
         //mushroomBodyView = new MushroomBodyView(tecton.getMushroomBody());
     }
 
     @Override
-    public void draw(Position position, float scale, Graphics2D g2d) {
+    public void draw(float scale, Graphics2D g2d) {
         // Draw the circle outline
         g2d.setColor(Color.BLACK);
         g2d.drawOval(position.x, position.y, radius, radius);
@@ -135,34 +137,34 @@ public class TectonView extends JPanel implements Drawable {
             mushroomBodyColor = new Color(0x000000);
         }
         g2d.setColor(mushroomBodyColor);
-        g2d.fillOval(position.x + radius / 4, position.y + radius / 4, radius / 5, radius / 5);
+        if (mushroomBody != null) {
+            g2d.fillOval(position.x + radius / 4, position.y + radius / 4, radius / 5, radius / 5);
+        }
 
         // Draw the insects
-        for (InsectView insectView : insectViews) {
-            insectView.draw(new Position(position.x + radius / 4, position.y + radius / 4), scale, frame);
-        }
-
-        // Draw the mycelium
-        for (MyceliumView myceliumView : myceliumViews) {
-            myceliumView.draw(new Position(position.x + radius / 4, position.y + radius / 4), scale, frame);
-        }
-    }
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-
-
-
+//        for (InsectView insectView : insectViews) {
+//            insectView.draw(new Position(position.x + radius / 4, position.y + radius / 4), scale, frame);
+//        }
+//
+//        // Draw the mycelium
+//        for (MyceliumView myceliumView : myceliumViews) {
+//            myceliumView.draw(new Position(position.x + radius / 4, position.y + radius / 4), scale, frame);
+//        }
     }
 
     public void showSpores() {
-        // TODO: Implement the logic to show spores
+        this.sporeViews = new SporesView(tecton.getSpores());
     }
     public void hideSpores() {
-        // TODO: Implement the logic to hide spores
+        this.sporeViews = null;
+    }
+
+    public boolean isSelected(int x, int y) {
+        return x >= this.position.x && x <= this.position.x + 50 &&
+                y >= this.position.y && y <= this.position.y + 50;
+    }
+
+    public Tecton getTecton() {
+        return tecton;
     }
 }

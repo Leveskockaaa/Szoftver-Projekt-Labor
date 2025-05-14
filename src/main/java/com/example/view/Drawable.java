@@ -6,5 +6,5 @@ import java.awt.*;
 public interface Drawable {
 
 
-    public void draw(Position position, float scale, Graphics2D g2d);
+    public void draw (float scale, Graphics2D g2d);
 }
