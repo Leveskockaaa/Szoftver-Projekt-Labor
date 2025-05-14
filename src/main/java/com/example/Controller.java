@@ -36,6 +36,15 @@ public class Controller implements KeyListener {
     private int selectedTectonForChewIndexE1 = -1;
     private Tecton chewTectonE1 = null;
 
+    private int selectedInsectIndexE2 = -1;
+    private Insect selectedInsectE2 = null;
+
+    private boolean movementActiveE2 = false;
+    private int selectedTectonToMoveIndexE2 = -1;
+    private Tecton moveToTectonE2 = null;
+    private boolean chewActiveE2 = false;
+    private int selectedTectonForChewIndexE2 = -1;
+    private Tecton chewTectonE2 = null;
 
 
     public Controller() {
@@ -324,6 +333,101 @@ public class Controller implements KeyListener {
             if (!connections.isEmpty()) {
                 selectedTectonForChewIndexE1 = (selectedTectonForChewIndexE1 + 1) % connections.size();
                 System.out.println("Selected tecton for movement for entomilogist1 index: " + selectedTectonForChewIndexE1);
+            }
+        }
+
+        // Entomologist2 actions
+        if (e.getKeyCode() == KeyEvent.VK_OPEN_BRACKET) {
+            if (selectedInsectIndexE2 == -1) {
+                selectedInsectIndexE2 = 0;
+                selectedInsectE2 = entomologist2.getInsects().get(selectedInsectIndexE2);
+            }
+            selectedInsectE2.eatSpore();
+            selectedInsectE2.disableEating();
+            timers.add(new Timer(5, () -> selectedInsectE2.enableEating()));
+        }
+
+        if (e.getKeyCode() == KeyEvent.VK_CLOSE_BRACKET) {
+            if (selectedInsectIndexE2 == -1) {
+                selectedInsectIndexE2 = 0;
+            } else {
+                selectedInsectIndexE2 = (selectedInsectIndexE2 + 1) % entomologist2.getInsects().size();
+            }
+            System.out.println("Selected insect for entomologist2 index: " + selectedInsectIndexE2);
+            selectedInsectE2 = entomologist2.getInsects().get(selectedInsectIndexE2);
+        }
+
+        if (e.getKeyCode() == KeyEvent.VK_MINUS) {
+            List<Tecton> locations = new ArrayList<>();
+            List<Mycelium> mycelia = selectedInsectE2.getTecton().getMycelia();
+            for (Mycelium mycelium : mycelia) {
+                mycelium.getMyceliumConnections().forEach(myceliumConnection -> locations.add(myceliumConnection.getTecton()));
+            }
+            if (!movementActiveE2) {
+                // Start movement selection
+                movementActiveE2 = true;
+                selectedTectonToMoveIndexE2 = 0;
+                if (!locations.isEmpty()) {
+                    moveToTectonE2 = locations.get(selectedTectonToMoveIndexE2);
+                    System.out.println("Selected tecton for movement for entomilogist2 index: " + selectedTectonToMoveIndexE2);
+                }
+            } else if (movementActiveE2) {
+                // Finalize movement selection
+                System.out.println("Finalized tecton for movement for entomilogist2 index: " + selectedTectonToMoveIndexE2);
+                selectedInsectE2.moveTo(moveToTectonE2);
+                moveToTectonE2 = null;
+                movementActiveE2 = false;
+                selectedTectonToMoveIndexE2 = -1;
+            }
+        }
+
+        if (e.getKeyCode() == KeyEvent.VK_P) {
+            List<Tecton> connections = new ArrayList<>();
+            List<Mycelium> mycelia = selectedInsectE2.getTecton().getMycelia();
+            for (Mycelium mycelium : mycelia) {
+                mycelium.getMyceliumConnections().forEach(myceliumConnection -> connections.add(myceliumConnection.getTecton()));
+            }
+            if (!chewActiveE2) {
+                // Start chew selection
+                chewActiveE2 = true;
+                selectedTectonForChewIndexE2 = 0;
+                if (!connections.isEmpty()) {
+                    chewTectonE2 = connections.get(selectedTectonForChewIndexE2);
+                    System.out.println("Selected tecton for movement for entomilogist2 index: " + selectedTectonForChewIndexE2);
+                }
+            } else if (chewActiveE2) {
+                // Finalize movement selection
+                System.out.println("Finalized tecton for movement for entomilogist2 index: " + selectedTectonForChewIndexE2);
+                List<Mycelium> myceliums1 = chewTectonE2.getMycelia();
+                List<Mycelium> myceliums2 = selectedInsectE2.getTecton().getMycelia();
+                List<Mycelium> myceliums = new ArrayList<>();
+                for (Mycelium mycelium : myceliums2) {
+                    myceliums.addAll(mycelium.getMyceliumConnections());
+                }
+                for (Mycelium mycelium : myceliums1) {
+                    if (myceliums.contains(mycelium)) {
+                        System.out.println("Chewing mycelium: " + mycelium.getName());
+                        selectedInsectE2.chewMycelium(mycelium);
+                        selectedInsectE2.disableChewMycelium();
+                        timers.add(new Timer(10, () -> selectedInsectE2.enableToChewMycelium()));
+                    }
+                }
+                chewTectonE2 = null;
+                chewActiveE2 = false;
+                selectedTectonForChewIndexE2 = -1;
+            }
+        }
+
+        // Step through chew locations
+        if (e.getKeyCode() == KeyEvent.VK_EQUALS && chewActiveE2) {
+            List<Tecton> connections = new ArrayList<>();
+            List<Mycelium> mycelia = selectedInsectE2.getTecton().getMycelia();
+            for (Mycelium mycelium : mycelia) {
+                mycelium.getMyceliumConnections().forEach(myceliumConnection -> connections.add(myceliumConnection.getTecton()));
+            }
+            if (!connections.isEmpty()) {
+                selectedTectonForChewIndexE2 = (selectedTectonForChewIndexE2 + 1) % connections.size();
+                System.out.println("Selected tecton for movement for entomilogist2 index: " + selectedTectonForChewIndexE2);
             }
         }
     }
