@@ -13,16 +13,23 @@ public class Main {
 
     public static void main(String[] args) {
         mainFrame = new MainFrame();
+
+        // BEGIN - Character Selection
         mainFrame.showStartScreen();
 
+        // Get the two types of mushrooms
         String firstMycologist = mainFrame.showMycologistSelector();
         String secondMycologist = mainFrame.showMycologistSelector();
         System.out.println("Selected Mushroom Body Types: " + firstMycologist + ", " + secondMycologist);
 
+        // Get the two colors of insects
         Color firstInsectColor = mainFrame.showEntomologistSelector();
         Color secondInsectColor = mainFrame.showEntomologistSelector();
         System.out.println("Selected Insect Colors: " + firstInsectColor + ", " + secondInsectColor);
 
         mainFrame.showGameSummary(List.of(firstMycologist, secondMycologist), List.of(firstInsectColor, secondInsectColor));
+        // END - Character Selection
+
+
     }
 }

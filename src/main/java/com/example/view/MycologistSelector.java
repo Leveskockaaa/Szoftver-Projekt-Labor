@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
@@ -20,7 +19,7 @@ import util.StyledButton;
 public class MycologistSelector extends JPanel {
     private final transient Object lock = new Object();
     private String selectedMushroomBodyType;
-    private final String[] mushroomTypes = {"Capulon", "Gilledon", "Hyphara", "Poralia"};
+    private final String[] mushroomTypes = { "Capulon", "Gilledon", "Hyphara", "Poralia" };
     
     public MycologistSelector() {
         setLayout(new BorderLayout());
@@ -35,7 +34,7 @@ public class MycologistSelector extends JPanel {
         // Header
         String header = "Choose a mushroom type for Mycologist";
         JLabel titleLabel = new JLabel(header, SwingConstants.CENTER);
-        titleLabel.setFont(new Font(FontStyles.JETBRAINS_MONO_FONT, Font.PLAIN, FontStyles.FONT_SIZE_LARGE));
+        titleLabel.setFont(FontStyles.getTitleFont());
         this.add(titleLabel, BorderLayout.NORTH);
         
         // Main content panel

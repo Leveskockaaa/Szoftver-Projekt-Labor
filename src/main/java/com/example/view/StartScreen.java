@@ -3,7 +3,6 @@ package com.example.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -28,19 +27,19 @@ public class StartScreen extends JPanel {
     private void setupUI() {
         this.setLayout(new BorderLayout());
         
-        // Create title
+        // Title
         JLabel titleLabel = new JLabel("Character Selection", SwingConstants.CENTER);
-        titleLabel.setFont(new Font(FontStyles.JETBRAINS_MONO_FONT, Font.PLAIN, FontStyles.FONT_SIZE_LARGE));
+        titleLabel.setFont(FontStyles.getTitleFont());
         this.add(titleLabel, BorderLayout.CENTER);
         
-        // Create start button
+        // Start button
         JButton startButton = new JButton("Start");
         startButton.setPreferredSize(new Dimension(450, 120));
         startButton.setForeground(Color.WHITE);
         startButton.setBackground(new Color(Colors.BLUE));
         startButton.setUI(StyledButton.getInstance());
         
-        // Center the button this
+        // Button panel
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(startButton);
         this.add(buttonPanel, BorderLayout.SOUTH);

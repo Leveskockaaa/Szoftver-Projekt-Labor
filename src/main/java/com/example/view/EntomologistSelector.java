@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
@@ -44,7 +43,7 @@ public class EntomologistSelector extends JPanel {
         // Header
         String header = "Choose a color for Entomologist";
         JLabel titleLabel = new JLabel(header, SwingConstants.CENTER);
-        titleLabel.setFont(new Font(FontStyles.JETBRAINS_MONO_FONT, Font.PLAIN, FontStyles.FONT_SIZE_LARGE));
+        titleLabel.setFont(FontStyles.getTitleFont());
         this.add(titleLabel, BorderLayout.NORTH);
         
         // Main content panel
