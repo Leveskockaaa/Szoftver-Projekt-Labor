@@ -30,6 +30,6 @@ public class Main {
         mainFrame.showGameSummary(List.of(firstMycologist, secondMycologist), List.of(firstInsectColor, secondInsectColor));
         // END - Character Selection
 
-
+        
     }
 }
