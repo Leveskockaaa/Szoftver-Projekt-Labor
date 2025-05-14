@@ -1,8 +1,9 @@
 package com.example.view;
 
-import com.example.model.MushroomBody;
+import java.awt.Color;
+import java.awt.Graphics2D;
 
-import java.awt.*;
+import com.example.model.MushroomBody;
 
 public class MushroomBodyView implements Drawable {
     private MushroomBody mushroomBody;
@@ -27,9 +28,12 @@ public class MushroomBodyView implements Drawable {
     }
     @Override
     public void draw(Position position, float scale) {
-        // Implement the drawing logic for the mycelium here
-        // For example, you might use a graphics library to draw the mycelium shape
-        // at the specified position with the given width, height, and rotation.
-        ;
+        // Compute the circle's diameter based on position dimensions and scale.
+        int diameter = (int)(Math.min(position.width, position.height) * scale);
+        // Assume position.x and position.y as circle top-left corner.
+        // Obtain the Graphics context 
+        Graphics2D g2d = (Graphics2D) FungoriumCanvas.getGraphics();
+        g2d.setColor(color);
+        g2d.fillOval(position.x, position.y, diameter, diameter);
     }
 }

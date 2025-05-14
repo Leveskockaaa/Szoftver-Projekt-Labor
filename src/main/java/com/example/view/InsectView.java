@@ -1,22 +1,25 @@
 package com.example.view;
 
-import com.example.model.Insect;
+import java.awt.Color;
+import java.awt.Graphics2D;
 
-import java.awt.*;
+import com.example.model.Insect;
 
 public class InsectView implements Drawable {
     private Insect insect;
-    private Color color;
+    private final Color color;
 
     public InsectView(Insect insect) {
         this.insect = insect;
         this.color = Color.decode(insect.getColor());
     }
+
     @Override
     public void draw(Position position, float scale) {
-        // Implement the drawing logic for the mycelium here
-        // For example, you might use a graphics library to draw the mycelium shape
-        // at the specified position with the given width, height, and rotation.
-        ;
+        Graphics2D g2d = (Graphics2D) FungoriumCanvas.getGraphics();
+        int ovalWidth = (int)(position.width * scale);
+        int ovalHeight = (int)(position.height * scale);
+        g2d.setColor(color);
+        g2d.fillOval(position.x, position.y, ovalWidth, ovalHeight);
     }
 }

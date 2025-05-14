@@ -1,8 +1,10 @@
 package com.example.view;
 
-import com.example.model.Mycelium;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 
-import java.awt.*;
+import com.example.model.Mycelium;
 
 public class MyceliumView implements Drawable {
     private Mycelium mycelium;
@@ -25,11 +27,26 @@ public class MyceliumView implements Drawable {
                 break;
         }
     }
+
     @Override
     public void draw(Position position, float scale) {
-        // Implement the drawing logic for the mycelium here
-        // For example, you might use a graphics library to draw the mycelium shape
-        // at the specified position with the given width, height, and rotation.
-        ;
+        Graphics2D g2d = (Graphics2D) FungoriumCanvas.getGraphics();
+        // Compute elongated rectangle dimensions (width is twice the height)
+        int rectWidth = (int)(position.width * scale * 2);
+        int rectHeight = (int)(position.height * scale);
+        // Save original transform
+        AffineTransform original = g2d.getTransform();
+        // Apply rotation around rectangle center if needed
+        if (position.rotation != 0) {
+            int centerX = position.x + rectWidth / 2;
+            int centerY = position.y + rectHeight / 2;
+            g2d.translate(centerX, centerY);
+            g2d.rotate(Math.toRadians(position.rotation));
+            g2d.translate(-centerX, -centerY);
+        }
+        g2d.setColor(color);
+        g2d.fillRect(position.x, position.y, rectWidth, rectHeight);
+        // Restore original transform
+        g2d.setTransform(original);
     }
 }
