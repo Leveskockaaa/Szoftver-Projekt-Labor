@@ -126,10 +126,10 @@ public class GameTable {
      */
     private MushroomBody chooseType(Tecton tecton, String type, Mycologist m, String name){
         MushroomBody mBody = switch (type.toLowerCase()) {
-            case "hyphara" -> new Hyphara(tecton, m, name);
-            case "gilledon" -> new Gilledon(tecton, m, name);
-            case "poralia" -> new Poralia(tecton, m, name);
-            case "capulon" -> new Capulon(tecton, m, name);
+            case "hyphara" -> new Hyphara(tecton, m);
+            case "gilledon" -> new Gilledon(tecton, m);
+            case "poralia" -> new Poralia(tecton, m);
+            case "capulon" -> new Capulon(tecton, m);
             default -> {
                 System.out.println("[ERROR] Nincs ilyen gombatest típus!");
                 yield null;
@@ -182,7 +182,7 @@ public class GameTable {
         System.out.println("Adja meg a gombatest nevét!");
         String mushroomName = roleInput.nextLine();
         chooseType(tectons.get(initialTecton), mushroomType, m1, mushroomName);
-        Mycelium my1 = new Mycelium(tectons.get(initialTecton), m1, m1.getName() + "_my_" + (m1.getMycelia().size() + 1));
+        Mycelium my1 = new Mycelium(tectons.get(initialTecton), m1);
         Controller.putToNameMap(my1, my1.getName());
         m1.addMycelium(my1);
         tectons.get(initialTecton).addMycelium(my1);
@@ -196,7 +196,7 @@ public class GameTable {
         System.out.println("Adja meg a gombatest nevét!");
         mushroomName = roleInput.nextLine();
         chooseType(tectons.get(initialTecton), mushroomType, m2, mushroomName);
-        Mycelium my2 = new Mycelium(tectons.get(initialTecton), m2, m2.getName() + "_my_" + (m2.getMycelia().size() + 1));
+        Mycelium my2 = new Mycelium(tectons.get(initialTecton), m2);
         Controller.putToNameMap(my2, my2.getName());
         m2.addMycelium(my2);
         tectons.get(initialTecton).addMycelium(my2);
@@ -207,7 +207,7 @@ public class GameTable {
         roleInput.nextLine();
         System.out.println("Adja meg a rovar nevét!");
         String insectName = roleInput.nextLine();
-        Insect i1 = new Insect(e1, insectName);
+        Insect i1 = new Insect(e1);
         Controller.putToNameMap(i1, i1.getName());
         e1.addInsect(i1);
         e1.placeInitial(tectons.get(initialTecton));
@@ -217,7 +217,7 @@ public class GameTable {
         roleInput.nextLine();
         System.out.println("Adja meg a rovar nevét!");
         insectName = roleInput.nextLine();
-        Insect i2 = new Insect(e2, insectName);
+        Insect i2 = new Insect(e2);
         Controller.putToNameMap(i2, i2.getName());
         e2.addInsect(i2);
         e2.placeInitial(tectons.get(initialTecton));

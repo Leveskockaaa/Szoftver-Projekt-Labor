@@ -11,8 +11,8 @@ public class Gilledon extends MushroomBody{
      * Gilledon osztály konstruktora.
      * @param tecton A tekton amire a gombatest kerül.
      */
-    public Gilledon(Tecton tecton, Mycologist mycologist, String name) {
-        super(tecton, mycologist, name);
+    public Gilledon(Tecton tecton, Mycologist mycologist) {
+        super(tecton, mycologist);
         sporeSpreadsLeft = 15;
     }
 
@@ -22,8 +22,8 @@ public class Gilledon extends MushroomBody{
      * @return Új Gilledon típusú gombatest.
      */
     @Override
-    public MushroomBody createMushroomBody(Tecton tecton, Mycologist mycologist, String name) {
-        return new Gilledon(tecton, mycologist, name);
+    public MushroomBody createMushroomBody(Tecton tecton, Mycologist mycologist) {
+        return new Gilledon(tecton, mycologist);
     }
 
     /**
@@ -31,7 +31,7 @@ public class Gilledon extends MushroomBody{
      * Gilledon spórákat szór.
      */
     @Override
-    public void spreadSpores() {
+    public boolean spreadSpores() {
         if(canSpreadSpores && sporeSpreadsLeft > 0) {
             if(superBody){
                 superSpreadSpores();
@@ -48,7 +48,9 @@ public class Gilledon extends MushroomBody{
                 mycologist.collect(this);
                 tecton.removeMushroomBody();
             }
+            return true;
         }
+        return false;
     }
 
     /**
@@ -98,7 +100,7 @@ public class Gilledon extends MushroomBody{
                 break;
             }
         }
-        return sporeCount >= 3 && my!= null && my.getMyceliumConnections().size() >= 3;
+        return !superBody && sporeCount >= 3 && my!= null && my.getMyceliumConnections().size() >= 3;
     }
 
     /**

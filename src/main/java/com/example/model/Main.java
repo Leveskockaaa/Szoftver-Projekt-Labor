@@ -22,6 +22,13 @@ public class Main {
             GamePanel gamePanel = new GamePanel();
             frame.add(gamePanel);
 
+            // Create an instance of the Controller
+            Controller controller = new Controller();
+
+            // Add the Controller as a KeyListener
+            frame.addKeyListener(controller);
+
+
             Magmox t1 = new Magmox(GIANT, "Magmox");
             TectonView tv1 = new TectonView(t1, new Position(200,200));
             Mycologist m1 = new Mycologist("Hyphara");

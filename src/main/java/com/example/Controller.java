@@ -1,29 +1,450 @@
 package com.example;
 import com.example.model.*;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.IOException;
-import java.nio.channels.FileChannel;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
+
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Scanner;
 
-public class Controller {
-    private static List<String> commandsList = new ArrayList<>();
-    private static final List<String> commandLog = new ArrayList<>();
+public class Controller implements KeyListener {
     private static HashMap<Object, String> nameMap = new HashMap<>();
-    private static int seconds;
-    private static boolean isRandomOn;
-    private static List<String> testCases = new ArrayList<>();
-    private static File folder = new File("src/test");
-    private static boolean isTestMode = false;
-    private static String logFilePath = "";
-    private static Scanner scanner;
+    private List<Timer> timers = new ArrayList<>();
+    private GameTable gameTable;
+    private Mycologist mycologist1 = new Mycologist("Mycologist1");
+    private Mycologist mycologist2 = new Mycologist("Mycologist2");
+    private Entomologist entomologist1 = new Entomologist("Entomologist1");
+    private Entomologist entomologist2 = new Entomologist("Entomologist2");
+    
+    private int selectedMyceliumIndexM1 = -1;
+    private boolean myceliumSelectionActiveM1 = false;
+    private boolean tectonSelectionActiveM1 = false;
+    private int selectedTectonIndexM1 = -1;
+
+    private int selectedMyceliumIndexM2 = -1;
+    private boolean myceliumSelectionActiveM2 = false;
+    private boolean tectonSelectionActiveM2 = false;
+    private int selectedTectonIndexM2 = -1;
+
+    private int selectedInsectIndexE1 = -1;
+    private Insect selectedInsectE1 = null;
+
+    private boolean movementActiveE1 = false;
+    private int selectedTectonToMoveIndexE1 = -1;
+    private Tecton moveToTectonE1 = null;
+    private boolean chewActiveE1 = false;
+    private int selectedTectonForChewIndexE1 = -1;
+    private Tecton chewTectonE1 = null;
+
+    private int selectedInsectIndexE2 = -1;
+    private Insect selectedInsectE2 = null;
+
+    private boolean movementActiveE2 = false;
+    private int selectedTectonToMoveIndexE2 = -1;
+    private Tecton moveToTectonE2 = null;
+    private boolean chewActiveE2 = false;
+    private int selectedTectonForChewIndexE2 = -1;
+    private Tecton chewTectonE2 = null;
+
+
+    public Controller() {
+        Tecton t = new Transix("Tecton1");
+        mycologist1.addMycelium(new Mycelium(t, mycologist1));
+        mycologist1.addMycelium(new Mycelium(t, mycologist1));
+        mycologist1.addMycelium(new Mycelium(t, mycologist1));
+        MushroomBody mushroomBody = new Hyphara(t, mycologist1);
+
+        mycologist2.addMycelium(new Mycelium(t, mycologist2));
+        mycologist2.addMycelium(new Mycelium(t, mycologist2));
+
+        Tecton t2 = new Transix("Tecton2");
+        Tecton t3 = new Transix("Tecton3");
+        t.addTectonToNeighbors(t2);
+        t.addTectonToNeighbors(t3);
+
+        Insect i = new Insect(entomologist1);
+        t.placeInsect(i);
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        // Spóra szórás mycologist1-nek
+        System.out.println("Key pressed: " + e.getKeyChar());
+        if (e.getKeyCode() == KeyEvent.VK_A) {
+            for (MushroomBody mushroomBody : mycologist1.getMushroomBodies()) {
+                boolean success = mushroomBody.spreadSpores();
+                if (success) {
+                    mushroomBody.setSporeSpread(false);
+                    timers.add(new Timer(15, () -> mushroomBody.setSporeSpread(true)));
+                }
+            }
+        }
+
+        // Supergomba fejlesztés mycologist1-nek
+        if (e.getKeyCode() == KeyEvent.VK_S) {
+            for (MushroomBody mushroomBody : mycologist1.getMushroomBodies()) {
+                mushroomBody.evolveSuper();
+            }
+        }
+
+        // Fonalból test növesztés mycologist1-nek
+        if (e.getKeyCode() == KeyEvent.VK_D) {
+            for (Mycelium mycelium : mycologist1.getMycelia()) {
+                mycelium.developMushroomBody();
+            }
+        }
+
+        // Fonal növesztés mycologist1-nek
+        if (e.getKeyCode() == KeyEvent.VK_W) {
+            List<Mycelium> mycelia = mycologist1.getMycelia();
+            if (!myceliumSelectionActiveM1 && !tectonSelectionActiveM1) {
+                // Start mycelium selection
+                myceliumSelectionActiveM1 = true;
+                selectedMyceliumIndexM1 = 0;
+                if (!mycelia.isEmpty()) {
+                    System.out.println("Selected mycelium for mycologist1 index: " + selectedMyceliumIndexM1);
+                }
+            } else if (myceliumSelectionActiveM1) {
+                // Finalize mycelium selection, start tecton selection
+                System.out.println("Finalized mycelium for mycologist1 index: " + selectedMyceliumIndexM1);
+                myceliumSelectionActiveM1 = false;
+                tectonSelectionActiveM1 = true;
+                selectedTectonIndexM1 = 0;
+                List<Tecton> neighbors = mycelia.get(selectedMyceliumIndexM1).getTecton().getNeighbors();
+                if (!neighbors.isEmpty()) {
+                    System.out.println("Selected tecton for mycologist1 index: " + selectedTectonIndexM1);
+                }
+            } else if (tectonSelectionActiveM1) {
+                // Finalize tecton selection
+                List<Tecton> neighbors = mycelia.get(selectedMyceliumIndexM1).getTecton().getNeighbors();
+                if (!neighbors.isEmpty()) {
+                    System.out.println("Finalized tecton for mycologist1 index: " + selectedTectonIndexM1);
+                    mycelia.get(selectedMyceliumIndexM1).createNewBranch(neighbors.get(selectedTectonIndexM1));
+                    System.out.println("Created new branch for mycologist1 at tecton index: " + selectedTectonIndexM1);
+                    mycelia.get(selectedMyceliumIndexM1).disableGrowth();
+                    int myceliumIndex = selectedMyceliumIndexM1; // capture current index
+                    timers.add(new Timer(10, new Runnable() {
+                        @Override
+                        public void run() {
+                            mycologist1.getMycelia().get(myceliumIndex).enableGrowth();
+                        }
+                    }));
+                }
+                tectonSelectionActiveM1 = false;
+                selectedTectonIndexM1 = -1;
+                selectedMyceliumIndexM1 = -1;
+            }
+        }
+
+        // Step through mycelia
+        if (e.getKeyCode() == KeyEvent.VK_E && myceliumSelectionActiveM1) {
+            List<Mycelium> mycelia = mycologist1.getMycelia();
+            if (!mycelia.isEmpty()) {
+                selectedMyceliumIndexM1 = (selectedMyceliumIndexM1 + 1) % mycelia.size();
+                System.out.println("Selected mycelium for mycologist1 index: " + selectedMyceliumIndexM1);
+            }
+        }
+
+        // Step through tecton neighbors
+        if (e.getKeyCode() == KeyEvent.VK_E && tectonSelectionActiveM1) {
+            List<Mycelium> mycelia = mycologist1.getMycelia();
+            List<Tecton> neighbors = mycelia.get(selectedMyceliumIndexM1).getTecton().getNeighbors();
+            if (!neighbors.isEmpty()) {
+                selectedTectonIndexM1 = (selectedTectonIndexM1 + 1) % neighbors.size();
+                System.out.println("Selected tecton for mycologist1 index: " + selectedTectonIndexM1);
+            }
+        }
+
+        // Spóra szórás mycologist2-nek
+        if (e.getKeyCode() == KeyEvent.VK_F) {
+            for (MushroomBody mushroomBody : mycologist2.getMushroomBodies()) {
+                boolean success = mushroomBody.spreadSpores();
+                if (success) {
+                    mushroomBody.setSporeSpread(false);
+                    timers.add(new Timer(15, () -> mushroomBody.setSporeSpread(true)));
+                }
+            }
+        }
+
+        // Supergomba fejlesztés mycologist2-nek
+        if (e.getKeyCode() == KeyEvent.VK_G) {
+            for (MushroomBody mushroomBody : mycologist2.getMushroomBodies()) {
+                mushroomBody.evolveSuper();
+            }
+        }
+
+        // Fonalból test növesztés mycologist2-nek
+        if (e.getKeyCode() == KeyEvent.VK_H) {
+            for (Mycelium mycelium : mycologist2.getMycelia()) {
+                mycelium.developMushroomBody();
+            }
+        }
+
+        // Fonal növesztés mycologist2-nek
+        if (e.getKeyCode() == KeyEvent.VK_T) {
+            List<Mycelium> mycelia = mycologist2.getMycelia();
+            if (!myceliumSelectionActiveM2 && !tectonSelectionActiveM2) {
+                // Start mycelium selection
+                myceliumSelectionActiveM2 = true;
+                selectedMyceliumIndexM2 = 0;
+                if (!mycelia.isEmpty()) {
+                    System.out.println("Selected mycelium for mycologist2 index: " + selectedMyceliumIndexM2);
+                }
+            } else if (myceliumSelectionActiveM2) {
+                // Finalize mycelium selection, start tecton selection
+                System.out.println("Finalized mycelium for mycologist2 index: " + selectedMyceliumIndexM2);
+                myceliumSelectionActiveM2 = false;
+                tectonSelectionActiveM2 = true;
+                selectedTectonIndexM2 = 0;
+                List<Tecton> neighbors = mycelia.get(selectedMyceliumIndexM2).getTecton().getNeighbors();
+                if (!neighbors.isEmpty()) {
+                    System.out.println("Selected tecton for mycologist2 index: " + selectedTectonIndexM2);
+                }
+            } else if (tectonSelectionActiveM2) {
+                // Finalize tecton selection
+                List<Tecton> neighbors = mycelia.get(selectedMyceliumIndexM2).getTecton().getNeighbors();
+                if (!neighbors.isEmpty()) {
+                    System.out.println("Finalized tecton for mycologist2 index: " + selectedTectonIndexM2);
+                    mycelia.get(selectedMyceliumIndexM2).createNewBranch(neighbors.get(selectedTectonIndexM2));
+                    System.out.println("Created new branch for mycologist2 at tecton index: " + selectedTectonIndexM2);
+                    mycelia.get(selectedMyceliumIndexM2).disableGrowth();
+                    int myceliumIndex = selectedMyceliumIndexM2; // capture current index
+                    timers.add(new Timer(10, new Runnable() {
+                        @Override
+                        public void run() {
+                            mycologist2.getMycelia().get(myceliumIndex).enableGrowth();
+                        }
+                    }));
+                }
+                tectonSelectionActiveM2 = false;
+                selectedTectonIndexM2 = -1;
+                selectedMyceliumIndexM2 = -1;
+            }
+        }
+
+        // Step through mycelia
+        if (e.getKeyCode() == KeyEvent.VK_Z && myceliumSelectionActiveM2) {
+            List<Mycelium> mycelia = mycologist2.getMycelia();
+            if (!mycelia.isEmpty()) {
+                selectedMyceliumIndexM2 = (selectedMyceliumIndexM2 + 1) % mycelia.size();
+                System.out.println("Selected mycelium for mycologist2 index: " + selectedMyceliumIndexM2);
+            }
+        }
+
+        // Step through tecton neighbors
+        if (e.getKeyCode() == KeyEvent.VK_Z && tectonSelectionActiveM2) {
+            List<Mycelium> mycelia = mycologist2.getMycelia();
+            List<Tecton> neighbors = mycelia.get(selectedMyceliumIndexM2).getTecton().getNeighbors();
+            if (!neighbors.isEmpty()) {
+                selectedTectonIndexM2 = (selectedTectonIndexM2 + 1) % neighbors.size();
+                System.out.println("Selected tecton for mycologist2 index: " + selectedTectonIndexM2);
+            }
+        }
+
+        // Entomologist1 actions
+        if (e.getKeyCode() == KeyEvent.VK_K) {
+            if (selectedInsectIndexE1 == -1) {
+                selectedInsectIndexE1 = 0;
+                selectedInsectE1 = entomologist1.getInsects().get(selectedInsectIndexE1);
+            }
+            selectedInsectE1.eatSpore();
+            selectedInsectE1.disableEating();
+            timers.add(new Timer(5, () -> selectedInsectE1.enableEating()));
+        }
+
+        if (e.getKeyCode() == KeyEvent.VK_L) {
+            if (selectedInsectIndexE1 == -1) {
+                selectedInsectIndexE1 = 0;
+            } else {
+                selectedInsectIndexE1 = (selectedInsectIndexE1 + 1) % entomologist1.getInsects().size();
+            }
+            System.out.println("Selected insect for entomologist1 index: " + selectedInsectIndexE1);
+            selectedInsectE1 = entomologist1.getInsects().get(selectedInsectIndexE1);
+        }
+
+        if (e.getKeyCode() == KeyEvent.VK_I) {
+            List<Tecton> locations = new ArrayList<>();
+            List<Mycelium> mycelia = selectedInsectE1.getTecton().getMycelia();
+            for (Mycelium mycelium : mycelia) {
+                mycelium.getMyceliumConnections().forEach(myceliumConnection -> locations.add(myceliumConnection.getTecton()));
+            }
+            if (!movementActiveE1) {
+                // Start movement selection
+                movementActiveE1 = true;
+                selectedTectonToMoveIndexE1 = 0;
+                if (!locations.isEmpty()) {
+                    moveToTectonE1 = locations.get(selectedTectonToMoveIndexE1);
+                    System.out.println("Selected tecton for movement for entomilogist1 index: " + selectedTectonToMoveIndexE1);
+                }
+            } else if (movementActiveE1) {
+                // Finalize movement selection
+                System.out.println("Finalized tecton for movement for entomilogist1 index: " + selectedTectonToMoveIndexE1);
+                selectedInsectE1.moveTo(moveToTectonE1);
+                moveToTectonE1 = null;
+                movementActiveE1 = false;
+                selectedTectonToMoveIndexE1 = -1;
+            }
+        }
+
+        if (e.getKeyCode() == KeyEvent.VK_J) {
+            List<Tecton> connections = new ArrayList<>();
+            List<Mycelium> mycelia = selectedInsectE1.getTecton().getMycelia();
+            for (Mycelium mycelium : mycelia) {
+                mycelium.getMyceliumConnections().forEach(myceliumConnection -> connections.add(myceliumConnection.getTecton()));
+            }
+            if (!chewActiveE1) {
+                // Start chew selection
+                chewActiveE1 = true;
+                selectedTectonForChewIndexE1 = 0;
+                if (!connections.isEmpty()) {
+                    chewTectonE1 = connections.get(selectedTectonForChewIndexE1);
+                    System.out.println("Selected tecton for movement for entomilogist1 index: " + selectedTectonForChewIndexE1);
+                }
+            } else if (chewActiveE1) {
+                // Finalize movement selection
+                System.out.println("Finalized tecton for movement for entomilogist1 index: " + selectedTectonForChewIndexE1);
+                List<Mycelium> myceliums1 = chewTectonE1.getMycelia();
+                List<Mycelium> myceliums2 = selectedInsectE1.getTecton().getMycelia();
+                List<Mycelium> myceliums = new ArrayList<>();
+                for (Mycelium mycelium : myceliums2) {
+                    myceliums.addAll(mycelium.getMyceliumConnections());
+                }
+                for (Mycelium mycelium : myceliums1) {
+                    if (myceliums.contains(mycelium)) {
+                        System.out.println("Chewing mycelium: " + mycelium.getName());
+                        selectedInsectE1.chewMycelium(mycelium);
+                        selectedInsectE1.disableChewMycelium();
+                        timers.add(new Timer(10, () -> selectedInsectE1.enableToChewMycelium()));
+                    }
+                }
+                chewTectonE1 = null;
+                chewActiveE1 = false;
+                selectedTectonForChewIndexE1 = -1;
+            }
+        }
+
+        // Step through chew locations
+        if (e.getKeyCode() == KeyEvent.VK_O && chewActiveE1) {
+            List<Tecton> connections = new ArrayList<>();
+            List<Mycelium> mycelia = selectedInsectE1.getTecton().getMycelia();
+            for (Mycelium mycelium : mycelia) {
+                mycelium.getMyceliumConnections().forEach(myceliumConnection -> connections.add(myceliumConnection.getTecton()));
+            }
+            if (!connections.isEmpty()) {
+                selectedTectonForChewIndexE1 = (selectedTectonForChewIndexE1 + 1) % connections.size();
+                System.out.println("Selected tecton for movement for entomilogist1 index: " + selectedTectonForChewIndexE1);
+            }
+        }
+
+        // Entomologist2 actions
+        if (e.getKeyCode() == KeyEvent.VK_OPEN_BRACKET) {
+            if (selectedInsectIndexE2 == -1) {
+                selectedInsectIndexE2 = 0;
+                selectedInsectE2 = entomologist2.getInsects().get(selectedInsectIndexE2);
+            }
+            selectedInsectE2.eatSpore();
+            selectedInsectE2.disableEating();
+            timers.add(new Timer(5, () -> selectedInsectE2.enableEating()));
+        }
+
+        if (e.getKeyCode() == KeyEvent.VK_CLOSE_BRACKET) {
+            if (selectedInsectIndexE2 == -1) {
+                selectedInsectIndexE2 = 0;
+            } else {
+                selectedInsectIndexE2 = (selectedInsectIndexE2 + 1) % entomologist2.getInsects().size();
+            }
+            System.out.println("Selected insect for entomologist2 index: " + selectedInsectIndexE2);
+            selectedInsectE2 = entomologist2.getInsects().get(selectedInsectIndexE2);
+        }
+
+        if (e.getKeyCode() == KeyEvent.VK_MINUS) {
+            List<Tecton> locations = new ArrayList<>();
+            List<Mycelium> mycelia = selectedInsectE2.getTecton().getMycelia();
+            for (Mycelium mycelium : mycelia) {
+                mycelium.getMyceliumConnections().forEach(myceliumConnection -> locations.add(myceliumConnection.getTecton()));
+            }
+            if (!movementActiveE2) {
+                // Start movement selection
+                movementActiveE2 = true;
+                selectedTectonToMoveIndexE2 = 0;
+                if (!locations.isEmpty()) {
+                    moveToTectonE2 = locations.get(selectedTectonToMoveIndexE2);
+                    System.out.println("Selected tecton for movement for entomilogist2 index: " + selectedTectonToMoveIndexE2);
+                }
+            } else if (movementActiveE2) {
+                // Finalize movement selection
+                System.out.println("Finalized tecton for movement for entomilogist2 index: " + selectedTectonToMoveIndexE2);
+                selectedInsectE2.moveTo(moveToTectonE2);
+                moveToTectonE2 = null;
+                movementActiveE2 = false;
+                selectedTectonToMoveIndexE2 = -1;
+            }
+        }
+
+        if (e.getKeyCode() == KeyEvent.VK_P) {
+            List<Tecton> connections = new ArrayList<>();
+            List<Mycelium> mycelia = selectedInsectE2.getTecton().getMycelia();
+            for (Mycelium mycelium : mycelia) {
+                mycelium.getMyceliumConnections().forEach(myceliumConnection -> connections.add(myceliumConnection.getTecton()));
+            }
+            if (!chewActiveE2) {
+                // Start chew selection
+                chewActiveE2 = true;
+                selectedTectonForChewIndexE2 = 0;
+                if (!connections.isEmpty()) {
+                    chewTectonE2 = connections.get(selectedTectonForChewIndexE2);
+                    System.out.println("Selected tecton for movement for entomilogist2 index: " + selectedTectonForChewIndexE2);
+                }
+            } else if (chewActiveE2) {
+                // Finalize movement selection
+                System.out.println("Finalized tecton for movement for entomilogist2 index: " + selectedTectonForChewIndexE2);
+                List<Mycelium> myceliums1 = chewTectonE2.getMycelia();
+                List<Mycelium> myceliums2 = selectedInsectE2.getTecton().getMycelia();
+                List<Mycelium> myceliums = new ArrayList<>();
+                for (Mycelium mycelium : myceliums2) {
+                    myceliums.addAll(mycelium.getMyceliumConnections());
+                }
+                for (Mycelium mycelium : myceliums1) {
+                    if (myceliums.contains(mycelium)) {
+                        System.out.println("Chewing mycelium: " + mycelium.getName());
+                        selectedInsectE2.chewMycelium(mycelium);
+                        selectedInsectE2.disableChewMycelium();
+                        timers.add(new Timer(10, () -> selectedInsectE2.enableToChewMycelium()));
+                    }
+                }
+                chewTectonE2 = null;
+                chewActiveE2 = false;
+                selectedTectonForChewIndexE2 = -1;
+            }
+        }
+
+        // Step through chew locations
+        if (e.getKeyCode() == KeyEvent.VK_EQUALS && chewActiveE2) {
+            List<Tecton> connections = new ArrayList<>();
+            List<Mycelium> mycelia = selectedInsectE2.getTecton().getMycelia();
+            for (Mycelium mycelium : mycelia) {
+                mycelium.getMyceliumConnections().forEach(myceliumConnection -> connections.add(myceliumConnection.getTecton()));
+            }
+            if (!connections.isEmpty()) {
+                selectedTectonForChewIndexE2 = (selectedTectonForChewIndexE2 + 1) % connections.size();
+                System.out.println("Selected tecton for movement for entomilogist2 index: " + selectedTectonForChewIndexE2);
+            }
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        ;
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        ;
+    }
+
+    public static boolean isRandomOn() {
+        return true;
+    }
 
     /**
      * Visszaadja a megadott névhez tartozó objektumot a név-objektum leképezésből.
@@ -65,38 +486,6 @@ public class Controller {
     }
 
     /**
-     * Visszaadja, hogy a véletlenszerűség be van-e kapcsolva.
-     * @return true, ha a véletlenszerűség be van kapcsolva, egyébként false.
-     */
-    public static boolean isRandomOn() {
-        return isRandomOn;
-    }
-
-    /**
-     * Beállítja a teszt módot.
-     * @param mode A teszt mód új állapota.
-     */
-    public static void setTestMode(boolean mode) {
-        isTestMode = mode;
-    }
-
-    /**
-     * Beállítja a véletlenszerűség állapotát.
-     * @param rand A véletlenszerűség új állapota.
-     */
-    public static void setIsRandomOn(boolean rand) {
-        isRandomOn = rand;
-    }
-
-    /**
-     * Beállítja a bemeneti szkennert.
-     * @param s A használni kívánt Scanner objektum.
-     */
-    public static void setScanner(Scanner s) {
-        scanner = s;
-    }
-
-    /**
      * Végrehajt egy parancsot a megadott string alapján.
      * A parancsot szóközök mentén részekre bontja, azonosítja a parancs nevét,
      * és a megfelelő metódust hívja meg a végrehajtáshoz.
@@ -104,100 +493,26 @@ public class Controller {
      *
      * @param command A végrehajtandó parancs string formátumban.
      */
-    public void runCommand(String command) {
-        String[] commandParts = command.split(" ");
-        String commandName = commandParts[0].toUpperCase();
-        try {
-            switch (commandName) {
-                case "STATUS"            -> status(commandParts);
-                case "CREATEGAMETABLE"   -> createGameTable(commandParts);
-                case "CREATETECTON"      -> createTecton(commandParts);
-                case "CREATEPLAYER"      -> createPlayer(commandParts);
-                case "CREATEINSECT"      -> createInsect(commandParts);
-                case "CREATEMUSHROOMBODY"-> createMushroomBody(commandParts);
-                case "CREATESPORE"       -> createSpore(commandParts);
-                case "CREATEMYCELIUM"    -> createMycelium(commandParts);
-                case "MOVE"              -> move(commandParts);
-                case "BREAK"             -> breakCommand(commandParts);
-                case "RANDOM"            -> random(commandParts);
-                case "EATSPORE"          -> eatSpore(commandParts);
-                case "CHEWMYCELIUM"      -> chewMycelium(commandParts);
-                case "SPREADSPORES"      -> spreadSpores(commandParts);
-                case "EVOLVESUPER"       -> evolveSuper(commandParts);
-                case "NEIGHBORS"         -> neighbors(commandParts);
-                case "GROWTO"            -> growTo(commandParts);
-                case "GROWBODY"          -> growBody(commandParts);
-                case "DELAY"             -> delay(commandParts);
-                case "ENDGAME"           -> endGame(commandParts);
-                case "LOAD"              -> load(commandParts);
-                case "SAVE"              -> save(commandParts);
-                case "EXIT"              -> exit(commandParts);
-                case "INIT"              -> initialize(commandParts);
-                case "DEVOUR"            -> devour(commandParts);
-                default                  -> throw new AssertionError();
-            }
-
-            commandLog.add(command);
-        } catch (Exception exception) {
-            System.out.println("[ERROR] Exception has been thrown while executing command: " + command + "\n" +
-                    "Exception message: " + exception.getMessage());
-            exception.printStackTrace();
-        }
-    }
-
-    /**
-     * Inicializálja a tesztelési környezetet a megadott fájlpath alapján.
-     * A mappában található teszt esetek listáját beolvassa és visszaadja.
-     *
-     * @param filePath A fájl elérési útja, amely a teszt eseteket tartalmazza.
-     * @return A teszt esetek listája.
-     */
-
-    public List<String> initTests(String filePath) {
-        try {
-            testCases = Files.readAllLines(new File(filePath).toPath());
-        } catch (IOException exception) {
-            System.out.println("[ERROR] Error while loading test cases: " + exception.getMessage());
-        }
-        return testCases;
-    }
-
-    /**
-     * Futtat egy tesztesetet a megadott tesztszám alapján.
-     * Megkeresi a megfelelő tesztkönyvtárat, törli a korábbi kimeneti fájlt,
-     * beolvassa a bemeneti parancsokat az `input.txt` fájlból, és végrehajtja azokat.
-     * A kimenetet a `test-output.txt` fájlba írja.
-     * Hiba esetén hibaüzenetet ír ki a konzolra.
-     *
-     * @param testNumber A futtatandó teszteset sorszáma.
-     */
-    public void runTest(int testNumber) {
-        File[] matchingDirectories = folder.listFiles(file ->
-                file.isDirectory() && file.getName().startsWith(testNumber + "-")
-        );
-        if (matchingDirectories != null && matchingDirectories.length == 1) {
-            logFilePath = "src/test/" + matchingDirectories[0].getName() + "/test-output.txt";
-            nameMap.clear();
-            File logFile = new File(logFilePath);
-            if (logFile.exists()) {
-                logFile.delete();
-            }
-            File testFile = new File(matchingDirectories[0].getAbsolutePath() + "/input.txt");
-            try {
-                List<String> lines = Files.readAllLines(testFile.toPath());
-                for (String line : lines) {
-                    runCommand(line);
-                }
-                System.out.println("[INFO] Test case executed successfully");
-            } catch (IOException exception) {
-                System.out.println("[ERROR] Error while executing test case: " + exception.getMessage());
-            }
-
-        } else {
-            System.out.println("[ERROR] No matching test files found for test number: " + testNumber);
-        }
-
-    }
+//    public void runCommand() {
+//        try {
+//            switch (keyPressed) {
+//                case "MOVE"              -> move(commandParts);
+//                case "EATSPORE"          -> eatSpore(commandParts);
+//                case "CHEWMYCELIUM"      -> chewMycelium(commandParts);
+//                case "SPREADSPORES"      -> spreadSpores(commandParts);
+//                case "EVOLVESUPER"       -> evolveSuper(commandParts);
+//                case "GROWTO"            -> growTo(commandParts);
+//                case "GROWBODY"          -> growBody(commandParts);
+//                case "DEVOUR"            -> devour(commandParts);
+//                default                  -> throw new AssertionError();
+//            }
+//
+//        } catch (Exception exception) {
+//            System.out.println("[ERROR] Exception has been thrown while executing command: " + command + "\n" +
+//                    "Exception message: " + exception.getMessage());
+//            exception.printStackTrace();
+//        }
+//    }
 
     /**
      * Egy micélium megeszi a megadott rovar objektumot.
@@ -240,113 +555,6 @@ public class Controller {
         GameTable gameTable = (GameTable) getFromNameMap(gametableName);
         if (gameTable == null) throw new RuntimeException("GameTable not found: " + gametableName);
         gameTable.initialize();
-        if (!isTestMode) {
-            gameTable.roleChooser(scanner);
-        }
-    }
-
-    /**
-     * Naplóz egy üzenetet a megadott fájlba, ha teszt módban fut a program.
-     * Ha nem teszt módban fut, akkor a konzolra írja ki az üzenetet.
-     * A fájlba írás után biztosítja, hogy az adatok ténylegesen le legyenek mentve a lemezre.
-     *
-     * @param message A naplózandó üzenet.
-     * @param path A naplófájl elérési útja.
-     */
-    private void log(String message, Path path) {
-        if (isTestMode) {
-            try (BufferedWriter writer = Files.newBufferedWriter(path, StandardOpenOption.CREATE, StandardOpenOption.APPEND)) {
-                writer.write(message + System.lineSeparator());
-                writer.flush();
-                try (var channel = FileChannel.open(path, StandardOpenOption.WRITE)) {
-                    channel.force(true);
-                }
-            } catch (IOException exception) {
-                System.out.println("[ERROR] Error while writing to log file: " + exception.getMessage());
-            }
-        } else {
-            System.out.println(message);
-        }
-    }
-
-    /**
-     * Kiírja vagy naplózza a megadott objektum vagy állapot adatait.
-     * Ha a parancs argumentuma "random", akkor a véletlenszerűség állapotát írja ki.
-     * Egyébként a névtérből kikeresi az objektumot, és annak típusától függően részletes információkat naplóz.
-     * Hibát dob, ha az argumentumok száma nem megfelelő vagy az objektum nem található.
-     *
-     * @param commandParts A parancs argumentumai: [parancs, objektum neve vagy "random"]
-     * @throws RuntimeException ha hibás a parancs vagy az objektum nem található
-     */
-    public void status(String[] commandParts) {
-        if (commandParts.length != 2) {
-            throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <objectName>");
-        }
-        String Indent = "    ";
-        if (commandParts[1].equalsIgnoreCase("random")) {
-            if (isRandomOn) {
-                System.out.println("Random: ON");
-            } else {
-                System.out.println("Random: OFF");
-            }
-            return;
-        }
-        Object object = getFromNameMap(commandParts[1]);
-        if (object == null) throw new RuntimeException("Object not found: " + commandParts[1]);
-        if (object instanceof Tecton tecton) {
-            log(tecton.printName() + ":", Paths.get(logFilePath));
-            log(Indent + "Type: " + tecton.printType(), Paths.get(logFilePath));
-            log(Indent + "Size: " + tecton.printSize(), Paths.get(logFilePath));
-            log(Indent + "maxMycelia: " + tecton.printMaxMycelia(), Paths.get(logFilePath));
-            log(Indent + "Neighbours: " + tecton.printNeighbors(), Paths.get(logFilePath));
-            log(Indent + "MushroomBody: " + tecton.printMushroomBody(), Paths.get(logFilePath));
-            log(Indent + "Mycelia: " + tecton.printMycelia(), Paths.get(logFilePath));
-            log(Indent + "Spores: " + tecton.printSpores(), Paths.get(logFilePath));
-            log(Indent + "Insects: " + tecton.printInsects(), Paths.get(logFilePath));
-
-        } else if (object instanceof Mycelium mycelium) {
-            log(mycelium.printName() + ":", Paths.get(logFilePath));
-            log(Indent + "canGrow: " + mycelium.printCanGrow(), Paths.get(logFilePath));
-            log(Indent + "growthSpeed: " + mycelium.printGrowthSpeed(), Paths.get(logFilePath));
-            log(Indent + "connectedTo: " + mycelium.printConnections(), Paths.get(logFilePath));
-
-        } else if (object instanceof Insect insect) {
-            log(insect.printName() + ":", Paths.get(logFilePath));
-            log(Indent + "collectedNutrientPoints: " + insect.printCollectedNutrientPoints(), Paths.get(logFilePath));
-            log(Indent + "nutrientMultiplier: " + insect.printNutrientMultiplier(), Paths.get(logFilePath));
-            log(Indent + "canChewMycelium: " + insect.printCanChewMycelium(), Paths.get(logFilePath));
-            log(Indent + "Speed: " + insect.printSpeed(), Paths.get(logFilePath));
-            log(Indent + "isParalized: " + insect.printIsParalized(), Paths.get(logFilePath));
-            log(Indent + "canEat: " + insect.printCanEat(), Paths.get(logFilePath));
-            log(Indent + "Tecton: " + insect.printTecton(), Paths.get(logFilePath));
-
-        } else if (object instanceof MushroomBody mushroomBody) {
-            log(mushroomBody.printName() + ":", Paths.get(logFilePath));
-            log(Indent + "Type: " + mushroomBody.printType(), Paths.get(logFilePath));
-            log(Indent + "Level: " + mushroomBody.printLevel(), Paths.get(logFilePath));
-            log(Indent + "State: " + mushroomBody.printState(), Paths.get(logFilePath));
-            log(Indent + "canSpreadSpores: " + mushroomBody.printSporeSpread(), Paths.get(logFilePath));
-            log(Indent + "sporeSpreadsLeft: " + mushroomBody.printSporeSpreadsLeft(), Paths.get(logFilePath));
-
-        } else if (object instanceof Player player) {
-            log(player.printName() + ":", Paths.get(logFilePath));
-            log(Indent + "Type: " + player.printType(), Paths.get(logFilePath));
-            log(Indent + "Score: " + player.printScore(), Paths.get(logFilePath));
-            log(Indent + "isWinner: " + player.printIsWinner(), Paths.get(logFilePath));
-            if (object instanceof Mycologist mycologist) {
-                log(Indent + "Species: " + mycologist.printSpecies(), Paths.get(logFilePath));
-                log(Indent + "MushroomBodys: " + mycologist.printMushroomBodies(), Paths.get(logFilePath));
-                log(Indent + "Bag: " + mycologist.printBag(), Paths.get(logFilePath));
-                log(Indent + "Mycelia: " + mycologist.printMycelia(), Paths.get(logFilePath));
-            } else if (object instanceof Entomologist entomologist) {
-                log(Indent + "Insects: " + entomologist.printInsects(), Paths.get(logFilePath));
-            }
-
-        } else if (object instanceof GameTable gameTable) {
-            log(gameTable.printName() + ":", Paths.get(logFilePath));
-            log(Indent + "Tectons: " + gameTable.printTectons(), Paths.get(logFilePath));
-            log(Indent + "Players: " + gameTable.printPlayers(), Paths.get(logFilePath));
-        }
     }
 
     /**
@@ -417,10 +625,10 @@ public class Controller {
                 if (commandParts.length == 5) {
                     String gombatestFaj = commandParts[4].toLowerCase();
                     switch (gombatestFaj) {
-                        case "hyphara":  Hyphara h = new Hyphara(null, mycologist, "hyphara_minta"); mycologist.setMushroomBodyType(h); break;
-                        case "gilledon": Gilledon g = new Gilledon(null, mycologist, "gilledon_minta"); mycologist.setMushroomBodyType(g); break;
-                        case "poralia": Poralia p = new Poralia(null, mycologist, "poralia_minta"); mycologist.setMushroomBodyType(p); break;
-                        case "capulon": Capulon c = new Capulon(null, mycologist, "capulon_minta"); mycologist.setMushroomBodyType(c); break;
+                        case "hyphara":  Hyphara h = new Hyphara(null, mycologist); mycologist.setMushroomBodyType(h); break;
+                        case "gilledon": Gilledon g = new Gilledon(null, mycologist); mycologist.setMushroomBodyType(g); break;
+                        case "poralia": Poralia p = new Poralia(null, mycologist); mycologist.setMushroomBodyType(p); break;
+                        case "capulon": Capulon c = new Capulon(null, mycologist); mycologist.setMushroomBodyType(c); break;
                         default: throw new RuntimeException("Invalid gombatestFaj: " + gombatestFaj);
                     }
                 }
@@ -465,7 +673,7 @@ public class Controller {
 
         Entomologist entomologist = (Entomologist) getFromNameMap(player);
         if (entomologist == null) throw new RuntimeException("Entomologist not found: " + player);
-        Insect insect = new Insect(entomologist, name);
+        Insect insect = new Insect(entomologist);
         entomologist.addInsect(insect);
         Tecton tecton = (Tecton) getFromNameMap(tectonName);
         if (tecton == null) throw new RuntimeException("Tecton not found: " + tectonName);
@@ -501,10 +709,10 @@ public class Controller {
             mycologist.setScore(mycologist.getScore() - 1);
         }
         switch (type) {
-            case "hyphara" -> mushroomBody = new Hyphara(tecton, mycologist, name);
-            case "gilledon" -> mushroomBody = new Gilledon(tecton, mycologist, name);
-            case "poralia" -> mushroomBody = new Poralia(tecton, mycologist, name);
-            case "capulon" -> mushroomBody = new Capulon(tecton, mycologist, name);
+            case "hyphara" -> mushroomBody = new Hyphara(tecton, mycologist);
+            case "gilledon" -> mushroomBody = new Gilledon(tecton, mycologist);
+            case "poralia" -> mushroomBody = new Poralia(tecton, mycologist);
+            case "capulon" -> mushroomBody = new Capulon(tecton, mycologist);
             default -> System.out.println("Invalid mushroom body type: " + type);
         }
         if (mushroomBody == null) throw new RuntimeException("Failed to initialize mushroom body");
@@ -583,7 +791,7 @@ public class Controller {
         Tecton tecton = (Tecton) getFromNameMap(tectonName);
         if (tecton == null) throw new RuntimeException("Tecton not found: " + tectonName);
 
-        Mycelium mycelium = new Mycelium(tecton, mycologist, myceliumName);
+        Mycelium mycelium = new Mycelium(tecton, mycologist);
         tecton.addMycelium(mycelium);
         mycologist.addMycelium(mycelium);
         putToNameMap(mycelium, myceliumName);
@@ -635,28 +843,6 @@ public class Controller {
         List<Tecton> newtectons = tecton.breakApart(newTectonName1, newTectonName2);
         if (newtectons == null) throw new RuntimeException("[ERROR] Failed to break tecton");
 
-    }
-
-    /**
-     * Beállítja a véletlenszerűség állapotát a parancs argumentuma alapján.
-     * A parancs argumentumai: [parancs, "true"/"false"].
-     * Hibát dob, ha az argumentum nem "true" vagy "false".
-     *
-     * @param commandParts A parancs argumentumai: [parancs, "true"/"false"]
-     * @throws RuntimeException ha az argumentum hibás
-     */
-    private static void random(String[] commandParts) {
-        if (commandParts.length != 2) {
-            throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <true/false>");
-        }
-        String random = commandParts[1];
-        if (random.equalsIgnoreCase("true")) {
-            isRandomOn = true;
-        } else if (random.equalsIgnoreCase("false")) {
-            isRandomOn = false;
-        } else {
-            throw new RuntimeException("Invalid random value: " + random);
-        }
     }
 
     /**
@@ -791,7 +977,7 @@ public class Controller {
         Tecton tecton = (Tecton) getFromNameMap(tectonName);
         if (tecton == null) throw new RuntimeException("Tecton not found: " + tectonName);
 
-        Mycelium newMycelium = mycelium.createNewBranch(tecton, newMyceliumName);
+        Mycelium newMycelium = mycelium.createNewBranch(tecton);
         if (newMycelium == null) throw new RuntimeException("Failed to create new mycelium branch");
         putToNameMap(newMycelium, newMyceliumName);
     }
@@ -814,23 +1000,7 @@ public class Controller {
         Mycelium mycelium = (Mycelium) getFromNameMap(myceliumName);
         if (mycelium == null) throw new RuntimeException("Mycelium not found: " + myceliumName);
 
-        mycelium.developMushroomBody(newMushroomBodyName);
-    }
-
-    /**
-     * Növeli a játékban eltelt másodpercek számát a megadott értékkel.
-     * A parancs argumentumai: [parancs, másodpercek száma].
-     * Hibát dob, ha a parancs argumentumainak száma nem megfelelő.
-     *
-     * @param commandParts A parancs argumentumai: [parancs, másodpercek száma]
-     * @throws RuntimeException ha hibás a parancs argumentumainak száma
-     */
-    private void delay(String[] commandParts) {
-        if (commandParts.length != 2) {
-            throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <seconds>");
-
-        }
-        seconds += Integer.parseInt(commandParts[1]);
+        mycelium.developMushroomBody();
     }
 
     /**
@@ -884,56 +1054,6 @@ public class Controller {
             stringBuilder.append(Indent).append("Entomologist: ");
             stringBuilder.append(entomologistWinner.get(0).printName()).append(", ");
             stringBuilder.append(entomologistWinner.get(1).printName());
-        }
-    }
-
-    /**
-     * Betölti a játék állapotát a megadott fájlból, és végrehajtja a benne található parancsokat.
-     * Ha a fájl nem található vagy hiba történik a beolvasás során, hibaüzenetet ír ki.
-     *
-     * @param commandParts A parancs argumentumai: [parancs, fájl neve]
-     * @throws RuntimeException ha a parancs argumentumainak száma nem megfelelő
-     */
-    private void load(String[] commandParts) {
-        if (commandParts.length != 2) {
-            throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <path>");
-        }
-        String fileName = commandParts[1];
-        File file = new File("src/main/resources/" + fileName);
-        if (!file.exists()) {
-            System.out.println("[ERROR] File not found: " + fileName);
-            return;
-        }
-        try {
-            List<String> lines = Files.readAllLines(file.toPath());
-            for (String line : lines) {
-                runCommand(line);
-            }
-            System.out.println("[INFO] Loaded successfully");
-        } catch (IOException exception) {
-            System.out.println("[ERROR] Error while loading game: " + exception.getMessage());
-        }
-    }
-
-    /**
-     * Elmenti a játék parancsainak naplóját a megadott fájlba.
-     * Ha a fájl nem létezik, hibaüzenetet ír ki.
-     * Sikeres mentés esetén információs üzenetet jelenít meg.
-     *
-     * @param commandParts A parancs argumentumai: [parancs, fájl neve]
-     * @throws RuntimeException ha a parancs argumentumainak száma nem megfelelő
-     */
-    private void save(String[] commandParts) {
-        if (commandParts.length != 2) {
-            throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <filePath>");
-        }
-        String fileName = commandParts[1];
-        File file = new File("src/main/resources/" + fileName);
-        try {
-            Files.write(file.toPath(), commandLog);
-            System.out.println("[INFO] Saved successfully");
-        } catch (IOException exception) {
-            System.out.println("[ERROR] Error while saving game: " + exception.getMessage());
         }
     }
 
