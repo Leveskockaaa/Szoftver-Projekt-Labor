@@ -1,5 +1,6 @@
 package com.example.view;
 
+import com.example.Timer;
 import com.example.model.Tecton;
 
 import javax.swing.*;
@@ -39,6 +40,10 @@ public class GamePanel extends JPanel {
         if (selectedTecton != null) {
             SporesView sporesView = new SporesView(selectedTecton.getTecton().getSpores());
             sporesView.draw(1.0f, g2d);
+            Timer timer = new Timer(5, () -> {
+                selectedTecton = null;
+                repaint();
+            });
         }
     }
 

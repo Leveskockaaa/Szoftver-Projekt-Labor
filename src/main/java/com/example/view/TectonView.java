@@ -160,8 +160,20 @@ public class TectonView implements Drawable {
     }
 
     public boolean isSelected(int x, int y) {
-        return x >= this.position.x && x <= this.position.x + 50 &&
-                y >= this.position.y && y <= this.position.y + 50;
+        int tectonOffsetX = switch (tecton.getSize()) {
+            case SMALL -> 50;
+            case MEDIUM -> 100;
+            case BIG -> 150;
+            case GIANT -> 200;
+        };
+        int tectonOffsetY = switch (tecton.getSize()){
+            case SMALL -> 50;
+            case MEDIUM -> 100;
+            case BIG -> 150;
+            case GIANT -> 200;
+        };
+        return x >= this.position.x && x <= this.position.x + tectonOffsetX &&
+                y >= this.position.y && y <= this.position.y + tectonOffsetY;
     }
 
     public Tecton getTecton() {
