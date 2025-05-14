@@ -65,7 +65,6 @@ public class TectonView extends JPanel implements Drawable {
 
     public TectonView(Tecton tecton) {
         this.tecton = tecton;
-        System.out.println(tecton.printType());
         switch (tecton.printType()) {
             case "Transix":
                 color = new Color(0xFE9C9D);
@@ -94,31 +93,11 @@ public class TectonView extends JPanel implements Drawable {
                 radius = 200;
                 break;
         }
-        System.out.println(tecton.printType());
-        System.out.println(tecton.getMushroomBody().printType());
-        System.out.println(color);
-        System.out.println(tecton.getSize());
-        System.out.println(radius);
         //mushroomBodyView = new MushroomBodyView(tecton.getMushroomBody());
     }
 
     @Override
-    public void draw(Position position, float scale, JFrame frame) {
-        this.frame = frame;
-        this.position = position;
-        this.scale = scale;
-
-        frame.add(this);
-    }
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-
-
+    public void draw(Position position, float scale, Graphics2D g2d) {
         // Draw the circle outline
         g2d.setColor(Color.BLACK);
         g2d.drawOval(position.x, position.y, radius, radius);
@@ -167,6 +146,17 @@ public class TectonView extends JPanel implements Drawable {
         for (MyceliumView myceliumView : myceliumViews) {
             myceliumView.draw(new Position(position.x + radius / 4, position.y + radius / 4), scale, frame);
         }
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+
+
+
     }
 
     public void showSpores() {
