@@ -1,16 +1,16 @@
 package com.example.model;
 
 import com.example.Controller;
-import com.example.view.Position;
-import com.example.view.TectonView;
+import com.example.view.*;
 
 import java.io.IOException;
 import java.util.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Arc2D;
+import java.util.List;
 
-import static com.example.model.TectonSize.GIANT;
+import static com.example.model.TectonSize.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -19,8 +19,48 @@ public class Main {
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setSize(1200, 900);
 
-            TectonView t1 = new TectonView(new Magmox(GIANT, "Magmox"));
-            t1.draw(new Position(400, 400), 1.0f, frame);
+            GamePanel gamePanel = new GamePanel();
+            frame.add(gamePanel);
+
+            Magmox t1 = new Magmox(GIANT, "Magmox");
+            TectonView tv1 = new TectonView(t1, new Position(200,200));
+            Mycologist m1 = new Mycologist("Hyphara");
+            Hyphara h1 = new Hyphara(t1, m1, "Hyphara");
+            gamePanel.add(tv1);
+
+            Transix t2 = new Transix(SMALL, "Transix");
+            TectonView tv2 = new TectonView(t2, new Position(400,200));
+            Mycologist m2 = new Mycologist("Gilledon");
+            Gilledon g1 = new Gilledon(t2, m2, "Gilledon");
+            gamePanel.add(tv2);
+
+            HypharaSpore s1 = new HypharaSpore(h1);
+            HypharaSpore s2 = new HypharaSpore(h1);
+
+            GilledonSpore s3 = new GilledonSpore(g1);
+            GilledonSpore s4 = new GilledonSpore(g1);
+
+            Mycologist m3 = new Mycologist("Capulon");
+            Mycologist m4 = new Mycologist("Poralia");
+
+            Mantleon t3 = new Mantleon(BIG, "Mantleon");
+            Orogenix t4 = new Orogenix(MEDIUM, "Orogenix");
+
+            Capulon c1 = new Capulon(t3, m3, "Capulon");
+            Poralia p1 = new Poralia(t4, m4, "Poralia");
+
+            CapulonSpore s5 = new CapulonSpore(c1);
+            PoraliaSpore s6 = new PoraliaSpore(p1);
+
+            t1.addSpore(s1);
+            t1.addSpore(s2);
+            t1.addSpore(s3);
+            t1.addSpore(s4);
+            t1.addSpore(s5);
+            t1.addSpore(s6);
+            t2.addSpore(s3);
+            t2.addSpore(s4);
+
             frame.setVisible(true);
         });
     }
