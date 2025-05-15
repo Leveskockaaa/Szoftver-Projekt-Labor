@@ -48,22 +48,23 @@ public class Controller implements KeyListener {
 
 
     public Controller() {
-        Tecton t = new Transix("Tecton1");
-        mycologist1.addMycelium(new Mycelium(t, mycologist1));
-        mycologist1.addMycelium(new Mycelium(t, mycologist1));
-        mycologist1.addMycelium(new Mycelium(t, mycologist1));
-        MushroomBody mushroomBody = new Hyphara(t, mycologist1);
-
-        mycologist2.addMycelium(new Mycelium(t, mycologist2));
-        mycologist2.addMycelium(new Mycelium(t, mycologist2));
-
-        Tecton t2 = new Transix("Tecton2");
-        Tecton t3 = new Transix("Tecton3");
-        t.addTectonToNeighbors(t2);
-        t.addTectonToNeighbors(t3);
-
-        Insect i = new Insect(entomologist1);
-        t.placeInsect(i);
+        gameTable = new GameTable(1600,900,"GameTable");
+//        Tecton t = new Transix("Tecton1");
+//        mycologist1.addMycelium(new Mycelium(t, mycologist1));
+//        mycologist1.addMycelium(new Mycelium(t, mycologist1));
+//        mycologist1.addMycelium(new Mycelium(t, mycologist1));
+//        MushroomBody mushroomBody = new Hyphara(t, mycologist1);
+//
+//        mycologist2.addMycelium(new Mycelium(t, mycologist2));
+//        mycologist2.addMycelium(new Mycelium(t, mycologist2));
+//
+//        Tecton t2 = new Transix("Tecton2");
+//        Tecton t3 = new Transix("Tecton3");
+//        t.addTectonToNeighbors(t2);
+//        t.addTectonToNeighbors(t3);
+//
+//        Insect i = new Insect(entomologist1);
+//        t.placeInsect(i);
     }
 
     @Override
@@ -1066,5 +1067,9 @@ public class Controller implements KeyListener {
     private void exit(String[] commandParts) {
         System.out.println("[INFO] Exiting game");
         System.exit(0);
+    }
+
+    public GameTable getGameTable() {
+        return gameTable;
     }
 }

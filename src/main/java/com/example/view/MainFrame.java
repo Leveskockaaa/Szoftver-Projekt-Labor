@@ -1,12 +1,13 @@
 package com.example.view;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 
+import com.example.model.GameTable;
 import util.FontStyles;
 
 public class MainFrame extends JFrame {
@@ -80,6 +81,16 @@ public class MainFrame extends JFrame {
         }
 
         return mycologistSelector.getSelectedMushroomBodyType();
+    }
+
+    public void showGameScreen(GameTable gameTable) {
+        gameTable.initialize();
+        GameTableView gameScreen = new GameTableView(gameTable);
+        this.add(gameScreen.layeredPane, BorderLayout.CENTER);
+        revalidate();
+        repaint();
+
+
     }
 
     public void showGameSummary(List<String> mycologists, List<Color> insectColors) {

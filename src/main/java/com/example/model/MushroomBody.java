@@ -1,5 +1,7 @@
 package com.example.model;
 
+import com.example.view.MushroomBodyView;
+
 import java.util.List;
 
 /**
@@ -46,6 +48,8 @@ public abstract class MushroomBody {
      */
     protected List<Mycelium> myceliums;
 
+    protected MushroomBodyView view;
+
 
     /**
      * Konstruktor.
@@ -61,6 +65,7 @@ public abstract class MushroomBody {
         this.canSpreadSpores = true;
         mycologist.addMushroomBody(this);
         mycologist.setScore(mycologist.getScore() + 1);
+        this.view = new MushroomBodyView(this);
     }
 
     /**
@@ -118,6 +123,8 @@ public abstract class MushroomBody {
     public String getName() {
         return name;
     }
+
+    public MushroomBodyView getView() { return view; }
 
     /*
     =============================================================================================

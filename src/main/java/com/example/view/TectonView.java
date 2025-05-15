@@ -8,64 +8,22 @@ import java.awt.geom.Arc2D;
 import java.util.*;
 import java.util.List;
 
-//class DividedCircles extends JPanel {
-//    private static final int CIRCLE_DIAMETER = 100;
-//    private int x;
-//    private int y;
-//
-//    public DividedCircles(int x, int y, List<Spore> spores, List<Insect> insects, MushroomBody mushroomBody) {
-//        this.x = x;
-//        this.y = y;
-//    }
-//
-//    @Override
-//    protected void paintComponent(Graphics g) {
-//        super.paintComponent(g);
-//        Graphics2D g2d = (Graphics2D) g;
-//        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-//
-//
-//
-//            // Draw the circle outline
-//            g2d.setColor(Color.BLACK);
-//            g2d.drawOval(x, y, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
-//
-//        // Calculate the center of the circle
-//        int circleCenterX = x + CIRCLE_DIAMETER / 2;
-//        int circleCenterY = y + CIRCLE_DIAMETER / 2;
-//
-//        // Draw the radial lines from the specified point to the circle's edge
-//        for (int angle = 30; angle < 390; angle += 120) {
-//            double radian = Math.toRadians(angle);
-//            int endX = (int) (circleCenterX + (CIRCLE_DIAMETER / 2) * Math.cos(radian));
-//            int endY = (int) (circleCenterY + (CIRCLE_DIAMETER / 2) * Math.sin(radian));
-//            g2d.drawLine(circleCenterX, circleCenterY, endX, endY);
-//        }
-//
-//        // Draw the circle outline again to cover sector edges
-//        g2d.setColor(Color.BLACK);
-//        g2d.drawOval(x, y, CIRCLE_DIAMETER, CIRCLE_DIAMETER);
-//    }
-//}
-
-public class TectonView implements Drawable {
+public class TectonView extends JPanel {
     private Tecton tecton;
     private Color color;
     private float scale = 1.0f;
     private int radius;
-    private MushroomBodyView mushroomBodyView;
-    private List<InsectView> insectViews = new ArrayList<>();
-    private List<MyceliumView> myceliumViews = new ArrayList<>();
     private HashMap<TectonView, Boolean> neighbors = new HashMap<>();
     private SporesView sporeViews;
     private Position position;
-    private JFrame frame;
 
 
 
-    public TectonView(Tecton tecton, Position position) {
+    public TectonView(Tecton tecton) {
         this.tecton = tecton;
-        this.position = position;
+        setBackground(new Color(0,0,0,0));
+        setBounds(0, 0, 1600, 900);
+        System.out.println(this.getHeight() + " " + this.getWidth());
         switch (tecton.printType()) {
             case "Transix":
                 color = new Color(0xFE9C9D);
@@ -82,24 +40,25 @@ public class TectonView implements Drawable {
         }
         switch (tecton.getSize()){
             case SMALL:
-                radius = 50;
+                radius = 20;
                 break;
             case MEDIUM:
-                radius = 100;
+                radius = 40;
                 break;
             case BIG:
-                radius = 150;
+                radius = 60;
                 break;
             case GIANT:
-                radius = 200;
+                radius = 100;
                 break;
         }
         this.sporeViews = new SporesView(tecton.getSpores());
-        //mushroomBodyView = new MushroomBodyView(tecton.getMushroomBody());
     }
 
     @Override
-    public void draw(float scale, Graphics2D g2d) {
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
         // Draw the circle outline
         g2d.setColor(Color.BLACK);
         g2d.drawOval(position.x, position.y, radius, radius);
@@ -142,14 +101,14 @@ public class TectonView implements Drawable {
         }
 
         // Draw the insects
-//        for (InsectView insectView : insectViews) {
-//            insectView.draw(new Position(position.x + radius / 4, position.y + radius / 4), scale, frame);
-//        }
-//
-//        // Draw the mycelium
-//        for (MyceliumView myceliumView : myceliumViews) {
-//            myceliumView.draw(new Position(position.x + radius / 4, position.y + radius / 4), scale, frame);
-//        }
+        for (Insect insect : tecton.getInsects()) {
+            this.add(insect.getView());
+        }
+
+        // Draw the mycelia
+        for (Mycelium mycelium : tecton.getMycelia()) {
+            this.add(mycelium.getView());
+        }
     }
 
     public void showSpores() {
@@ -178,5 +137,9 @@ public class TectonView implements Drawable {
 
     public Tecton getTecton() {
         return tecton;
+    }
+
+    public void setPosition(Position position){
+        this.position = position;
     }
 }

@@ -1,6 +1,7 @@
 package com.example.model;
 
 import com.example.Controller;
+import com.example.view.MyceliumView;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -47,12 +48,14 @@ public class Mycelium {
      */
     private final List<Mycelium> myceliumConnections;
 
+    private MyceliumView view;
+
     /**
      * Konstruktor.
      *
      * @param tecton A tekton, amin a gombafonál elhelyezkedik.
      * @param mycologist A gombafonálhoz tartozó gombász.
-     * @param name A gombafonál neve.
+     *
      */
     public Mycelium(Tecton tecton, Mycologist mycologist) {
         this.canGrow = true;
@@ -62,6 +65,11 @@ public class Mycelium {
         this.mycologist = mycologist;
         this.myceliumConnections = new ArrayList<>();
         tecton.addMycelium(this);
+        this.view = new MyceliumView(this);
+    }
+
+    public MyceliumView getView() {
+        return view;
     }
 
     public String getName() {
@@ -127,7 +135,7 @@ public class Mycelium {
     /**
      * Gombatestet fejleszt az adott fonalon és tektonon.
      *
-     * @param name A gombatest neve.
+     * @param
      * @return true, ha sikeresen kifejlesztett egy gombatestet, egyébként false.
      */
     public boolean developMushroomBody() {
@@ -183,7 +191,7 @@ public class Mycelium {
      * ha nem, akkor újat hoz létre ott.
      *
      * @param tecton A tekton, amire át akarunk nőni.
-     * @param name Az új gombafonál neve.
+     * @param
      * @return Ha sikerült átnőni, akkor az új gombafonál referenciája,
      * egyébként null.
      */

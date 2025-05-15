@@ -1,5 +1,7 @@
 package com.example.model;
 
+import com.example.view.InsectView;
+
 /**
  * Egy rovar entitást reprezentál különböző attribútumokkal és viselkedésekkel,
  * mint például micélium rágása, spórák evése, különböző Tecton-okra való mozgás stb.
@@ -50,6 +52,8 @@ public class Insect {
      */
     private boolean canEat;
 
+    private InsectView view;
+
     /**
      * Alapértelmezett konstruktor.
      *
@@ -64,6 +68,11 @@ public class Insect {
         this.isParalized = false;
         this.nutrientMultiplier = 1;
         this.collectedNutrientPoints = 0;
+        this.view = new InsectView(this);
+    }
+
+    public InsectView getView() {
+        return view;
     }
 
     /**
