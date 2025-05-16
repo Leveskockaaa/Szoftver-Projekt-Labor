@@ -11,19 +11,19 @@ public class Hyphara extends MushroomBody {
      * Hyphara osztály konstruktora.
      * @param tecton A tekton amire a gombatest kerül.
      */
-    public Hyphara(Tecton tecton, Mycologist mycologist, String name) {
-        super(tecton, mycologist, name);
+    public Hyphara(Tecton tecton, Mycologist mycologist) {
+        super(tecton, mycologist);
         sporeSpreadsLeft = 15;
     }
     
     /**
      * Létrehoz egy új Hyphara típusú gombatestet.
-     * 
+     *
      * @return Új Hyphara típusú gombatest.
      */
     @Override
-    public MushroomBody createMushroomBody(Tecton tecton, Mycologist mycologist, String name) {
-        return new Hyphara(tecton, mycologist, name);
+    public MushroomBody createMushroomBody(Tecton tecton, Mycologist mycologist) {
+        return new Hyphara(tecton, mycologist);
     }
 
     /**
@@ -31,7 +31,7 @@ public class Hyphara extends MushroomBody {
      * Hyphara spórákat szór.
      */
     @Override
-    public void spreadSpores() {
+    public boolean spreadSpores() {
         if(canSpreadSpores && sporeSpreadsLeft > 0) {
             if(superBody){
                 superSpreadSpores();
@@ -48,7 +48,9 @@ public class Hyphara extends MushroomBody {
                 mycologist.collect(this);
                 tecton.removeMushroomBody();
             }
+            return true;
         }
+        return false;
     }
 
     /**
@@ -98,7 +100,7 @@ public class Hyphara extends MushroomBody {
                 break;
             }
         }
-        return sporeCount >= 3 && my!= null && my.getMyceliumConnections().size() >= 3;
+        return !superBody && sporeCount >= 3 && my!= null && my.getMyceliumConnections().size() >= 3;
     }
 
     /**

@@ -11,7 +11,7 @@ public class GameTableView {
 
     public GameTableView(GameTable gameTable) {
         for (Tecton tecton : gameTable.getTectons()) {
-            TectonView tectonView = new TectonView(tecton);
+            TectonView tectonView = new TectonView(tecton, new Position(100,100));
             tectonViews.add(tectonView);
         }
     }

@@ -65,7 +65,7 @@ public class Mycologist extends Player {
             throw new IllegalArgumentException(exception.getMessage());
         }
 
-        return initialMushroomBody.createMushroomBody(tecton, this, name);
+        return initialMushroomBody.createMushroomBody(tecton, this);
     }
 
     /**
