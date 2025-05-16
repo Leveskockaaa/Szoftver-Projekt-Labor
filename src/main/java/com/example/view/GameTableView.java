@@ -1,13 +1,15 @@
 package com.example.view;
 
 import com.example.model.*;
+import util.LayeredPane;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Line2D;
 import java.util.*;
 import java.util.List;
 
-public class GameTableView extends JLayeredPane {
+public class GameTableView extends LayeredPane {
     private static final int DEFAULT_RADIUS = 15;
     private static final int MAX_ITERATIONS = 5000;
     private static final double REPULSION_FORCE = 1500000;
@@ -17,7 +19,7 @@ public class GameTableView extends JLayeredPane {
     private static final int MIN_DISTANCE = 10;
     private static final double centerAttractionStrength = 0.1;
 
-    private final List<TectonView> tectonViews = new ArrayList<>();
+//    private final List<TectonView> tectonViews = new ArrayList<>();
     private final Map<Tecton, Point> tectonPositions;
     private final GameTable gameTable;
 
@@ -27,7 +29,7 @@ public class GameTableView extends JLayeredPane {
 
         // Initialize positions with force-directed layout
         this.tectonPositions = calculateTectonPositions(gameTable);
-        initializeTectonViews();
+        //initializeTectonViews();
     }
 
     private void validateGameTable() {
@@ -37,23 +39,23 @@ public class GameTableView extends JLayeredPane {
         }
     }
 
-    private void initializeTectonViews() {
-        for (Map.Entry<Tecton, Point> entry : tectonPositions.entrySet()) {
-            Tecton tecton = entry.getKey();
-//            Point position = entry.getValue();
-
-//            Position pos = new Position();
-//            pos.x = position.x;
-//            pos.y = position.y;
-//            pos.width = DEFAULT_RADIUS * 2;
-//            pos.height = DEFAULT_RADIUS * 2;
-//            pos.rotation = 0;
-
-            TectonView tectonView = new TectonView(tecton);
-            // tectonView.draw_drawable(pos, 1.0f); // Scale is now handled in TectonView
-            tectonViews.add(tectonView);
-        }
-    }
+//    private void initializeTectonViews() {
+//        for (Map.Entry<Tecton, Point> entry : tectonPositions.entrySet()) {
+//            Tecton tecton = entry.getKey();
+////            Point position = entry.getValue();
+//
+////            Position pos = new Position();
+////            pos.x = position.x;
+////            pos.y = position.y;
+////            pos.width = DEFAULT_RADIUS * 2;
+////            pos.height = DEFAULT_RADIUS * 2;
+////            pos.rotation = 0;
+//
+//            TectonView tectonView = new TectonView(tecton);
+//            // tectonView.draw_drawable(pos, 1.0f); // Scale is now handled in TectonView
+//            tectonViews.add(tectonView);
+//        }
+//    }
 
     private Map<Tecton, Point> calculateTectonPositions(GameTable gameTable) {
         List<Tecton> tectons = gameTable.getTectons();
