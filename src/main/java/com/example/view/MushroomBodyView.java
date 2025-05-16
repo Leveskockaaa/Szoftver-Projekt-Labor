@@ -5,6 +5,9 @@ import java.awt.Graphics2D;
 
 import com.example.model.MushroomBody;
 
+import javax.swing.*;
+import java.awt.*;
+
 public class MushroomBodyView implements Drawable {
     private MushroomBody mushroomBody;
     private Color color;

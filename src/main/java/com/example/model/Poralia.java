@@ -11,8 +11,8 @@ public class Poralia extends MushroomBody {
      * Poralia osztály konstruktora.
      * @param tecton A tekton amire a gombatest kerül.
      */
-    public Poralia(Tecton tecton, Mycologist mycologist, String name) {
-        super(tecton, mycologist, name);
+    public Poralia(Tecton tecton, Mycologist mycologist) {
+        super(tecton, mycologist);
         sporeSpreadsLeft = 15;
     }
 
@@ -22,8 +22,8 @@ public class Poralia extends MushroomBody {
      * @return Új Poralia típusú gombatest.
      */
     @Override
-    public MushroomBody createMushroomBody(Tecton tecton, Mycologist mycologist, String name) {
-        return new Poralia(tecton, mycologist, name);
+    public MushroomBody createMushroomBody(Tecton tecton, Mycologist mycologist) {
+        return new Poralia(tecton, mycologist);
     }
 
     /**
@@ -31,7 +31,7 @@ public class Poralia extends MushroomBody {
      * Poralia spórákat szór.
      */
     @Override
-    public void spreadSpores() {
+    public boolean spreadSpores() {
         if(canSpreadSpores && sporeSpreadsLeft > 0) {
             if(superBody){
                 superSpreadSpores();
@@ -48,7 +48,9 @@ public class Poralia extends MushroomBody {
                 mycologist.collect(this);
                 tecton.removeMushroomBody();
             }
+            return true;
         }
+        return false;
     }
 
     /**
@@ -98,7 +100,7 @@ public class Poralia extends MushroomBody {
                 break;
             }
         }
-        return sporeCount >= 3 && my!= null && my.getMyceliumConnections().size() >= 3;
+        return !superBody && sporeCount >= 3 && my!= null && my.getMyceliumConnections().size() >= 3;
     }
 
     /**

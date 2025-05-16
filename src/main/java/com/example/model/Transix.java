@@ -1,6 +1,7 @@
 package com.example.model;
 
 import com.example.Controller;
+import com.example.view.Position;
 
 import java.util.*;
 

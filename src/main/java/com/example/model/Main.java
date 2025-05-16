@@ -3,33 +3,19 @@ package com.example.model;
 import java.awt.Color;
 import java.util.List;
 
+import com.example.Controller;
 import com.example.view.MainFrame;
 
-/**
- * A fő osztály, amely a program belépési pontját tartalmazza.
- */
 public class Main {
-    private static MainFrame mainFrame = new MainFrame();
+    private static MainFrame mainFrame;
+    private static Controller controller;
 
     public static void main(String[] args) {
         mainFrame = new MainFrame();
+        controller = new Controller();
 
-        // BEGIN - Character Selection
-        mainFrame.showStartScreen();
+        mainFrame.showGameScreen(controller.getGameTable());
 
-        // Get the two types of mushrooms
-        String firstMycologist = mainFrame.showMycologistSelector();
-        String secondMycologist = mainFrame.showMycologistSelector();
-        System.out.println("Selected Mushroom Body Types: " + firstMycologist + ", " + secondMycologist);
 
-        // Get the two colors of insects
-        Color firstInsectColor = mainFrame.showEntomologistSelector();
-        Color secondInsectColor = mainFrame.showEntomologistSelector();
-        System.out.println("Selected Insect Colors: " + firstInsectColor + ", " + secondInsectColor);
-
-        mainFrame.showGameSummary(List.of(firstMycologist, secondMycologist), List.of(firstInsectColor, secondInsectColor));
-        // END - Character Selection
-
-        
     }
 }

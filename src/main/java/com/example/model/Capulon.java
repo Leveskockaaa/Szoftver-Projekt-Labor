@@ -12,8 +12,8 @@ public class Capulon extends MushroomBody {
      * 
      * @param tecton A tekton amire a gombatest kerül.
      */
-    public Capulon(Tecton tecton, Mycologist mycologist, String name) {
-        super(tecton, mycologist, name);
+    public Capulon(Tecton tecton, Mycologist mycologist) {
+        super(tecton, mycologist);
         sporeSpreadsLeft = 9;
     }
 
@@ -23,8 +23,8 @@ public class Capulon extends MushroomBody {
      * @return Új Capulon típusú gombatest.
      */
     @Override
-    public MushroomBody createMushroomBody(Tecton tecton, Mycologist mycologist, String name) {
-        return new Capulon(tecton, mycologist, name);
+    public MushroomBody createMushroomBody(Tecton tecton, Mycologist mycologist) {
+        return new Capulon(tecton, mycologist);
     }
 
     /**
@@ -32,7 +32,7 @@ public class Capulon extends MushroomBody {
      * Capulon spórákat szór.
      */
     @Override
-    public void spreadSpores() {
+    public boolean spreadSpores() {
         if(canSpreadSpores && sporeSpreadsLeft > 0) {
             if(superBody){
                 superSpreadSpores();
@@ -50,7 +50,9 @@ public class Capulon extends MushroomBody {
                 mycologist.collect(this);
                 tecton.removeMushroomBody();
             }
+            return true;
         }
+        return false;
     }
 
     /**
@@ -100,7 +102,7 @@ public class Capulon extends MushroomBody {
                 break;
             }
         }
-        return sporeCount >= 3 && my!= null && my.getMyceliumConnections().size() >= 3;
+        return !superBody && sporeCount >= 3 && my!= null && my.getMyceliumConnections().size() >= 3;
     }
 
     /**

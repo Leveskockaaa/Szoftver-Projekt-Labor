@@ -6,7 +6,10 @@ import java.awt.geom.AffineTransform;
 
 import com.example.model.Mycelium;
 
-public class MyceliumView implements Drawable {
+import javax.swing.*;
+import java.awt.*;
+
+public class MyceliumView extends JPanel {
     private Mycelium mycelium;
     private Color color;
 

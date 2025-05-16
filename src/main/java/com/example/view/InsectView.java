@@ -5,7 +5,10 @@ import java.awt.Graphics2D;
 
 import com.example.model.Insect;
 
-public class InsectView implements Drawable {
+import javax.swing.*;
+import java.awt.*;
+
+public class InsectView extends JPanel {
     private Insect insect;
     private final Color color;
 

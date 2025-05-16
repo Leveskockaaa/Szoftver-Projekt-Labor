@@ -1,6 +1,7 @@
 package com.example.model;
 
 import com.example.Controller;
+import com.example.view.Position;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,6 +33,7 @@ public class Magmox extends Tecton {
      */
     public Magmox(TectonSize size, String name) {
         super(name);
+        this.size = size;
         maxMycelia = 1;
     }
 

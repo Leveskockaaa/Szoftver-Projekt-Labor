@@ -1,5 +1,8 @@
 package com.example.model;
 
+import com.example.view.Position;
+import com.example.view.TectonView;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -65,6 +68,8 @@ public abstract class Tecton {
      */
     protected List<Mycelium> mycelia;
 
+    protected TectonView view;
+
 
     /**
      * Konstruktor, amely létrehoz egy új Tecton objektumot a megadott névvel.
@@ -96,8 +101,18 @@ public abstract class Tecton {
         mushroomBody = null;
         insects = new ArrayList<>();
         mycelia = new ArrayList<>();
+        this.view = new TectonView(this);
     }
 
+    public TectonView getView() { return view; }
+
+    public TectonSize getSize() {
+        return size;
+    }
+
+    public List<Spore> getSpores() {
+        return spores;
+    }
 
     /**
      * Visszaadja a szomszédos Tecton-ok halmazát.
@@ -248,7 +263,7 @@ public abstract class Tecton {
      * Az s típusú spórából quantity darabot elvesz a
      * tektonról, azaz kiveszi őket a tektonon lévő spórák listájából.
      *
-     * @param spore    A spóra, amit el kell venni.
+     *
      * @param quantity A spórák száma, amit el kell venni.
      * @return true, ha sikeresen elvette a spórákat, különben false.
      */
