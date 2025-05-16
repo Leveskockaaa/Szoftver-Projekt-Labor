@@ -1,16 +1,18 @@
 package com.example.view;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
+
+import javax.swing.JPanel;
 
 import com.example.model.MushroomBody;
 
-import javax.swing.*;
-import java.awt.*;
-
-public class MushroomBodyView implements Drawable {
+public class MushroomBodyView extends JPanel {
     private MushroomBody mushroomBody;
     private Color color;
+    private Position position;
+    private float scale = 1.0f;
 
     public MushroomBodyView(MushroomBody mushroomBody) {
         this.mushroomBody = mushroomBody;
@@ -30,13 +32,20 @@ public class MushroomBodyView implements Drawable {
         }
     }
     @Override
-    public void draw(Position position, float scale) {
-        // Compute the circle's diameter based on position dimensions and scale.
+    protected void paintComponent(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+
         int diameter = (int)(Math.min(position.width, position.height) * scale);
-        // Assume position.x and position.y as circle top-left corner.
-        // Obtain the Graphics context 
-        Graphics2D g2d = (Graphics2D) FungoriumCanvas.getGraphics();
+    
         g2d.setColor(color);
         g2d.fillOval(position.x, position.y, diameter, diameter);
+    }
+
+    public void setPosition(Position position){
+        this.position = position;
+    }
+
+    public void setScale(float scale){
+        this.scale = scale;
     }
 }

@@ -1,17 +1,19 @@
 package com.example.view;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 
-import com.example.model.Mycelium;
+import javax.swing.JPanel;
 
-import javax.swing.*;
-import java.awt.*;
+import com.example.model.Mycelium;
 
 public class MyceliumView extends JPanel {
     private Mycelium mycelium;
     private Color color;
+    private Position position;
+    private float scale = 1.0f;
 
     public MyceliumView(Mycelium mycelium) {
         this.mycelium = mycelium;
@@ -32,8 +34,8 @@ public class MyceliumView extends JPanel {
     }
 
     @Override
-    public void draw(Position position, float scale) {
-        Graphics2D g2d = (Graphics2D) FungoriumCanvas.getGraphics();
+    protected void paintComponent(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
         // Compute elongated rectangle dimensions (width is twice the height)
         int rectWidth = (int)(position.width * scale * 2);
         int rectHeight = (int)(position.height * scale);
@@ -51,5 +53,13 @@ public class MyceliumView extends JPanel {
         g2d.fillRect(position.x, position.y, rectWidth, rectHeight);
         // Restore original transform
         g2d.setTransform(original);
+    }
+
+    public void setPosition(Position position){
+        this.position = position;
+    }
+
+    public void setScale(float scale){
+        this.scale = scale;
     }
 }

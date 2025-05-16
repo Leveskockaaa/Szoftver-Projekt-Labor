@@ -1,12 +1,15 @@
 package com.example.view;
 
-import com.example.Timer;
-import com.example.model.Tecton;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+
+import javax.swing.JPanel;
+
+import com.example.Timer;
 
 public class GamePanel extends JPanel {
     private static ArrayList<Drawable> alakzatok = new ArrayList<>();
@@ -39,7 +42,7 @@ public class GamePanel extends JPanel {
         }
         if (selectedTecton != null) {
             SporesView sporesView = new SporesView(selectedTecton.getTecton().getSpores());
-            sporesView.draw(1.0f, g2d);
+            //sporesView.draw(1.0f, g2d);
             Timer timer = new Timer(5, () -> {
                 selectedTecton = null;
                 repaint();
