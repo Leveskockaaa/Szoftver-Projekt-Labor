@@ -3,10 +3,7 @@ package com.example.model;
 import com.example.Controller;
 import com.example.view.Position;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import static com.example.model.TectonSize.decreaseSize;
 
@@ -87,6 +84,7 @@ public class Orogenix extends Tecton {
      */
     @Override
     public List<Tecton> breakApart(String newTectonName1, String newTectonName2) {
+        System.out.println("Orogenix breakApart() called");
 
         //Két új tekton létrehozása
         Orogenix t1 = new Orogenix(decreaseSize(this.size), newTectonName1);
@@ -145,8 +143,8 @@ public class Orogenix extends Tecton {
         t1.addTectonToNeighbors(n1);
         n1.changeNeighbour(this, t1);
 
-        while (n1.neighbors.iterator().hasNext()) {
-            Tecton n2 = n1.neighbors.iterator().next();
+        for (Iterator<Tecton> it = n1.neighbors.iterator(); it.hasNext(); ) {
+            Tecton n2 = it.next();
             if (this.neighbors.contains(n2)) {
                 this.neighbors.remove(n2);
                 t1.addTectonToNeighbors(n2);
@@ -162,9 +160,9 @@ public class Orogenix extends Tecton {
         }
 
         //Később a controllerben a helye
-        gameTable.removeTecton(this);
-        gameTable.addTecton(t1);
-        gameTable.addTecton(t2);
+//        gameTable.removeTecton(this);
+//        gameTable.addTecton(t1);
+//        gameTable.addTecton(t2);
 
         return new ArrayList<>(Arrays.asList(t1, t2));
     }

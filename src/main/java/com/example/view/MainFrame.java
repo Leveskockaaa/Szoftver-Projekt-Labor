@@ -111,7 +111,7 @@ public class MainFrame extends JFrame {
 
     public void showGameTable(GameTable gameTable) {
         GameTableView gameTableView = new GameTableView(gameTable);
-        //this.add(gameTableView, BorderLayout.CENTER);
+        this.add(gameTableView, BorderLayout.CENTER);
         setContentPane(gameTableView);
         revalidate();
         repaint();

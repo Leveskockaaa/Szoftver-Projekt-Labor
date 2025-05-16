@@ -80,6 +80,7 @@ public class Mantleon extends Tecton {
      */
     @Override
     public List<Tecton> breakApart(String newTectonName1, String newTectonName2) {
+        System.out.println("Mantleon breakApart() called");
 
         //Két új tekton létrehozása
         Mantleon t1 = new Mantleon(decreaseSize(this.size), newTectonName1);

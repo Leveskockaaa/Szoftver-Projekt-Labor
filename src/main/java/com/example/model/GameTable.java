@@ -66,7 +66,7 @@ public class GameTable {
             Controller.clearNameMap();
         }
         int tectonSize = 100;
-        if (Controller.isRandomOn()){
+        //if (Controller.isRandomOn()){
             Random random = new Random();
             for(int i = 0; i < 10; i++){
                 int randNum = random.nextInt(4);
@@ -79,33 +79,33 @@ public class GameTable {
                 tectons.add(t);
                 Controller.putToNameMap(t, t.printName());
             }
-        } else {
-            Tecton t1 = new Transix(TectonSize.GIANT, "t1");
-            Tecton t2 = new Transix(TectonSize.GIANT, "t2");
-            Tecton t3 = new Transix(TectonSize.GIANT, "t3");
-            Tecton t4 = new Mantleon(TectonSize.GIANT, "t4");
-            Tecton t5 = new Mantleon(TectonSize.GIANT, "t5");
-            Tecton t6 = new Magmox(TectonSize.GIANT, "t6");
-            Tecton t7 = new Magmox(TectonSize.GIANT, "t7");
-            Tecton t8 = new Orogenix(TectonSize.GIANT, "t8");
-            Tecton t9 = new Orogenix(TectonSize.GIANT, "t9");
-            Tecton t10 = new Orogenix(TectonSize.GIANT, "t10");
-
-            tectons.add(t1);
-            tectons.add(t2);
-            tectons.add(t3);
-            tectons.add(t4);
-            tectons.add(t5);
-            tectons.add(t6);
-            tectons.add(t7);
-            tectons.add(t8);
-            tectons.add(t9);
-            tectons.add(t10);
-
-            for (Tecton t : tectons) {
-                Controller.putToNameMap(t, t.printName());
-            }
-        }
+//        } else {
+//            Tecton t1 = new Transix(TectonSize.GIANT, "t1");
+//            Tecton t2 = new Transix(TectonSize.GIANT, "t2");
+//            Tecton t3 = new Transix(TectonSize.GIANT, "t3");
+//            Tecton t4 = new Mantleon(TectonSize.GIANT, "t4");
+//            Tecton t5 = new Mantleon(TectonSize.GIANT, "t5");
+//            Tecton t6 = new Magmox(TectonSize.GIANT, "t6");
+//            Tecton t7 = new Magmox(TectonSize.GIANT, "t7");
+//            Tecton t8 = new Orogenix(TectonSize.GIANT, "t8");
+//            Tecton t9 = new Orogenix(TectonSize.GIANT, "t9");
+//            Tecton t10 = new Orogenix(TectonSize.GIANT, "t10");
+//
+//            tectons.add(t1);
+//            tectons.add(t2);
+//            tectons.add(t3);
+//            tectons.add(t4);
+//            tectons.add(t5);
+//            tectons.add(t6);
+//            tectons.add(t7);
+//            tectons.add(t8);
+//            tectons.add(t9);
+//            tectons.add(t10);
+//
+//            for (Tecton t : tectons) {
+//                Controller.putToNameMap(t, t.printName());
+//            }
+//        }
 
         for (int i = 0; i < tectons.size() - 2; i++) {
             tectons.get(i).addTectonToNeighbors(tectons.get(i + 1));
