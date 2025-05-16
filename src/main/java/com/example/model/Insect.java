@@ -1,5 +1,7 @@
 package com.example.model;
 
+import java.awt.Color;
+
 import com.example.view.InsectView;
 
 /**
@@ -20,7 +22,7 @@ public class Insect {
     /**
      * A rovar színe HEX formátumban.
      */
-    private String color;
+    private Color color;
 
     /**
      * Az összes tápanyag pont, amit ez a rovar összegyűjtött.
@@ -120,7 +122,7 @@ public class Insect {
      *
      * @return A rovar színe.
      */
-    public String getColor() {
+    public Color getColor() {
         return this.color;
     }
 
@@ -274,6 +276,10 @@ public class Insect {
     public String getName() {
         return this.name;
     }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }   
 
     /*
     =============================================================================================

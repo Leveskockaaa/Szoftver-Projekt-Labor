@@ -14,7 +14,7 @@ public class InsectView extends JPanel {
     private float scale = 1.0f;
 
     public InsectView(Insect insect) {
-        this.color = Color.decode(insect.getColor());
+        this.color = insect.getColor();
     }
 
     @Override

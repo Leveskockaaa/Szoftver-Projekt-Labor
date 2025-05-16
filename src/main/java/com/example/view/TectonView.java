@@ -1,12 +1,19 @@
 package com.example.view;
 
-import com.example.model.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.util.HashMap;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Arc2D;
-import java.util.*;
-import java.util.List;
+import javax.swing.JPanel;
+
+import com.example.model.Capulon;
+import com.example.model.Gilledon;
+import com.example.model.Hyphara;
+import com.example.model.Insect;
+import com.example.model.MushroomBody;
+import com.example.model.Poralia;
+import com.example.model.Tecton;
 
 public class TectonView extends JPanel {
     private Tecton tecton;
@@ -102,13 +109,20 @@ public class TectonView extends JPanel {
 
         // Draw the insects
         for (Insect insect : tecton.getInsects()) {
+            System.out.println("Insect: " + insect.getEntomologist().getName());
+            Position insectPosition = this.position;
+            System.out.println("Insect position: " + insectPosition);
+            System.out.println(insectPosition.x + " " + insectPosition.y + " " insectPosition.width + " " + insectPosition.height);
+            insect.getView().setPosition(insectPosition);
             this.add(insect.getView());
         }
 
         // Draw the mycelia
+        /*
         for (Mycelium mycelium : tecton.getMycelia()) {
             this.add(mycelium.getView());
         }
+             */
     }
 
     public void showSpores() {
