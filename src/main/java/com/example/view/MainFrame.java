@@ -83,15 +83,15 @@ public class MainFrame extends JFrame {
         return mycologistSelector.getSelectedMushroomBodyType();
     }
 
-    public void showGameScreen(GameTable gameTable) {
-        gameTable.initialize();
-        GameTableView gameScreen = new GameTableView(gameTable);
-        this.add(gameScreen.layeredPane, BorderLayout.CENTER);
-        revalidate();
-        repaint();
-
-
-    }
+//    public void showGameScreen(GameTable gameTable) {
+//        gameTable.initialize();
+//        GameTableView gameScreen = new GameTableView(gameTable);
+//        this.add(gameScreen.layeredPane, BorderLayout.CENTER);
+//        revalidate();
+//        repaint();
+//
+//
+//    }
 
     public void showGameSummary(List<String> mycologists, List<Color> insectColors) {
         GameSummary gameSummary = new GameSummary(mycologists, insectColors);
@@ -107,5 +107,13 @@ public class MainFrame extends JFrame {
                 System.err.println("An error occurred while waiting for the start screen lock: " + exception.getMessage());
             }
         }
+    }
+
+    public void showGameTable(GameTable gameTable) {
+        GameTableView gameTableView = new GameTableView(gameTable);
+        this.add(gameTableView, BorderLayout.CENTER);
+        setContentPane(gameTableView);
+        revalidate();
+        repaint();
     }
 }

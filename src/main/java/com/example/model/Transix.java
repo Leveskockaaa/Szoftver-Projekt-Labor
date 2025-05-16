@@ -86,6 +86,7 @@ public class Transix extends Tecton {
      */
     @Override
     public List<Tecton> breakApart(String newTectonName1, String newTectonName2) {
+        System.out.println("Transix breakApart() called");
 
         //Két új tekton létrehozása
         Transix t1 = new Transix(decreaseSize(this.size), newTectonName1);
@@ -160,10 +161,10 @@ public class Transix extends Tecton {
             n.changeNeighbour(this, t2);
         }
 
-        //Később a controllerben a helye
-        gameTable.removeTecton(this);
-        gameTable.addTecton(t1);
-        gameTable.addTecton(t2);
+//        //Később a controllerben a helye
+//        gameTable.removeTecton(this);
+//        gameTable.addTecton(t1);
+//        gameTable.addTecton(t2);
 
         return new ArrayList<>(Arrays.asList(t1, t2));
     }

@@ -85,6 +85,7 @@ public abstract class Tecton {
         mushroomBody = null;
         insects = new ArrayList<>();
         mycelia = new ArrayList<>();
+        this.view = new TectonView(this);
     }
 
     /**
