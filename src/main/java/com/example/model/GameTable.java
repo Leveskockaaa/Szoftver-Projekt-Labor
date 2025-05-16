@@ -1,6 +1,7 @@
 package com.example.model;
 
 import com.example.Controller;
+import com.example.view.Position;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,10 +65,27 @@ public class GameTable {
             tectons.clear();
             Controller.clearNameMap();
         }
+        int tectonSize = 100;
         if (Controller.isRandomOn()){
             Random random = new Random();
             for(int i = 0; i < 10; i++){
                 int randNum = random.nextInt(4);
+                Position position;
+                if (i > 0 && i < 3) {
+                    position = new Position(700 + i * tectonSize, 50 + i * tectonSize);
+                } else if (i > 2 && i < 5) {
+                    position = new Position((700 + 2 * tectonSize) - (i - 3) * tectonSize, (50 + 3 * tectonSize) + (i - 2) * tectonSize);
+                } else if (i > 5 && i < 8) {
+                    position = new Position(700 - i * tectonSize, 3 * tectonSize + i * tectonSize);
+                } else if (i > 7) {
+                    position = new Position(3 * tectonSize - i * tectonSize, 50 + i * tectonSize);
+                }
+                else if (i == 0){
+                    position = new Position(700, 50);
+                } else {
+                    position = new Position(1000, 1000);
+                }
+                System.out.println("Position: " + position.x + " " + position.y);
                 Tecton t = switch (randNum) {
                     case 0 -> new Transix(TectonSize.GIANT, "t" + i);
                     case 1 -> new Mantleon(TectonSize.GIANT, "t" + i);
