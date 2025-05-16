@@ -1,13 +1,22 @@
 package com.example.view;
 
-import com.example.model.*;
-import util.LayeredPane;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Line2D;
-import java.util.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
+import com.example.model.GameTable;
+import com.example.model.Insect;
+import com.example.model.Mycelium;
+import com.example.model.Tecton;
+
+import util.LayeredPane;
 
 public class GameTableView extends LayeredPane {
     private static final int DEFAULT_RADIUS = 15;
@@ -233,15 +242,32 @@ public class GameTableView extends LayeredPane {
         g2d.fillRect(0, 0, getWidth(), getHeight());
 
         // Draw nodes
+
         for (Tecton tect : tectonPositions.keySet()) {
-            Position pos = new Position(tectonPositions.get(tect).x, tectonPositions.get(tect).y);
+            
+            int insectIndex = 0;
             for (Insect insect : tect.getInsects()) {
-                insect.getView().setPosition(pos);
+               
+                Position insectPos = new Position(tectonPositions.get(tect).x - 25 + insectIndex * 30, tectonPositions.get(tect).y + 13);
+                insect.getView().setPosition(insectPos);
                 System.out.println("Drawing insect at: " + this);
                 this.add(insect.getView(), BorderLayout.CENTER);
                 insect.getView().repaint();
                 insect.getView().revalidate();
+                insectIndex++;
             }
+            /*
+            int myceliumIndex = 0;
+            for (Mycelium mycelium : tect.getMycelia()) {
+                Position myceliumPos = new Position(tectonPositions.get(tect).x + insectIndex * 30, tectonPositions.get(tect).y);
+                mycelium.getView().setPosition(myceliumPos);
+                System.out.println("Drawing mycelium at: " + this);
+                this.add(mycelium.getView(), BorderLayout.CENTER);
+                mycelium.getView().repaint();
+                mycelium.getView().revalidate();
+                myceliumIndex++;
+            }
+                 */
 
             tect.getView().setPosition(new Position((int)tectonPositions.get(tect).getX() - (tect.getView().getRadius() / 2), (int)tectonPositions.get(tect).getY() - (tect.getView().getRadius() / 2)));
             this.add(tect.getView());

@@ -24,8 +24,9 @@ public class Main {
 
         // Get the two colors of insects
         Color firstInsectColor = mainFrame.showEntomologistSelector();
+        System.out.println("Selected Insect Color F: " + firstInsectColor);
         Color secondInsectColor = mainFrame.showEntomologistSelector();
-        System.out.println("Selected Insect Colors: " + firstInsectColor + ", " + secondInsectColor);
+        System.out.println("Selected Insect Colors: S" + secondInsectColor);
 
         mainFrame.showGameSummary(List.of(firstMycologist, secondMycologist), List.of(firstInsectColor, secondInsectColor));
         // END - Character Selection
@@ -55,10 +56,20 @@ public class Main {
 
         Entomologist entomologist = new Entomologist("e1");
         Insect i1 = new Insect(entomologist);
-        i1.setColor(firstInsectColor);
-        System.out.println(firstInsectColor);
+        Insect i2 = new Insect(entomologist);
+        System.out.println("FIC: " + firstInsectColor);
+        i1.setColor(new Color(firstInsectColor.getRGB()));
+        System.out.println("SIC: " + secondInsectColor);
+        i2.setColor(secondInsectColor);
+
         Tecton t5 = gameTable.getTectons().get(4);
         t5.placeInsect(i1);
+        t5.placeInsect(i2);
+
+
+        Mycologist mycologist = new Mycologist("my1");
+        Mycelium mycelium = new Mycelium(t5, mycologist);
+       
 
         mainFrame.showGameTable(gameTable);
         // END - Gameplay

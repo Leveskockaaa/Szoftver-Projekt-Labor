@@ -278,7 +278,10 @@ public class Insect {
     }
 
     public void setColor(Color color) {
-        this.color = color;
+        if (color == null) {
+            throw new IllegalArgumentException("Color cannot be null");
+        }
+        this.color = new Color(color.getRGB());
     }   
 
     /*
