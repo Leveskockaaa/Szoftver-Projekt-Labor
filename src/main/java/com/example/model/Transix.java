@@ -160,10 +160,10 @@ public class Transix extends Tecton {
             n.changeNeighbour(this, t2);
         }
 
-        //Később a controllerben a helye
-        gameTable.removeTecton(this);
-        gameTable.addTecton(t1);
-        gameTable.addTecton(t2);
+//        //Később a controllerben a helye
+//        gameTable.removeTecton(this);
+//        gameTable.addTecton(t1);
+//        gameTable.addTecton(t2);
 
         return new ArrayList<>(Arrays.asList(t1, t2));
     }

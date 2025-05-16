@@ -108,4 +108,11 @@ public class MainFrame extends JFrame {
             }
         }
     }
+
+    public void showGameTable(GameTable gameTable) {
+        GameTableView gameTableView = new GameTableView(gameTable);
+        setContentPane(gameTableView);
+        revalidate();
+        repaint();
+    }
 }
