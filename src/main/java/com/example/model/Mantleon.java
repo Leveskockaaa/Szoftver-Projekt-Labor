@@ -155,9 +155,9 @@ public class Mantleon extends Tecton {
         }
 
         //Később a controllerben a helye
-        gameTable.removeTecton(this);
-        gameTable.addTecton(t1);
-        gameTable.addTecton(t2);
+//        gameTable.removeTecton(this);
+//        gameTable.addTecton(t1);
+//        gameTable.addTecton(t2);
 
         return new ArrayList<>(Arrays.asList(t1, t2));
     }

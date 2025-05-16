@@ -241,10 +241,20 @@ public class GameTableView extends JLayeredPane {
         }
 
         // Draw nodes
-        for (TectonView tectonView : tectonViews) {
-            tectonView.repaint();
-            tectonView.revalidate();
+        for (Tecton tect : tectonPositions.keySet()) {
+              //Position pos = new Position();
+//            pos.x = position.x;
+//            pos.y = position.y;
+//            pos.width = DEFAULT_RADIUS * 2;
+//            pos.height = DEFAULT_RADIUS * 2;
+//            pos.rotation = 0;
+            tect.getView().setPosition(new Position((int)tectonPositions.get(tect).getX(), (int)tectonPositions.get(tect).getY()));
+            this.add(tect.getView());
+            tect.getView().repaint();
+            tect.getView().revalidate();
         }
+        this.repaint();
+        this.revalidate();
     }
 
     private Color GetLineColor(Tecton tecton, Tecton neighbor){
