@@ -286,6 +286,13 @@ public class GameTable {
     public List<Tecton> getTectons() { return tectons; }
 
     public List<Player> getPlayers() { return players; }
+    
+    public int getSizeX() {
+        return sizeX;
+    }
+    public int getSizeY() {
+        return sizeY;
+    }
 
     /*
     =============================================================================================

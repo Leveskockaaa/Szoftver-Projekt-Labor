@@ -2,10 +2,11 @@ package com.example.view;
 
 import com.example.model.Tecton;
 
+import javax.swing.*;
 import java.awt.Color;
 import java.util.*;
 
-public class TectonView  implements Drawable {
+public class TectonView extends JPanel {
     private Tecton tecton;
     private Color color;
     private float scale = 1.0f;
@@ -36,11 +37,10 @@ public class TectonView  implements Drawable {
         }
         //mushroomBodyView = new MushroomBodyView(tecton.getMushroomBody());
     }
-
-    @Override
-    public void draw(Position position, float scale) {
-
-    }
+//    @Override
+//    public void draw(Position position, float scale) {
+//
+//    }
 
     public void showSpores() {
         // TODO: Implement the logic to show spores
