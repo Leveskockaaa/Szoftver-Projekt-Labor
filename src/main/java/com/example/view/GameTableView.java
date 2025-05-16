@@ -231,17 +231,6 @@ public class GameTableView extends LayeredPane {
         g2d.setColor(Color.WHITE);
         g2d.fillRect(0, 0, getWidth(), getHeight());
 
-        // Draw edges
-        g2d.setStroke(new BasicStroke(2));
-        for (Tecton tecton : gameTable.getTectons()) {
-            Point p1 = tectonPositions.get(tecton);
-            for (Tecton neighbor : tecton.getNeighbors()) {
-                Point p2 = tectonPositions.get(neighbor);
-                g2d.setColor(GetLineColor(tecton, neighbor));
-                g2d.draw(new Line2D.Double(p1.x, p1.y, p2.x, p2.y));
-            }
-        }
-
         // Draw nodes
         for (Tecton tect : tectonPositions.keySet()) {
               //Position pos = new Position();
@@ -250,11 +239,15 @@ public class GameTableView extends LayeredPane {
 //            pos.width = DEFAULT_RADIUS * 2;
 //            pos.height = DEFAULT_RADIUS * 2;
 //            pos.rotation = 0;
-            tect.getView().setPosition(new Position((int)tectonPositions.get(tect).getX(), (int)tectonPositions.get(tect).getY()));
+            tect.getView().setPosition(new Position((int)tectonPositions.get(tect).getX() - (tect.getView().getRadius() / 2), (int)tectonPositions.get(tect).getY() - (tect.getView().getRadius() / 2)));
             this.add(tect.getView());
             tect.getView().repaint();
             tect.getView().revalidate();
         }
+
+        EdgeView edgeView = new EdgeView(gameTable, tectonPositions);
+        this.add(edgeView);
+
         this.repaint();
         this.revalidate();
     }

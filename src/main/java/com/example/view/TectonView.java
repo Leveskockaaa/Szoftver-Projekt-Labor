@@ -142,4 +142,8 @@ public class TectonView extends JPanel {
     public void setPosition(Position position){
         this.position = position;
     }
+
+    public int getRadius() {
+        return radius;
+    }
 }
