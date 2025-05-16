@@ -15,15 +15,20 @@ public class InsectView extends JPanel {
 
     public InsectView(Insect insect) {
         this.color = insect.getColor();
+        setBackground(new Color(0,0,0,0));
+        setBounds(0, 0, 1600, 900);
     }
 
     @Override
     protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         int ovalWidth = (int)(position.width * scale);
         int ovalHeight = (int)(position.height * scale);
         g2d.setColor(color);
-        g2d.fillOval(position.x, position.y, ovalWidth, ovalHeight);
+        System.out.println("Insect color: " + this.color);
+        System.out.println("Insect position: " + this.position.x + " " + this.position.y);
+        g2d.fillOval(this.position.x, this.position.y, 30, 30);
     }
 
     public void setPosition(Position position){

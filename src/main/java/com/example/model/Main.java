@@ -56,9 +56,9 @@ public class Main {
         Entomologist entomologist = new Entomologist("e1");
         Insect i1 = new Insect(entomologist);
         i1.setColor(firstInsectColor);
+        System.out.println(firstInsectColor);
         Tecton t5 = gameTable.getTectons().get(4);
         t5.placeInsect(i1);
-
 
         mainFrame.showGameTable(gameTable);
         // END - Gameplay

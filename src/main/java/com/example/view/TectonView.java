@@ -14,6 +14,7 @@ import com.example.model.Insect;
 import com.example.model.MushroomBody;
 import com.example.model.Poralia;
 import com.example.model.Tecton;
+import util.LayeredPane;
 
 public class TectonView extends JPanel {
     private Tecton tecton;
@@ -104,18 +105,20 @@ public class TectonView extends JPanel {
         }
         g2d.setColor(mushroomBodyColor);
         if (mushroomBody != null) {
-            g2d.fillOval(position.x + radius / 4, position.y + radius / 4, radius / 5, radius / 5);
+            //g2d.fillOval(position.x + radius / 4, position.y + radius / 4, radius / 5, radius / 5);
         }
 
         // Draw the insects
-        for (Insect insect : tecton.getInsects()) {
-            System.out.println("Insect: " + insect.getEntomologist().getName());
-            Position insectPosition = this.position;
-            System.out.println("Insect position: " + insectPosition);
-            System.out.println(insectPosition.x + " " + insectPosition.y + " " insectPosition.width + " " + insectPosition.height);
-            insect.getView().setPosition(insectPosition);
-            this.add(insect.getView());
-        }
+//        for (Insect insect : tecton.getInsects()) {
+//            System.out.println("Insect: " + insect.getEntomologist().getName());
+//            Position insectPosition = this.position;
+//            System.out.println("Insect position: " + insectPosition);
+//            System.out.println(insectPosition.x + " " + insectPosition.y + " " + insectPosition.width + " " + insectPosition.height);
+//            insect.getView().setPosition(insectPosition);
+//            g2d.setColor(Color.RED);
+//            //g2d.fillOval(position.x + radius / 4, position.y + radius / 4, radius / 5, radius / 5);
+//            //this.add(insect.getView());
+//        }
 
         // Draw the mycelia
         /*

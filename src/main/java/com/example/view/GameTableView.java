@@ -26,6 +26,7 @@ public class GameTableView extends LayeredPane {
     public GameTableView(GameTable gameTable) {
         this.gameTable = gameTable;
         validateGameTable();
+        setLayout(new BorderLayout());
 
         // Initialize positions with force-directed layout
         this.tectonPositions = calculateTectonPositions(gameTable);
@@ -233,12 +234,15 @@ public class GameTableView extends LayeredPane {
 
         // Draw nodes
         for (Tecton tect : tectonPositions.keySet()) {
-              //Position pos = new Position();
-//            pos.x = position.x;
-//            pos.y = position.y;
-//            pos.width = DEFAULT_RADIUS * 2;
-//            pos.height = DEFAULT_RADIUS * 2;
-//            pos.rotation = 0;
+            Position pos = new Position(tectonPositions.get(tect).x, tectonPositions.get(tect).y);
+            for (Insect insect : tect.getInsects()) {
+                insect.getView().setPosition(pos);
+                System.out.println("Drawing insect at: " + this);
+                this.add(insect.getView(), BorderLayout.CENTER);
+                insect.getView().repaint();
+                insect.getView().revalidate();
+            }
+
             tect.getView().setPosition(new Position((int)tectonPositions.get(tect).getX() - (tect.getView().getRadius() / 2), (int)tectonPositions.get(tect).getY() - (tect.getView().getRadius() / 2)));
             this.add(tect.getView());
             tect.getView().repaint();
