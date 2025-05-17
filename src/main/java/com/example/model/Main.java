@@ -24,9 +24,7 @@ public class Main {
 
         // Get the two colors of insects
         Color firstInsectColor = mainFrame.showEntomologistSelector();
-        System.out.println("Selected Insect Color F: " + firstInsectColor);
         Color secondInsectColor = mainFrame.showEntomologistSelector();
-        System.out.println("Selected Insect Colors: S" + secondInsectColor);
 
         mainFrame.showGameSummary(List.of(firstMycologist, secondMycologist), List.of(firstInsectColor, secondInsectColor));
         // END - Character Selection
@@ -47,19 +45,13 @@ public class Main {
 //        }
 //        gameTable.removeTecton(toBeBroken);
 
-        Tecton t0 = gameTable.getTectons().get(0);
-        Tecton t1 = gameTable.getTectons().get(1);
-        Mycologist mc = new Mycologist("mc1");
-        t0.getMycelia().add(new Mycelium(t0,mc));
-        t0.getMycelia().get(0).createNewBranch(t1);
-//        t1.getMycelia().add(new Mycelium(t0,mc,"my2"));
 
         Entomologist entomologist = new Entomologist("e1");
         Insect i1 = new Insect(entomologist);
         Insect i2 = new Insect(entomologist);
-        System.out.println("FIC: " + firstInsectColor);
+       
         i1.setColor(new Color(firstInsectColor.getRGB()));
-        System.out.println("SIC: " + secondInsectColor);
+       
         i2.setColor(secondInsectColor);
 
         Tecton t5 = gameTable.getTectons().get(4);
@@ -68,9 +60,28 @@ public class Main {
 
 
         Mycologist mycologist = new Mycologist("my1");
+        mycologist.setType(firstMycologist);
         Mycelium mycelium = new Mycelium(t5, mycologist);
-       
+        Mycelium mycelium2 = new Mycelium(t5, mycologist);
+        Mycelium mycelium3 = new Mycelium(t5, mycologist);
 
+        switch (firstMycologist) {
+            case "Hyphara":
+                new Hyphara(t5, mycologist);
+                break;
+            case "Gilledon":
+                new Gilledon(t5, mycologist);
+                break;
+            case "Poralia":
+                new Poralia(t5, mycologist);
+                break;
+            case "Capulon":
+                new Capulon(t5, mycologist);
+                break;
+            default:
+                System.out.println("Invalid Mycologist type");
+                break;
+        }   
         mainFrame.showGameTable(gameTable);
         // END - Gameplay
     }

@@ -1,8 +1,8 @@
 package com.example.model;
 
-import com.example.view.MushroomBodyView;
-
 import java.util.List;
+
+import com.example.view.MushroomBodyView;
 
 /**
  * Represents a MushroomBody in the domain model.
@@ -60,6 +60,7 @@ public abstract class MushroomBody {
     protected MushroomBody(Tecton tecton, Mycologist mycologist) {
         this.mycologist = mycologist;
         this.tecton = tecton;
+        tecton.placeMushroomBody(this);
         this.superBody = false;
         this.dead = false;
         this.canSpreadSpores = true;
@@ -124,7 +125,10 @@ public abstract class MushroomBody {
         return name;
     }
 
-    public MushroomBodyView getView() { return view; }
+    public MushroomBodyView getView() {
+        System.out.println("MushroomBodyView getView called");
+        return view; 
+    }
 
     /*
     =============================================================================================

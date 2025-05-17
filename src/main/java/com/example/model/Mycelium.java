@@ -1,12 +1,12 @@
 package com.example.model;
 
-import com.example.Controller;
-import com.example.view.MyceliumView;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+
+import com.example.Controller;
+import com.example.view.MyceliumView;
 
 /**
  * A gombafonalakat kezelő osztály. Egy-egy fonal egységet valósít meg.
