@@ -3,16 +3,18 @@ package com.example.model;
 import java.awt.Color;
 import java.util.List;
 
+import com.example.Controller;
 import com.example.view.MainFrame;
 
 /**
  * A fő osztály, amely a program belépési pontját tartalmazza.
  */
 public class Main {
-    private static MainFrame mainFrame = new MainFrame();
+    private static Controller controller = new Controller();
+    private static MainFrame mainFrame;
 
     public static void main(String[] args) {
-        mainFrame = new MainFrame();
+        mainFrame = new MainFrame(controller);
 
         // BEGIN - Character Selection
         mainFrame.showStartScreen();

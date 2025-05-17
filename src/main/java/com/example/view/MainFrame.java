@@ -8,12 +8,16 @@ import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 
+import com.example.Controller;
 import com.example.model.GameTable;
 
 import util.FontStyles;
 
 public class MainFrame extends JFrame {
-    public MainFrame() {
+    private Controller controller;
+
+    public MainFrame(Controller controller) {
+        this.controller = controller;
         setTitle("Game");
         setSize(1600, 900);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -117,5 +121,9 @@ public class MainFrame extends JFrame {
         setContentPane(gameTableView);
         revalidate();
         repaint();
+
+        gameTableView.addKeyListener(controller);
+        gameTableView.setFocusable(true);
+        gameTableView.requestFocusInWindow();
     }
 }

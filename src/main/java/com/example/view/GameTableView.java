@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,6 +33,7 @@ public class GameTableView extends LayeredPane {
 //    private final List<TectonView> tectonViews = new ArrayList<>();
     private final Map<Tecton, Point> tectonPositions;
     private final GameTable gameTable;
+    private TectonView selectedTecton = null;
 
     public GameTableView(GameTable gameTable) {
         this.gameTable = gameTable;
@@ -40,6 +43,27 @@ public class GameTableView extends LayeredPane {
         // Initialize positions with force-directed layout
         this.tectonPositions = calculateTectonPositions(gameTable);
         //initializeTectonViews();
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                selectedTecton = chooseTecton(e.getX(), e.getY());
+                System.out.println("Clicked at: " + e.getX() + ", " + e.getY());
+                System.out.println("Selected Tecton: " + selectedTecton);
+                repaint();
+            }
+        });
+    }
+
+    private TectonView chooseTecton(int x, int y) {
+        for (Tecton tecton : gameTable.getTectons()) {
+            TectonView tectonView = tecton.getView();
+                if (tectonView.isSelected(x, y)) {
+                    selectedTecton = tectonView;
+                    return selectedTecton;
+                }
+        }
+        return null;
     }
 
     private void validateGameTable() {
