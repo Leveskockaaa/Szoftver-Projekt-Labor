@@ -2,6 +2,8 @@ package com.example.model;
 
 import java.util.List;
 
+import com.example.view.MushroomBodyView;
+
 /**
  * Represents a MushroomBody in the domain model.
  * A Tecton can be haunted by a MushroomBody, which may alter its state.
@@ -46,6 +48,8 @@ public abstract class MushroomBody {
      */
     protected List<Mycelium> myceliums;
 
+    protected MushroomBodyView view;
+
 
     /**
      * Konstruktor.
@@ -56,11 +60,13 @@ public abstract class MushroomBody {
     protected MushroomBody(Tecton tecton, Mycologist mycologist) {
         this.mycologist = mycologist;
         this.tecton = tecton;
+        tecton.placeMushroomBody(this);
         this.superBody = false;
         this.dead = false;
         this.canSpreadSpores = true;
         mycologist.addMushroomBody(this);
         mycologist.setScore(mycologist.getScore() + 1);
+        this.view = new MushroomBodyView(this);
     }
 
     /**
@@ -117,6 +123,11 @@ public abstract class MushroomBody {
 
     public String getName() {
         return name;
+    }
+
+    public MushroomBodyView getView() {
+        System.out.println("MushroomBodyView getView called");
+        return view; 
     }
 
     /*

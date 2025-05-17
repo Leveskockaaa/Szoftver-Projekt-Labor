@@ -1,5 +1,6 @@
 package com.example.view;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 
 import com.example.model.GameTable;
+
 import util.FontStyles;
 
 public class MainFrame extends JFrame {
@@ -61,7 +63,7 @@ public class MainFrame extends JFrame {
                 System.err.println("An error occurred while waiting for the start screen lock: " + exception.getMessage());
             }
         }
-
+        System.out.println("Selected color: " + entomologistSelector.getSelectedColor());
         return entomologistSelector.getSelectedColor();
     }
 
@@ -83,6 +85,16 @@ public class MainFrame extends JFrame {
         return mycologistSelector.getSelectedMushroomBodyType();
     }
 
+//    public void showGameScreen(GameTable gameTable) {
+//        gameTable.initialize();
+//        GameTableView gameScreen = new GameTableView(gameTable);
+//        this.add(gameScreen.layeredPane, BorderLayout.CENTER);
+//        revalidate();
+//        repaint();
+//
+//
+//    }
+
     public void showGameSummary(List<String> mycologists, List<Color> insectColors) {
         GameSummary gameSummary = new GameSummary(mycologists, insectColors);
         setContentPane(gameSummary);
@@ -101,6 +113,7 @@ public class MainFrame extends JFrame {
 
     public void showGameTable(GameTable gameTable) {
         GameTableView gameTableView = new GameTableView(gameTable);
+        this.add(gameTableView, BorderLayout.CENTER);
         setContentPane(gameTableView);
         revalidate();
         repaint();

@@ -609,4 +609,8 @@ public class Controller implements KeyListener {
         System.out.println("[INFO] Exiting game");
         System.exit(0);
     }
+
+    public GameTable getGameTable() {
+        return gameTable;
+    }
 }

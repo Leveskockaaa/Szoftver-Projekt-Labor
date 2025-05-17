@@ -1,9 +1,12 @@
 package com.example.model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
+
 import com.example.Controller;
-
-import java.util.*;
-
 import static com.example.model.TectonSize.decreaseSize;
 
 /**
@@ -42,6 +45,7 @@ public class Magmox extends Tecton {
      */
     @Override
     public void placeMushroomBody(MushroomBody mushroomBody) {
+        System.out.println("Magmox placeMushroomBody() called");
         this.mushroomBody = mushroomBody;
     }
 
@@ -141,6 +145,8 @@ public class Magmox extends Tecton {
 
         for (Iterator<Tecton> it = n1.neighbors.iterator(); it.hasNext(); ) {
             Tecton n2 = it.next();
+        for (Iterator<Tecton> it = n1.neighbors.iterator(); it.hasNext(); ) {
+            Tecton n2 = it.next();
             if (this.neighbors.contains(n2)) {
                 this.neighbors.remove(n2);
                 t1.addTectonToNeighbors(n2);
@@ -156,9 +162,9 @@ public class Magmox extends Tecton {
         }
 
         //Később a controllerben a helye
-        gameTable.removeTecton(this);
-        gameTable.addTecton(t1);
-        gameTable.addTecton(t2);
+//        gameTable.removeTecton(this);
+//        gameTable.addTecton(t1);
+//        gameTable.addTecton(t2);
 
         return new ArrayList<>(Arrays.asList(t1, t2));
     }

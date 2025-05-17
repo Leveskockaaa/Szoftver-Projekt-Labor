@@ -1,9 +1,12 @@
 package com.example.model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
+
 import com.example.Controller;
-
-import java.util.*;
-
 import static com.example.model.TectonSize.decreaseSize;
 
 /**
@@ -41,6 +44,7 @@ public class Orogenix extends Tecton {
      */
     @Override
     public void placeMushroomBody(MushroomBody mushroomBody) {
+        System.out.println("Orogenix placeMushroomBody() called");
         this.mushroomBody = mushroomBody;
     }
 
@@ -155,9 +159,9 @@ public class Orogenix extends Tecton {
         }
 
         //Később a controllerben a helye
-        gameTable.removeTecton(this);
-        gameTable.addTecton(t1);
-        gameTable.addTecton(t2);
+//        gameTable.removeTecton(this);
+//        gameTable.addTecton(t1);
+//        gameTable.addTecton(t2);
 
         return new ArrayList<>(Arrays.asList(t1, t2));
     }

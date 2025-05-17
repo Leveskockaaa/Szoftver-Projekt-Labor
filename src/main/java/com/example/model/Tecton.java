@@ -1,5 +1,8 @@
 package com.example.model;
 
+import com.example.view.Position;
+import com.example.view.TectonView;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -65,6 +68,8 @@ public abstract class Tecton {
      */
     protected List<Mycelium> mycelia;
 
+    protected TectonView view;
+
 
     /**
      * Konstruktor, amely létrehoz egy új Tecton objektumot a megadott névvel.
@@ -79,6 +84,7 @@ public abstract class Tecton {
         mushroomBody = null;
         insects = new ArrayList<>();
         mycelia = new ArrayList<>();
+        this.view = new TectonView(this);
     }
 
     /**
@@ -94,7 +100,10 @@ public abstract class Tecton {
         mushroomBody = null;
         insects = new ArrayList<>();
         mycelia = new ArrayList<>();
+        this.view = new TectonView(this);
     }
+
+    public TectonView getView() { return view; }
 
     public TectonSize getSize() {
         return size;

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class SporesView implements Drawable {
+public class SporesView extends JPanel {
     private List<Spore> sporeList;
     private HashMap<String, Color> colorMap = new HashMap<>();
     private Position position = new Position(1140, 45);
@@ -21,7 +21,10 @@ public class SporesView implements Drawable {
         colorMap.put("CapulonSpore", new Color(Color.PINK.getRGB()));
     }
 
-    public void draw(float scale, Graphics2D g2d) {
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
         int offsetY = 0; // Adjust the vertical offset for each spore
 
         g2d.drawRect(1120, 20, 60, 250); // Draw a rectangle for the spores

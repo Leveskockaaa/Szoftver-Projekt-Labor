@@ -1,6 +1,7 @@
 package com.example.model;
 
 import com.example.Controller;
+import com.example.view.Position;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +64,8 @@ public class GameTable {
             tectons.clear();
             Controller.clearNameMap();
         }
-        if (Controller.isRandomOn()){
+        int tectonSize = 100;
+        //if (Controller.isRandomOn()){
             Random random = new Random();
             for(int i = 0; i < 10; i++){
                 int randNum = random.nextInt(4);

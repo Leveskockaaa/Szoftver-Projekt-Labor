@@ -1,5 +1,9 @@
 package com.example.model;
 
+import java.awt.Color;
+
+import com.example.view.InsectView;
+
 /**
  * Egy rovar entitást reprezentál különböző attribútumokkal és viselkedésekkel,
  * mint például micélium rágása, spórák evése, különböző Tecton-okra való mozgás stb.
@@ -18,7 +22,7 @@ public class Insect {
     /**
      * A rovar színe HEX formátumban.
      */
-    private String color;
+    private Color color;
 
     /**
      * Az összes tápanyag pont, amit ez a rovar összegyűjtött.
@@ -50,6 +54,8 @@ public class Insect {
      */
     private boolean canEat;
 
+    private InsectView view;
+
     /**
      * Alapértelmezett konstruktor.
      *
@@ -64,6 +70,11 @@ public class Insect {
         this.isParalized = false;
         this.nutrientMultiplier = 1;
         this.collectedNutrientPoints = 0;
+        this.view = new InsectView(this);
+    }
+
+    public InsectView getView() {
+        return view;
     }
 
     /**
@@ -111,7 +122,7 @@ public class Insect {
      *
      * @return A rovar színe.
      */
-    public String getColor() {
+    public Color getColor() {
         return this.color;
     }
 
@@ -265,6 +276,13 @@ public class Insect {
     public String getName() {
         return this.name;
     }
+
+    public void setColor(Color color) {
+        if (color == null) {
+            throw new IllegalArgumentException("Color cannot be null");
+        }
+        this.color = new Color(color.getRGB());
+    }   
 
     /*
     =============================================================================================

@@ -22,4 +22,15 @@ public class Position {
         this.height = 0;
         this.rotation = 0;
     }
+
+    @Override
+    public String toString() {
+        return "Position{" +
+               "x=" + x +
+               ", y=" + y +
+               ", width=" + width +
+               ", height=" + height +
+               ", rotation=" + rotation +
+               '}';
+    }
 }
