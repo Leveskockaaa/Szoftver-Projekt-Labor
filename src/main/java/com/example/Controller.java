@@ -610,7 +610,4 @@ public class Controller implements KeyListener {
         System.exit(0);
     }
 
-    public GameTable getGameTable() {
-        return gameTable;
-    }
 }

@@ -28,7 +28,7 @@ public class GameTableView extends LayeredPane {
     private static final int MIN_DISTANCE = 10;
     private static final double centerAttractionStrength = 0.1;
 
-//    private final List<TectonView> tectonViews = new ArrayList<>();
+private final List<TectonView> tectonViews = new ArrayList<>();
     private final Map<Tecton, Point> tectonPositions;
     private final GameTable gameTable;
 

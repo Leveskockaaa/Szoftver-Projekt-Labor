@@ -143,8 +143,7 @@ public class Magmox extends Tecton {
         t1.addTectonToNeighbors(n1);
         n1.changeNeighbour(this, t1);
 
-        for (Iterator<Tecton> it = n1.neighbors.iterator(); it.hasNext(); ) {
-            Tecton n2 = it.next();
+      
         for (Iterator<Tecton> it = n1.neighbors.iterator(); it.hasNext(); ) {
             Tecton n2 = it.next();
             if (this.neighbors.contains(n2)) {
