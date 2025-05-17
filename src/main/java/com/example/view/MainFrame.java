@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 
+import com.example.model.GameTable;
 import util.FontStyles;
 
 public class MainFrame extends JFrame {
@@ -96,5 +97,12 @@ public class MainFrame extends JFrame {
                 System.err.println("An error occurred while waiting for the start screen lock: " + exception.getMessage());
             }
         }
+    }
+
+    public void showGameTable(GameTable gameTable) {
+        GameTableView gameTableView = new GameTableView(gameTable);
+        setContentPane(gameTableView);
+        revalidate();
+        repaint();
     }
 }
