@@ -34,12 +34,15 @@ private final List<TectonView> tectonViews = new ArrayList<>();
 
     public GameTableView(GameTable gameTable) {
         this.gameTable = gameTable;
+        setBackground(new Color(0,0,0,0));
+        setBounds(0, 0, 1600, 900);
         validateGameTable();
         setLayout(new BorderLayout());
 
         // Initialize positions with force-directed layout
         this.tectonPositions = calculateTectonPositions(gameTable);
         //initializeTectonViews();
+        System.out.println("Initialized positions for " + tectonPositions.size() + " tectons");
     }
 
     private void validateGameTable() {
@@ -248,6 +251,7 @@ private final List<TectonView> tectonViews = new ArrayList<>();
             // Draw insects on the tecton
             int insectIndex = 0;
             for (Insect insect : tect.getInsects()) {
+                System.out.println("Drawing insect for tecton: " + tect);
                
                 Position insectPos = new Position(tectonPositions.get(tect).x - 25 + insectIndex * 30, tectonPositions.get(tect).y + 13);
                 insect.getView().setPosition(insectPos);
@@ -278,7 +282,7 @@ private final List<TectonView> tectonViews = new ArrayList<>();
                 System.out.println("Drawing mushroom body for tecton: " + tect);
                 Position mbPos = new Position(tectonPositions.get(tect).x - 35, tectonPositions.get(tect).y - 30);
                 tect.getMushroomBody().getView().setPosition(mbPos);
-                
+                System.out.println(tect.printType());
                 this.add(tect.getMushroomBody().getView(), BorderLayout.CENTER);
                 tect.getMushroomBody().getView().repaint();
                 tect.getMushroomBody().getView().revalidate();

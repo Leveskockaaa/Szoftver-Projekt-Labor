@@ -17,9 +17,12 @@ public class Entomologist extends Player {
     public Entomologist() {
         super();
         insects = new ArrayList<Insect>();
+        insects.add(new Insect(this));
     }
 
     public void setColor(Color c) { color = c; }
+
+    public Color getColor() { return color; }
 
     /**
      * Elhelyezi az entomológust egy kezdeti Tecton-on.

@@ -41,6 +41,7 @@ public class Mantleon extends Tecton {
     @Override
     public void placeMushroomBody(MushroomBody mushroomBody) {
         System.out.println("Mantleon placeMushroomBody() called");
+        this.mushroomBody = mushroomBody;
         return;
     }
 
