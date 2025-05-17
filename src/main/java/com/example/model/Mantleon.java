@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Random;
 
 import com.example.Controller;
+import com.example.Timer;
+
 import static com.example.model.TectonSize.decreaseSize;
 
 /**
@@ -84,6 +86,10 @@ public class Mantleon extends Tecton {
      */
     @Override
     public List<Tecton> breakApart() {
+        System.out.println("Mantleon breakApart() called");
+        if (this.size == TectonSize.SMALL) {
+            return new ArrayList<>();
+        }
 
         //Két új tekton létrehozása
         Mantleon t1 = new Mantleon(decreaseSize(this.size));
@@ -155,10 +161,8 @@ public class Mantleon extends Tecton {
             n.changeNeighbour(this, t2);
         }
 
-        //Később a controllerben a helye
-//        gameTable.removeTecton(this);
-//        gameTable.addTecton(t1);
-//        gameTable.addTecton(t2);
+        Random random = new Random();
+        //Timer timer = new Timer(random.nextInt(30, 60), );
 
         return new ArrayList<>(Arrays.asList(t1, t2));
     }

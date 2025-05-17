@@ -35,5 +35,17 @@ public class Main {
 
         mainFrame.showGameTable(controller.getGameTable());
 
+        try {
+            Thread.sleep(7000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            System.err.println("Sleep was interrupted");
+        }
+
+        while (true) {
+            mainFrame.showGameTable(controller.getGameTable());
+        }
+
+
     }
 }
