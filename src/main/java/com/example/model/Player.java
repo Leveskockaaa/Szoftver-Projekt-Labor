@@ -23,8 +23,7 @@ public abstract class Player {
      * A Player osztály konstruktora.
      * @param name A játékos neve.
      */
-    protected Player(String name) {
-        this.name = name;
+    protected Player() {
         this.score = 0;
         this.isWinner = false;
     }

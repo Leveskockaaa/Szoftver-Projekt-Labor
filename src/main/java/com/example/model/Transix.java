@@ -18,8 +18,8 @@ public class Transix extends Tecton {
      *
      * @param name A Transix neve.
      */
-    public Transix(String name) {
-        super(name);
+    public Transix() {
+        super();
         maxMycelia = 2;
     }
 
@@ -29,8 +29,8 @@ public class Transix extends Tecton {
      * @param size A Transix méretkategóriája.
      * @param name A Transix neve.
      */
-    public Transix(TectonSize size, String name) {
-        super(size, name);
+    public Transix(TectonSize size) {
+        super(size);
         maxMycelia = 2;
     }
 
@@ -84,14 +84,11 @@ public class Transix extends Tecton {
      * @return A létrejött két új tekton listája.
      */
     @Override
-    public List<Tecton> breakApart(String newTectonName1, String newTectonName2) {
+    public List<Tecton> breakApart() {
 
         //Két új tekton létrehozása
-        Transix t1 = new Transix(decreaseSize(this.size), newTectonName1);
-        Transix t2 = new Transix(decreaseSize(this.size), newTectonName2);
-
-        Controller.putToNameMap(t1, newTectonName1);
-        Controller.putToNameMap(t2, newTectonName2);
+        Transix t1 = new Transix(decreaseSize(this.size));
+        Transix t2 = new Transix(decreaseSize(this.size));
 
         //Köztük kapcsolat létrehozása
         t1.addTectonToNeighbors(t2);
@@ -159,10 +156,10 @@ public class Transix extends Tecton {
             n.changeNeighbour(this, t2);
         }
 
-        //Később a controllerben a helye
-        gameTable.removeTecton(this);
-        gameTable.addTecton(t1);
-        gameTable.addTecton(t2);
+//        //Később a controllerben a helye
+//        gameTable.removeTecton(this);
+//        gameTable.addTecton(t1);
+//        gameTable.addTecton(t2);
 
         return new ArrayList<>(Arrays.asList(t1, t2));
     }

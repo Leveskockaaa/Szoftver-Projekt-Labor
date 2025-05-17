@@ -17,8 +17,8 @@ public class Mantleon extends Tecton {
      * Alapértelmezett konstruktor a Magmox osztályhoz.
      * Beállítja az alapértelmezett értékeket, például a maximális gombafonalak számát.
      */
-    public Mantleon(String name) {
-        super(name);
+    public Mantleon() {
+        super();
         maxMycelia = 2;
     }
 
@@ -27,8 +27,8 @@ public class Mantleon extends Tecton {
      *
      * @param size A tekton mérete.
      */
-    public Mantleon(TectonSize size, String name) {
-        super(size, name);
+    public Mantleon(TectonSize size) {
+        super(size);
         maxMycelia = 2;
     }
 
@@ -78,14 +78,11 @@ public class Mantleon extends Tecton {
      * @return A létrejött két új tekton listája.
      */
     @Override
-    public List<Tecton> breakApart(String newTectonName1, String newTectonName2) {
+    public List<Tecton> breakApart() {
 
         //Két új tekton létrehozása
-        Mantleon t1 = new Mantleon(decreaseSize(this.size), newTectonName1);
-        Mantleon t2 = new Mantleon(decreaseSize(this.size), newTectonName2);
-
-        Controller.putToNameMap(t1, newTectonName1);
-        Controller.putToNameMap(t2, newTectonName2);
+        Mantleon t1 = new Mantleon(decreaseSize(this.size));
+        Mantleon t2 = new Mantleon(decreaseSize(this.size));
 
         //Köztük kapcsolat létrehozása
         t1.addTectonToNeighbors(t2);

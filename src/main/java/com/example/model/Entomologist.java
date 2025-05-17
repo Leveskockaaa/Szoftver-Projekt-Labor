@@ -1,5 +1,6 @@
 package com.example.model;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,15 +12,14 @@ public class Entomologist extends Player {
 
     private List<Insect> insects;
 
-    /**
-     * Konstruktor, amely inicializálja az entomológus nevét és pontszámát.
-     *
-     * @param name Az entomológus neve.
-     */
-    public Entomologist(String name) {
-        super(name);
+    private Color color;
+
+    public Entomologist() {
+        super();
         insects = new ArrayList<Insect>();
     }
+
+    public void setColor(Color c) { color = c; }
 
     /**
      * Elhelyezi az entomológust egy kezdeti Tecton-on.

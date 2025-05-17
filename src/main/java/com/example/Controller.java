@@ -1,9 +1,11 @@
 package com.example;
 import com.example.model.*;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -11,10 +13,10 @@ public class Controller implements KeyListener {
     private static HashMap<Object, String> nameMap = new HashMap<>();
     private List<Timer> timers = new ArrayList<>();
     private GameTable gameTable;
-    private Mycologist mycologist1 = new Mycologist("Mycologist1");
-    private Mycologist mycologist2 = new Mycologist("Mycologist2");
-    private Entomologist entomologist1 = new Entomologist("Entomologist1");
-    private Entomologist entomologist2 = new Entomologist("Entomologist2");
+    private Mycologist mycologist1 = new Mycologist();
+    private Mycologist mycologist2 = new Mycologist();
+    private Entomologist entomologist1 = new Entomologist();
+    private Entomologist entomologist2 = new Entomologist();
     
     private int selectedMyceliumIndexM1 = -1;
     private boolean myceliumSelectionActiveM1 = false;
@@ -47,23 +49,31 @@ public class Controller implements KeyListener {
     private Tecton chewTectonE2 = null;
 
 
-    public Controller() {
-        Tecton t = new Transix("Tecton1");
-        mycologist1.addMycelium(new Mycelium(t, mycologist1));
-        mycologist1.addMycelium(new Mycelium(t, mycologist1));
-        mycologist1.addMycelium(new Mycelium(t, mycologist1));
-        MushroomBody mushroomBody = new Hyphara(t, mycologist1);
+    public Controller(List<String> mycologists, List<Color> entomologists) {
+        switch (mycologists.get(0).toLowerCase()) {
+            case "hyphara" -> mycologist1.setMushroomBodyType(new Hyphara(new Transix(), mycologist1));
+            case "poralia" -> mycologist1.setMushroomBodyType(new Poralia(new Transix(), mycologist1));
+            case "capulon" -> mycologist1.setMushroomBodyType(new Capulon(new Transix(), mycologist1));
+            case "gilledon" -> mycologist1.setMushroomBodyType(new Gilledon(new Transix(), mycologist1));
+        }
+        switch (mycologists.get(0).toLowerCase()) {
+            case "hyphara" -> mycologist2.setMushroomBodyType(new Hyphara(new Transix(), mycologist2));
+            case "poralia" -> mycologist2.setMushroomBodyType(new Poralia(new Transix(), mycologist2));
+            case "capulon" -> mycologist2.setMushroomBodyType(new Capulon(new Transix(), mycologist2));
+            case "gilledon" -> mycologist2.setMushroomBodyType(new Gilledon(new Transix(), mycologist2));
+        }
+        entomologist1.setColor(entomologists.get(0));
+        entomologist2.setColor(entomologists.get(1));
 
-        mycologist2.addMycelium(new Mycelium(t, mycologist2));
-        mycologist2.addMycelium(new Mycelium(t, mycologist2));
+        gameTable = new GameTable(Arrays.asList(mycologist1, mycologist2, entomologist1, entomologist2));
+        gameTable.initialize();
 
-        Tecton t2 = new Transix("Tecton2");
-        Tecton t3 = new Transix("Tecton3");
-        t.addTectonToNeighbors(t2);
-        t.addTectonToNeighbors(t3);
 
-        Insect i = new Insect(entomologist1);
-        t.placeInsect(i);
+
+    }
+
+    public GameTable getGameTable() {
+        return gameTable;
     }
 
     @Override
@@ -447,38 +457,6 @@ public class Controller implements KeyListener {
     }
 
     /**
-     * Visszaadja a megadott névhez tartozó objektumot a név-objektum leképezésből.
-     * Ha az objektum nem található, hibaüzenetet ír ki és null-t ad vissza.
-     *
-     * @param name A keresett objektum neve.
-     * @return A névhez tartozó objektum, vagy null, ha nem található.
-     */
-    public static Object getFromNameMap(String name) {
-        for (Object object : nameMap.keySet()) {
-            if (nameMap.get(object).equals(name)) {
-                return object;
-            }
-        }
-        System.out.println("[ERROR] Object not found in name map: " + name);
-        return null;
-    }
-
-    /**
-     * Hozzáad egy objektumot és a hozzá tartozó nevet a név-objektum leképezéshez.
-     * Ha a név már létezik a leképezésben, hibaüzenetet ír ki.
-     *
-     * @param object A hozzáadandó objektum.
-     * @param name Az objektumhoz társítandó név.
-     */
-    public static void putToNameMap(Object object, String name) {
-        if (nameMap.containsValue(name)) {
-            System.out.println("[ERROR] Name already exists in name map: " + getFromNameMap(name).toString() + " Please try again with a different name.");
-        } else {
-            nameMap.put(object, name);
-        }
-    }
-
-    /**
      * Törli a név-objektum leképezést.
      */
     public static void clearNameMap() {
@@ -530,13 +508,6 @@ public class Controller implements KeyListener {
         String myceliumName = commandParts[1];
         String insectName = commandParts[2];
 
-        Mycelium mycelium = (Mycelium) getFromNameMap(myceliumName);
-        if (mycelium == null) throw new RuntimeException("Mycelium not found: " + myceliumName);
-        Insect insect = (Insect) getFromNameMap(insectName);
-        if (insect == null) throw new RuntimeException("Insect not found: " + insectName);
-
-        insect.paralize();
-        mycelium.eatInsect();
     }
 
     /**
@@ -552,272 +523,8 @@ public class Controller implements KeyListener {
         }
         String gametableName = commandParts[1];
 
-        GameTable gameTable = (GameTable) getFromNameMap(gametableName);
         if (gameTable == null) throw new RuntimeException("GameTable not found: " + gametableName);
         gameTable.initialize();
-    }
-
-    /**
-     * Létrehoz egy új játéktáblát a megadott névvel, és hozzáadja a névtérhez.
-     *
-     * @param commandParts A parancs argumentumai: [parancs, játéktábla neve]
-     * @throws RuntimeException ha a parancs argumentumainak száma nem megfelelő
-     */
-    private void createGameTable(String[] commandParts) {
-        if (commandParts.length != 2) {
-            throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <name>");
-        }
-        GameTable gameTable = new GameTable(commandParts[1]);
-        putToNameMap(gameTable, commandParts[1]);
-    }
-
-    /**
-     * Létrehoz egy új Tecton objektumot a megadott paraméterek alapján, és hozzáadja a játéktáblához.
-     * A parancs argumentumai: [parancs, név, típus, játéktábla neve].
-     * Hibát dob, ha a parancs argumentumainak száma nem megfelelő, vagy ha a típus vagy játéktábla érvénytelen.
-     *
-     * @param commandParts A parancs argumentumai: [parancs, név, típus, játéktábla neve]
-     * @throws RuntimeException ha a parancs hibás, a típus ismeretlen, vagy a játéktábla nem található
-     */
-    private void createTecton(String[] commandParts) {
-        if (commandParts.length != 4) {
-            throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <name> <type> <gametableName>");
-        }
-        String name = commandParts[1];
-        String type = commandParts[2];
-        String gametableName = commandParts[3];
-
-        Tecton tecton = null;
-        switch (type.toLowerCase()) {
-            case "magmox" -> tecton = new Magmox(name);
-            case "mantleon" -> tecton = new Mantleon(name);
-            case "orogenix" -> tecton = new Orogenix(name);
-            case "transix" -> tecton = new Transix(name);
-            default -> throw new RuntimeException("[ERROR] Invalid tecton type: " + type);
-        }
-        if (tecton == null) throw new RuntimeException("[ERROR] Failed to initialize tecton");
-        GameTable gameTable = (GameTable) getFromNameMap(gametableName);
-        if (gameTable == null) return;
-        gameTable.addTecton(tecton);
-        tecton.setGameTable(gameTable);
-        putToNameMap(tecton, name);
-    }
-
-    /**
-     * Létrehoz egy új játékost a megadott paraméterek alapján, és hozzáadja a megfelelő játéktáblához.
-     * A parancs argumentumai: [parancs, név, típus, játéktábla neve, (opcionális) gombatestFaj].
-     * Hibát dob, ha a parancs argumentumainak száma nem megfelelő, vagy ha a típus, játéktábla vagy gombatestFaj érvénytelen.
-     *
-     * @param commandParts A parancs argumentumai: [parancs, név, típus, játéktábla neve, (opcionális) gombatestFaj]
-     * @throws RuntimeException ha a parancs hibás, a típus vagy a játéktábla nem található, vagy a gombatestFaj érvénytelen
-     */
-    private void createPlayer(String[] commandParts) {
-        if (commandParts.length != 4 && commandParts.length != 5) {
-            throw new RuntimeException("Invalid command usage: " + commandParts[0] + " <name> <type> <gametableName> <gombatestFaj>");
-        }
-        String name = commandParts[1];
-        String type = commandParts[2].toLowerCase();
-        String gameTableName = commandParts[3];
-
-        switch (type) {
-            case "mycologist": {
-                Mycologist mycologist = new Mycologist(name);
-                if (commandParts.length == 5) {
-                    String gombatestFaj = commandParts[4].toLowerCase();
-                    switch (gombatestFaj) {
-                        case "hyphara":  Hyphara h = new Hyphara(null, mycologist); mycologist.setMushroomBodyType(h); break;
-                        case "gilledon": Gilledon g = new Gilledon(null, mycologist); mycologist.setMushroomBodyType(g); break;
-                        case "poralia": Poralia p = new Poralia(null, mycologist); mycologist.setMushroomBodyType(p); break;
-                        case "capulon": Capulon c = new Capulon(null, mycologist); mycologist.setMushroomBodyType(c); break;
-                        default: throw new RuntimeException("Invalid gombatestFaj: " + gombatestFaj);
-                    }
-                }
-                else {
-                    throw new RuntimeException("Mycologist must have a mushroom body type.");
-                }
-                GameTable gameTable = (GameTable) getFromNameMap(gameTableName);
-                if (gameTable == null) throw new RuntimeException("GameTable not found: " + gameTableName);
-                gameTable.addPlayer(mycologist);
-                putToNameMap(mycologist, name);
-                break;
-            }
-            case "entomologist": {
-                Entomologist entomologist = new Entomologist(name);
-                GameTable gameTable = (GameTable) getFromNameMap(gameTableName);
-                if (gameTable == null) throw new RuntimeException("GameTable not found: " + gameTableName);
-                gameTable.addPlayer(entomologist);
-                putToNameMap(entomologist, name);
-                break;
-            }
-            default: {
-                throw new RuntimeException("Invalid player type: " + type);
-            }
-        }
-    }
-
-    /**
-     * Létrehoz egy új rovar objektumot a megadott paraméterek alapján, és hozzáadja a megfelelő entomológushoz és tektonhoz.
-     * A parancs argumentumai: [parancs, név, entomológus neve, tekton neve].
-     * Hibát dob, ha a parancs argumentumainak száma nem megfelelő, vagy ha az entomológus vagy tekton nem található.
-     *
-     * @param commandParts A parancs argumentumai: [parancs, név, entomológus neve, tekton neve]
-     * @throws RuntimeException ha a parancs hibás, az entomológus vagy a tekton nem található
-     */
-    private void createInsect(String[] commandParts) {
-        if (commandParts.length != 4) {
-            throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <name> <playerName> <tectonName>");
-        }
-        String name = commandParts[1];
-        String player = commandParts[2];
-        String tectonName = commandParts[3];
-
-        Entomologist entomologist = (Entomologist) getFromNameMap(player);
-        if (entomologist == null) throw new RuntimeException("Entomologist not found: " + player);
-        Insect insect = new Insect(entomologist);
-        entomologist.addInsect(insect);
-        Tecton tecton = (Tecton) getFromNameMap(tectonName);
-        if (tecton == null) throw new RuntimeException("Tecton not found: " + tectonName);
-        tecton.placeInsect(insect);
-        putToNameMap(insect, name);
-    }
-
-    /**
-     * Létrehoz egy új MushroomBody objektumot a megadott paraméterek alapján,
-     * hozzáadja a megfelelő Tectonhoz és Mycologisthoz, majd elmenti a névtérbe.
-     * Ha a Mycologist-nek csak egy "_minta" nevű gombateste van, azt eltávolítja és csökkenti a pontszámát.
-     *
-     * @param commandParts A parancs argumentumai: [parancs, név, típus, tecton neve, mycologist neve]
-     * @throws RuntimeException ha a parancs hibás, a Tecton vagy Mycologist nem található, vagy a típus érvénytelen
-     */
-    private void createMushroomBody(String[] commandParts) {
-        if (commandParts.length != 5) {
-            throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <name> <type> <tectonName> <mycologistName>");
-        }
-        String name = commandParts[1];
-        String type = commandParts[2].toLowerCase();
-        String tectonName = commandParts[3];
-        String mycologistName = commandParts[4];
-
-        MushroomBody mushroomBody = null;
-        Tecton tecton = (Tecton) getFromNameMap(tectonName);
-        if (tecton == null) throw new RuntimeException("Tecton not found: " + tectonName);
-        Mycologist mycologist = (Mycologist) getFromNameMap(mycologistName);
-        if (mycologist == null) throw new RuntimeException("Mycologist not found: " + mycologistName);
-
-        if (mycologist.getMushroomBodies().size() == 1 && mycologist.getMushroomBodies().get(0).printName().contains("_minta")) {
-            mycologist.getMushroomBodies().remove(0);
-            mycologist.setScore(mycologist.getScore() - 1);
-        }
-        switch (type) {
-            case "hyphara" -> mushroomBody = new Hyphara(tecton, mycologist);
-            case "gilledon" -> mushroomBody = new Gilledon(tecton, mycologist);
-            case "poralia" -> mushroomBody = new Poralia(tecton, mycologist);
-            case "capulon" -> mushroomBody = new Capulon(tecton, mycologist);
-            default -> System.out.println("Invalid mushroom body type: " + type);
-        }
-        if (mushroomBody == null) throw new RuntimeException("Failed to initialize mushroom body");
-        tecton.placeMushroomBody(mushroomBody);
-        putToNameMap(mushroomBody, name);
-    }
-
-    /**
-     * Létrehoz egy vagy több spórát a megadott típus, tekton és darabszám alapján,
-     * majd hozzáadja azokat a megfelelő Tecton objektumhoz.
-     * Hibát dob, ha a parancs argumentumainak száma nem megfelelő, vagy ha a típus vagy tekton érvénytelen.
-     *
-     * @param commandParts A parancs argumentumai: [parancs, típus, tecton neve, darabszám]
-     * @throws RuntimeException ha a parancs hibás, a típus vagy a tecton nem található
-     */
-    private void createSpore(String[] commandParts) {
-        if (commandParts.length != 5) {
-            throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <type> <tectonName> <number> <mushroomBodyName>");
-        }
-        String type = commandParts[1];
-        String tectonName = commandParts[2];
-        String mushroomBodyName = commandParts[4];
-        int number = Integer.parseInt(commandParts[3]);
-
-        Tecton tecton = (Tecton) getFromNameMap(tectonName);
-        if (tecton == null) throw new RuntimeException("Tecton not found: " + tectonName);
-        MushroomBody mushroomBody = (MushroomBody) getFromNameMap(mushroomBodyName);
-        if (mushroomBody == null) throw new RuntimeException("MushroomBody not found: " + mushroomBodyName);
-        switch (type.toLowerCase()) {
-            case "hyphara" -> {
-                for (int i = 0; i < number; i++) {
-                    HypharaSpore spore = new HypharaSpore(mushroomBody);
-                    tecton.addSpore(spore);
-                }
-            }
-            case "gilledon" -> {
-                for (int i = 0; i < number; i++) {
-                    GilledonSpore spore = new GilledonSpore(mushroomBody);
-                    tecton.addSpore(spore);
-                }
-            }
-            case "capulon" -> {
-                for (int i = 0; i < number; i++) {
-                    CapulonSpore spore = new CapulonSpore(mushroomBody);
-                    tecton.addSpore(spore);
-                }
-            }
-            case "poralia" -> {
-                for (int i = 0; i < number; i++) {
-                    PoraliaSpore spore = new PoraliaSpore(mushroomBody);
-                    tecton.addSpore(spore);
-                }
-            }
-            default -> throw new RuntimeException("Invalid spore type: " + type);
-        }
-    }
-
-    /**
-     * Létrehoz egy új micéliumot a megadott paraméterek alapján,
-     * hozzáadja a megfelelő Tectonhoz és Mycologisthoz, majd elmenti a névtérbe.
-     * Hibát dob, ha a parancs argumentumainak száma nem megfelelő, vagy ha a Mycologist vagy Tecton nem található.
-     *
-     * @param commandParts A parancs argumentumai: [parancs, micélium neve, mycologist neve, tecton neve]
-     * @throws RuntimeException ha a parancs hibás, a Mycologist vagy a Tecton nem található
-     */
-    private void createMycelium(String[] commandParts) {
-        if (commandParts.length != 4) {
-            throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <name> <mycologistName> <tectonName>");
-        }
-        String myceliumName = commandParts[1];
-        String mycologistName = commandParts[2];
-        String tectonName = commandParts[3];
-
-        Mycologist mycologist = (Mycologist) getFromNameMap(mycologistName);
-        if (mycologist == null) throw new RuntimeException("Mycologist not found: " + mycologistName);
-        Tecton tecton = (Tecton) getFromNameMap(tectonName);
-        if (tecton == null) throw new RuntimeException("Tecton not found: " + tectonName);
-
-        Mycelium mycelium = new Mycelium(tecton, mycologist);
-        tecton.addMycelium(mycelium);
-        mycologist.addMycelium(mycelium);
-        putToNameMap(mycelium, myceliumName);
-    }
-
-    /**
-     * Egy rovart áthelyez egy másik tektonra a megadott paraméterek alapján.
-     * A parancs argumentumai: [parancs, rovar neve, tekton neve].
-     * Hibát dob, ha a parancs argumentumainak száma nem megfelelő, vagy ha a rovar vagy tekton nem található.
-     *
-     * @param commandParts A parancs argumentumai: [parancs, rovar neve, tekton neve]
-     * @throws RuntimeException ha a parancs hibás, a rovar vagy a tekton nem található
-     */
-    private void move(String[] commandParts) {
-        if (commandParts.length != 3) {
-            throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <insectName> <tectonName>");
-        }
-        String insectName = commandParts[1];
-        String tectonName = commandParts[2];
-
-        Insect insect = (Insect) getFromNameMap(insectName);
-        if (insect == null) throw new RuntimeException("Insect not found: " + insectName);
-        Tecton tecton = (Tecton) getFromNameMap(tectonName);
-        if (tecton == null) throw new RuntimeException("Tecton not found: " + tectonName);
-
-        insect.moveTo(tecton);
     }
 
     /**
@@ -837,170 +544,6 @@ public class Controller implements KeyListener {
         String newTectonName1 = commandParts[2];
         String newTectonName2 = commandParts[3];
 
-        Tecton tecton = (Tecton) getFromNameMap(tectonName);
-        if (tecton == null) throw new RuntimeException("[ERROR] Tecton not found: " + tectonName);
-
-        List<Tecton> newtectons = tecton.breakApart(newTectonName1, newTectonName2);
-        if (newtectons == null) throw new RuntimeException("[ERROR] Failed to break tecton");
-
-    }
-
-    /**
-     * Egy rovar megeszik egy spórát a megadott név alapján.
-     * A parancs argumentuma: [parancs, rovar neve].
-     * Hibát dob, ha a parancs argumentumainak száma nem megfelelő, vagy ha a rovar nem található.
-     *
-     * @param commandParts A parancs argumentumai: [parancs, rovar neve]
-     * @throws RuntimeException ha a parancs hibás vagy a rovar nem található
-     */
-    private void eatSpore(String[] commandParts) {
-        if (commandParts.length != 2) {
-            throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <insectName>");
-        }
-        String insectName = commandParts[1];
-
-        Insect insect = (Insect) getFromNameMap(insectName);
-        if (insect == null) throw new RuntimeException("Insect not found: " + insectName);
-
-        insect.eatSpore();
-    }
-
-    /**
-     * Egy rovar elrág egy micéliumot a megadott paraméterek alapján.
-     * A parancs argumentumai: [parancs, rovar neve, micélium neve].
-     * Hibát dob, ha a parancs argumentumainak száma nem megfelelő, vagy ha a rovar vagy micélium nem található.
-     *
-     * @param commandParts A parancs argumentumai: [parancs, rovar neve, micélium neve]
-     * @throws RuntimeException ha a parancs hibás, a rovar vagy a micélium nem található
-     */
-    private void chewMycelium(String[] commandParts) {
-        if (commandParts.length != 3) {
-            throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <insectName> <myceliumName>");
-        }
-        String insectName = commandParts[1];
-        String myceliumName = commandParts[2];
-
-        Insect insect = (Insect) getFromNameMap(insectName);
-        if (insect == null) throw new RuntimeException("Insect not found: " + insectName);
-        Mycelium mycelium = (Mycelium) getFromNameMap(myceliumName);
-        if (mycelium == null) throw new RuntimeException("Mycelium not found: " + myceliumName);
-
-        insect.chewMycelium(mycelium);
-    }
-
-    /**
-     * Egy gombatest szórja a spóráit a megadott név alapján.
-     * A parancs argumentuma: [parancs, gombatest neve].
-     * Hibát dob, ha a parancs argumentumainak száma nem megfelelő, vagy ha a gombatest nem található.
-     *
-     * @param commandParts A parancs argumentumai: [parancs, gombatest neve]
-     * @throws RuntimeException ha a parancs hibás vagy a gombatest nem található
-     */
-    private void spreadSpores(String[] commandParts) {
-        if (commandParts.length != 2) {
-            throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <mushroomBodyName>");
-        }
-        String mushroomBodyName = commandParts[1];
-
-        MushroomBody mushroomBody = (MushroomBody) getFromNameMap(mushroomBodyName);
-        if (mushroomBody == null) throw new RuntimeException("MushroomBody not found: " + mushroomBodyName);
-
-        mushroomBody.spreadSpores();
-    }
-
-    /**
-     * Egy gombatest szuper gombatesté fejlődik a megadott név alapján.
-     * A parancs argumentuma: [parancs, gombatest neve].
-     * Hibát dob, ha a parancs argumentumainak száma nem megfelelő, vagy ha a gombatest nem található.
-     *
-     * @param commandParts A parancs argumentumai: [parancs, gombatest neve]
-     * @throws RuntimeException ha a parancs hibás vagy a gombatest nem található
-     */
-    private void evolveSuper(String[] commandParts) {
-        if (commandParts.length != 2) {
-            throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <mushroomBodyName>");
-        }
-        String mushroomBodyName = commandParts[1];
-
-        MushroomBody mushroomBody = (MushroomBody) getFromNameMap(mushroomBodyName);
-        if (mushroomBody == null) throw new RuntimeException("MushroomBody not found: " + mushroomBodyName);
-
-        mushroomBody.evolveSuper();
-    }
-
-    /**
-     * Két Tecton objektumot szomszédossá tesz egymással a megadott neveik alapján.
-     * A parancs argumentumai: [parancs, elsőTectonNeve, másodikTectonNeve].
-     * Hibát dob, ha a parancs argumentumainak száma nem megfelelő, vagy ha bármelyik Tecton nem található.
-     *
-     * @param commandParts A parancs argumentumai: [parancs, elsőTectonNeve, másodikTectonNeve]
-     * @throws RuntimeException ha hibás a parancs vagy a Tecton objektumok nem találhatók
-     */
-    private void neighbors(String[] commandParts) {
-        if (commandParts.length != 3) {
-            throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <firstTectonName> <secondTectonName>");
-        }
-        String firstTectonName = commandParts[1];
-        String secondTectonName = commandParts[2];
-
-        Tecton firstTecton = (Tecton) getFromNameMap(firstTectonName);
-        if (firstTecton == null) throw new RuntimeException("First Tecton not found: " + firstTectonName);
-        Tecton secondTecton = (Tecton) getFromNameMap(secondTectonName);
-        if (secondTecton == null) throw new RuntimeException("Second Tecton not found: " + secondTectonName);
-
-        try {
-            firstTecton.addTectonToNeighbors(secondTecton);
-        } catch (Exception exception) {
-            throw new RuntimeException("Error while adding tecton to neighbors", exception);
-        }
-    }
-
-    /**
-     * Egy meglévő micéliumot egy másik tektonra növeszt, új micéliumot hozva létre a megadott névvel.
-     * A parancs argumentumai: [parancs, micélium neve, tecton neve, új micélium neve].
-     * Hibát dob, ha a parancs argumentumainak száma nem megfelelő, vagy ha a micélium vagy tecton nem található,
-     * vagy ha az új micélium ág létrehozása sikertelen.
-     *
-     * @param commandParts A parancs argumentumai: [parancs, micélium neve, tecton neve, új micélium neve]
-     * @throws RuntimeException ha hibás a parancs, a micélium vagy a tecton nem található, vagy az új ág létrehozása sikertelen
-     */
-    private void growTo(String[] commandParts) {
-        if (commandParts.length != 4) {
-            throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <myceliumName> <tectonName> <newMyceliumName>");
-        }
-        String myceliumName = commandParts[1];
-        String tectonName = commandParts[2];
-        String newMyceliumName = commandParts[3];
-
-        Mycelium mycelium = (Mycelium) getFromNameMap(myceliumName);
-        if (mycelium == null) throw new RuntimeException("Mycelium not found: " + myceliumName);
-        Tecton tecton = (Tecton) getFromNameMap(tectonName);
-        if (tecton == null) throw new RuntimeException("Tecton not found: " + tectonName);
-
-        Mycelium newMycelium = mycelium.createNewBranch(tecton);
-        if (newMycelium == null) throw new RuntimeException("Failed to create new mycelium branch");
-        putToNameMap(newMycelium, newMyceliumName);
-    }
-
-    /**
-     * Egy meglévő micéliumhoz új gombatestet növeszt a megadott névvel.
-     * A parancs argumentumai: [parancs, micélium neve, új gombatest neve].
-     * Hibát dob, ha a parancs argumentumainak száma nem megfelelő, vagy ha a micélium nem található.
-     *
-     * @param commandParts A parancs argumentumai: [parancs, micélium neve, új gombatest neve]
-     * @throws RuntimeException ha hibás a parancs vagy a micélium nem található
-     */
-    private void growBody(String[] commandParts) {
-        if (commandParts.length != 3) {
-            throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <myceliumName> <newMushroomBodyName>");
-        }
-        String myceliumName = commandParts[1];
-        String newMushroomBodyName = commandParts[2];
-
-        Mycelium mycelium = (Mycelium) getFromNameMap(myceliumName);
-        if (mycelium == null) throw new RuntimeException("Mycelium not found: " + myceliumName);
-
-        mycelium.developMushroomBody();
     }
 
     /**
@@ -1015,7 +558,6 @@ public class Controller implements KeyListener {
         if (commandParts.length != 2) {
             throw new RuntimeException("[ERROR] Invalid command usage: " + commandParts[0] + " <gametableName>");
         }
-        GameTable gameTable = (GameTable) getFromNameMap(commandParts[1]);
         if (gameTable == null) throw new RuntimeException("GameTable not found: " + commandParts[1]);
         gameTable.endGame();
         String Indent = "    ";

@@ -30,12 +30,11 @@ public class GameTable {
 
     private int sizeY;
 
-    public GameTable(String name) {
-        this.name = name;
+    public GameTable(List<Player> players) {
         sizeX = 0;
         sizeY = 0;
         tectons = new ArrayList<>();
-        players = new ArrayList<>();
+        this.players = players;
     }
 
     public GameTable(int x, int y, String name) {
@@ -69,39 +68,12 @@ public class GameTable {
             for(int i = 0; i < 10; i++){
                 int randNum = random.nextInt(4);
                 Tecton t = switch (randNum) {
-                    case 0 -> new Transix(TectonSize.GIANT, "t" + i);
-                    case 1 -> new Mantleon(TectonSize.GIANT, "t" + i);
-                    case 2 -> new Magmox(TectonSize.GIANT, "t" + i);
-                    default -> new Orogenix(TectonSize.GIANT, "t" + i);
+                    case 0 -> new Transix();
+                    case 1 -> new Mantleon();
+                    case 2 -> new Magmox();
+                    default -> new Orogenix();
                 };
                 tectons.add(t);
-                Controller.putToNameMap(t, t.printName());
-            }
-        } else {
-            Tecton t1 = new Transix(TectonSize.GIANT, "t1");
-            Tecton t2 = new Transix(TectonSize.GIANT, "t2");
-            Tecton t3 = new Transix(TectonSize.GIANT, "t3");
-            Tecton t4 = new Mantleon(TectonSize.GIANT, "t4");
-            Tecton t5 = new Mantleon(TectonSize.GIANT, "t5");
-            Tecton t6 = new Magmox(TectonSize.GIANT, "t6");
-            Tecton t7 = new Magmox(TectonSize.GIANT, "t7");
-            Tecton t8 = new Orogenix(TectonSize.GIANT, "t8");
-            Tecton t9 = new Orogenix(TectonSize.GIANT, "t9");
-            Tecton t10 = new Orogenix(TectonSize.GIANT, "t10");
-
-            tectons.add(t1);
-            tectons.add(t2);
-            tectons.add(t3);
-            tectons.add(t4);
-            tectons.add(t5);
-            tectons.add(t6);
-            tectons.add(t7);
-            tectons.add(t8);
-            tectons.add(t9);
-            tectons.add(t10);
-
-            for (Tecton t : tectons) {
-                Controller.putToNameMap(t, t.printName());
             }
         }
 
@@ -112,6 +84,25 @@ public class GameTable {
 
         for (int i = 0; i < tectons.size() - 1; i++){
             tectons.get(i).addTectonToNeighbors(tectons.get(tectons.size() - 1));
+        }
+
+        //Place Initials
+        Random random = new Random();
+
+        List<Integer> initialTectons = new ArrayList<>();
+        initialTectons.add(random.nextInt(tectons.size()));
+        initialTectons.add(random.nextInt(tectons.size()));
+
+        int i = 0;
+        int j = 0;
+        while (players.get(i++).printType().equals("Mycologist")) {
+            players.get(0).placeInitial(tectons.get(initialTectons.get(j++)));
+        }
+
+        i = 0;
+        j = 0;
+        while (players.get(i++).printType().equals("Entomologist")) {
+            players.get(0).placeInitial(tectons.get(initialTectons.get(j++)));
         }
     }
 
@@ -135,7 +126,6 @@ public class GameTable {
                 yield null;
             }
         };
-        Controller.putToNameMap(mBody, mBody.getName());
         return mBody;
     }
 
@@ -151,23 +141,19 @@ public class GameTable {
         }
         System.out.println("Az első gombász adja meg a nevét!");
         String mycologist1 = roleInput.nextLine();
-        Mycologist m1 = new Mycologist(mycologist1);
-        Controller.putToNameMap(m1, m1.getName());
+        Mycologist m1 = new Mycologist();
 
         System.out.println("A második gombász adja meg a nevét!");
         String mycologist2 = roleInput.nextLine();
-        Mycologist m2 = new Mycologist(mycologist2);
-        Controller.putToNameMap(m2, m2.getName());
+        Mycologist m2 = new Mycologist();
 
         System.out.println("Az első rovarász adja meg a nevét!");
         String entomologist1 = roleInput.nextLine();
-        Entomologist e1 = new Entomologist(entomologist1);
-        Controller.putToNameMap(e1, e1.getName());
+        Entomologist e1 = new Entomologist();
 
         System.out.println("A második rovarász adja meg a nevét!");
         String entomologist2 = roleInput.nextLine();
-        Entomologist e2 = new Entomologist(entomologist2);
-        Controller.putToNameMap(e2, e2.getName());
+        Entomologist e2 = new Entomologist();
 
         players.add(m1);
         players.add(m2);
@@ -183,7 +169,6 @@ public class GameTable {
         String mushroomName = roleInput.nextLine();
         chooseType(tectons.get(initialTecton), mushroomType, m1, mushroomName);
         Mycelium my1 = new Mycelium(tectons.get(initialTecton), m1);
-        Controller.putToNameMap(my1, my1.getName());
         m1.addMycelium(my1);
         tectons.get(initialTecton).addMycelium(my1);
         m1.placeInitial(tectons.get(initialTecton));
@@ -197,7 +182,6 @@ public class GameTable {
         mushroomName = roleInput.nextLine();
         chooseType(tectons.get(initialTecton), mushroomType, m2, mushroomName);
         Mycelium my2 = new Mycelium(tectons.get(initialTecton), m2);
-        Controller.putToNameMap(my2, my2.getName());
         m2.addMycelium(my2);
         tectons.get(initialTecton).addMycelium(my2);
         m2.placeInitial(tectons.get(initialTecton));
@@ -208,7 +192,6 @@ public class GameTable {
         System.out.println("Adja meg a rovar nevét!");
         String insectName = roleInput.nextLine();
         Insect i1 = new Insect(e1);
-        Controller.putToNameMap(i1, i1.getName());
         e1.addInsect(i1);
         e1.placeInitial(tectons.get(initialTecton));
 
@@ -218,7 +201,6 @@ public class GameTable {
         System.out.println("Adja meg a rovar nevét!");
         insectName = roleInput.nextLine();
         Insect i2 = new Insect(e2);
-        Controller.putToNameMap(i2, i2.getName());
         e2.addInsect(i2);
         e2.placeInitial(tectons.get(initialTecton));
 
@@ -286,6 +268,13 @@ public class GameTable {
     public List<Tecton> getTectons() { return tectons; }
 
     public List<Player> getPlayers() { return players; }
+    
+    public int getSizeX() {
+        return sizeX;
+    }
+    public int getSizeY() {
+        return sizeY;
+    }
 
     /*
     =============================================================================================
