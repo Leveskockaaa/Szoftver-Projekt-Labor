@@ -42,6 +42,8 @@ public class Main {
             System.err.println("Sleep was interrupted");
         }
 
+
+        // TODO: Implement proper threading so the window only updates when something has actually changed
         while (true) {
             mainFrame.showGameTable(controller.getGameTable());
         }
