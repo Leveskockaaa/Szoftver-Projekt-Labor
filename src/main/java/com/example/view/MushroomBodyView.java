@@ -18,7 +18,7 @@ public class MushroomBodyView extends JPanel {
         System.out.println("MushroomBodyView constructor called");
         this.mushroomBody = mushroomBody;
 
-        switch (mushroomBody.getMycologist().getType()) {
+        switch (mushroomBody.getClass().getSimpleName()) {
             case "Hyphara":
                 color = new Color(Color.RED.getRGB());
                 break;
