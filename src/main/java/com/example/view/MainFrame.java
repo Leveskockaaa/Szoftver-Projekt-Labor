@@ -1,6 +1,7 @@
 package com.example.view;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -8,6 +9,7 @@ import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 
 import com.example.model.GameTable;
+
 import util.FontStyles;
 
 public class MainFrame extends JFrame {
@@ -61,7 +63,7 @@ public class MainFrame extends JFrame {
                 System.err.println("An error occurred while waiting for the start screen lock: " + exception.getMessage());
             }
         }
-
+        System.out.println("Selected color: " + entomologistSelector.getSelectedColor());
         return entomologistSelector.getSelectedColor();
     }
 

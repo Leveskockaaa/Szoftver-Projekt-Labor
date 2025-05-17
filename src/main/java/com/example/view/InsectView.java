@@ -9,11 +9,13 @@ import javax.swing.JPanel;
 import com.example.model.Insect;
 
 public class InsectView extends JPanel {
-    private final Color color;
+    private Insect insect;
+    private Color color;
     private Position position;
     private float scale = 1.0f;
 
     public InsectView(Insect insect) {
+        this.insect = insect;
         this.color = insect.getColor();
         setBackground(new Color(0,0,0,0));
         setBounds(0, 0, 1600, 900);
@@ -23,12 +25,9 @@ public class InsectView extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
-        int ovalWidth = (int)(position.width * scale);
-        int ovalHeight = (int)(position.height * scale);
+        color = insect.getColor();
         g2d.setColor(color);
-        System.out.println("Insect color: " + this.color);
-        System.out.println("Insect position: " + this.position.x + " " + this.position.y);
-        g2d.fillOval(this.position.x, this.position.y, 30, 30);
+        g2d.fillOval(this.position.x, this.position.y, Math.round(15 * scale), Math.round(30 * scale));
     }
 
     public void setPosition(Position position){
