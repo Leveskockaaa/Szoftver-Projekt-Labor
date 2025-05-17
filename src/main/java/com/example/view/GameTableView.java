@@ -245,30 +245,48 @@ public class GameTableView extends LayeredPane {
 
         for (Tecton tect : tectonPositions.keySet()) {
             
+            // Draw insects on the tecton
             int insectIndex = 0;
             for (Insect insect : tect.getInsects()) {
                
                 Position insectPos = new Position(tectonPositions.get(tect).x - 25 + insectIndex * 30, tectonPositions.get(tect).y + 13);
                 insect.getView().setPosition(insectPos);
-                System.out.println("Drawing insect at: " + this);
+    
+                
                 this.add(insect.getView(), BorderLayout.CENTER);
                 insect.getView().repaint();
                 insect.getView().revalidate();
                 insectIndex++;
             }
-            /*
+    
+            // Draw mycelia on the tecton
             int myceliumIndex = 0;
             for (Mycelium mycelium : tect.getMycelia()) {
-                Position myceliumPos = new Position(tectonPositions.get(tect).x + insectIndex * 30, tectonPositions.get(tect).y);
+                
+                Position myceliumPos = new Position(tectonPositions.get(tect).x + 10 + myceliumIndex * 10, tectonPositions.get(tect).y - 35 + myceliumIndex * 5);
                 mycelium.getView().setPosition(myceliumPos);
-                System.out.println("Drawing mycelium at: " + this);
+            
                 this.add(mycelium.getView(), BorderLayout.CENTER);
                 mycelium.getView().repaint();
                 mycelium.getView().revalidate();
                 myceliumIndex++;
+                
             }
-                 */
+            
+            // Draw the mushroom body on the tecton
+            if (tect.getMushroomBody() != null) {
+                System.out.println("Drawing mushroom body for tecton: " + tect);
+                Position mbPos = new Position(tectonPositions.get(tect).x - 35, tectonPositions.get(tect).y - 30);
+                tect.getMushroomBody().getView().setPosition(mbPos);
+                
+                this.add(tect.getMushroomBody().getView(), BorderLayout.CENTER);
+                tect.getMushroomBody().getView().repaint();
+                tect.getMushroomBody().getView().revalidate();
+            }
 
+
+            // Draw the tecton itself
+    
             tect.getView().setPosition(new Position((int)tectonPositions.get(tect).getX() - (tect.getView().getRadius() / 2), (int)tectonPositions.get(tect).getY() - (tect.getView().getRadius() / 2)));
             this.add(tect.getView());
             tect.getView().repaint();

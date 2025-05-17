@@ -3,7 +3,6 @@ package com.example.view;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.geom.AffineTransform;
 
 import javax.swing.JPanel;
 
@@ -17,7 +16,8 @@ public class MyceliumView extends JPanel {
 
     public MyceliumView(Mycelium mycelium) {
         this.mycelium = mycelium;
-        switch (mycelium.getMycologist().printType()) {
+       
+        switch (mycelium.getMycologist().getType()) {
             case "Hyphara":
                 color = new Color(Color.RED.getRGB());
                 break;
@@ -31,28 +31,16 @@ public class MyceliumView extends JPanel {
                 color = new Color(Color.PINK.getRGB());
                 break;
         }
+        setBackground(new Color(0,0,0,0));
+        setBounds(0, 0, 1600, 900);
     }
 
     @Override
     protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
-        // Compute elongated rectangle dimensions (width is twice the height)
-        int rectWidth = (int)(position.width * scale * 2);
-        int rectHeight = (int)(position.height * scale);
-        // Save original transform
-        AffineTransform original = g2d.getTransform();
-        // Apply rotation around rectangle center if needed
-        if (position.rotation != 0) {
-            int centerX = position.x + rectWidth / 2;
-            int centerY = position.y + rectHeight / 2;
-            g2d.translate(centerX, centerY);
-            g2d.rotate(Math.toRadians(position.rotation));
-            g2d.translate(-centerX, -centerY);
-        }
         g2d.setColor(color);
-        g2d.fillRect(position.x, position.y, rectWidth, rectHeight);
-        // Restore original transform
-        g2d.setTransform(original);
+        g2d.fillRect(this.position.x, this.position.y, Math.round(5 * scale), Math.round(30 * scale));
     }
 
     public void setPosition(Position position){

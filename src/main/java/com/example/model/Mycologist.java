@@ -1,5 +1,6 @@
 package com.example.model;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +8,10 @@ import java.util.List;
  * A gombákat irányító játékosokat hivatott kezelni ez az osztály.
  */
 public class Mycologist extends Player {
+    /**
+     * A gombász színe.
+     */
+    private Color color;
     /**
      * Az gombászhoz tartozó élő gombatestek listája.
      */
@@ -25,6 +30,9 @@ public class Mycologist extends Player {
      * A gombászhoz tartozó gombafonalak listája.
      */
     private List<Mycelium> mycelia = new ArrayList<Mycelium>();
+
+
+    private String type = null;
 
     /**
      * Mycologist konstruktora, amiben megadhatjuk a játékos nevét.
@@ -102,6 +110,28 @@ public class Mycologist extends Player {
     public void placeInitial(Tecton on){
         on.placeMushroomBody(mushroomBodies.get(0));
     }
+
+    /**
+     * Getter a gombász színéhez.
+     * @return A gombász színe.
+     */
+    public Color getColor() {
+        return color;
+    }
+    /**
+     * Setter a gombász színéhez.
+     * @param color A gombász színe.
+     */
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+    public String getType() {
+        return type;
+    }   
 
     /*
     =============================================================================================

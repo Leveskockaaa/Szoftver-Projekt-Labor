@@ -1,10 +1,12 @@
 package com.example.model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
+
 import com.example.Controller;
-import com.example.view.Position;
-
-import java.util.*;
-
 import static com.example.model.TectonSize.decreaseSize;
 
 /**
@@ -43,6 +45,7 @@ public class Magmox extends Tecton {
      */
     @Override
     public void placeMushroomBody(MushroomBody mushroomBody) {
+        System.out.println("Magmox placeMushroomBody() called");
         this.mushroomBody = mushroomBody;
     }
 
