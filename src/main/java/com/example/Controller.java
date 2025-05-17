@@ -4,9 +4,7 @@ import com.example.model.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
 
 public class Controller implements KeyListener {
@@ -67,6 +65,19 @@ public class Controller implements KeyListener {
 
         gameTable = new GameTable(Arrays.asList(mycologist1, mycologist2, entomologist1, entomologist2));
         gameTable.initialize();
+        List<Tecton> tectons = gameTable.getTectons();
+
+        Random random = new Random();
+        for (Tecton tecton : tectons) {
+                int time = random.nextInt(3, 6);
+                Timer timer = new Timer(time, () -> {
+                    List<Tecton> ret = tecton.breakApart();
+                    gameTable.removeTecton(tecton);
+                    gameTable.addTecton(ret.get(0));
+                    gameTable.addTecton(ret.get(1));
+                });
+                timers.add(timer);
+            }
 
 
 
@@ -74,6 +85,10 @@ public class Controller implements KeyListener {
 
     public GameTable getGameTable() {
         return gameTable;
+    }
+
+    public void addTimer(Timer timer) {
+        timers.add(timer);
     }
 
     @Override
