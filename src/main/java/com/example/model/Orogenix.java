@@ -17,8 +17,8 @@ public class Orogenix extends Tecton {
      * Alapértelmezett konstruktor a Magmox osztályhoz.
      * Beállítja az alapértelmezett értékeket, például a maximális gombafonalak számát.
      */
-    public Orogenix(String name) {
-        super(name);
+    public Orogenix() {
+        super();
         maxMycelia = 2;
     }
 
@@ -27,8 +27,8 @@ public class Orogenix extends Tecton {
      *
      * @param size A tekton mérete.
      */
-    public Orogenix(TectonSize size, String name) {
-        super(size, name);
+    public Orogenix(TectonSize size) {
+        super(size);
         maxMycelia = 2;
     }
 
@@ -82,14 +82,11 @@ public class Orogenix extends Tecton {
      * @return A létrejött két új tekton listája.
      */
     @Override
-    public List<Tecton> breakApart(String newTectonName1, String newTectonName2) {
+    public List<Tecton> breakApart() {
 
         //Két új tekton létrehozása
-        Orogenix t1 = new Orogenix(decreaseSize(this.size), newTectonName1);
-        Orogenix t2 = new Orogenix(decreaseSize(this.size), newTectonName2);
-
-        Controller.putToNameMap(t1, newTectonName1);
-        Controller.putToNameMap(t2, newTectonName2);
+        Orogenix t1 = new Orogenix(decreaseSize(this.size));
+        Orogenix t2 = new Orogenix(decreaseSize(this.size));
 
         //Köztük kapcsolat létrehozása
         t1.addTectonToNeighbors(t2);

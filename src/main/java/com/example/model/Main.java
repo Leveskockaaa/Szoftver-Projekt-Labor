@@ -38,6 +38,8 @@ public class Main {
         mainFrame.showGameSummary(List.of(firstMycologist, secondMycologist), List.of(firstInsectColor, secondInsectColor));
         // END - Character Selection
 
+        Controller controller = new Controller(Arrays.asList(firstMycologist, secondMycologist), Arrays.asList(firstInsectColor, secondInsectColor));
+
 
     }
 }
