@@ -2,10 +2,7 @@ package com.example.model;
 
 import com.example.Controller;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import static com.example.model.TectonSize.decreaseSize;
 
@@ -145,8 +142,8 @@ public class Magmox extends Tecton {
         t1.addTectonToNeighbors(n1);
         n1.changeNeighbour(this, t1);
 
-        while (n1.neighbors.iterator().hasNext()) {
-            Tecton n2 = n1.neighbors.iterator().next();
+        for (Iterator<Tecton> it = n1.neighbors.iterator(); it.hasNext(); ) {
+            Tecton n2 = it.next();
             if (this.neighbors.contains(n2)) {
                 this.neighbors.remove(n2);
                 t1.addTectonToNeighbors(n2);
