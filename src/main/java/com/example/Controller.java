@@ -72,6 +72,10 @@ public class Controller implements KeyListener {
 
     }
 
+    public GameTable getGameTable() {
+        return gameTable;
+    }
+
     @Override
     public void keyPressed(KeyEvent e) {
         // Spóra szórás mycologist1-nek

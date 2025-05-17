@@ -40,6 +40,7 @@ public class Main {
 
         Controller controller = new Controller(Arrays.asList(firstMycologist, secondMycologist), Arrays.asList(firstInsectColor, secondInsectColor));
 
+        mainFrame.showGameTable(controller.getGameTable());
 
     }
 }
