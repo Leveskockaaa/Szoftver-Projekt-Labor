@@ -1,6 +1,7 @@
 package com.example.model;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -37,17 +38,10 @@ public class Main {
         mainFrame.showGameTable(controller.getGameTable());
 
 
-        // TODO: Implement proper threading so the window only updates when something has actually changed
-        // while (true) {
-        //     System.out.println("Game Running...");
-        //     mainFrame.showGameTable(controller.getGameTable());
-        //     try {
-        //         Thread.sleep(1000); // Sleep for 1 second
-        //     } catch (InterruptedException e) {
-        //         e.printStackTrace();
-        //     }
-        // }
+        List<String> winnersMycologists = new ArrayList<>();
+        List<Color> winnerInsects = new ArrayList<>();
+        mainFrame.showWinnerScreen(winnersMycologists, winnerInsects);
 
-
+        mainFrame.dispose();
     }
 }
