@@ -85,6 +85,14 @@ public class Controller implements KeyListener {
         gameTable.initialize();
         List<Tecton> tectons = gameTable.getTectons();
 
+        Timer scoreTimer = new Timer(2, () -> {
+            ScorePanel.updateMycologist1Score(mycologist1.getScore());
+            ScorePanel.updateMycologist2Score(mycologist2.getScore());
+            ScorePanel.updateEntomologist1Score(entomologist1.getScore());
+            ScorePanel.updateEntomologist2Score(entomologist2.getScore());
+        });
+        timers.add(scoreTimer);
+
         Random random = new Random();
         for (Tecton tecton : tectons) {
             int time = random.nextInt(3, 6);
