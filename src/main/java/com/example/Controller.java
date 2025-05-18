@@ -122,8 +122,16 @@ public class Controller implements KeyListener {
 
         // Fonalból test növesztés mycologist1-nek
         if (e.getKeyCode() == KeyEvent.VK_D) {
+            MushroomBody res = null;
+            Mycelium removable = null;
             for (Mycelium mycelium : mycologist1.getMycelia()) {
-                mycelium.developMushroomBody();
+                res = mycelium.developMushroomBody();
+                removable = mycelium;
+                if (res != null) break;
+            }
+            if (res != null) {
+                gameTable.getView().addNewMushroomBody(res);
+                gameTable.getView().removeMycelium(removable);
             }
         }
 
@@ -350,6 +358,8 @@ public class Controller implements KeyListener {
             for (Mycelium mycelium : mycelia) {
                 mycelium.getMyceliumConnections().forEach(myceliumConnection -> locations.add(myceliumConnection.getTecton()));
             }
+            System.out.println("Locations: " + locations);
+            System.out.println(selectedTectonToMoveIndexE1);
             if (!movementActiveE1) {
                 // Start movement selection
                 movementActiveE1 = true;
@@ -361,8 +371,10 @@ public class Controller implements KeyListener {
             } else if (movementActiveE1) {
                 // Finalize movement selection
                 System.out.println("Finalized tecton for movement for entomilogist1 index: " + selectedTectonToMoveIndexE1);
+                moveToTectonE1 = locations.get(selectedTectonToMoveIndexE1);
                 selectedInsectE1.moveTo(moveToTectonE1);
-                selectedInsectE1.getTecton().getView().setIsHighlighted(false);
+                System.out.println("Moved insect to tecton: " + moveToTectonE1);
+                moveToTectonE1.getView().setIsHighlighted(false);
                 gameTable.getView().updateInsect(selectedInsectE1);
                 moveToTectonE1 = null;
                 movementActiveE1 = false;

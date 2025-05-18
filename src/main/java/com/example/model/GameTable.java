@@ -126,6 +126,12 @@ public class GameTable {
                 Mycelium initialMycelium = new Mycelium(tectons.get(initialTectons.get(j)), (Mycologist) player);
                 ((Mycologist) player).addMycelium(initialMycelium);
                 System.out.println("Placed initial mycelium on tecton: " + tectons.get(initialTectons.get(j)) + " " + tectons.get(initialTectons.get(j)).getMycelia());
+//                tectons.get(tectons.size() - 1).addSpore(new HypharaSpore(mb1));
+//                tectons.get(tectons.size() - 1).addSpore(new HypharaSpore(mb1));
+//                tectons.get(tectons.size() - 1).addSpore(new HypharaSpore(mb1));
+//                tectons.get(tectons.size() - 1).addSpore(new HypharaSpore(mb1));
+//                tectons.get(tectons.size() - 1).addSpore(new HypharaSpore(mb1));
+//                tectons.get(tectons.size() - 1).addSpore(new HypharaSpore(mb1));
                 j++;
             }
         }

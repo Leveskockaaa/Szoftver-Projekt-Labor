@@ -138,36 +138,17 @@ public class Mycelium {
      * @param
      * @return true, ha sikeresen kifejlesztett egy gombatestet, egyébként false.
      */
-    public boolean developMushroomBody() {
-        try {
-            if (!canDevelop()) {
-                throw new IllegalArgumentException("Cannot develop mushroom body");
-            }
-        } catch (IllegalArgumentException exception) {
-            System.out.println(exception.getMessage());
-            throw new IllegalArgumentException(exception.getMessage());
-        }
-
-        try {
-            // ellenőrzés itt vagy hívjuk hozzuk létre az új gombatestet és
-            // hívjuk meg a tecont-on a placeMushroomBody() metódust és ha már van
-            // akkor ott dobunk exception-t?
-            // viszont így feleslegesen hozzuk létre a gombatestet ha true a hasMushroomBody()
-            // legyen a mushroomBody létrehozása is már a tecton-on?
-            // de akkor nem kell bemeneti paraméter!
-            if (tecton.hasMushroomBody()) {
-                throw new IllegalArgumentException("Tecton already has a mushroom body");
-            }
-        } catch (IllegalArgumentException exception) {
-            System.out.println(exception.getMessage());
-            throw new IllegalArgumentException(exception.getMessage());
+    public MushroomBody developMushroomBody() {
+        if (!canDevelop()) {
+            return null;
         }
 
         MushroomBody mushroomBody = mycologist.createMushroomBody(tecton, name);
         tecton.placeMushroomBody(mushroomBody);
         tecton.takeSpore(mycologist, 6);
+        mycologist.addMushroomBody(mushroomBody);
 
-        return true;
+        return mushroomBody;
     }
 
     /**
@@ -209,6 +190,18 @@ public class Mycelium {
             throw new IllegalArgumentException(exception.getMessage());
         }
 
+        for (Mycelium mycelium : tecton.getMycelia()) {
+            if (mycelium.getMycologist() == mycologist) {
+                try {
+                    this.addConnection(mycelium);
+                } catch (IllegalArgumentException exception) {
+                    System.out.println(exception.getMessage());
+                    throw new IllegalArgumentException(exception.getMessage());
+                }
+                return null;
+            }
+        }
+
         if (tecton.canAddMycelium()) {
             Mycelium newMycelium = new Mycelium(tecton, mycologist);
 
@@ -221,17 +214,7 @@ public class Mycelium {
 
             return newMycelium;
         } else {
-            for (Mycelium mycelium : tecton.getMycelia()) {
-                if (mycelium.getMycologist() == mycologist) {
-                    try {
-                        this.addConnection(mycelium);
-                    } catch (IllegalArgumentException exception) {
-                        System.out.println(exception.getMessage());
-                        throw new IllegalArgumentException(exception.getMessage());
-                    }
-                    return null;
-                }
-            }
+
         }
 
         return null;

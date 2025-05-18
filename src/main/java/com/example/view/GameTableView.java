@@ -252,9 +252,8 @@ public class GameTableView extends LayeredPane {
         this.repaint();
     }
 
-    // Helper method to add a new Mycelium to the view after initialization
+
     public void updateInsect(Insect newInsect) {
-        // Add mycelium at the lowest z-order (index 0)
         int idx = newInsect.getTecton().getInsects().indexOf(newInsect);
         Position pos = new Position(
                 tectonPositions.get(newInsect.getTecton()).x - 25 + idx * 30,
@@ -266,12 +265,22 @@ public class GameTableView extends LayeredPane {
         this.repaint();
     }
 
-    public void updateMushroomBody(MushroomBody mb){
-        mb.getView().repaint();
+    public void addNewMushroomBody(MushroomBody mb){
+        int idx = mb.getTecton().getMycelia().indexOf(mb);
+        Position pos = new Position(
+                tectonPositions.get(mb.getTecton()).x - 35,
+                tectonPositions.get(mb.getTecton()).y - 30
+        );
+        mb.getView().setPosition(pos);
+        this.add(mb.getView(), 0); // add at bottom
+        this.revalidate();
+        this.repaint();
     }
 
-    public void updateEdges(){
-
+    public void removeMycelium(Mycelium my){
+        this.remove(my.getView());
+        this.revalidate();
+        this.repaint();
     }
 
     @Override
