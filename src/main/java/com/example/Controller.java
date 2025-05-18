@@ -84,7 +84,7 @@ public class Controller implements KeyListener {
 
         gameTable = new GameTable(Arrays.asList(mycologist1, mycologist2, entomologist1, entomologist2));
         gameTable.initialize();
-        gameTableView = new GameTableView(gameTable);
+        gameTableView = GameTableView.getInstance(gameTable);
         List<Tecton> tectons = gameTable.getTectons();
 
         Random random = new Random();
@@ -93,8 +93,11 @@ public class Controller implements KeyListener {
             Timer timer = new Timer(time, () -> {
                 List<Tecton> ret = tecton.breakApart();
                 gameTable.removeTecton(tecton);
+                GameTableView.getInstance(null).removeTectonPosition(tecton);
                 gameTable.addTecton(ret.get(0));
+                GameTableView.getInstance(null).addTectonPosition(ret.get(0));
                 gameTable.addTecton(ret.get(1));
+                GameTableView.getInstance(null).addTectonPosition(ret.get(1));
                 // itt megy végbe a tektonok ketttétörése?
                 repaintFrame();
             });

@@ -8,6 +8,7 @@ import java.util.Random;
 
 import com.example.Controller;
 import com.example.Timer;
+import com.example.view.GameTableView;
 
 import static com.example.model.TectonSize.decreaseSize;
 
@@ -47,7 +48,7 @@ public class Magmox extends Tecton {
      */
     @Override
     public void placeMushroomBody(MushroomBody mushroomBody) {
-        System.out.println("Magmox placeMushroomBody() called");
+        //System.out.println("Magmox placeMushroomBody() called");
         this.mushroomBody = mushroomBody;
     }
 
@@ -90,7 +91,7 @@ public class Magmox extends Tecton {
      */
     @Override
     public List<Tecton> breakApart() {
-        System.out.println("Magmox breakApart() called");
+        //System.out.println("Magmox breakApart() called");
         if (this.size == TectonSize.SMALL) {
             return new ArrayList<>();
         }
@@ -172,8 +173,11 @@ public class Magmox extends Tecton {
             Timer timer = new Timer(time, () -> {
                 List<Tecton> ret = tecton.breakApart();
                 Controller.removeTecton(tecton);
+                GameTableView.getInstance(null).removeTectonPosition(tecton);
                 Controller.addTecton(ret.get(0));
+                GameTableView.getInstance(null).addTectonPosition(ret.get(0));
                 Controller.addTecton(ret.get(1));
+                GameTableView.getInstance(null).addTectonPosition(ret.get(1));
             });
             Controller.addTimer(timer);
         }

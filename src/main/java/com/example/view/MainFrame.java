@@ -129,12 +129,12 @@ public class MainFrame extends JFrame {
 
     public void updateGameTable() {
         if (gameTableView == null) {
-            System.out.println("GameTableView is NULL!");
-            return;
+            throw new RuntimeException("GameTableView is null in MainFrame");
         }
 
-        gameTableView.repaint();
-        gameTableView.revalidate();
+        GameTableView.getInstance(null).paintComponent(this.getGraphics());
+        GameTableView.getInstance(null).repaint();
+        GameTableView.getInstance(null).revalidate();
         this.repaint();
         this.revalidate();
     }
