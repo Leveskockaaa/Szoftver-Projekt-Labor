@@ -17,8 +17,7 @@ public class MainFrame extends JFrame {
     GameTableView gameTableView = null;
     private Controller controller;
 
-    public MainFrame(Controller controller) {
-        this.controller = controller;
+    public MainFrame() {
         setTitle("Game");
         setSize(1600, 900);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -135,5 +134,9 @@ public class MainFrame extends JFrame {
         gameTableView.repaint();
         this.revalidate();
         this.repaint();
+    }
+
+    public void setController(Controller controller) {
+        this.controller = controller;
     }
 }

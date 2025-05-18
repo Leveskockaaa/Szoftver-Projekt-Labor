@@ -11,7 +11,7 @@ import com.example.view.MainFrame;
  * A fő osztály, amely a program belépési pontját tartalmazza.
  */
 public class Main {
-    private static MainFrame mainFrame = new MainFrame();
+    private static MainFrame mainFrame;
 
     public static void main(String[] args) {
         mainFrame = new MainFrame();
@@ -32,6 +32,7 @@ public class Main {
         // END - Character Selection
 
         Controller controller = new Controller(Arrays.asList(firstMycologist, secondMycologist), Arrays.asList(firstInsectColor, secondInsectColor));
+        mainFrame.setController(controller);
 
         mainFrame.showGameTable(controller.getGameTable());
 
