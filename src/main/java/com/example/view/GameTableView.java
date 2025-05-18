@@ -35,6 +35,7 @@ private final List<TectonView> tectonViews = new ArrayList<>();
     private final GameTable gameTable;
     private TectonView selectedTecton = null;
     private GameCountdownTimer countdownTimer; // Add countdown timer field
+    private ScoreWindow scoreWindow; // Pontszámokat megjelenítő ablak
 
     public GameTableView(GameTable gameTable) {
         this.gameTable = gameTable;
@@ -46,6 +47,9 @@ private final List<TectonView> tectonViews = new ArrayList<>();
         // Initialize positions with force-directed layout
         this.tectonPositions = calculateTectonPositions(gameTable);
         //initializeTectonViews();
+
+        // Initialize and add the score panel to the right side
+        initializeScorePanel();
 
         // Initialize and add the countdown timer (5 minutes)
         initializeCountdownTimer();
@@ -294,37 +298,37 @@ private final List<TectonView> tectonViews = new ArrayList<>();
             // Draw insects on the tecton
             int insectIndex = 0;
             for (Insect insect : tect.getInsects()) {
-               
+
                 Position insectPos = new Position(tectonPositions.get(tect).x - 25 + insectIndex * 30, tectonPositions.get(tect).y + 13);
                 insect.getView().setPosition(insectPos);
-    
-                
+
+
                 this.add(insect.getView(), BorderLayout.CENTER);
                 insect.getView().repaint();
                 insect.getView().revalidate();
                 insectIndex++;
             }
-    
+
             // Draw mycelia on the tecton
             int myceliumIndex = 0;
             for (Mycelium mycelium : tect.getMycelia()) {
-                
+
                 Position myceliumPos = new Position(tectonPositions.get(tect).x + 10 + myceliumIndex * 10, tectonPositions.get(tect).y - 35 + myceliumIndex * 5);
                 mycelium.getView().setPosition(myceliumPos);
-            
+
                 this.add(mycelium.getView(), BorderLayout.CENTER);
                 mycelium.getView().repaint();
                 mycelium.getView().revalidate();
                 myceliumIndex++;
-                
+
             }
-            
+
             // Draw the mushroom body on the tecton
             if (tect.getMushroomBody() != null) {
                 System.out.println("Drawing mushroom body for tecton: " + tect);
                 Position mbPos = new Position(tectonPositions.get(tect).x - 35, tectonPositions.get(tect).y - 30);
                 tect.getMushroomBody().getView().setPosition(mbPos);
-                
+
                 this.add(tect.getMushroomBody().getView(), BorderLayout.CENTER);
                 tect.getMushroomBody().getView().repaint();
                 tect.getMushroomBody().getView().revalidate();
@@ -332,7 +336,7 @@ private final List<TectonView> tectonViews = new ArrayList<>();
 
 
             // Draw the tecton itself
-    
+
             tect.getView().setPosition(new Position((int)tectonPositions.get(tect).getX() - (tect.getView().getRadius() / 2), (int)tectonPositions.get(tect).getY() - (tect.getView().getRadius() / 2)));
             this.add(tect.getView());
             System.out.println("Position: " + (int)(tectonPositions.get(tect).getX() - (tect.getView().getRadius() / 2)) + " " + (int)(tectonPositions.get(tect).getY() - (tect.getView().getRadius() / 2)));
@@ -342,6 +346,7 @@ private final List<TectonView> tectonViews = new ArrayList<>();
 
         EdgeView edgeView = new EdgeView(gameTable, tectonPositions);
         this.add(edgeView);
+        // Az időzítő címke már a ScoreWindow-ban van, így nem adjuk hozzá a játéktérhez
     }
 
     private Color GetLineColor(Tecton tecton, Tecton neighbor){
@@ -357,25 +362,44 @@ private final List<TectonView> tectonViews = new ArrayList<>();
     }
 
     /**
-     * Initializes the game countdown timer and adds it to the bottom left corner of the view.
+     * Initializes the game countdown timer and adds it to the ScoreWindow.
      */
     private void initializeCountdownTimer() {
         // Create a 5-minute countdown timer
         countdownTimer = new GameCountdownTimer(5);
 
-        // Get the timer label and configure it directly
+        // Beállítjuk a timer címkét
         JLabel timerLabel = countdownTimer.getTimerLabel();
-        timerLabel.setForeground(Color.GRAY); // Make text black for visibility
-        timerLabel.setOpaque(false); // Make label transparent
-        timerLabel.setBackground(new Color(0, 0, 0, 0)); // Fully transparent background
+        timerLabel.setForeground(Color.BLACK);
 
-        // Set bounds for the timer label in the bottom left corner
-        timerLabel.setBounds(10, getHeight() - 50, 150, 40);
-        timerLabel.setBounds(0, 0, 1600, 900);
+        // A timert átadjuk a különálló pontszám ablaknak
+        if (scoreWindow != null) {
+            scoreWindow.setTimerLabel(timerLabel);
+        }
 
-        this.add(timerLabel);
-
-        // Start the countdown timer
+        // Elindítjuk a visszaszámlálót
         countdownTimer.start();
+    }
+
+    /**
+     * Inicializálja a pontokat megjelenítő panelt egy külön ablakban
+     */
+    private void initializeScorePanel() {
+        // Létrehozzuk a pontszám ablakot
+        scoreWindow = new ScoreWindow();
+    }
+
+    /**
+     * Frissíti a játékosok pontszámait
+     *
+     * @param mycologist1Score Mycologist1 pontszáma
+     * @param mycologist2Score Mycologist2 pontszáma
+     * @param entomologist1Score Entomologist1 pontszáma
+     * @param entomologist2Score Entomologist2 pontszáma
+     */
+    public void updateScores(int mycologist1Score, int mycologist2Score, int entomologist1Score, int entomologist2Score) {
+        if (scoreWindow != null) {
+            scoreWindow.updateScores(mycologist1Score, mycologist2Score, entomologist1Score, entomologist2Score);
+        }
     }
 }

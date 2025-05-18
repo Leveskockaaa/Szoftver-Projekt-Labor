@@ -94,6 +94,7 @@ public class GameCountdownTimer {
      * @return The JLabel displaying the timer.
      */
     public JLabel getTimerLabel() {
+        updateTimerText();
         return timerLabel;
     }
 
