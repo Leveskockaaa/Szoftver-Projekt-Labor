@@ -38,15 +38,15 @@ public class Main {
 
 
         // TODO: Implement proper threading so the window only updates when something has actually changed
-        while (true) {
-            System.out.println("Game Running...");
-            mainFrame.showGameTable(controller.getGameTable());
-            try {
-                Thread.sleep(1000); // Sleep for 1 second
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+        // while (true) {
+        //     System.out.println("Game Running...");
+        //     mainFrame.showGameTable(controller.getGameTable());
+        //     try {
+        //         Thread.sleep(1000); // Sleep for 1 second
+        //     } catch (InterruptedException e) {
+        //         e.printStackTrace();
+        //     }
+        // }
 
 
     }

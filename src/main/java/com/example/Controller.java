@@ -1,13 +1,30 @@
 package com.example;
-import com.example.model.*;
-
-import java.awt.*;
+import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
+
+import com.example.model.Capulon;
+import com.example.model.Entomologist;
+import com.example.model.GameTable;
+import com.example.model.Gilledon;
+import com.example.model.Hyphara;
+import com.example.model.Insect;
+import com.example.model.MushroomBody;
+import com.example.model.Mycelium;
+import com.example.model.Mycologist;
+import com.example.model.Poralia;
+import com.example.model.Tecton;
+import com.example.model.Transix;
+import com.example.view.MainFrame;
 
 public class Controller implements KeyListener {
+    private MainFrame mainFrame;
+
     private static HashMap<Object, String> nameMap = new HashMap<>();
     private static List<Timer> timers = new ArrayList<>();
     private static GameTable gameTable;
@@ -75,8 +92,20 @@ public class Controller implements KeyListener {
                 gameTable.removeTecton(tecton);
                 gameTable.addTecton(ret.get(0));
                 gameTable.addTecton(ret.get(1));
+                // itt megy végbe a tektonok ketttétörése?
+                repaintFrame();
             });
             timers.add(timer);
+        }
+    }
+
+    public void setMainFrame(MainFrame mainFrame) {
+        this.mainFrame = mainFrame;
+    }
+    
+    public void repaintFrame() {
+        if (mainFrame != null) {
+            mainFrame.updateGameTable();
         }
     }
 
@@ -106,6 +135,7 @@ public class Controller implements KeyListener {
                 if (success) {
                     mushroomBody.setSporeSpread(false);
                     timers.add(new Timer(15, () -> mushroomBody.setSporeSpread(true)));
+                    repaintFrame();
                 }
             }
         }
@@ -115,6 +145,7 @@ public class Controller implements KeyListener {
             for (MushroomBody mushroomBody : mycologist1.getMushroomBodies()) {
                 mushroomBody.evolveSuper();
             }
+            repaintFrame();
         }
 
         // Fonalból test növesztés mycologist1-nek
@@ -122,6 +153,7 @@ public class Controller implements KeyListener {
             for (Mycelium mycelium : mycologist1.getMycelia()) {
                 mycelium.developMushroomBody();
             }
+            repaintFrame();
         }
 
         // Fonal növesztés mycologist1-nek
@@ -164,6 +196,7 @@ public class Controller implements KeyListener {
                 selectedTectonIndexM1 = -1;
                 selectedMyceliumIndexM1 = -1;
             }
+            repaintFrame();
         }
 
         // Step through mycelia
@@ -192,6 +225,7 @@ public class Controller implements KeyListener {
                 if (success) {
                     mushroomBody.setSporeSpread(false);
                     timers.add(new Timer(15, () -> mushroomBody.setSporeSpread(true)));
+                    repaintFrame();
                 }
             }
         }
@@ -201,6 +235,7 @@ public class Controller implements KeyListener {
             for (MushroomBody mushroomBody : mycologist2.getMushroomBodies()) {
                 mushroomBody.evolveSuper();
             }
+            repaintFrame();
         }
 
         // Fonalból test növesztés mycologist2-nek
@@ -208,6 +243,7 @@ public class Controller implements KeyListener {
             for (Mycelium mycelium : mycologist2.getMycelia()) {
                 mycelium.developMushroomBody();
             }
+            repaintFrame();
         }
 
         // Fonal növesztés mycologist2-nek
@@ -250,6 +286,7 @@ public class Controller implements KeyListener {
                 selectedTectonIndexM2 = -1;
                 selectedMyceliumIndexM2 = -1;
             }
+            repaintFrame();
         }
 
         // Step through mycelia
@@ -280,6 +317,7 @@ public class Controller implements KeyListener {
             selectedInsectE1.eatSpore();
             selectedInsectE1.disableEating();
             timers.add(new Timer(5, () -> selectedInsectE1.enableEating()));
+            repaintFrame();
         }
 
         if (e.getKeyCode() == KeyEvent.VK_L) {
@@ -313,6 +351,7 @@ public class Controller implements KeyListener {
                 moveToTectonE1 = null;
                 movementActiveE1 = false;
                 selectedTectonToMoveIndexE1 = -1;
+                repaintFrame();
             }
         }
 
@@ -350,6 +389,7 @@ public class Controller implements KeyListener {
                 chewTectonE1 = null;
                 chewActiveE1 = false;
                 selectedTectonForChewIndexE1 = -1;
+                repaintFrame();
             }
         }
 
@@ -364,6 +404,7 @@ public class Controller implements KeyListener {
                 selectedTectonForChewIndexE1 = (selectedTectonForChewIndexE1 + 1) % connections.size();
                 System.out.println("Selected tecton for movement for entomilogist1 index: " + selectedTectonForChewIndexE1);
             }
+            repaintFrame();
         }
 
         // Entomologist2 actions
@@ -375,6 +416,7 @@ public class Controller implements KeyListener {
             selectedInsectE2.eatSpore();
             selectedInsectE2.disableEating();
             timers.add(new Timer(5, () -> selectedInsectE2.enableEating()));
+            repaintFrame();
         }
 
         if (e.getKeyCode() == KeyEvent.VK_CLOSE_BRACKET) {
@@ -408,6 +450,7 @@ public class Controller implements KeyListener {
                 moveToTectonE2 = null;
                 movementActiveE2 = false;
                 selectedTectonToMoveIndexE2 = -1;
+                repaintFrame();
             }
         }
 
@@ -445,6 +488,7 @@ public class Controller implements KeyListener {
                 chewTectonE2 = null;
                 chewActiveE2 = false;
                 selectedTectonForChewIndexE2 = -1;
+                repaintFrame();
             }
         }
 
@@ -459,6 +503,7 @@ public class Controller implements KeyListener {
                 selectedTectonForChewIndexE2 = (selectedTectonForChewIndexE2 + 1) % connections.size();
                 System.out.println("Selected tecton for movement for entomilogist2 index: " + selectedTectonForChewIndexE2);
             }
+            repaintFrame();
         }
     }
 

@@ -138,5 +138,6 @@ public class MainFrame extends JFrame {
 
     public void setController(Controller controller) {
         this.controller = controller;
+        controller.setMainFrame(this);
     }
 }
