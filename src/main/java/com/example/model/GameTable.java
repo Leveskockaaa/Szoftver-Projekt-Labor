@@ -31,8 +31,8 @@ public class GameTable {
     private int sizeY;
 
     public GameTable(List<Player> players) {
-        sizeX = 0;
-        sizeY = 0;
+        sizeX = 1600;
+        sizeY = 900;
         tectons = new ArrayList<>();
         this.players = players;
     }
@@ -91,18 +91,26 @@ public class GameTable {
 
         List<Integer> initialTectons = new ArrayList<>();
         initialTectons.add(random.nextInt(tectons.size()));
-        initialTectons.add(random.nextInt(tectons.size()));
+        int temp = random.nextInt(tectons.size());
+        while (temp == initialTectons.get(0)) {
+            temp = random.nextInt(tectons.size());
+        }
+        initialTectons.add(temp);
 
-        int i = 0;
         int j = 0;
-        while (players.get(i++).printType().equals("Mycologist")) {
-            players.get(0).placeInitial(tectons.get(initialTectons.get(j++)));
+        for (Player player : players) {
+            if (player.printType().equals("Mycologist")) {
+                System.out.println("Placed initial mushroombody on tecton: " + initialTectons.get(j));
+                player.placeInitial(tectons.get(initialTectons.get(j++)));
+            }
         }
 
-        i = 0;
         j = 0;
-        while (players.get(i++).printType().equals("Entomologist")) {
-            players.get(0).placeInitial(tectons.get(initialTectons.get(j++)));
+        for (Player player : players) {
+            if (player.printType().equals("Entomologist")) {
+                System.out.println("Placed initial insect on tecton: " + initialTectons.get(j));
+                player.placeInitial(tectons.get(initialTectons.get(j++)));
+            }
         }
     }
 

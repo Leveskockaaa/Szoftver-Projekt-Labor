@@ -13,6 +13,8 @@ import com.example.model.GameTable;
 import util.FontStyles;
 
 public class MainFrame extends JFrame {
+    GameTableView gameTableView = null;
+
     public MainFrame() {
         setTitle("Game");
         setSize(1600, 900);
@@ -112,10 +114,19 @@ public class MainFrame extends JFrame {
     }
 
     public void showGameTable(GameTable gameTable) {
-        GameTableView gameTableView = new GameTableView(gameTable);
+        gameTableView = new GameTableView(gameTable);
         this.add(gameTableView, BorderLayout.CENTER);
         setContentPane(gameTableView);
         revalidate();
         repaint();
+    }
+
+    public void updateGameTable() {
+        if (gameTableView == null) return;
+
+        gameTableView.revalidate();
+        gameTableView.repaint();
+        this.revalidate();
+        this.repaint();
     }
 }

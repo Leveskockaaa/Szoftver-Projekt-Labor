@@ -123,7 +123,7 @@ public class Insect {
      * @return A rovar színe.
      */
     public Color getColor() {
-        return this.color;
+        return this.entomologist.getColor();
     }
 
     /**

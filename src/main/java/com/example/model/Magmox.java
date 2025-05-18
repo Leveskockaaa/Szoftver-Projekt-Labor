@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Random;
 
 import com.example.Controller;
+import com.example.Timer;
+
 import static com.example.model.TectonSize.decreaseSize;
 
 /**
@@ -88,6 +90,7 @@ public class Magmox extends Tecton {
      */
     @Override
     public List<Tecton> breakApart() {
+        System.out.println("Magmox breakApart() called");
 
         //Két új tekton létrehozása
         Mantleon t1 = new Mantleon(decreaseSize(this.size));
@@ -160,10 +163,17 @@ public class Magmox extends Tecton {
             n.changeNeighbour(this, t2);
         }
 
-        //Később a controllerben a helye
-//        gameTable.removeTecton(this);
-//        gameTable.addTecton(t1);
-//        gameTable.addTecton(t2);
+        Random random = new Random();
+        for (Tecton tecton : Arrays.asList(t1, t2)) {
+            int time = random.nextInt(3, 6);
+            Timer timer = new Timer(time, () -> {
+                List<Tecton> ret = tecton.breakApart();
+                Controller.removeTecton(tecton);
+                Controller.addTecton(ret.get(0));
+                Controller.addTecton(ret.get(1));
+            });
+            Controller.addTimer(timer);
+        }
 
         return new ArrayList<>(Arrays.asList(t1, t2));
     }
