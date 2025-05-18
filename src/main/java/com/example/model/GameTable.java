@@ -112,6 +112,16 @@ public class GameTable {
         for (Player player : players) {
             if (player.printType().equals("Mycologist")) {
                 System.out.println("Placed initial mushroombody on tecton: " + initialTectons.get(j));
+                MushroomBody mb1;
+                Mycologist tmp = (Mycologist)player;
+                switch (tmp.getMushroomBodies().get(0).printType()) {
+                    case "Hyphara" -> mb1 = new Hyphara(tectons.get(initialTectons.get(j)), (Mycologist) player);
+                    case "Gilledon" -> mb1 = new Gilledon(tectons.get(initialTectons.get(j)), (Mycologist) player);
+                    case "Poralia" -> mb1 = new Poralia(tectons.get(initialTectons.get(j)), (Mycologist) player);
+                    case "Capulon" -> mb1 = new Capulon(tectons.get(initialTectons.get(j)), (Mycologist) player);
+                    default -> throw new IllegalStateException("Unexpected value: " + ((Mycologist) player).getMushroomBodies().get(0).printType());
+                }
+                ((Mycologist) player).addMushroomBody(mb1);
                 player.placeInitial(tectons.get(initialTectons.get(j)));
                 Mycelium initialMycelium = new Mycelium(tectons.get(initialTectons.get(j)), (Mycologist) player);
                 ((Mycologist) player).addMycelium(initialMycelium);

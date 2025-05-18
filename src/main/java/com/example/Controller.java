@@ -221,6 +221,7 @@ public class Controller implements KeyListener {
                     timers.add(new Timer(15, () -> mushroomBody.setSporeSpread(true)));
                 }
             }
+
         }
 
         // Supergomba fejlesztés mycologist2-nek
@@ -317,6 +318,7 @@ public class Controller implements KeyListener {
         }
 
         // Entomologist1 actions
+        // Eat
         if (e.getKeyCode() == KeyEvent.VK_K) {
             if (selectedInsectIndexE1 == -1) {
                 selectedInsectIndexE1 = 0;
@@ -327,16 +329,20 @@ public class Controller implements KeyListener {
             timers.add(new Timer(5, () -> selectedInsectE1.enableEating()));
         }
 
+        // Insect select
         if (e.getKeyCode() == KeyEvent.VK_L) {
             if (selectedInsectIndexE1 == -1) {
                 selectedInsectIndexE1 = 0;
             } else {
+                selectedInsectE1.getView().setHighlighted(false);
                 selectedInsectIndexE1 = (selectedInsectIndexE1 + 1) % entomologist1.getInsects().size();
+                selectedInsectE1.getView().setHighlighted(true);
             }
             System.out.println("Selected insect for entomologist1 index: " + selectedInsectIndexE1);
             selectedInsectE1 = entomologist1.getInsects().get(selectedInsectIndexE1);
         }
 
+        //Movement selection
         if (e.getKeyCode() == KeyEvent.VK_I) {
             List<Tecton> locations = new ArrayList<>();
             List<Mycelium> mycelia = selectedInsectE1.getTecton().getMycelia();
@@ -355,6 +361,8 @@ public class Controller implements KeyListener {
                 // Finalize movement selection
                 System.out.println("Finalized tecton for movement for entomilogist1 index: " + selectedTectonToMoveIndexE1);
                 selectedInsectE1.moveTo(moveToTectonE1);
+                selectedInsectE1.getTecton().getView().setIsHighlighted(false);
+                gameTable.getView().updateInsect(selectedInsectE1);
                 moveToTectonE1 = null;
                 movementActiveE1 = false;
                 selectedTectonToMoveIndexE1 = -1;
@@ -392,6 +400,7 @@ public class Controller implements KeyListener {
                         timers.add(new Timer(10, () -> selectedInsectE1.enableToChewMycelium()));
                     }
                 }
+                chewTectonE1.getView().setIsHighlighted(false);
                 chewTectonE1 = null;
                 chewActiveE1 = false;
                 selectedTectonForChewIndexE1 = -1;
@@ -406,8 +415,25 @@ public class Controller implements KeyListener {
                 mycelium.getMyceliumConnections().forEach(myceliumConnection -> connections.add(myceliumConnection.getTecton()));
             }
             if (!connections.isEmpty()) {
+                connections.get(selectedTectonForChewIndexE1).getView().setIsHighlighted(false);
                 selectedTectonForChewIndexE1 = (selectedTectonForChewIndexE1 + 1) % connections.size();
-                System.out.println("Selected tecton for movement for entomilogist1 index: " + selectedTectonForChewIndexE1);
+                connections.get(selectedTectonForChewIndexE1).getView().setIsHighlighted(true);
+                System.out.println("Selected tecton for chew for entomilogist1 index: " + selectedTectonForChewIndexE1);
+            }
+        }
+
+        // Step through move locations
+        if (e.getKeyCode() == KeyEvent.VK_O && movementActiveE1) {
+            List<Tecton> connections = new ArrayList<>();
+            List<Mycelium> mycelia = selectedInsectE1.getTecton().getMycelia();
+            for (Mycelium mycelium : mycelia) {
+                mycelium.getMyceliumConnections().forEach(myceliumConnection -> connections.add(myceliumConnection.getTecton()));
+            }
+            if (!connections.isEmpty()) {
+                connections.get(selectedTectonToMoveIndexE1).getView().setIsHighlighted(false);
+                selectedTectonToMoveIndexE1 = (selectedTectonToMoveIndexE1 + 1) % connections.size();
+                connections.get(selectedTectonToMoveIndexE1).getView().setIsHighlighted(true);
+                System.out.println("Selected tecton for movement for entomilogist1 index: " + selectedTectonToMoveIndexE1);
             }
         }
 
@@ -505,6 +531,7 @@ public class Controller implements KeyListener {
                 System.out.println("Selected tecton for movement for entomilogist2 index: " + selectedTectonForChewIndexE2);
             }
         }
+        gameTable.getView().repaint();
     }
 
     @Override

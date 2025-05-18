@@ -40,6 +40,7 @@ public class Gilledon extends MushroomBody{
                 for(Tecton t : tecton.getNeighbors()){
                     t.addSpore(new GilledonSpore(this));
                 }
+                this.tecton.addSpore(new GilledonSpore(this));
             }
 
             sporeSpreadsLeft--;

@@ -40,6 +40,7 @@ public class Poralia extends MushroomBody {
                 for(Tecton t : tecton.getNeighbors()){
                     t.addSpore(new PoraliaSpore(this));
                 }
+                this.tecton.addSpore(new PoraliaSpore(this));
             }
 
             sporeSpreadsLeft--;

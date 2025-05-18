@@ -40,6 +40,7 @@ public class Hyphara extends MushroomBody {
                 for(Tecton t : tecton.getNeighbors()){
                     t.addSpore(new HypharaSpore(this));
                 }
+                this.tecton.addSpore(new HypharaSpore(this));
             }
 
             sporeSpreadsLeft--;

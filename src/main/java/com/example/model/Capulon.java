@@ -41,6 +41,7 @@ public class Capulon extends MushroomBody {
                 for(Tecton t : tecton.getNeighbors()){
                     t.addSpore(new CapulonSpore(this));
                 }
+                this.tecton.addSpore(new CapulonSpore(this));
             }
 
             sporeSpreadsLeft--;

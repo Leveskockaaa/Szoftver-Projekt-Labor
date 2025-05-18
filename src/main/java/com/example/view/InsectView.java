@@ -13,6 +13,7 @@ public class InsectView extends JPanel {
     private Color color;
     private Position position;
     private float scale = 1.0f;
+    private boolean isHighlighted = false;
 
     public InsectView(Insect insect) {
         this.insect = insect;
@@ -28,6 +29,10 @@ public class InsectView extends JPanel {
         color = insect.getColor();
         g2d.setColor(color);
         g2d.fillOval(this.position.x, this.position.y, Math.round(15 * scale), Math.round(30 * scale));
+        if (isHighlighted) {
+            g2d.setColor(Color.RED);
+            g2d.drawOval(this.position.x, this.position.y, Math.round(15 * scale), Math.round(30 * scale));
+        }
     }
 
     public void setPosition(Position position){
@@ -36,6 +41,10 @@ public class InsectView extends JPanel {
 
     public void setScale(float scale){
         this.scale = scale;
+    }
+
+    public void setHighlighted(boolean highlighted) {
+        isHighlighted = highlighted;
     }
 
 }

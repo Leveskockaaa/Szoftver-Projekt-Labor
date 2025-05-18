@@ -252,6 +252,24 @@ public class GameTableView extends LayeredPane {
         this.repaint();
     }
 
+    // Helper method to add a new Mycelium to the view after initialization
+    public void updateInsect(Insect newInsect) {
+        // Add mycelium at the lowest z-order (index 0)
+        int idx = newInsect.getTecton().getInsects().indexOf(newInsect);
+        Position pos = new Position(
+                tectonPositions.get(newInsect.getTecton()).x - 25 + idx * 30,
+                tectonPositions.get(newInsect.getTecton()).y + 13
+        );
+        newInsect.getView().setPosition(pos);
+        this.add(newInsect.getView(), 0); // add at bottom
+        this.revalidate();
+        this.repaint();
+    }
+
+    public void updateEdges(){
+
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -261,14 +279,14 @@ public class GameTableView extends LayeredPane {
         g2d.setColor(Color.WHITE);
         g2d.fillRect(0, 0, getWidth(), getHeight());
 
-        if (selectedTecton != null) {
-            SporesView sporesView = new SporesView(selectedTecton.getTecton().getSpores());
-            add(sporesView);
-            Timer timer = new Timer(5, () -> {
-                selectedTecton = null;
-                repaint();
-            });
-        }
+//        if (selectedTecton != null) {
+//            SporesView sporesView = new SporesView(selectedTecton.getTecton().getSpores());
+//            add(sporesView);
+//            Timer timer = new Timer(5, () -> {
+//                selectedTecton = null;
+//                repaint();
+//            });
+//        }
 
         addAllViewsOnce();
 
@@ -277,15 +295,4 @@ public class GameTableView extends LayeredPane {
         repaint();
     }
 
-    private Color GetLineColor(Tecton tecton, Tecton neighbor){
-        if(tecton.getMycelia().isEmpty()) return Color.BLACK;
-        for(Mycelium mycelium : tecton.getMycelia()){
-            for(Mycelium neighboringMycelia : mycelium.getMyceliumConnections()){
-                if(neighboringMycelia.getTecton() == neighbor){
-                    return Color.GREEN;
-                }
-            }
-        }
-        return Color.BLACK;
-    }
 }
