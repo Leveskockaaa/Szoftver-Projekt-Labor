@@ -34,6 +34,7 @@ private final List<TectonView> tectonViews = new ArrayList<>();
     private final Map<Tecton, Point> tectonPositions;
     private final GameTable gameTable;
     private TectonView selectedTecton = null;
+    private GameCountdownTimer countdownTimer; // Add countdown timer field
 
     public GameTableView(GameTable gameTable) {
         this.gameTable = gameTable;
@@ -45,6 +46,9 @@ private final List<TectonView> tectonViews = new ArrayList<>();
         // Initialize positions with force-directed layout
         this.tectonPositions = calculateTectonPositions(gameTable);
         //initializeTectonViews();
+
+        // Initialize and add the countdown timer (5 minutes)
+        initializeCountdownTimer();
 
         addMouseListener(new MouseAdapter() {
             @Override
@@ -350,5 +354,28 @@ private final List<TectonView> tectonViews = new ArrayList<>();
             }
         }
         return Color.BLACK;
+    }
+
+    /**
+     * Initializes the game countdown timer and adds it to the bottom left corner of the view.
+     */
+    private void initializeCountdownTimer() {
+        // Create a 5-minute countdown timer
+        countdownTimer = new GameCountdownTimer(5);
+
+        // Get the timer label and configure it directly
+        JLabel timerLabel = countdownTimer.getTimerLabel();
+        timerLabel.setForeground(Color.GRAY); // Make text black for visibility
+        timerLabel.setOpaque(false); // Make label transparent
+        timerLabel.setBackground(new Color(0, 0, 0, 0)); // Fully transparent background
+
+        // Set bounds for the timer label in the bottom left corner
+        timerLabel.setBounds(10, getHeight() - 50, 150, 40);
+        timerLabel.setBounds(0, 0, 1600, 900);
+
+        this.add(timerLabel);
+
+        // Start the countdown timer
+        countdownTimer.start();
     }
 }
