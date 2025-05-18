@@ -69,6 +69,10 @@ public class Orogenix extends Tecton {
     @Override
     public void addMycelium(Mycelium mycelium) {
         this.mycelia.add(mycelium);
+        Timer timer = new Timer(120, () -> {
+            mycelia.remove(mycelium);
+        });
+        Controller.addTimer(timer);
     }
 
     /**

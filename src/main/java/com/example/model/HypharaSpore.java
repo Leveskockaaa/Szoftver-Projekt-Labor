@@ -1,5 +1,8 @@
 package com.example.model;
 
+import com.example.Controller;
+import com.example.Timer;
+
 /**
  * A Hyphara gombafajhoz tartozó spórákat kezeli.
  */
@@ -18,6 +21,10 @@ public class HypharaSpore extends Spore {
     @Override
     public void takeEffectOn(Insect insect) {
         insect.setSpeed(1.5f);
+        Timer timer = new Timer(30, () -> {
+            insect.setSpeed(1.0f);
+        });
+        Controller.addTimer(timer);
     }
 
     /*
