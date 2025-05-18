@@ -52,7 +52,8 @@ public class GameCountdownTimer {
             updateTimerText();
         } else {
             timer.stop();
-            // When timer reaches zero, we could trigger a game end event here
+            Controller.getGameTable().endGame();
+
         }
     }
 

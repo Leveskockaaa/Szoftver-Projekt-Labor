@@ -118,7 +118,7 @@ public class Controller implements KeyListener {
         }
     }
 
-    public GameTable getGameTable() {
+    public static GameTable getGameTable() {
         return gameTable;
     }
 

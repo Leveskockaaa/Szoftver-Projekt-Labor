@@ -260,7 +260,7 @@ public class GameTable {
 
         //TODO timer leállás
 
-        announceWinners();
+        //announceWinners();
     }
 
     /**
