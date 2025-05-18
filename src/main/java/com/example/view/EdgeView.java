@@ -20,7 +20,6 @@ public class EdgeView extends JPanel {
         setBackground(new Color(0, 0, 0, 0));
         setBounds(0, 0, 1600, 900);
         setPreferredSize(new Dimension(1600, 900));
-
     }
 
     @Override

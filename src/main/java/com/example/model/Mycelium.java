@@ -216,8 +216,6 @@ public class Mycelium {
             }
 
             return newMycelium;
-        } else {
-
         }
 
         return null;
@@ -398,19 +396,7 @@ public class Mycelium {
 
         Insect insect = tecton.getInsects().get(0);
 
-        try {
-            if (insect == null) {
-                throw new IllegalArgumentException("Insect is null");
-            }
-            // ellenőrzés itt vagy hívjuk meg tecton-on a removeInsect() metódust
-            // és ha az isParalized() false akkor ott dobunk exception-t?
-            if (!insect.isParalized()) {
-                throw new IllegalArgumentException("Insect is not paralyzed");
-            }
-        } catch (IllegalArgumentException exception) {
-            System.out.println(exception.getMessage());
-            throw new IllegalArgumentException(exception.getMessage());
-        }
+        if (insect == null || !insect.isParalized()) return null;
 
         tecton.removeInsect();
         insect.getEntomologist().removeInsect(insect);

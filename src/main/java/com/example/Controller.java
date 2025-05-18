@@ -24,6 +24,7 @@ import com.example.model.Poralia;
 import com.example.model.Tecton;
 import com.example.model.Transix;
 import com.example.view.MainFrame;
+import com.example.view.ScorePanel;
 
 public class Controller implements KeyListener {
     private MainFrame mainFrame;
@@ -95,19 +96,19 @@ public class Controller implements KeyListener {
         });
         timers.add(scoreTimer);
 
-        Random random = new Random();
-        for (Tecton tecton : tectons) {
-            int time = random.nextInt(3, 6);
-            Timer timer = new Timer(time, () -> {
-                List<Tecton> ret = tecton.breakApart();
-                gameTable.removeTecton(tecton);
-                gameTable.addTecton(ret.get(0));
-                gameTable.addTecton(ret.get(1));
-                // itt megy végbe a tektonok ketttétörése?
-                repaintFrame();
-            });
-            timers.add(timer);
-        }
+//        Random random = new Random();
+//        for (Tecton tecton : tectons) {
+//            int time = random.nextInt(3, 6);
+//            Timer timer = new Timer(time, () -> {
+//                List<Tecton> ret = tecton.breakApart();
+//                gameTable.removeTecton(tecton);
+//                gameTable.addTecton(ret.get(0));
+//                gameTable.addTecton(ret.get(1));
+//                // itt megy végbe a tektonok ketttétörése?
+//                repaintFrame();
+//            });
+//            timers.add(timer);
+//        }
     }
 
     public void setMainFrame(MainFrame mainFrame) {
