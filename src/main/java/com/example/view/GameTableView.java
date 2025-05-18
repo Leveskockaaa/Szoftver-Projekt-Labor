@@ -56,8 +56,15 @@ public class GameTableView extends LayeredPane {
         return tectonPositions;
     }
 
-    public void updateGameTable(GameTable gameTable){
-        this.gameTable = gameTable;
+    public void updateGameTable(GameTable gameTableNew){
+        if(this.gameTable.getTectons().size() != gameTableNew.getTectons().size()){
+            for(Tecton tecton : gameTableNew.getTectons()){
+                if(!tectonPositions.containsKey(tecton)){
+                    tectonPositions.put(tecton, new Point(0,0));
+                }
+            }
+        }
+        this.gameTable = gameTableNew;
         tectonPositions = calculateTectonPositions(gameTable);
         repaint();
         revalidate();

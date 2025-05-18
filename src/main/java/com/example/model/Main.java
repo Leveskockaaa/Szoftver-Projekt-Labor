@@ -33,9 +33,7 @@ public class Main {
         // END - Character Selection
 
         Controller controller = new Controller(Arrays.asList(firstMycologist, secondMycologist), Arrays.asList(firstInsectColor, secondInsectColor));
-
         mainFrame.showGameTable(controller.getGameTableView());
-
 
         // TODO: Implement proper threading so the window only updates when something has actually changed
         while (true) {

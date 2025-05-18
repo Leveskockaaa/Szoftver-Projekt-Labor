@@ -79,6 +79,7 @@ public class Controller implements KeyListener {
                 for(Tecton t : ret){
                     gameTable.addTecton(t);
                 }
+                gameTableView.updateGameTable(gameTable);
             });
             timers.add(timer);
         }
