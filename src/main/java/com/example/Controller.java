@@ -151,8 +151,17 @@ public class Controller implements KeyListener {
                 List<Tecton> neighbors = mycelia.get(selectedMyceliumIndexM1).getTecton().getNeighbors();
                 if (!neighbors.isEmpty()) {
                     System.out.println("Finalized tecton for mycologist1 index: " + selectedTectonIndexM1);
-                    mycelia.get(selectedMyceliumIndexM1).createNewBranch(neighbors.get(selectedTectonIndexM1));
+                    Mycelium newMycelium = mycelia.get(selectedMyceliumIndexM1).createNewBranch(neighbors.get(selectedTectonIndexM1));
                     System.out.println("Created new branch for mycologist1 at tecton index: " + selectedTectonIndexM1);
+
+                    // Add new mycelium view to the GameTableView if a new mycelium was created
+                    if (newMycelium != null) {
+                        gameTable.getView().addNewMycelium(newMycelium);
+                        gameTable.getView().add(newMycelium.getView(), BorderLayout.CENTER);
+                        gameTable.getView().revalidate();
+                        gameTable.getView().repaint();
+                    }
+
                     mycelia.get(selectedMyceliumIndexM1).disableGrowth();
                     int myceliumIndex = selectedMyceliumIndexM1; // capture current index
                     timers.add(new Timer(10, new Runnable() {
@@ -164,6 +173,7 @@ public class Controller implements KeyListener {
                 }
                 tectonSelectionActiveM1 = false;
                 gameTable.getTectons().get(selectedTectonIndexM1).getView().setIsHighlighted(false);
+                gameTable.getView().repaint();
                 selectedTectonIndexM1 = -1;
                 selectedMyceliumIndexM1 = -1;
             }
@@ -179,6 +189,7 @@ public class Controller implements KeyListener {
                 gameTable.getView().repaint();
                 mycologist1.getMycelia().get(selectedMyceliumIndexM1).getView().repaint();
                 System.out.println("Selected mycelium for mycologist1 index: " + selectedMyceliumIndexM1);
+                System.out.println("Selected mycelium for mycologist1 tecton: " + mycologist1.getMycelia().get(selectedMyceliumIndexM1).getTecton());
             }
         }
 

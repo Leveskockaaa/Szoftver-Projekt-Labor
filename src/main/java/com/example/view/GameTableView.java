@@ -26,25 +26,24 @@ public class GameTableView extends LayeredPane {
     private static final double REPULSION_FORCE = 1500000;
     private static final double SPRING_CONSTANT = 1;
     private static final int SPRING_REST_LENGTH = 1;
-//    private static final double CROSSING_PENALTY_FORCE = 1;
     private static final int MIN_DISTANCE = 10;
     private static final double centerAttractionStrength = 0.1;
 
-private final List<TectonView> tectonViews = new ArrayList<>();
+    private final List<TectonView> tectonViews = new ArrayList<>();
     private final Map<Tecton, Point> tectonPositions;
     private final GameTable gameTable;
     private TectonView selectedTecton = null;
 
     public GameTableView(GameTable gameTable) {
         this.gameTable = gameTable;
-        setBackground(new Color(0,0,0,0));
+        setBackground(new Color(0, 0, 0, 0));
         setBounds(0, 0, 1600, 900);
         validateGameTable();
         setLayout(new BorderLayout());
 
         // Initialize positions with force-directed layout
         this.tectonPositions = calculateTectonPositions(gameTable);
-        //initializeTectonViews();
+
 
         addMouseListener(new MouseAdapter() {
             @Override
@@ -67,10 +66,10 @@ private final List<TectonView> tectonViews = new ArrayList<>();
     private TectonView chooseTecton(int x, int y) {
         for (Tecton tecton : gameTable.getTectons()) {
             TectonView tectonView = tecton.getView();
-                if (tectonView.isSelected(x, y)) {
-                    selectedTecton = tectonView;
-                    return selectedTecton;
-                }
+            if (tectonView.isSelected(x, y)) {
+                selectedTecton = tectonView;
+                return selectedTecton;
+            }
         }
         return null;
     }
@@ -85,17 +84,7 @@ private final List<TectonView> tectonViews = new ArrayList<>();
     private void initializeTectonViews() {
         for (Map.Entry<Tecton, Point> entry : tectonPositions.entrySet()) {
             Tecton tecton = entry.getKey();
-//            Point position = entry.getValue();
-
-//            Position pos = new Position();
-//            pos.x = position.x;
-//            pos.y = position.y;
-//            pos.width = DEFAULT_RADIUS * 2;
-//            pos.height = DEFAULT_RADIUS * 2;
-//            pos.rotation = 0;
-
             TectonView tectonView = new TectonView(tecton);
-            // tectonView.draw_drawable(pos, 1.0f); // Scale is now handled in TectonView
             tectonViews.add(tectonView);
         }
     }
@@ -104,7 +93,6 @@ private final List<TectonView> tectonViews = new ArrayList<>();
         List<Tecton> tectons = gameTable.getTectons();
         Map<Tecton, Point> positions = initializePositions(tectons);
 
-        // Adjusted constants
         final double coolingRate = 0.95; // Cooling factor per iteration
         double temperature = 1.0; // Initial temperature
 
@@ -138,11 +126,6 @@ private final List<TectonView> tectonViews = new ArrayList<>();
                     dx += springForce * (neighborPos.x - currentPos.x) / dist;
                     dy += springForce * (neighborPos.y - currentPos.y) / dist;
                 }
-
-                // 3. Calculate crossing penalty forces
-//                double[] crossingForces = calculateCrossingForces(tecton, positions);
-//                dx += crossingForces[0];
-//                dy += crossingForces[1];
 
                 // 4. Center attraction force
                 int centerX = gameTable.getSizeX() / 2;
@@ -180,13 +163,6 @@ private final List<TectonView> tectonViews = new ArrayList<>();
         double angleStep = 2 * Math.PI / tectons.size();
         double angle = 0;
 
-//        for (Tecton tecton : tectons) {
-//            int x = (int) (centerX + radius * Math.cos(angle));
-//            int y = (int) (centerY + radius * Math.sin(angle));
-//            positions.put(tecton, new Point(x, y));
-//            angle += angleStep;
-//        }
-
         Tecton tecton = tectons.get(tectons.size() - 1);
         ArrayList<Tecton> visited = new ArrayList<>();
         visited.add(tecton);
@@ -194,9 +170,9 @@ private final List<TectonView> tectonViews = new ArrayList<>();
         int y = (int) (centerY + radius * Math.sin(angle));
         positions.put(tecton, new Point(x, y));
         angle += angleStep;
-        loop: while (visited.size() != tectons.size()){
-            for(Tecton neighbor : tecton.getNeighbors()){
-                if(!visited.contains(neighbor)){
+        loop: while (visited.size() != tectons.size()) {
+            for (Tecton neighbor : tecton.getNeighbors()) {
+                if (!visited.contains(neighbor)) {
                     x = (int) (centerX + radius * Math.cos(angle));
                     y = (int) (centerY + radius * Math.sin(angle));
                     positions.put(neighbor, new Point(x, y));
@@ -211,49 +187,6 @@ private final List<TectonView> tectonViews = new ArrayList<>();
         return positions;
     }
 
-//    private double[] calculateCrossingForces(Tecton tecton, Map<Tecton, Point> positions) {
-//        double dx = 0;
-//        double dy = 0;
-//        Point p1 = positions.get(tecton);
-//
-//        for (Tecton neighbor : tecton.getNeighbors()) {
-//            Point p2 = positions.get(neighbor);
-//
-//            for (Map.Entry<Tecton, Point> entry : positions.entrySet()) {
-//                Tecton n = entry.getKey();
-//                Point p3 = entry.getValue();
-//
-//                for (Tecton nb : n.getNeighbors()) {
-//                    Point p4 = positions.get(nb);
-//
-//                    // Skip if same edge or adjacent edges
-//                    if (tecton.equals(n) || tecton.equals(nb) ||
-//                            neighbor.equals(n) || neighbor.equals(nb)) {
-//                        continue;
-//                    }
-//
-//                    if (linesIntersect(p1, p2, p3, p4)) {
-//                        double cx = (p1.x + p2.x + p3.x + p4.x) / 4.0;
-//                        double cy = (p1.y + p2.y + p3.y + p4.y) / 4.0;
-//
-//                        dx += CROSSING_PENALTY_FORCE * (cx - p1.x) / 10.0;
-//                        dy += CROSSING_PENALTY_FORCE * (cy - p1.y) / 10.0;
-//                    }
-//                }
-//            }
-//        }
-//
-//        return new double[]{dx, dy};
-//    }
-//
-//    private boolean linesIntersect(Point p1, Point p2, Point p3, Point p4) {
-//        double x1 = p1.x, y1 = p1.y;
-//        double x2 = p2.x, y2 = p2.y;
-//        double x3 = p3.x, y3 = p3.y;
-//        double x4 = p4.x, y4 = p4.y;
-//
-//        double d = (y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1);
-//        if (d == 0) return false;
 //
 //        double ua = ((x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3)) / d;
 //        double ub = ((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3)) / d;
@@ -290,37 +223,38 @@ private final List<TectonView> tectonViews = new ArrayList<>();
             // Draw insects on the tecton
             int insectIndex = 0;
             for (Insect insect : tect.getInsects()) {
-               
+
                 Position insectPos = new Position(tectonPositions.get(tect).x - 25 + insectIndex * 30, tectonPositions.get(tect).y + 13);
                 insect.getView().setPosition(insectPos);
-    
-                
+
+
                 this.add(insect.getView(), BorderLayout.CENTER);
                 insect.getView().repaint();
                 insect.getView().revalidate();
                 insectIndex++;
             }
-    
+
             // Draw mycelia on the tecton
             int myceliumIndex = 0;
             for (Mycelium mycelium : tect.getMycelia()) {
-                
+
                 Position myceliumPos = new Position(tectonPositions.get(tect).x + 10 + myceliumIndex * 10, tectonPositions.get(tect).y - 35 + myceliumIndex * 5);
+                System.out.println("Mycelium pos: " + myceliumPos);
                 mycelium.getView().setPosition(myceliumPos);
-            
+
                 this.add(mycelium.getView(), BorderLayout.CENTER);
                 mycelium.getView().repaint();
                 mycelium.getView().revalidate();
                 myceliumIndex++;
-                
+
             }
-            
+
             // Draw the mushroom body on the tecton
             if (tect.getMushroomBody() != null) {
                 System.out.println("Drawing mushroom body for tecton: " + tect);
                 Position mbPos = new Position(tectonPositions.get(tect).x - 35, tectonPositions.get(tect).y - 30);
                 tect.getMushroomBody().getView().setPosition(mbPos);
-                
+
                 this.add(tect.getMushroomBody().getView(), BorderLayout.CENTER);
                 tect.getMushroomBody().getView().repaint();
                 tect.getMushroomBody().getView().revalidate();
@@ -328,7 +262,7 @@ private final List<TectonView> tectonViews = new ArrayList<>();
 
 
             // Draw the tecton itself
-    
+
             tect.getView().setPosition(new Position((int)tectonPositions.get(tect).getX() - (tect.getView().getRadius() / 2), (int)tectonPositions.get(tect).getY() - (tect.getView().getRadius() / 2)));
             this.add(tect.getView());
             System.out.println("Position: " + (int)(tectonPositions.get(tect).getX() - (tect.getView().getRadius() / 2)) + " " + (int)(tectonPositions.get(tect).getY() - (tect.getView().getRadius() / 2)));
@@ -350,5 +284,9 @@ private final List<TectonView> tectonViews = new ArrayList<>();
             }
         }
         return Color.BLACK;
+    }
+
+    public void addNewMycelium(Mycelium newMycelium){
+        newMycelium.getView().setPosition(new Position(tectonPositions.get(newMycelium.getTecton()).x + 10 + newMycelium.getTecton().getMycelia().size() * 10, tectonPositions.get(newMycelium.getTecton()).y - 35 + newMycelium.getTecton().getMycelia().size() * 5));
     }
 }
