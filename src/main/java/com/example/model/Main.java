@@ -35,17 +35,16 @@ public class Main {
 
         mainFrame.showGameTable(controller.getGameTable());
 
-        try {
-            Thread.sleep(7000);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            System.err.println("Sleep was interrupted");
-        }
-
 
         // TODO: Implement proper threading so the window only updates when something has actually changed
         while (true) {
+            System.out.println("Game Running...");
             mainFrame.showGameTable(controller.getGameTable());
+            try {
+                Thread.sleep(1000); // Sleep for 1 second
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
 

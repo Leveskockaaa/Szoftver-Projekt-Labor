@@ -9,8 +9,8 @@ import java.util.List;
 
 public class Controller implements KeyListener {
     private static HashMap<Object, String> nameMap = new HashMap<>();
-    private List<Timer> timers = new ArrayList<>();
-    private GameTable gameTable;
+    private static List<Timer> timers = new ArrayList<>();
+    private static GameTable gameTable;
     private Mycologist mycologist1 = new Mycologist();
     private Mycologist mycologist2 = new Mycologist();
     private Entomologist entomologist1 = new Entomologist();
@@ -69,26 +69,31 @@ public class Controller implements KeyListener {
 
         Random random = new Random();
         for (Tecton tecton : tectons) {
-                int time = random.nextInt(3, 6);
-                Timer timer = new Timer(time, () -> {
-                    List<Tecton> ret = tecton.breakApart();
-                    gameTable.removeTecton(tecton);
-                    gameTable.addTecton(ret.get(0));
-                    gameTable.addTecton(ret.get(1));
-                });
-                timers.add(timer);
-            }
-
-
-
+            int time = random.nextInt(3, 6);
+            Timer timer = new Timer(time, () -> {
+                List<Tecton> ret = tecton.breakApart();
+                gameTable.removeTecton(tecton);
+                gameTable.addTecton(ret.get(0));
+                gameTable.addTecton(ret.get(1));
+            });
+            timers.add(timer);
+        }
     }
 
     public GameTable getGameTable() {
         return gameTable;
     }
 
-    public void addTimer(Timer timer) {
+    public static void addTimer(Timer timer) {
         timers.add(timer);
+    }
+
+    public static void removeTecton(Tecton tecton) {
+        gameTable.removeTecton(tecton);
+    }
+
+    public static void addTecton(Tecton tecton) {
+        gameTable.addTecton(tecton);
     }
 
     @Override
