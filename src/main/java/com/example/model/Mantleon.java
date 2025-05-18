@@ -162,7 +162,16 @@ public class Mantleon extends Tecton {
         }
 
         Random random = new Random();
-        //Timer timer = new Timer(random.nextInt(30, 60), );
+        for (Tecton tecton : Arrays.asList(t1, t2)) {
+            int time = random.nextInt(3, 6);
+            Timer timer = new Timer(time, () -> {
+                List<Tecton> ret = tecton.breakApart();
+                Controller.removeTecton(tecton);
+                Controller.addTecton(ret.get(0));
+                Controller.addTecton(ret.get(1));
+            });
+            Controller.addTimer(timer);
+        }
 
         return new ArrayList<>(Arrays.asList(t1, t2));
     }
