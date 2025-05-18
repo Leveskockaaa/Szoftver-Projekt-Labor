@@ -229,8 +229,6 @@ public class GameTableView extends LayeredPane {
 
 
                 this.add(insect.getView(), BorderLayout.CENTER);
-                insect.getView().repaint();
-                insect.getView().revalidate();
                 insectIndex++;
             }
 
@@ -243,8 +241,6 @@ public class GameTableView extends LayeredPane {
                 mycelium.getView().setPosition(myceliumPos);
 
                 this.add(mycelium.getView(), BorderLayout.CENTER);
-                mycelium.getView().repaint();
-                mycelium.getView().revalidate();
                 myceliumIndex++;
 
             }
@@ -256,8 +252,6 @@ public class GameTableView extends LayeredPane {
                 tect.getMushroomBody().getView().setPosition(mbPos);
 
                 this.add(tect.getMushroomBody().getView(), BorderLayout.CENTER);
-                tect.getMushroomBody().getView().repaint();
-                tect.getMushroomBody().getView().revalidate();
             }
 
 
@@ -266,12 +260,11 @@ public class GameTableView extends LayeredPane {
             tect.getView().setPosition(new Position((int)tectonPositions.get(tect).getX() - (tect.getView().getRadius() / 2), (int)tectonPositions.get(tect).getY() - (tect.getView().getRadius() / 2)));
             this.add(tect.getView());
             System.out.println("Position: " + (int)(tectonPositions.get(tect).getX() - (tect.getView().getRadius() / 2)) + " " + (int)(tectonPositions.get(tect).getY() - (tect.getView().getRadius() / 2)));
-            tect.getView().repaint();
-            tect.getView().revalidate();
         }
 
         EdgeView edgeView = new EdgeView(gameTable, tectonPositions);
         this.add(edgeView);
+        repaint();
     }
 
     private Color GetLineColor(Tecton tecton, Tecton neighbor){
