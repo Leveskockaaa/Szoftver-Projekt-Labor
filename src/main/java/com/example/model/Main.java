@@ -38,7 +38,7 @@ public class Main {
         // TODO: Implement proper threading so the window only updates when something has actually changed
         while (true) {
             System.out.println("Game Running...");
-            controller.getGameTableView().updateGameTable(controller.getGameTable());
+            //controller.getGameTableView().updateGameTable(controller.getGameTable());
             mainFrame.updateGameTable();
             try {
                 Thread.sleep(1000); // Sleep for 1 second

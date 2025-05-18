@@ -56,23 +56,22 @@ public class GameTableView extends LayeredPane {
         return tectonPositions;
     }
 
-    public void updateGameTable(GameTable gameTableNew){
-        if(this.gameTable.getTectons().size() != gameTableNew.getTectons().size()){
-            for(Tecton tecton : gameTableNew.getTectons()){
-                if(!tectonPositions.containsKey(tecton)){
-                    tectonPositions.put(tecton, new Point(0,0));
-                }
-            }
-        }
-        this.gameTable = gameTableNew;
-        tectonPositions = calculateTectonPositions(gameTable);
-        repaint();
-        revalidate();
-    }
+//    public void updateGameTable(GameTable gameTableNew){
+//        tectonPositions = calculateTectonPositions(gameTable);
+//        repaint();
+//        revalidate();
+//    }
 
     private Map<Tecton, Point> calculateTectonPositions(GameTable gameTable) {
+        this.gameTable = gameTable;
         List<Tecton> tectons = gameTable.getTectons();
         Map<Tecton, Point> positions = tectonPositions;
+
+        for(Tecton tecton : gameTable.getTectons()){
+            if(!tectonPositions.containsKey(tecton)){
+                tectonPositions.put(tecton, new Point(0,0));
+            }
+        }
 
         // Adjusted constants
         final double coolingRate = 0.95; // Cooling factor per iteration
@@ -241,7 +240,7 @@ public class GameTableView extends LayeredPane {
     
             tect.getView().setPosition(new Position((int)tectonPositions.get(tect).getX() - (tect.getView().getRadius() / 2), (int)tectonPositions.get(tect).getY() - (tect.getView().getRadius() / 2)));
             this.add(tect.getView());
-            System.out.println("Position: " + (int)(tectonPositions.get(tect).getX() - (tect.getView().getRadius() / 2)) + " " + (int)(tectonPositions.get(tect).getY() - (tect.getView().getRadius() / 2)));
+            System.out.println("Position: " + (int)(tectonPositions.get(tect).getX() - ((double) tect.getView().getRadius() / 2.0f)) + " " + (int)(tectonPositions.get(tect).getY() - ((double) tect.getView().getRadius() / 2.0f)));
             tect.getView().repaint();
             tect.getView().revalidate();
         }
