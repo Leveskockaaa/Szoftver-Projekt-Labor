@@ -58,6 +58,7 @@ public class Mycologist extends Player {
 
     public void setMushroomBodyType(MushroomBody mb) {
         this.initialMushroomBody = mb;
+        type = mb.getClass().getSimpleName();
     }
 
     public void addMushroomBody(MushroomBody mb) {mushroomBodies.add(mb);}

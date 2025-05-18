@@ -14,7 +14,7 @@ import com.example.model.GameTable;
 import util.FontStyles;
 
 public class MainFrame extends JFrame {
-    GameTableView gameTableView = null;
+    static GameTableView gameTableView = null;
     private Controller controller;
 
     public MainFrame() {
@@ -164,5 +164,15 @@ public class MainFrame extends JFrame {
     public void setController(Controller controller) {
         this.controller = controller;
         controller.setMainFrame(this);
+    }
+
+    public static GameTableView getGameTableView() {
+        return gameTableView;
+    }
+
+    public static void notifyGameTableView() {
+        if (gameTableView != null) {
+            gameTableView.getLock().notify();
+        }
     }
 }

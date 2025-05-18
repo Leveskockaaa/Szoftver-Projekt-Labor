@@ -53,7 +53,8 @@ public class GameCountdownTimer {
         } else {
             timer.stop();
             Controller.getGameTable().endGame();
-
+            Controller.clearTimers();
+            GameTableView.notifyLock();
         }
     }
 

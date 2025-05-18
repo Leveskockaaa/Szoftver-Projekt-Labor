@@ -118,6 +118,35 @@ public class Controller implements KeyListener {
         }
     }
 
+    public static void clearTimers() {
+        for (Timer timer : timers) {
+            timer.cancel();
+        }
+        timers.clear();
+    }
+
+    public List<String> getMycologistWinners() {
+        List<String> mycologistWinners = new ArrayList<>();
+        if (mycologist1.getIsWinner()) {
+            mycologistWinners.add(mycologist1.getType());
+        }
+        if (mycologist2.getIsWinner()) {
+            mycologistWinners.add(mycologist2.getType());
+        }
+        return mycologistWinners;
+    }
+
+    public List<Color> getEntomologistWinners() {
+        List<Color> entomologistWinners = new ArrayList<>();
+        if (entomologist1.getIsWinner()) {
+            entomologistWinners.add(entomologist1.getColor());
+        }
+        if (entomologist2.getIsWinner()) {
+            entomologistWinners.add(entomologist2.getColor());
+        }
+        return entomologistWinners;
+    }
+
     public static GameTable getGameTable() {
         return gameTable;
     }
