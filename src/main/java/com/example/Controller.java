@@ -71,7 +71,7 @@ public class Controller implements KeyListener {
             case "capulon" -> mycologist1.setMushroomBodyType(new Capulon(new Transix(), mycologist1));
             case "gilledon" -> mycologist1.setMushroomBodyType(new Gilledon(new Transix(), mycologist1));
         }
-        switch (mycologists.get(0).toLowerCase()) {
+        switch (mycologists.get(1).toLowerCase()) {
             case "hyphara" -> mycologist2.setMushroomBodyType(new Hyphara(new Transix(), mycologist2));
             case "poralia" -> mycologist2.setMushroomBodyType(new Poralia(new Transix(), mycologist2));
             case "capulon" -> mycologist2.setMushroomBodyType(new Capulon(new Transix(), mycologist2));
