@@ -47,6 +47,14 @@ public abstract class Player {
 
     public void setScore(int s) { score = s; }
 
+    public void deductScore(int s) {
+        if (score - s < 0) {
+            score = 0;
+        } else {
+            score -= s;
+        }
+    }
+
     public boolean getIsWinner() { return isWinner; }
 
     public String getName() { return name; }

@@ -115,6 +115,22 @@ public class MainFrame extends JFrame {
         }
     }
 
+    public void showWinnerScreen(List<String> mycologists, List<Color> insectColors) {
+        WinnerScreen winnerScreen = new WinnerScreen(mycologists, insectColors);
+        setContentPane(winnerScreen);
+        revalidate();
+        repaint();
+
+        synchronized (winnerScreen.getLock()) {
+            try {
+                winnerScreen.getLock().wait();
+            } catch (InterruptedException exception) {
+                Thread.currentThread().interrupt();
+                System.err.println("An error occurred while waiting for the start screen lock: " + exception.getMessage());
+            }
+        }
+    }
+
     public void showGameTable(GameTable gameTable) {
         gameTableView = new GameTableView(gameTable);
         gameTable.setView(gameTableView);
@@ -126,6 +142,15 @@ public class MainFrame extends JFrame {
         gameTableView.addKeyListener(controller);
         gameTableView.setFocusable(true);
         gameTableView.requestFocusInWindow();
+
+        synchronized (gameTableView.getLock()) {
+            try {
+                gameTableView.getLock().wait();
+            } catch (InterruptedException exception) {
+                Thread.currentThread().interrupt();
+                System.err.println("An error occurred while waiting for the start screen lock: " + exception.getMessage());
+            }
+        }
     }
 
     public void updateGameTable() {
@@ -139,5 +164,6 @@ public class MainFrame extends JFrame {
 
     public void setController(Controller controller) {
         this.controller = controller;
+        controller.setMainFrame(this);
     }
 }

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import com.example.Controller;
 import com.example.view.MyceliumView;
@@ -49,6 +51,8 @@ public class Mycelium {
     private final List<Mycelium> myceliumConnections;
 
     private MyceliumView view;
+
+    private Timer timer;
 
     /**
      * Konstruktor.
@@ -171,7 +175,6 @@ public class Mycelium {
      * ha nem, akkor újat hoz létre ott.
      *
      * @param tecton A tekton, amire át akarunk nőni.
-     * @param
      * @return Ha sikerült átnőni, akkor az új gombafonál referenciája,
      * egyébként null.
      */
@@ -346,17 +349,28 @@ public class Mycelium {
      * gombatesthez, akkor a fonal eltűnik.
      */
     public void wither() {
-        // egy új timer pélány indítása, ami elkezdi visszafelé számolni az időt
-        // vagy 0-tól a megadott ideig és ha végetért a timer akkor eltűnik a fonál
-        // és megszűnik a timer példány
-        // timer példány tárolása minden gombafonalhoz?
-        // végigmenni az összes elérhető gombafonálon mindegyikhez új timer?
-        // természetesen csak akkor ha a fonal nem kapcsolódik gombatesthez
-        // ha ezzel a fonállal kapcsolat jön létre akkor az kivált egy eseményt
-        // ami megnézi, hogy kapcsolódik-e gombatesthez és ha igen akkor megszünteti
-        // a timer példányt és végigmegy a kapcsolódó gombafonálakon és megszünteti
-        // a timer példányokat mindegyik kapcsolódó gombafonálon
-        // ha a timer lejár akkor megszünteti a gombafonalat
+        if (isWithering()) return;
+
+        timer = new Timer();
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                tecton.removeMycelium(Mycelium.this);
+                timer = null;
+            }
+        };
+        timer.schedule(task, 15000);
+    }
+
+    public boolean isWithering() {
+        return timer != null;
+    }
+
+    public void cancelWither() {
+        if (timer == null) return;
+        timer.cancel();
+        timer.purge();
+        timer = null;
     }
 
     public float getChewDelay() {

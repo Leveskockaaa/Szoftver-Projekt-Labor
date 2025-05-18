@@ -73,6 +73,10 @@ public class TectonTestClass {
         mycelia.add(mycelium);
     }
 
+    public void removeMycelium(MyceliumTestClass mycelium) {
+        mycelia.remove(mycelium);
+    }
+
     @Override
     public String toString() {
         return name;

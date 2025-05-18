@@ -3,12 +3,15 @@ import com.example.model.*;
 import com.example.view.Position;
 
 import java.awt.*;
+import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.*;
 import java.util.List;
 
 public class Controller implements KeyListener {
+    private MainFrame mainFrame;
+
     private static HashMap<Object, String> nameMap = new HashMap<>();
     private static List<Timer> timers = new ArrayList<>();
     private static GameTable gameTable;
@@ -68,17 +71,29 @@ public class Controller implements KeyListener {
         gameTable.initialize();
         List<Tecton> tectons = gameTable.getTectons();
 
-//        Random random = new Random();
-//        for (Tecton tecton : tectons) {
-//            int time = random.nextInt(3, 6);
-//            Timer timer = new Timer(time, () -> {
-//                List<Tecton> ret = tecton.breakApart();
-//                gameTable.removeTecton(tecton);
-//                gameTable.addTecton(ret.get(0));
-//                gameTable.addTecton(ret.get(1));
-//            });
-//            timers.add(timer);
-//        }
+        Random random = new Random();
+        for (Tecton tecton : tectons) {
+            int time = random.nextInt(3, 6);
+            Timer timer = new Timer(time, () -> {
+                List<Tecton> ret = tecton.breakApart();
+                gameTable.removeTecton(tecton);
+                gameTable.addTecton(ret.get(0));
+                gameTable.addTecton(ret.get(1));
+                // itt megy végbe a tektonok ketttétörése?
+                repaintFrame();
+            });
+            timers.add(timer);
+        }
+    }
+
+    public void setMainFrame(MainFrame mainFrame) {
+        this.mainFrame = mainFrame;
+    }
+
+    public void repaintFrame() {
+        if (mainFrame != null) {
+            mainFrame.updateGameTable();
+        }
     }
 
     public GameTable getGameTable() {
@@ -99,7 +114,6 @@ public class Controller implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        gameTable.getView().repaint();
         // Spóra szórás mycologist1-nek
         System.out.println("Key pressed: " + e.getKeyChar());
         if (e.getKeyCode() == KeyEvent.VK_A) {
@@ -132,6 +146,8 @@ public class Controller implements KeyListener {
                 gameTable.getView().addNewMushroomBody(res);
                 gameTable.getView().removeMycelium(removable);
             }
+            gameTable.checkMyceliumConnections();
+            repaintFrame();
         }
 
         // Fonal növesztés mycologist1-nek
@@ -144,7 +160,7 @@ public class Controller implements KeyListener {
                 if (!mycelia.isEmpty()) {
                     System.out.println("Selected mycelium for mycologist1 index: " + selectedMyceliumIndexM1);
                 }
-            } else if (myceliumSelectionActiveM1 /*&& mycologist1.getMycelia().get(selectedMyceliumIndexM1).printCanGrow().equals("Yes")*/) {
+            } else if (myceliumSelectionActiveM1) {
                 // Finalize mycelium selection, start tecton selection
                 System.out.println("Finalized mycelium for mycologist1 index: " + selectedMyceliumIndexM1);
                 myceliumSelectionActiveM1 = false;
@@ -158,9 +174,6 @@ public class Controller implements KeyListener {
             } else if (tectonSelectionActiveM1) {
                 // Finalize tecton selection
                 List<Tecton> neighbors = mycelia.get(selectedMyceliumIndexM1).getTecton().getNeighbors();
-                System.out.println("Newest shit" + mycelia.get(selectedMyceliumIndexM1).getTecton());
-                System.out.println("Neighbours count: " + neighbors.size());
-                System.out.println("Neighbours: " + neighbors);
                 if (!neighbors.isEmpty()) {
                     System.out.println("Finalized tecton for mycologist1 index: " + selectedTectonIndexM1);
                     Mycelium newMycelium = mycelia.get(selectedMyceliumIndexM1).createNewBranch(neighbors.get(selectedTectonIndexM1));
@@ -189,6 +202,8 @@ public class Controller implements KeyListener {
                 selectedTectonIndexM1 = -1;
                 selectedMyceliumIndexM1 = -1;
             }
+            gameTable.checkMyceliumConnections();
+            repaintFrame();
         }
 
         // Step through mycelia
@@ -201,7 +216,6 @@ public class Controller implements KeyListener {
                 gameTable.getView().repaint();
                 mycologist1.getMycelia().get(selectedMyceliumIndexM1).getView().repaint();
                 System.out.println("Selected mycelium for mycologist1 index: " + selectedMyceliumIndexM1);
-                System.out.println("Selected mycelium for mycologist1 tecton: " + mycologist1.getMycelia().get(selectedMyceliumIndexM1).getTecton());
             }
         }
 
@@ -209,13 +223,18 @@ public class Controller implements KeyListener {
         if (e.getKeyCode() == KeyEvent.VK_E && tectonSelectionActiveM1) {
             List<Mycelium> mycelia = mycologist1.getMycelia();
             List<Tecton> neighbors = mycelia.get(selectedMyceliumIndexM1).getTecton().getNeighbors();
-            System.out.println();
             if (!neighbors.isEmpty()) {
                 neighbors.get(selectedTectonIndexM1).getView().setIsHighlighted(false);
                 selectedTectonIndexM1 = (selectedTectonIndexM1 + 1) % neighbors.size();
                 neighbors.get(selectedTectonIndexM1).getView().setIsHighlighted(true);
                 gameTable.getView().repaint();
                 System.out.println("Selected tecton for mycologist1 index: " + selectedTectonIndexM1);
+            }
+        }
+
+        if (e.getKeyCode() == KeyEvent.VK_Q) {
+            for (Mycelium mycelium : mycologist1.getMycelia()) {
+                mycelium.eatInsect();
             }
         }
 
@@ -228,7 +247,6 @@ public class Controller implements KeyListener {
                     timers.add(new Timer(15, () -> mushroomBody.setSporeSpread(true)));
                 }
             }
-
         }
 
         // Supergomba fejlesztés mycologist2-nek
@@ -251,6 +269,8 @@ public class Controller implements KeyListener {
                 gameTable.getView().addNewMushroomBody(res);
                 gameTable.getView().removeMycelium(removable);
             }
+            gameTable.checkMyceliumConnections();
+            repaintFrame();
         }
 
         // Fonal növesztés mycologist2-nek
@@ -263,7 +283,7 @@ public class Controller implements KeyListener {
                 if (!mycelia.isEmpty()) {
                     System.out.println("Selected mycelium for mycologist2 index: " + selectedMyceliumIndexM2);
                 }
-            } else if (myceliumSelectionActiveM2  && mycologist2.getMycelia().get(selectedMyceliumIndexM2).printCanGrow().equals("Yes")) {
+            } else if (myceliumSelectionActiveM2) {
                 // Finalize mycelium selection, start tecton selection
                 System.out.println("Finalized mycelium for mycologist2 index: " + selectedMyceliumIndexM2);
                 myceliumSelectionActiveM2 = false;
@@ -277,8 +297,6 @@ public class Controller implements KeyListener {
             } else if (tectonSelectionActiveM2) {
                 // Finalize tecton selection
                 List<Tecton> neighbors = mycelia.get(selectedMyceliumIndexM2).getTecton().getNeighbors();
-                System.out.println("Neighbours: " + neighbors);
-                System.out.println("Neighbours count: " + neighbors.size());
                 if (!neighbors.isEmpty()) {
                     System.out.println("Finalized tecton for mycologist2 index: " + selectedTectonIndexM2);
                     Mycelium newMycelium = mycelia.get(selectedMyceliumIndexM2).createNewBranch(neighbors.get(selectedTectonIndexM2));
@@ -305,6 +323,8 @@ public class Controller implements KeyListener {
                 selectedTectonIndexM2 = -1;
                 selectedMyceliumIndexM2 = -1;
             }
+            gameTable.checkMyceliumConnections();
+            repaintFrame();
         }
 
         // Step through mycelia
@@ -329,6 +349,12 @@ public class Controller implements KeyListener {
                 neighbors.get(selectedTectonIndexM2).getView().setIsHighlighted(true);
                 gameTable.getView().repaint();
                 System.out.println("Selected tecton for mycologist2 index: " + selectedTectonIndexM2);
+            }
+        }
+
+        if (e.getKeyCode() == KeyEvent.VK_R) {
+            for (Mycelium mycelium : mycologist1.getMycelia()) {
+                mycelium.eatInsect();
             }
         }
 
@@ -364,8 +390,6 @@ public class Controller implements KeyListener {
             for (Mycelium mycelium : mycelia) {
                 mycelium.getMyceliumConnections().forEach(myceliumConnection -> locations.add(myceliumConnection.getTecton()));
             }
-            System.out.println("Locations: " + locations);
-            System.out.println(selectedTectonToMoveIndexE1);
             if (!movementActiveE1) {
                 // Start movement selection
                 movementActiveE1 = true;
@@ -424,6 +448,8 @@ public class Controller implements KeyListener {
                 chewTectonE1 = null;
                 chewActiveE1 = false;
                 selectedTectonForChewIndexE1 = -1;
+                gameTable.checkMyceliumConnections();
+                repaintFrame();
             }
         }
 
@@ -545,6 +571,8 @@ public class Controller implements KeyListener {
                 chewTectonE2 = null;
                 chewActiveE2 = false;
                 selectedTectonForChewIndexE2 = -1;
+                gameTable.checkMyceliumConnections();
+                repaintFrame();
             }
         }
 

@@ -1,5 +1,8 @@
 package com.example.model;
 
+import com.example.Controller;
+import com.example.Timer;
+
 /**
  * A Poralia gombafajhoz tartozó spórákat kezeli.
  */
@@ -18,6 +21,8 @@ public class PoraliaSpore extends Spore {
     @Override
     public void takeEffectOn(Insect insect) {
         insect.paralize();
+        Timer timer = new Timer(10, insect::unParalized);
+        Controller.addTimer(timer);
     }
 
     /*
