@@ -91,6 +91,9 @@ public class Magmox extends Tecton {
     @Override
     public List<Tecton> breakApart() {
         System.out.println("Magmox breakApart() called");
+        if (this.size == TectonSize.SMALL) {
+            return new ArrayList<>();
+        }
 
         //Két új tekton létrehozása
         Mantleon t1 = new Mantleon(decreaseSize(this.size));

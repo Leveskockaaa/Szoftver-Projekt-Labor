@@ -91,6 +91,9 @@ public class Transix extends Tecton {
     @Override
     public List<Tecton> breakApart() {
         System.out.println("Transix breakApart() called");
+        if (this.size == TectonSize.SMALL) {
+            return new ArrayList<>();
+        }
 
         //Két új tekton létrehozása
         Transix t1 = new Transix(decreaseSize(this.size));

@@ -5,18 +5,20 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import com.example.model.GameTable;
-import com.example.model.Insect;
-import com.example.model.Mycelium;
-import com.example.model.Tecton;
+import com.example.model.*;
+import com.example.Timer;
 
 import util.LayeredPane;
+
+import javax.swing.*;
 
 public class GameTableView extends LayeredPane {
     private static final int DEFAULT_RADIUS = 15;
@@ -27,9 +29,10 @@ public class GameTableView extends LayeredPane {
     private static final int MIN_DISTANCE = 10;
     private static final double centerAttractionStrength = 0.1;
 
-    // private final List<TectonView> tectonViews = new ArrayList<>();
-    private Map<Tecton, Point> tectonPositions;
-    private GameTable gameTable;
+private final List<TectonView> tectonViews = new ArrayList<>();
+    private final Map<Tecton, Point> tectonPositions;
+    private final GameTable gameTable;
+    private TectonView selectedTecton = null;
 
     public GameTableView(GameTable gameTable) {
         this.gameTable = gameTable;
@@ -41,7 +44,35 @@ public class GameTableView extends LayeredPane {
         // Initialize positions with force-directed layout
         this.tectonPositions = initializePositions(gameTable.getTectons());
         this.tectonPositions = calculateTectonPositions(gameTable);
-        System.out.println("Initialized positions for " + tectonPositions.size() + " tectons");
+        //initializeTectonViews();
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                selectedTecton = chooseTecton(e.getX(), e.getY());
+                if (selectedTecton != null) {
+                    SporesView sporesView = new SporesView(selectedTecton.getTecton().getSpores());
+                    add(sporesView, BorderLayout.CENTER);
+                    Timer timer = new Timer(5, () -> {
+                        selectedTecton = null;
+                        remove(sporesView);
+                        repaint();
+                    });
+                }
+                repaint();
+            }
+        });
+    }
+
+    private TectonView chooseTecton(int x, int y) {
+        for (Tecton tecton : gameTable.getTectons()) {
+            TectonView tectonView = tecton.getView();
+                if (tectonView.isSelected(x, y)) {
+                    selectedTecton = tectonView;
+                    return selectedTecton;
+                }
+        }
+        return null;
     }
 
     private void validateGameTable() {
@@ -191,14 +222,22 @@ public class GameTableView extends LayeredPane {
         g2d.fillRect(0, 0, getWidth(), getHeight());
         this.removeAll();
 
+        if (selectedTecton != null) {
+            SporesView sporesView = new SporesView(selectedTecton.getTecton().getSpores());
+            add(sporesView);
+            Timer timer = new Timer(5, () -> {
+                selectedTecton = null;
+                repaint();
+            });
+        }
+
         // Draw nodes
 
         for (Tecton tect : tectonPositions.keySet()) {
-            
+
             // Draw insects on the tecton
             int insectIndex = 0;
             for (Insect insect : tect.getInsects()) {
-                System.out.println("Drawing insect for tecton: " + tect);
                
                 Position insectPos = new Position(tectonPositions.get(tect).x - 25 + insectIndex * 30, tectonPositions.get(tect).y + 13);
                 insect.getView().setPosition(insectPos);
@@ -229,7 +268,7 @@ public class GameTableView extends LayeredPane {
                 System.out.println("Drawing mushroom body for tecton: " + tect);
                 Position mbPos = new Position(tectonPositions.get(tect).x - 35, tectonPositions.get(tect).y - 30);
                 tect.getMushroomBody().getView().setPosition(mbPos);
-                System.out.println(tect.printType());
+
                 this.add(tect.getMushroomBody().getView(), BorderLayout.CENTER);
                 tect.getMushroomBody().getView().repaint();
                 tect.getMushroomBody().getView().revalidate();
@@ -247,9 +286,6 @@ public class GameTableView extends LayeredPane {
 
         EdgeView edgeView = new EdgeView(gameTable, this);
         this.add(edgeView);
-
-        this.repaint();
-        this.revalidate();
     }
 
 //    private Color GetLineColor(Tecton tecton, Tecton neighbor){

@@ -90,6 +90,9 @@ public class Orogenix extends Tecton {
     @Override
     public List<Tecton> breakApart() {
         System.out.println("Orogenix breakApart() called");
+        if (this.size == TectonSize.SMALL) {
+            return new ArrayList<>();
+        }
 
         //Két új tekton létrehozása
         Orogenix t1 = new Orogenix(decreaseSize(this.size));
