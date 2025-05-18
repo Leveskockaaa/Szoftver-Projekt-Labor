@@ -21,6 +21,7 @@ import com.example.model.Poralia;
 import com.example.model.Tecton;
 import com.example.model.Transix;
 import com.example.view.MainFrame;
+import com.example.view.ScorePanel;
 
 public class Controller implements KeyListener {
     private MainFrame mainFrame;
@@ -145,6 +146,7 @@ public class Controller implements KeyListener {
             for (MushroomBody mushroomBody : mycologist1.getMushroomBodies()) {
                 mushroomBody.evolveSuper();
             }
+            ScorePanel.updateMycologist1Score(mycologist1.getScore());
             repaintFrame();
         }
 
@@ -153,6 +155,7 @@ public class Controller implements KeyListener {
             for (Mycelium mycelium : mycologist1.getMycelia()) {
                 mycelium.developMushroomBody();
             }
+            ScorePanel.updateMycologist1Score(mycologist1.getScore());
             gameTable.checkMyceliumConnections();
             repaintFrame();
         }
@@ -243,6 +246,7 @@ public class Controller implements KeyListener {
             for (MushroomBody mushroomBody : mycologist2.getMushroomBodies()) {
                 mushroomBody.evolveSuper();
             }
+            ScorePanel.updateMycologist2Score(mycologist2.getScore());
             repaintFrame();
         }
 
@@ -251,6 +255,7 @@ public class Controller implements KeyListener {
             for (Mycelium mycelium : mycologist2.getMycelia()) {
                 mycelium.developMushroomBody();
             }
+            ScorePanel.updateMycologist2Score(mycologist2.getScore());
             gameTable.checkMyceliumConnections();
             repaintFrame();
         }
@@ -331,6 +336,7 @@ public class Controller implements KeyListener {
                 selectedInsectE1 = entomologist1.getInsects().get(selectedInsectIndexE1);
             }
             selectedInsectE1.eatSpore();
+            ScorePanel.updateEntomologist1Score(entomologist1.getScore());
             selectedInsectE1.disableEating();
             timers.add(new Timer(5, () -> selectedInsectE1.enableEating()));
             repaintFrame();
@@ -431,6 +437,7 @@ public class Controller implements KeyListener {
                 selectedInsectE2 = entomologist2.getInsects().get(selectedInsectIndexE2);
             }
             selectedInsectE2.eatSpore();
+            ScorePanel.updateEntomologist2Score(entomologist2.getScore());
             selectedInsectE2.disableEating();
             timers.add(new Timer(5, () -> selectedInsectE2.enableEating()));
             repaintFrame();

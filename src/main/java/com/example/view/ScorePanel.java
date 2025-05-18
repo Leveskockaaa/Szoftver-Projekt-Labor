@@ -8,10 +8,10 @@ import java.awt.*;
  * A jobboldali részen jeleníti meg a pontokat egymás alatt.
  */
 public class ScorePanel extends JPanel {
-    private JLabel mycologist1ScoreLabel;
-    private JLabel mycologist2ScoreLabel;
-    private JLabel entomologist1ScoreLabel;
-    private JLabel entomologist2ScoreLabel;
+    private static JLabel mycologist1ScoreLabel;
+    private static JLabel mycologist2ScoreLabel;
+    private static JLabel entomologist1ScoreLabel;
+    private static JLabel entomologist2ScoreLabel;
 
     /**
      * Létrehoz egy új ScorePanel-t a játékosok pontszámainak megjelenítésére.
@@ -69,7 +69,7 @@ public class ScorePanel extends JPanel {
      *
      * @param score Az új pontszám
      */
-    public void updateMycologist1Score(int score) {
+    public static void updateMycologist1Score(int score) {
         mycologist1ScoreLabel.setText("Mycologist1: " + score + " pont");
     }
 
@@ -78,7 +78,7 @@ public class ScorePanel extends JPanel {
      *
      * @param score Az új pontszám
      */
-    public void updateMycologist2Score(int score) {
+    public static void updateMycologist2Score(int score) {
         mycologist2ScoreLabel.setText("Mycologist2: " + score + " pont");
     }
 
@@ -87,7 +87,7 @@ public class ScorePanel extends JPanel {
      *
      * @param score Az új pontszám
      */
-    public void updateEntomologist1Score(int score) {
+    public static void updateEntomologist1Score(int score) {
         entomologist1ScoreLabel.setText("Entomologist1: " + score + " pont");
     }
 
@@ -96,7 +96,7 @@ public class ScorePanel extends JPanel {
      *
      * @param score Az új pontszám
      */
-    public void updateEntomologist2Score(int score) {
+    public static void updateEntomologist2Score(int score) {
         entomologist2ScoreLabel.setText("Entomologist2: " + score + " pont");
     }
 }
