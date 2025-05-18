@@ -13,12 +13,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import com.example.model.*;
 import com.example.Timer;
+import com.example.model.GameTable;
+import com.example.model.Insect;
+import com.example.model.Mycelium;
+import com.example.model.Tecton;
 
 import util.LayeredPane;
-
-import javax.swing.*;
 
 public class GameTableView extends LayeredPane {
     private static final int DEFAULT_RADIUS = 15;
@@ -29,6 +30,7 @@ public class GameTableView extends LayeredPane {
 //    private static final double CROSSING_PENALTY_FORCE = 1;
     private static final int MIN_DISTANCE = 10;
     private static final double centerAttractionStrength = 0.1;
+    private transient final Object lock = new Object();
 
 private final List<TectonView> tectonViews = new ArrayList<>();
     private final Map<Tecton, Point> tectonPositions;
@@ -62,6 +64,10 @@ private final List<TectonView> tectonViews = new ArrayList<>();
                 repaint();
             }
         });
+    }
+
+    public Object getLock() {
+        return lock;
     }
 
     private TectonView chooseTecton(int x, int y) {
