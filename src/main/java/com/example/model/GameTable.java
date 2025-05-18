@@ -114,6 +114,23 @@ public class GameTable {
         }
     }
 
+    public void checkMyceliumConnections() {
+        for (Tecton tecton : tectons) {
+            for (Mycelium mycelium : tecton.getMycelia()) {
+                if (mycelium == null) continue;
+
+                if (!mycelium.isConnectedToMushroomBody()) {
+                    if (!mycelium.isWithering()) {
+                        mycelium.wither();
+                    }
+                }
+                else {
+                    mycelium.cancelWither();
+                }
+            }
+        }
+    }
+
     /**
      * Választ egy gombatestet a megadott típus alapján, és létrehozza azt.
      *

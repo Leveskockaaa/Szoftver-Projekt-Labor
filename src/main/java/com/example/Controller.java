@@ -153,6 +153,7 @@ public class Controller implements KeyListener {
             for (Mycelium mycelium : mycologist1.getMycelia()) {
                 mycelium.developMushroomBody();
             }
+            gameTable.checkMyceliumConnections();
             repaintFrame();
         }
 
@@ -196,6 +197,7 @@ public class Controller implements KeyListener {
                 selectedTectonIndexM1 = -1;
                 selectedMyceliumIndexM1 = -1;
             }
+            gameTable.checkMyceliumConnections();
             repaintFrame();
         }
 
@@ -243,6 +245,7 @@ public class Controller implements KeyListener {
             for (Mycelium mycelium : mycologist2.getMycelia()) {
                 mycelium.developMushroomBody();
             }
+            gameTable.checkMyceliumConnections();
             repaintFrame();
         }
 
@@ -286,6 +289,7 @@ public class Controller implements KeyListener {
                 selectedTectonIndexM2 = -1;
                 selectedMyceliumIndexM2 = -1;
             }
+            gameTable.checkMyceliumConnections();
             repaintFrame();
         }
 
@@ -389,6 +393,7 @@ public class Controller implements KeyListener {
                 chewTectonE1 = null;
                 chewActiveE1 = false;
                 selectedTectonForChewIndexE1 = -1;
+                gameTable.checkMyceliumConnections();
                 repaintFrame();
             }
         }
@@ -488,6 +493,7 @@ public class Controller implements KeyListener {
                 chewTectonE2 = null;
                 chewActiveE2 = false;
                 selectedTectonForChewIndexE2 = -1;
+                gameTable.checkMyceliumConnections();
                 repaintFrame();
             }
         }
