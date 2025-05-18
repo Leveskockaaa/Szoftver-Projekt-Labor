@@ -136,7 +136,7 @@ public class Controller implements KeyListener {
                 if (!mycelia.isEmpty()) {
                     System.out.println("Selected mycelium for mycologist1 index: " + selectedMyceliumIndexM1);
                 }
-            } else if (myceliumSelectionActiveM1 && mycologist1.getMycelia().get(selectedMyceliumIndexM1).printCanGrow().equals("Yes")) {
+            } else if (myceliumSelectionActiveM1 /*&& mycologist1.getMycelia().get(selectedMyceliumIndexM1).printCanGrow().equals("Yes")*/) {
                 // Finalize mycelium selection, start tecton selection
                 System.out.println("Finalized mycelium for mycologist1 index: " + selectedMyceliumIndexM1);
                 myceliumSelectionActiveM1 = false;
@@ -160,18 +160,19 @@ public class Controller implements KeyListener {
 
                     // Add new mycelium view to the GameTableView if a new mycelium was created
                     if (newMycelium != null) {
-                        newMycelium.getView().setPosition(new Position(newMycelium.getTecton().getView().getPosition().x + (newMycelium.getTecton().getView().getRadius() / 2) + (newMycelium.getTecton().getMycelia().size()) * 10, newMycelium.getTecton().getView().getPosition().y + (newMycelium.getTecton().getMycelia().size()) * 5));
-                        gameTable.getView().add(newMycelium.getView(), BorderLayout.CENTER);
-                        gameTable.getView().revalidate();
-                        gameTable.getView().repaint();
+                        gameTable.getView().addNewMycelium(newMycelium);
+                        mycologist1.addMycelium(newMycelium);
                     }
+                    System.out.println("Mycologist's mycelia: " + mycologist1.getMycelia());
 
                     mycelia.get(selectedMyceliumIndexM1).disableGrowth();
+                    newMycelium.disableGrowth();
                     int myceliumIndex = selectedMyceliumIndexM1; // capture current index
                     timers.add(new Timer(10, new Runnable() {
                         @Override
                         public void run() {
                             mycologist1.getMycelia().get(myceliumIndex).enableGrowth();
+                            newMycelium.enableGrowth();
                         }
                     }));
                 }
@@ -264,14 +265,22 @@ public class Controller implements KeyListener {
                 System.out.println("Neighbours count: " + neighbors.size());
                 if (!neighbors.isEmpty()) {
                     System.out.println("Finalized tecton for mycologist2 index: " + selectedTectonIndexM2);
-                    mycelia.get(selectedMyceliumIndexM2).createNewBranch(neighbors.get(selectedTectonIndexM2));
+                    Mycelium newMycelium = mycelia.get(selectedMyceliumIndexM2).createNewBranch(neighbors.get(selectedTectonIndexM2));
                     System.out.println("Created new branch for mycologist2 at tecton index: " + selectedTectonIndexM2);
+
+                    if (newMycelium != null) {
+                        gameTable.getView().addNewMycelium(newMycelium);
+                        mycologist2.addMycelium(newMycelium);
+                    }
+
                     mycelia.get(selectedMyceliumIndexM2).disableGrowth();
+                    newMycelium.disableGrowth();
                     int myceliumIndex = selectedMyceliumIndexM2; // capture current index
                     timers.add(new Timer(10, new Runnable() {
                         @Override
                         public void run() {
                             mycologist2.getMycelia().get(myceliumIndex).enableGrowth();
+                            newMycelium.enableGrowth();
                         }
                     }));
                 }
