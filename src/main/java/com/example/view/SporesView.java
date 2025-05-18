@@ -11,10 +11,14 @@ import java.util.List;
 public class SporesView extends JPanel {
     private List<Spore> sporeList;
     private HashMap<String, Color> colorMap = new HashMap<>();
-    private Position position = new Position(1140, 45);
+    private Position position = new Position(20, 50);
 
     public SporesView(List<Spore> sporeList) {
         this.sporeList = sporeList;
+        setBounds(1200, 20, 150, 300);
+        setBorder(BorderFactory.createLineBorder(Color.black));
+        setVisible(true);
+        setLayout(new BorderLayout());
         colorMap.put("HypharaSpore", new Color(Color.RED.getRGB()));
         colorMap.put("GilledonSpore", new Color(Color.GREEN.getRGB()));
         colorMap.put("PoraliaSpore", new Color(Color.BLUE.getRGB()));
@@ -27,7 +31,11 @@ public class SporesView extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
         int offsetY = 0; // Adjust the vertical offset for each spore
 
-        g2d.drawRect(1120, 20, 60, 250); // Draw a rectangle for the spores
+        g2d.setColor(Color.LIGHT_GRAY);
+        g2d.fillRect(0, 0, getWidth(), getHeight());
+
+        g2d.setColor(Color.BLACK);
+        g2d.drawString("Spores", 10, 20);
 
         for (int i = 0; i < sporeList.size(); i++) {
             String sporeType = sporeList.get(i).getMushroomBody().printType();
@@ -81,5 +89,10 @@ public class SporesView extends JPanel {
             }
         }
         return result;
+    }
+
+    public void addSpore(Spore spore) {
+        sporeList.add(spore);
+        repaint();
     }
 }

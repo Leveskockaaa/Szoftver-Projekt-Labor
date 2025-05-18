@@ -105,12 +105,6 @@ public class TectonView extends JPanel {
         if (mushroomBody != null) {
             //g2d.fillOval(position.x + radius / 4, position.y + radius / 4, radius / 5, radius / 5);
         }
-
-
-    
-    
-        
-    
     }
 
     public void showSpores() {
@@ -118,6 +112,10 @@ public class TectonView extends JPanel {
     }
     public void hideSpores() {
         this.sporeViews = null;
+    }
+
+    public SporesView getSporeViews() {
+        return this.sporeViews;
     }
 
     public boolean isSelected(int x, int y) {
@@ -143,6 +141,10 @@ public class TectonView extends JPanel {
 
     public void setPosition(Position position){
         this.position = position;
+    }
+
+    public Position getPosition() {
+        return position;
     }
 
     public int getRadius() {
