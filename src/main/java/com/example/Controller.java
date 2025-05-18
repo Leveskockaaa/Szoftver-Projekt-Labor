@@ -1,5 +1,6 @@
 package com.example;
 import com.example.model.*;
+import com.example.view.MainFrame;
 import com.example.view.Position;
 
 import java.awt.*;
@@ -71,19 +72,19 @@ public class Controller implements KeyListener {
         gameTable.initialize();
         List<Tecton> tectons = gameTable.getTectons();
 
-        Random random = new Random();
-        for (Tecton tecton : tectons) {
-            int time = random.nextInt(3, 6);
-            Timer timer = new Timer(time, () -> {
-                List<Tecton> ret = tecton.breakApart();
-                gameTable.removeTecton(tecton);
-                gameTable.addTecton(ret.get(0));
-                gameTable.addTecton(ret.get(1));
-                // itt megy végbe a tektonok ketttétörése?
-                repaintFrame();
-            });
-            timers.add(timer);
-        }
+//        Random random = new Random();
+//        for (Tecton tecton : tectons) {
+//            int time = random.nextInt(3, 6);
+//            Timer timer = new Timer(time, () -> {
+//                List<Tecton> ret = tecton.breakApart();
+//                gameTable.removeTecton(tecton);
+//                gameTable.addTecton(ret.get(0));
+//                gameTable.addTecton(ret.get(1));
+//                // itt megy végbe a tektonok ketttétörése?
+//                repaintFrame();
+//            });
+//            timers.add(timer);
+//        }
     }
 
     public void setMainFrame(MainFrame mainFrame) {
@@ -234,7 +235,19 @@ public class Controller implements KeyListener {
 
         if (e.getKeyCode() == KeyEvent.VK_Q) {
             for (Mycelium mycelium : mycologist1.getMycelia()) {
-                mycelium.eatInsect();
+                Insect tmp = mycelium.eatInsect();
+                if (tmp != null) {
+                    MushroomBody mb = switch (mycologist1.getBodies().get(0).printType()) {
+                        case "Hyphara" -> new Hyphara(mycelium.getTecton(), mycologist1);
+                        case "Poralia" -> new Poralia(mycelium.getTecton(), mycologist1);
+                        case "Capulon" -> new Capulon(mycelium.getTecton(), mycologist1);
+                        case "Gilledon" -> new Gilledon(mycelium.getTecton(), mycologist1);
+                        default -> null;
+                    };
+                    if (mb != null) gameTable.getView().addNewMushroomBody(mb);
+                    gameTable.getView().removeInsect(tmp);
+                    break;
+                }
             }
         }
 
@@ -353,8 +366,20 @@ public class Controller implements KeyListener {
         }
 
         if (e.getKeyCode() == KeyEvent.VK_R) {
-            for (Mycelium mycelium : mycologist1.getMycelia()) {
-                mycelium.eatInsect();
+            for (Mycelium mycelium : mycologist2.getMycelia()) {
+                Insect tmp = mycelium.eatInsect();
+                if (tmp != null) {
+                    MushroomBody mb = switch (mycologist2.getBodies().get(0).printType()) {
+                        case "Hyphara" -> new Hyphara(mycelium.getTecton(), mycologist2);
+                        case "Poralia" -> new Poralia(mycelium.getTecton(), mycologist2);
+                        case "Capulon" -> new Capulon(mycelium.getTecton(), mycologist2);
+                        case "Gilledon" -> new Gilledon(mycelium.getTecton(), mycologist2);
+                        default -> null;
+                    };
+                    if (mb != null) gameTable.getView().addNewMushroomBody(mb);
+                    gameTable.getView().removeInsect(tmp);
+                    break;
+                }
             }
         }
 
@@ -527,6 +552,9 @@ public class Controller implements KeyListener {
                 System.out.println("Finalized tecton for movement for entomilogist2 index: " + selectedTectonToMoveIndexE2);
                 moveToTectonE2 = locations.get(selectedTectonToMoveIndexE2);
                 selectedInsectE2.moveTo(moveToTectonE2);
+                for (Tecton tecton : gameTable.getTectons()) {
+                    System.out.println("Insects🐛: " + tecton.getInsects());
+                }
                 moveToTectonE2.getView().setIsHighlighted(false);
                 gameTable.getView().updateInsect(selectedInsectE2);
                 moveToTectonE2 = null;

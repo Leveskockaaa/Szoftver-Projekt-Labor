@@ -391,19 +391,9 @@ public class Mycelium {
     /**
      * Rovart eszik a gombafonal.
      */
-    public void eatInsect() {
-        try {
-            if (insectEaten) {
-                throw new IllegalArgumentException("Insect already eaten");
-            }
-            // ellenőrzés itt vagy hívjuk meg a removeInsect() metódust és ha nincs
-            // insect a tecton-on akkor ott dobunk exception-t?
-            if (!tecton.hasInsect()) {
-                throw new IllegalArgumentException("No insect to eat");
-            }
-        } catch (IllegalArgumentException exception) {
-            System.out.println(exception.getMessage());
-            throw new IllegalArgumentException(exception.getMessage());
+    public Insect eatInsect() {
+        if (insectEaten || !tecton.hasInsect()) {
+            return null;
         }
 
         Insect insect = tecton.getInsects().get(0);
@@ -444,6 +434,7 @@ public class Mycelium {
         MushroomBody mushroomBody = mycologist.createMushroomBody(tecton, "name");
         tecton.placeMushroomBody(mushroomBody);
         insectEaten = true;
+        return insect;
     }
 
     /*

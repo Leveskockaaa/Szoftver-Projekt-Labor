@@ -22,6 +22,7 @@ public class PoraliaSpore extends Spore {
     public void takeEffectOn(Insect insect) {
         insect.paralize();
         Timer timer = new Timer(10, insect::unParalized);
+        System.out.println("Insect paralized");
         Controller.addTimer(timer);
     }
 

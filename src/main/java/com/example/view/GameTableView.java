@@ -14,10 +14,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import com.example.Timer;
-import com.example.model.GameTable;
-import com.example.model.Insect;
-import com.example.model.Mycelium;
-import com.example.model.Tecton;
+import com.example.model.*;
 
 import util.LayeredPane;
 
@@ -285,6 +282,12 @@ public class GameTableView extends LayeredPane {
 
     public void removeMycelium(Mycelium my){
         this.remove(my.getView());
+        this.revalidate();
+        this.repaint();
+    }
+
+    public void removeInsect(Insect insect) {
+        this.remove(insect.getView());
         this.revalidate();
         this.repaint();
     }

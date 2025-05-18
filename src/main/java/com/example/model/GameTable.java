@@ -141,6 +141,8 @@ public class GameTable {
             if (player.printType().equals("Entomologist")) {
                 System.out.println("Placed initial insect on tecton: " + initialTectons.get(j));
                 player.placeInitial(tectons.get(initialTectons.get(j++)));
+//                Entomologist test = (Entomologist) player;
+//                test.getInsects().get(0).paralize();
             }
         }
 
