@@ -12,11 +12,11 @@ import java.util.Map;
 
 public class EdgeView extends JPanel {
     GameTable gameTable;
-    Map<Tecton, Point> tectonPositions;
+    GameTableView gameTableView;
 
-    public EdgeView(GameTable gameTable, Map<Tecton, Point> tectonPositions) {
+    public EdgeView(GameTable gameTable, GameTableView gameTableView) {
         this.gameTable = gameTable;
-        this.tectonPositions = tectonPositions;
+        this.gameTableView = gameTableView;
         setBackground(new Color(0, 0, 0, 0));
         setBounds(0, 0, 1600, 900);
         setPreferredSize(new Dimension(1600, 900));
@@ -27,7 +27,7 @@ public class EdgeView extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
-
+        Map<Tecton, Point> tectonPositions = gameTableView.getTectonPositions();
         // Draw edges
         g2d.setStroke(new BasicStroke(2));
         for (Tecton tecton : gameTable.getTectons()) {

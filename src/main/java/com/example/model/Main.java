@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.example.Controller;
+import com.example.view.GameTableView;
 import com.example.view.MainFrame;
 
 /**
@@ -33,19 +34,26 @@ public class Main {
 
         Controller controller = new Controller(Arrays.asList(firstMycologist, secondMycologist), Arrays.asList(firstInsectColor, secondInsectColor));
 
-        mainFrame.showGameTable(controller.getGameTable());
+        mainFrame.showGameTable(controller.getGameTableView());
 
-        try {
-            Thread.sleep(7000);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            System.err.println("Sleep was interrupted");
-        }
+//        try {
+//            Thread.sleep(1000);
+//        } catch (InterruptedException e) {
+//            Thread.currentThread().interrupt();
+//            System.err.println("Sleep was interrupted");
+//        }
 
 
         // TODO: Implement proper threading so the window only updates when something has actually changed
         while (true) {
-            mainFrame.showGameTable(controller.getGameTable());
+            controller.getGameTableView().updateGameTable(controller.getGameTable());
+            mainFrame.updateGameTable();
+//            try {
+//                Thread.sleep(500);
+//            } catch (InterruptedException e) {
+//                Thread.currentThread().interrupt();
+//                System.err.println("Sleep was interrupted");
+//            }
         }
 
 

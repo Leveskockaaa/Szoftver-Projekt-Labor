@@ -1,5 +1,6 @@
 package com.example;
 import com.example.model.*;
+import com.example.view.GameTableView;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -11,6 +12,7 @@ public class Controller implements KeyListener {
     private static HashMap<Object, String> nameMap = new HashMap<>();
     private List<Timer> timers = new ArrayList<>();
     private GameTable gameTable;
+    private GameTableView gameTableView;
     private Mycologist mycologist1 = new Mycologist();
     private Mycologist mycologist2 = new Mycologist();
     private Entomologist entomologist1 = new Entomologist();
@@ -65,28 +67,35 @@ public class Controller implements KeyListener {
 
         gameTable = new GameTable(Arrays.asList(mycologist1, mycologist2, entomologist1, entomologist2));
         gameTable.initialize();
+        gameTableView = new GameTableView(gameTable);
         List<Tecton> tectons = gameTable.getTectons();
 
         Random random = new Random();
         for (Tecton tecton : tectons) {
-                int time = random.nextInt(3, 6);
-                Timer timer = new Timer(time, () -> {
-                    List<Tecton> ret = tecton.breakApart();
-                    gameTable.removeTecton(tecton);
-                    gameTable.addTecton(ret.get(0));
-                    gameTable.addTecton(ret.get(1));
-                });
-                timers.add(timer);
-            }
+            int time = random.nextInt(3, 6);
+            Timer timer = new Timer(time, () -> {
+                List<Tecton> ret = tecton.breakApart();
+                gameTable.removeTecton(tecton);
+//                gameTable.addTecton(ret.get(0));
+//                gameTable.addTecton(ret.get(1));
+                for(Tecton t : ret){
+                    gameTable.addTecton(t);
+                }
 
-
-
+//                gameTableView.updateGameTable(gameTable);
+//                gameTableView.repaint();
+//                gameTableView.revalidate();
+            });
+            timers.add(timer);
+        }
     }
 
     public GameTable getGameTable() {
         return gameTable;
     }
-
+    public GameTableView getGameTableView() {
+        return gameTableView;
+    }
     public void addTimer(Timer timer) {
         timers.add(timer);
     }

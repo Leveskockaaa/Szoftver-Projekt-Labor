@@ -24,13 +24,12 @@ public class GameTableView extends LayeredPane {
     private static final double REPULSION_FORCE = 1500000;
     private static final double SPRING_CONSTANT = 1;
     private static final int SPRING_REST_LENGTH = 1;
-//    private static final double CROSSING_PENALTY_FORCE = 1;
     private static final int MIN_DISTANCE = 10;
     private static final double centerAttractionStrength = 0.1;
 
-private final List<TectonView> tectonViews = new ArrayList<>();
-    private final Map<Tecton, Point> tectonPositions;
-    private final GameTable gameTable;
+    // private final List<TectonView> tectonViews = new ArrayList<>();
+    private Map<Tecton, Point> tectonPositions;
+    private GameTable gameTable;
 
     public GameTableView(GameTable gameTable) {
         this.gameTable = gameTable;
@@ -40,8 +39,8 @@ private final List<TectonView> tectonViews = new ArrayList<>();
         setLayout(new BorderLayout());
 
         // Initialize positions with force-directed layout
+        this.tectonPositions = initializePositions(gameTable.getTectons());
         this.tectonPositions = calculateTectonPositions(gameTable);
-        //initializeTectonViews();
         System.out.println("Initialized positions for " + tectonPositions.size() + " tectons");
     }
 
@@ -52,27 +51,21 @@ private final List<TectonView> tectonViews = new ArrayList<>();
         }
     }
 
-    private void initializeTectonViews() {
-        for (Map.Entry<Tecton, Point> entry : tectonPositions.entrySet()) {
-            Tecton tecton = entry.getKey();
-//            Point position = entry.getValue();
+    public Map<Tecton, Point> getTectonPositions() {
+        tectonPositions = calculateTectonPositions(gameTable);
+        return tectonPositions;
+    }
 
-//            Position pos = new Position();
-//            pos.x = position.x;
-//            pos.y = position.y;
-//            pos.width = DEFAULT_RADIUS * 2;
-//            pos.height = DEFAULT_RADIUS * 2;
-//            pos.rotation = 0;
-
-            TectonView tectonView = new TectonView(tecton);
-            // tectonView.draw_drawable(pos, 1.0f); // Scale is now handled in TectonView
-            tectonViews.add(tectonView);
-        }
+    public void updateGameTable(GameTable gameTable){
+        this.gameTable = gameTable;
+        tectonPositions = calculateTectonPositions(gameTable);
+        repaint();
+        revalidate();
     }
 
     private Map<Tecton, Point> calculateTectonPositions(GameTable gameTable) {
         List<Tecton> tectons = gameTable.getTectons();
-        Map<Tecton, Point> positions = initializePositions(tectons);
+        Map<Tecton, Point> positions = tectonPositions;
 
         // Adjusted constants
         final double coolingRate = 0.95; // Cooling factor per iteration
@@ -109,12 +102,7 @@ private final List<TectonView> tectonViews = new ArrayList<>();
                     dy += springForce * (neighborPos.y - currentPos.y) / dist;
                 }
 
-                // 3. Calculate crossing penalty forces
-//                double[] crossingForces = calculateCrossingForces(tecton, positions);
-//                dx += crossingForces[0];
-//                dy += crossingForces[1];
-
-                // 4. Center attraction force
+                // 3. Center attraction force
                 int centerX = gameTable.getSizeX() / 2;
                 int centerY = gameTable.getSizeY() / 2;
                 dx += centerAttractionStrength * (centerX - currentPos.x);
@@ -124,7 +112,7 @@ private final List<TectonView> tectonViews = new ArrayList<>();
                 dx *= temperature;
                 dy *= temperature;
 
-                // 4. Update position with bounds checking
+                // 5. Update position with bounds checking
                 int newX = (int) (currentPos.x + dx);
                 int newY = (int) (currentPos.y + dy);
                 int margin = DEFAULT_RADIUS * 3;
@@ -150,99 +138,52 @@ private final List<TectonView> tectonViews = new ArrayList<>();
         double angleStep = 2 * Math.PI / tectons.size();
         double angle = 0;
 
-//        for (Tecton tecton : tectons) {
-//            int x = (int) (centerX + radius * Math.cos(angle));
-//            int y = (int) (centerY + radius * Math.sin(angle));
-//            positions.put(tecton, new Point(x, y));
-//            angle += angleStep;
-//        }
-
-        Tecton tecton = tectons.get(tectons.size() - 1);
-        ArrayList<Tecton> visited = new ArrayList<>();
-        visited.add(tecton);
-        int x = (int) (centerX + radius * Math.cos(angle));
-        int y = (int) (centerY + radius * Math.sin(angle));
-        positions.put(tecton, new Point(x, y));
-        angle += angleStep;
-        loop: while (visited.size() != tectons.size()){
-            for(Tecton neighbor : tecton.getNeighbors()){
-                if(!visited.contains(neighbor)){
-                    x = (int) (centerX + radius * Math.cos(angle));
-                    y = (int) (centerY + radius * Math.sin(angle));
-                    positions.put(neighbor, new Point(x, y));
-                    angle += angleStep;
-                    tecton = neighbor;
-                    visited.add(neighbor);
-                    continue loop;
-                }
-            }
+        for (Tecton tecton : tectons) {
+            int x = (int) (centerX + radius * Math.cos(angle));
+            int y = (int) (centerY + radius * Math.sin(angle));
+            positions.put(tecton, new Point(x, y));
+            angle += angleStep;
         }
-
-        return positions;
-    }
-
-//    private double[] calculateCrossingForces(Tecton tecton, Map<Tecton, Point> positions) {
-//        double dx = 0;
-//        double dy = 0;
-//        Point p1 = positions.get(tecton);
 //
-//        for (Tecton neighbor : tecton.getNeighbors()) {
-//            Point p2 = positions.get(neighbor);
-//
-//            for (Map.Entry<Tecton, Point> entry : positions.entrySet()) {
-//                Tecton n = entry.getKey();
-//                Point p3 = entry.getValue();
-//
-//                for (Tecton nb : n.getNeighbors()) {
-//                    Point p4 = positions.get(nb);
-//
-//                    // Skip if same edge or adjacent edges
-//                    if (tecton.equals(n) || tecton.equals(nb) ||
-//                            neighbor.equals(n) || neighbor.equals(nb)) {
-//                        continue;
-//                    }
-//
-//                    if (linesIntersect(p1, p2, p3, p4)) {
-//                        double cx = (p1.x + p2.x + p3.x + p4.x) / 4.0;
-//                        double cy = (p1.y + p2.y + p3.y + p4.y) / 4.0;
-//
-//                        dx += CROSSING_PENALTY_FORCE * (cx - p1.x) / 10.0;
-//                        dy += CROSSING_PENALTY_FORCE * (cy - p1.y) / 10.0;
-//                    }
+//        Tecton tecton = tectons.get(tectons.size() - 1);
+//        ArrayList<Tecton> visited = new ArrayList<>();
+//        visited.add(tecton);
+//        int x = (int) (centerX + radius * Math.cos(angle));
+//        int y = (int) (centerY + radius * Math.sin(angle));
+//        positions.put(tecton, new Point(x, y));
+//        angle += angleStep;
+//        loop: while (visited.size() != tectons.size()){
+//            for(Tecton neighbor : tecton.getNeighbors()){
+//                if(!visited.contains(neighbor)){
+//                    x = (int) (centerX + radius * Math.cos(angle));
+//                    y = (int) (centerY + radius * Math.sin(angle));
+//                    positions.put(neighbor, new Point(x, y));
+//                    angle += angleStep;
+//                    tecton = neighbor;
+//                    visited.add(neighbor);
+//                    continue loop;
 //                }
 //            }
 //        }
-//
-//        return new double[]{dx, dy};
-//    }
-//
-//    private boolean linesIntersect(Point p1, Point p2, Point p3, Point p4) {
-//        double x1 = p1.x, y1 = p1.y;
-//        double x2 = p2.x, y2 = p2.y;
-//        double x3 = p3.x, y3 = p3.y;
-//        double x4 = p4.x, y4 = p4.y;
-//
-//        double d = (y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1);
-//        if (d == 0) return false;
-//
-//        double ua = ((x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3)) / d;
-//        double ub = ((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3)) / d;
-//
-//        return ua >= 0 && ua <= 1 && ub >= 0 && ub <= 1;
-//    }
+
+        return positions;
+    }
 
     private int clamp(int value, int min, int max) {
         return Math.max(min, Math.min(max, value));
     }
 
+
     @Override
     protected void paintComponent(Graphics g) {
+        System.out.println("GameTableView paint called");
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 
         // Background
         g2d.setColor(Color.WHITE);
         g2d.fillRect(0, 0, getWidth(), getHeight());
+        this.removeAll();
 
         // Draw nodes
 
@@ -298,22 +239,22 @@ private final List<TectonView> tectonViews = new ArrayList<>();
             tect.getView().revalidate();
         }
 
-        EdgeView edgeView = new EdgeView(gameTable, tectonPositions);
+        EdgeView edgeView = new EdgeView(gameTable, this);
         this.add(edgeView);
 
         this.repaint();
         this.revalidate();
     }
 
-    private Color GetLineColor(Tecton tecton, Tecton neighbor){
-        if(tecton.getMycelia().isEmpty()) return Color.BLACK;
-        for(Mycelium mycelium : tecton.getMycelia()){
-            for(Mycelium neighboringMycelia : mycelium.getMyceliumConnections()){
-                if(neighboringMycelia.getTecton() == neighbor){
-                    return Color.GREEN;
-                }
-            }
-        }
-        return Color.BLACK;
-    }
+//    private Color GetLineColor(Tecton tecton, Tecton neighbor){
+//        if(tecton.getMycelia().isEmpty()) return Color.BLACK;
+//        for(Mycelium mycelium : tecton.getMycelia()){
+//            for(Mycelium neighboringMycelia : mycelium.getMyceliumConnections()){
+//                if(neighboringMycelia.getTecton() == neighbor){
+//                    return Color.GREEN;
+//                }
+//            }
+//        }
+//        return Color.BLACK;
+//    }
 }

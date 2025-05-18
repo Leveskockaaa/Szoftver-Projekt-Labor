@@ -113,8 +113,8 @@ public class MainFrame extends JFrame {
         }
     }
 
-    public void showGameTable(GameTable gameTable) {
-        gameTableView = new GameTableView(gameTable);
+    public void showGameTable(GameTableView gameTableView) {
+        this.gameTableView = gameTableView;
         this.add(gameTableView, BorderLayout.CENTER);
         setContentPane(gameTableView);
         revalidate();
@@ -122,11 +122,14 @@ public class MainFrame extends JFrame {
     }
 
     public void updateGameTable() {
-        if (gameTableView == null) return;
+        if (gameTableView == null) {
+            System.out.println("GameTableView is NULL!");
+            return;
+        }
 
-        gameTableView.revalidate();
         gameTableView.repaint();
-        this.revalidate();
+        gameTableView.revalidate();
         this.repaint();
+        this.revalidate();
     }
 }
