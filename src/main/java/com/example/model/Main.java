@@ -1,6 +1,7 @@
 package com.example.model;
 
 import java.awt.Color;
+import java.util.Arrays;
 import java.util.List;
 
 import com.example.Controller;
@@ -10,11 +11,10 @@ import com.example.view.MainFrame;
  * A fő osztály, amely a program belépési pontját tartalmazza.
  */
 public class Main {
-    private static Controller controller = new Controller();
-    private static MainFrame mainFrame;
+    private static MainFrame mainFrame = new MainFrame();
 
     public static void main(String[] args) {
-        mainFrame = new MainFrame(controller);
+        mainFrame = new MainFrame();
 
         // BEGIN - Character Selection
         mainFrame.showStartScreen();
@@ -31,60 +31,22 @@ public class Main {
         mainFrame.showGameSummary(List.of(firstMycologist, secondMycologist), List.of(firstInsectColor, secondInsectColor));
         // END - Character Selection
 
-        // START - Gameplay
-        GameTable gameTable = new GameTable(mainFrame.getWidth(), mainFrame.getHeight(), "gt");
-        gameTable.initialize();
+        Controller controller = new Controller(Arrays.asList(firstMycologist, secondMycologist), Arrays.asList(firstInsectColor, secondInsectColor));
 
-        Tecton toBeBroken = gameTable.getTectons().get(0);
-        for(Tecton tecton : toBeBroken.breakApart("b1", "b2")){
-            gameTable.addTecton(tecton);
+        mainFrame.showGameTable(controller.getGameTable());
+
+
+        // TODO: Implement proper threading so the window only updates when something has actually changed
+        while (true) {
+            System.out.println("Game Running...");
+            mainFrame.showGameTable(controller.getGameTable());
+            try {
+                Thread.sleep(1000); // Sleep for 1 second
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
-        gameTable.removeTecton(toBeBroken);
-
-//        toBeBroken = gameTable.getTectons().get(0);
-//        for(Tecton tecton : toBeBroken.breakApart("b3", "b4")){
-//            gameTable.addTecton(tecton);
-//        }
-//        gameTable.removeTecton(toBeBroken);
 
 
-        Entomologist entomologist = new Entomologist("e1");
-        Insect i1 = new Insect(entomologist);
-        Insect i2 = new Insect(entomologist);
-       
-        i1.setColor(new Color(firstInsectColor.getRGB()));
-       
-        i2.setColor(secondInsectColor);
-
-        Tecton t5 = gameTable.getTectons().get(4);
-        t5.placeInsect(i1);
-        t5.placeInsect(i2);
-
-
-        Mycologist mycologist = new Mycologist("my1");
-        mycologist.setType(firstMycologist);
-        Mycelium mycelium = new Mycelium(t5, mycologist);
-        Mycelium mycelium2 = new Mycelium(t5, mycologist);
-        Mycelium mycelium3 = new Mycelium(t5, mycologist);
-
-        switch (firstMycologist) {
-            case "Hyphara":
-                new Hyphara(t5, mycologist);
-                break;
-            case "Gilledon":
-                new Gilledon(t5, mycologist);
-                break;
-            case "Poralia":
-                new Poralia(t5, mycologist);
-                break;
-            case "Capulon":
-                new Capulon(t5, mycologist);
-                break;
-            default:
-                System.out.println("Invalid Mycologist type");
-                break;
-        }   
-        mainFrame.showGameTable(gameTable);
-        // END - Gameplay
     }
 }

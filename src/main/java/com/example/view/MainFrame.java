@@ -14,6 +14,7 @@ import com.example.model.GameTable;
 import util.FontStyles;
 
 public class MainFrame extends JFrame {
+    GameTableView gameTableView = null;
     private Controller controller;
 
     public MainFrame(Controller controller) {
@@ -116,7 +117,7 @@ public class MainFrame extends JFrame {
     }
 
     public void showGameTable(GameTable gameTable) {
-        GameTableView gameTableView = new GameTableView(gameTable);
+        gameTableView = new GameTableView(gameTable);
         this.add(gameTableView, BorderLayout.CENTER);
         setContentPane(gameTableView);
         revalidate();
@@ -125,5 +126,14 @@ public class MainFrame extends JFrame {
         gameTableView.addKeyListener(controller);
         gameTableView.setFocusable(true);
         gameTableView.requestFocusInWindow();
+    }
+
+    public void updateGameTable() {
+        if (gameTableView == null) return;
+
+        gameTableView.revalidate();
+        gameTableView.repaint();
+        this.revalidate();
+        this.repaint();
     }
 }

@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Random;
 
 import com.example.Controller;
+import com.example.Timer;
+
 import static com.example.model.TectonSize.decreaseSize;
 
 /**
@@ -20,8 +22,8 @@ public class Mantleon extends Tecton {
      * Alapértelmezett konstruktor a Magmox osztályhoz.
      * Beállítja az alapértelmezett értékeket, például a maximális gombafonalak számát.
      */
-    public Mantleon(String name) {
-        super(name);
+    public Mantleon() {
+        super();
         maxMycelia = 2;
     }
 
@@ -30,8 +32,8 @@ public class Mantleon extends Tecton {
      *
      * @param size A tekton mérete.
      */
-    public Mantleon(TectonSize size, String name) {
-        super(size, name);
+    public Mantleon(TectonSize size) {
+        super(size);
         maxMycelia = 2;
     }
 
@@ -41,6 +43,7 @@ public class Mantleon extends Tecton {
     @Override
     public void placeMushroomBody(MushroomBody mushroomBody) {
         System.out.println("Mantleon placeMushroomBody() called");
+        this.mushroomBody = mushroomBody;
         return;
     }
 
@@ -82,15 +85,15 @@ public class Mantleon extends Tecton {
      * @return A létrejött két új tekton listája.
      */
     @Override
-    public List<Tecton> breakApart(String newTectonName1, String newTectonName2) {
+    public List<Tecton> breakApart() {
         System.out.println("Mantleon breakApart() called");
+        if (this.size == TectonSize.SMALL) {
+            return new ArrayList<>();
+        }
 
         //Két új tekton létrehozása
-        Mantleon t1 = new Mantleon(decreaseSize(this.size), newTectonName1);
-        Mantleon t2 = new Mantleon(decreaseSize(this.size), newTectonName2);
-
-        Controller.putToNameMap(t1, newTectonName1);
-        Controller.putToNameMap(t2, newTectonName2);
+        Mantleon t1 = new Mantleon(decreaseSize(this.size));
+        Mantleon t2 = new Mantleon(decreaseSize(this.size));
 
         //Köztük kapcsolat létrehozása
         t1.addTectonToNeighbors(t2);
@@ -158,10 +161,17 @@ public class Mantleon extends Tecton {
             n.changeNeighbour(this, t2);
         }
 
-        //Később a controllerben a helye
-//        gameTable.removeTecton(this);
-//        gameTable.addTecton(t1);
-//        gameTable.addTecton(t2);
+        Random random = new Random();
+        for (Tecton tecton : Arrays.asList(t1, t2)) {
+            int time = random.nextInt(3, 6);
+            Timer timer = new Timer(time, () -> {
+                List<Tecton> ret = tecton.breakApart();
+                Controller.removeTecton(tecton);
+                Controller.addTecton(ret.get(0));
+                Controller.addTecton(ret.get(1));
+            });
+            Controller.addTimer(timer);
+        }
 
         return new ArrayList<>(Arrays.asList(t1, t2));
     }

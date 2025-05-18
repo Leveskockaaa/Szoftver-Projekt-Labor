@@ -77,8 +77,7 @@ public abstract class Tecton {
      *
      * @param name A Tecton egyedi azonosítója.
      */
-    public Tecton(String name) {
-        this.name = name;
+    public Tecton() {
         size = TectonSize.GIANT;
         spores = new ArrayList<>();
         neighbors = new ArrayList<>();
@@ -94,8 +93,7 @@ public abstract class Tecton {
      * @param size A Tecton mérete.
      * @param name A Tecton egyedi azonosítója.
      */
-    public Tecton(TectonSize size, String name) {
-        this.name = name;
+    public Tecton(TectonSize size) {
         this.size = size;
         spores = new ArrayList<>();
         neighbors = new ArrayList<>();
@@ -157,7 +155,7 @@ public abstract class Tecton {
      * @param newTectonName1 Az első új tekton neve.
      * @param newTectonName2 Az második új tekton neve.
      */
-    public abstract List<Tecton> breakApart(String newTectonName1, String newTectonName2);
+    public abstract List<Tecton> breakApart();
     
     /**
      * Hozzáad egy szomszédos Tecton-t ehhez a Tecton-hoz.

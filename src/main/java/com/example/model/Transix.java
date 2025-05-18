@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.example.Controller;
+import com.example.Timer;
 import static com.example.model.TectonSize.decreaseSize;
 
 /**
@@ -21,8 +22,8 @@ public class Transix extends Tecton {
      *
      * @param name A Transix neve.
      */
-    public Transix(String name) {
-        super(name);
+    public Transix() {
+        super();
         maxMycelia = 2;
     }
 
@@ -32,8 +33,8 @@ public class Transix extends Tecton {
      * @param size A Transix méretkategóriája.
      * @param name A Transix neve.
      */
-    public Transix(TectonSize size, String name) {
-        super(size, name);
+    public Transix(TectonSize size) {
+        super(size);
         maxMycelia = 2;
     }
 
@@ -88,15 +89,12 @@ public class Transix extends Tecton {
      * @return A létrejött két új tekton listája.
      */
     @Override
-    public List<Tecton> breakApart(String newTectonName1, String newTectonName2) {
+    public List<Tecton> breakApart() {
         System.out.println("Transix breakApart() called");
 
         //Két új tekton létrehozása
-        Transix t1 = new Transix(decreaseSize(this.size), newTectonName1);
-        Transix t2 = new Transix(decreaseSize(this.size), newTectonName2);
-
-        Controller.putToNameMap(t1, newTectonName1);
-        Controller.putToNameMap(t2, newTectonName2);
+        Transix t1 = new Transix(decreaseSize(this.size));
+        Transix t2 = new Transix(decreaseSize(this.size));
 
         //Köztük kapcsolat létrehozása
         t1.addTectonToNeighbors(t2);
@@ -164,10 +162,17 @@ public class Transix extends Tecton {
             n.changeNeighbour(this, t2);
         }
 
-//        //Később a controllerben a helye
-//        gameTable.removeTecton(this);
-//        gameTable.addTecton(t1);
-//        gameTable.addTecton(t2);
+        Random random = new Random();
+        for (Tecton tecton : Arrays.asList(t1, t2)) {
+            int time = random.nextInt(3, 6);
+            Timer timer = new Timer(time, () -> {
+                List<Tecton> ret = tecton.breakApart();
+                Controller.removeTecton(tecton);
+                Controller.addTecton(ret.get(0));
+                Controller.addTecton(ret.get(1));
+            });
+            Controller.addTimer(timer);
+        }
 
         return new ArrayList<>(Arrays.asList(t1, t2));
     }

@@ -39,8 +39,8 @@ public class Mycologist extends Player {
      *
      * @param name A játékos neve.
      */
-    public Mycologist(String name) {
-        super(name);
+    public Mycologist() {
+        super();
 
         // Ez csak az adott tesztesetek belső működés nélküli megvalósításához szükséges, később törlendő.
         // (A mycelium.getType()-hoz kell, mert a mycelium csak úgy tudja, hogy milyen típusú gombafajhoz

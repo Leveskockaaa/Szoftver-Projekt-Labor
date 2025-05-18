@@ -30,13 +30,15 @@ public class GameTableView extends LayeredPane {
     private static final int MIN_DISTANCE = 10;
     private static final double centerAttractionStrength = 0.1;
 
-//    private final List<TectonView> tectonViews = new ArrayList<>();
+private final List<TectonView> tectonViews = new ArrayList<>();
     private final Map<Tecton, Point> tectonPositions;
     private final GameTable gameTable;
     private TectonView selectedTecton = null;
 
     public GameTableView(GameTable gameTable) {
         this.gameTable = gameTable;
+        setBackground(new Color(0,0,0,0));
+        setBounds(0, 0, 1600, 900);
         validateGameTable();
         setLayout(new BorderLayout());
 
@@ -80,23 +82,23 @@ public class GameTableView extends LayeredPane {
         }
     }
 
-//    private void initializeTectonViews() {
-//        for (Map.Entry<Tecton, Point> entry : tectonPositions.entrySet()) {
-//            Tecton tecton = entry.getKey();
-////            Point position = entry.getValue();
-//
-////            Position pos = new Position();
-////            pos.x = position.x;
-////            pos.y = position.y;
-////            pos.width = DEFAULT_RADIUS * 2;
-////            pos.height = DEFAULT_RADIUS * 2;
-////            pos.rotation = 0;
-//
-//            TectonView tectonView = new TectonView(tecton);
-//            // tectonView.draw_drawable(pos, 1.0f); // Scale is now handled in TectonView
-//            tectonViews.add(tectonView);
-//        }
-//    }
+    private void initializeTectonViews() {
+        for (Map.Entry<Tecton, Point> entry : tectonPositions.entrySet()) {
+            Tecton tecton = entry.getKey();
+//            Point position = entry.getValue();
+
+//            Position pos = new Position();
+//            pos.x = position.x;
+//            pos.y = position.y;
+//            pos.width = DEFAULT_RADIUS * 2;
+//            pos.height = DEFAULT_RADIUS * 2;
+//            pos.rotation = 0;
+
+            TectonView tectonView = new TectonView(tecton);
+            // tectonView.draw_drawable(pos, 1.0f); // Scale is now handled in TectonView
+            tectonViews.add(tectonView);
+        }
+    }
 
     private Map<Tecton, Point> calculateTectonPositions(GameTable gameTable) {
         List<Tecton> tectons = gameTable.getTectons();
@@ -282,42 +284,43 @@ public class GameTableView extends LayeredPane {
         }
 
         // Draw nodes
+
         for (Tecton tect : tectonPositions.keySet()) {
 
             // Draw insects on the tecton
             int insectIndex = 0;
             for (Insect insect : tect.getInsects()) {
-
+               
                 Position insectPos = new Position(tectonPositions.get(tect).x - 25 + insectIndex * 30, tectonPositions.get(tect).y + 13);
                 insect.getView().setPosition(insectPos);
-
-
+    
+                
                 this.add(insect.getView(), BorderLayout.CENTER);
                 insect.getView().repaint();
                 insect.getView().revalidate();
                 insectIndex++;
             }
-
+    
             // Draw mycelia on the tecton
             int myceliumIndex = 0;
             for (Mycelium mycelium : tect.getMycelia()) {
-
+                
                 Position myceliumPos = new Position(tectonPositions.get(tect).x + 10 + myceliumIndex * 10, tectonPositions.get(tect).y - 35 + myceliumIndex * 5);
                 mycelium.getView().setPosition(myceliumPos);
-
+            
                 this.add(mycelium.getView(), BorderLayout.CENTER);
                 mycelium.getView().repaint();
                 mycelium.getView().revalidate();
                 myceliumIndex++;
-
+                
             }
-
+            
             // Draw the mushroom body on the tecton
             if (tect.getMushroomBody() != null) {
                 System.out.println("Drawing mushroom body for tecton: " + tect);
                 Position mbPos = new Position(tectonPositions.get(tect).x - 35, tectonPositions.get(tect).y - 30);
                 tect.getMushroomBody().getView().setPosition(mbPos);
-
+                
                 this.add(tect.getMushroomBody().getView(), BorderLayout.CENTER);
                 tect.getMushroomBody().getView().repaint();
                 tect.getMushroomBody().getView().revalidate();
@@ -325,9 +328,10 @@ public class GameTableView extends LayeredPane {
 
 
             // Draw the tecton itself
-
+    
             tect.getView().setPosition(new Position((int)tectonPositions.get(tect).getX() - (tect.getView().getRadius() / 2), (int)tectonPositions.get(tect).getY() - (tect.getView().getRadius() / 2)));
             this.add(tect.getView());
+            System.out.println("Position: " + (int)(tectonPositions.get(tect).getX() - (tect.getView().getRadius() / 2)) + " " + (int)(tectonPositions.get(tect).getY() - (tect.getView().getRadius() / 2)));
             tect.getView().repaint();
             tect.getView().revalidate();
         }

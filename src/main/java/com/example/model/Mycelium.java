@@ -164,7 +164,6 @@ public class Mycelium {
         }
 
         MushroomBody mushroomBody = mycologist.createMushroomBody(tecton, name);
-        Controller.putToNameMap(mushroomBody, name);
         tecton.placeMushroomBody(mushroomBody);
         tecton.takeSpore(mycologist, 6);
 
