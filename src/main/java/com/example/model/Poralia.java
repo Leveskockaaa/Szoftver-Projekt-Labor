@@ -89,7 +89,7 @@ public class Poralia extends MushroomBody {
     public boolean canEvolve() {
         int sporeCount = 0;
         for (Spore s : tecton.sporesAvailable()){
-            if(s.getClass() == PoraliaSpore.class){ //Spore type?
+            if(s.printType().equals("PoraliaSpore")){ //Spore type?
                 sporeCount++;
             }
         }

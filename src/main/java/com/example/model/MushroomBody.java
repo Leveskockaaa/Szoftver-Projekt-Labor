@@ -130,6 +130,8 @@ public abstract class MushroomBody {
         return view; 
     }
 
+    public boolean isSuperBody(){return superBody;}
+
     /*
     =============================================================================================
     Teszteléshez kiíró metódusok

@@ -75,7 +75,7 @@ public abstract class Tecton {
      * Konstruktor, amely létrehoz egy új Tecton objektumot a megadott névvel.
      * A méret alapértelmezetten GIANT, a spórák és szomszédok listája üres,
      *
-     * @param name A Tecton egyedi azonosítója.
+     *
      */
     public Tecton() {
         size = TectonSize.GIANT;
@@ -91,7 +91,7 @@ public abstract class Tecton {
      * Konstruktor, amely létrehoz egy új Tecton objektumot a megadott mérettel és névvel.
      *
      * @param size A Tecton mérete.
-     * @param name A Tecton egyedi azonosítója.
+     *
      */
     public Tecton(TectonSize size) {
         this.size = size;
@@ -152,8 +152,6 @@ public abstract class Tecton {
      *
      * @return A létrejött két új tekton listája.
      *
-     * @param newTectonName1 Az első új tekton neve.
-     * @param newTectonName2 Az második új tekton neve.
      */
     public abstract List<Tecton> breakApart();
     
@@ -276,14 +274,20 @@ public abstract class Tecton {
         if (count < quantity) {
             return false;
         }
-        int removedCount = 0;
-        for (Iterator<Spore> iterator = spores.iterator(); iterator.hasNext() && removedCount < quantity; ) {
-            Spore currentSpore = iterator.next();
+        for (int i = 0; i < spores.size(); ++i){
+            Spore currentSpore = spores.get(i);
             if (currentSpore.getMushroomBody().getMycologist().equals(mycologist)) {
-                iterator.remove();
-                removedCount++;
+                spores.remove(i);
+                i--;
             }
         }
+//        for (Iterator<Spore> iterator = spores.iterator(); iterator.hasNext() && removedCount < quantity; ) {
+//            Spore currentSpore = iterator.next();
+//            if (currentSpore.getMushroomBody().getMycologist().equals(mycologist)) {
+//                iterator.remove();
+//                removedCount++;
+//            }
+//        }
         return true;
     }
 

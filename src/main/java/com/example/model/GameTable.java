@@ -137,6 +137,8 @@ public class GameTable {
                 player.placeInitial(tectons.get(initialTectons.get(j++)));
             }
         }
+
+
     }
 
     /**

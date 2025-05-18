@@ -89,7 +89,7 @@ public class Gilledon extends MushroomBody{
     public boolean canEvolve() {
         int sporeCount = 0;
         for (Spore s : tecton.sporesAvailable()){
-            if(s.getClass() == GilledonSpore.class){ //Spore type?
+            if(s.printType().equals("GilledonSpore")){ //Spore type?
                 sporeCount++;
             }
         }

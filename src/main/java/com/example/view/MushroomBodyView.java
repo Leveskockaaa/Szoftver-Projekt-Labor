@@ -41,6 +41,10 @@ public class MushroomBodyView extends JPanel {
         int diameter = (int)(30 * scale);
         g2d.setColor(color);
         g2d.fillOval(position.x, position.y, diameter, diameter);
+        if (mushroomBody.isSuperBody()) {
+            g2d.setColor(Color.WHITE);
+            g2d.drawString("S", position.x + diameter / 2 - 10, position.y + diameter / 2);
+        }
     }
 
     public void setPosition(Position position){

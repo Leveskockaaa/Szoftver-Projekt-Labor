@@ -116,6 +116,7 @@ public class Controller implements KeyListener {
         if (e.getKeyCode() == KeyEvent.VK_S) {
             for (MushroomBody mushroomBody : mycologist1.getMushroomBodies()) {
                 mushroomBody.evolveSuper();
+                System.out.println(mushroomBody.getTecton().getSpores());
             }
         }
 

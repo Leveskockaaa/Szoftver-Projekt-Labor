@@ -266,6 +266,10 @@ public class GameTableView extends LayeredPane {
         this.repaint();
     }
 
+    public void updateMushroomBody(MushroomBody mb){
+        mb.getView().repaint();
+    }
+
     public void updateEdges(){
 
     }
