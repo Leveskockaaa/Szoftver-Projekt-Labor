@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MyceliumTestClass {
 
@@ -13,6 +15,7 @@ public class MyceliumTestClass {
     private final TectonTestClass tecton;
     private final MycologistTestClass mycologist;
     private List<MyceliumTestClass> myceliumConnections;
+    private Timer timer;
 
     public MyceliumTestClass(MycologistTestClass mycologist, TectonTestClass tecton) {
         this.canGrow = true;
@@ -257,5 +260,30 @@ public class MyceliumTestClass {
         MushroomBodyTestClass mushroomBody = mycologist.getMushroomBodies().getFirst().createMushroomBody(tecton, mycologist);
         tecton.placeMushroomBody(mushroomBody);
         insectEaten = true;
+    }
+
+        public void wither() {
+        if (isWithering()) return;
+
+        timer = new Timer();
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                tecton.removeMycelium(MyceliumTestClass.this);
+                timer = null;
+            }
+        };
+        timer.schedule(task, 1000);
+    }
+
+    public boolean isWithering() {
+        return timer != null;
+    }
+
+    public void cancelWither() {
+        if (timer == null) return;
+        timer.cancel();
+        timer.purge();
+        timer = null;
     }
 }
