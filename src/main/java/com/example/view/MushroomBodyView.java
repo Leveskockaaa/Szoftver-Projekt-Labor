@@ -15,7 +15,6 @@ public class MushroomBodyView extends JPanel {
     private float scale = 1.0f;
 
     public MushroomBodyView(MushroomBody mushroomBody) {
-        System.out.println("MushroomBodyView constructor called");
         this.mushroomBody = mushroomBody;
 
         switch (mushroomBody.getClass().getSimpleName()) {
@@ -37,11 +36,9 @@ public class MushroomBodyView extends JPanel {
     }
     @Override
     protected void paintComponent(Graphics g) {
-        System.out.println("MushroomBodyView paintComponent called");
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         int diameter = (int)(30 * scale);
-        System.out.println("MushroomBodyView color: " + color);
         g2d.setColor(color);
         g2d.fillOval(position.x, position.y, diameter, diameter);
     }

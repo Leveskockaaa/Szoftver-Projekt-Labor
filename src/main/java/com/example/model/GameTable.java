@@ -1,6 +1,7 @@
 package com.example.model;
 
 import com.example.Controller;
+import com.example.view.GameTableView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,8 @@ import java.util.Scanner;
 public class GameTable {
 
     private String name;
+
+    private GameTableView view;
 
     /**
      * Tecton osztállyal való kapcsolat. A kapcsolat célja,
@@ -42,6 +45,14 @@ public class GameTable {
         sizeY = y;
         tectons = new ArrayList<Tecton>();
         players = new ArrayList<Player>();
+    }
+
+    public void setView(GameTableView view) {
+        this.view = view;
+    }
+
+    public GameTableView getView(){
+        return view;
     }
 
     /**
@@ -101,7 +112,11 @@ public class GameTable {
         for (Player player : players) {
             if (player.printType().equals("Mycologist")) {
                 System.out.println("Placed initial mushroombody on tecton: " + initialTectons.get(j));
-                player.placeInitial(tectons.get(initialTectons.get(j++)));
+                player.placeInitial(tectons.get(initialTectons.get(j)));
+                Mycelium initialMycelium = new Mycelium(tectons.get(initialTectons.get(j)), (Mycologist) player);
+                ((Mycologist) player).addMycelium(initialMycelium);
+                System.out.println("Placed initial mycelium on tecton: " + tectons.get(initialTectons.get(j)) + " " + tectons.get(initialTectons.get(j)).getMycelia());
+                j++;
             }
         }
 
