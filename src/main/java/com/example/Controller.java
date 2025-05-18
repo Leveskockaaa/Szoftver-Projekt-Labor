@@ -218,6 +218,12 @@ public class Controller implements KeyListener {
             }
         }
 
+        if (e.getKeyCode() == KeyEvent.VK_Q) {
+            for (Mycelium mycelium : mycologist1.getMycelia()) {
+                mycelium.eatInsect();
+            }
+        }
+
         // Spóra szórás mycologist2-nek
         if (e.getKeyCode() == KeyEvent.VK_F) {
             for (MushroomBody mushroomBody : mycologist2.getMushroomBodies()) {
@@ -305,6 +311,12 @@ public class Controller implements KeyListener {
             if (!neighbors.isEmpty()) {
                 selectedTectonIndexM2 = (selectedTectonIndexM2 + 1) % neighbors.size();
                 System.out.println("Selected tecton for mycologist2 index: " + selectedTectonIndexM2);
+            }
+        }
+
+        if (e.getKeyCode() == KeyEvent.VK_R) {
+            for (Mycelium mycelium : mycologist1.getMycelia()) {
+                mycelium.eatInsect();
             }
         }
 
