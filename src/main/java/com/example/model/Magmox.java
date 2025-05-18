@@ -207,6 +207,8 @@ public class Magmox extends Tecton {
             insects.add(insect);
             insect.setTecton(this);
             insect.setNutrientMultiplier(1);
+            Timer timer = new Timer(30, insect::deductNutrientPoint);
+            Controller.addTimer(timer);
         }
     }
 

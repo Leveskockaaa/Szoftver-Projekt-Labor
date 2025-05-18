@@ -1,5 +1,8 @@
 package com.example.model;
 
+import com.example.Controller;
+import com.example.Timer;
+
 /**
  * A Capulon gombafajhoz tartozó spórákat kezeli.
  */
@@ -18,6 +21,8 @@ public class CapulonSpore extends Spore {
     @Override
     public void takeEffectOn(Insect insect) {
         insect.disableChewMycelium();
+        Timer timer = new Timer(20, insect::enableToChewMycelium);
+        Controller.addTimer(timer);
     }
 
     /*

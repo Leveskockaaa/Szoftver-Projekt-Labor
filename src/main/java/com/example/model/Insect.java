@@ -2,6 +2,8 @@ package com.example.model;
 
 import java.awt.Color;
 
+import com.example.Controller;
+import com.example.Timer;
 import com.example.view.InsectView;
 
 /**
@@ -179,7 +181,11 @@ public class Insect {
      */
     public void deductNutrientPoint() {
 
-        this.entomologist.setScore(-1);
+        this.entomologist.deductScore(1);
+        if (tecton instanceof Magmox) {
+            Timer timer = new Timer(30, this::deductNutrientPoint);
+            Controller.addTimer(timer);
+        }
 
     }
 

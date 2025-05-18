@@ -1,5 +1,8 @@
 package com.example.model;
 
+import com.example.Controller;
+import com.example.Timer;
+
 /**
  * A Gilledon gombafajhoz tartozó spórákat kezeli.
  */
@@ -20,8 +23,12 @@ public class GilledonSpore extends Spore {
         insect.setSpeed(.66f);
         Insect newInsect = new Insect(insect.getEntomologist());
         insect.getEntomologist().addInsect(newInsect);
-
         insect.getTecton().placeInsect(newInsect);
+
+        Timer timer = new Timer(20, () -> {
+            insect.setSpeed(1.0f);
+        });
+        Controller.addTimer(timer);
     }
 
     /*
