@@ -41,6 +41,7 @@ public class Capulon extends MushroomBody {
                 for(Tecton t : tecton.getNeighbors()){
                     t.addSpore(new CapulonSpore(this));
                 }
+                this.tecton.addSpore(new CapulonSpore(this));
             }
 
             sporeSpreadsLeft--;
@@ -90,7 +91,7 @@ public class Capulon extends MushroomBody {
     public boolean canEvolve() {
         int sporeCount = 0;
         for (Spore s : tecton.sporesAvailable()){
-            if(s.getClass() == CapulonSpore.class){ //Spore type?
+            if(s.printType().equals("CapulonSpore")){ //Spore type?
                 sporeCount++;
             }
         }

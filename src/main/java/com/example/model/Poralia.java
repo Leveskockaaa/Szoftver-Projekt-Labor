@@ -40,6 +40,7 @@ public class Poralia extends MushroomBody {
                 for(Tecton t : tecton.getNeighbors()){
                     t.addSpore(new PoraliaSpore(this));
                 }
+                this.tecton.addSpore(new PoraliaSpore(this));
             }
 
             sporeSpreadsLeft--;
@@ -88,7 +89,7 @@ public class Poralia extends MushroomBody {
     public boolean canEvolve() {
         int sporeCount = 0;
         for (Spore s : tecton.sporesAvailable()){
-            if(s.getClass() == PoraliaSpore.class){ //Spore type?
+            if(s.printType().equals("PoraliaSpore")){ //Spore type?
                 sporeCount++;
             }
         }
