@@ -1,5 +1,6 @@
 package com.example;
 import com.example.model.*;
+import com.example.view.Position;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -149,6 +150,9 @@ public class Controller implements KeyListener {
             } else if (tectonSelectionActiveM1) {
                 // Finalize tecton selection
                 List<Tecton> neighbors = mycelia.get(selectedMyceliumIndexM1).getTecton().getNeighbors();
+                System.out.println("Newest shit" + mycelia.get(selectedMyceliumIndexM1).getTecton());
+                System.out.println("Neighbours count: " + neighbors.size());
+                System.out.println("Neighbours: " + neighbors);
                 if (!neighbors.isEmpty()) {
                     System.out.println("Finalized tecton for mycologist1 index: " + selectedTectonIndexM1);
                     Mycelium newMycelium = mycelia.get(selectedMyceliumIndexM1).createNewBranch(neighbors.get(selectedTectonIndexM1));
@@ -156,7 +160,7 @@ public class Controller implements KeyListener {
 
                     // Add new mycelium view to the GameTableView if a new mycelium was created
                     if (newMycelium != null) {
-                        gameTable.getView().addNewMycelium(newMycelium);
+                        newMycelium.getView().setPosition(new Position(newMycelium.getTecton().getView().getPosition().x + (newMycelium.getTecton().getView().getRadius() / 2) + (newMycelium.getTecton().getMycelia().size()) * 10, newMycelium.getTecton().getView().getPosition().y + (newMycelium.getTecton().getMycelia().size()) * 5));
                         gameTable.getView().add(newMycelium.getView(), BorderLayout.CENTER);
                         gameTable.getView().revalidate();
                         gameTable.getView().repaint();
@@ -172,7 +176,7 @@ public class Controller implements KeyListener {
                     }));
                 }
                 tectonSelectionActiveM1 = false;
-                gameTable.getTectons().get(selectedTectonIndexM1).getView().setIsHighlighted(false);
+                neighbors.get(selectedTectonIndexM1).getView().setIsHighlighted(false);
                 gameTable.getView().repaint();
                 selectedTectonIndexM1 = -1;
                 selectedMyceliumIndexM1 = -1;
@@ -197,10 +201,11 @@ public class Controller implements KeyListener {
         if (e.getKeyCode() == KeyEvent.VK_E && tectonSelectionActiveM1) {
             List<Mycelium> mycelia = mycologist1.getMycelia();
             List<Tecton> neighbors = mycelia.get(selectedMyceliumIndexM1).getTecton().getNeighbors();
+            System.out.println();
             if (!neighbors.isEmpty()) {
-                gameTable.getTectons().get(selectedTectonIndexM1).getView().setIsHighlighted(false);
+                neighbors.get(selectedTectonIndexM1).getView().setIsHighlighted(false);
                 selectedTectonIndexM1 = (selectedTectonIndexM1 + 1) % neighbors.size();
-                gameTable.getTectons().get(selectedTectonIndexM1).getView().setIsHighlighted(true);
+                neighbors.get(selectedTectonIndexM1).getView().setIsHighlighted(true);
                 gameTable.getView().repaint();
                 System.out.println("Selected tecton for mycologist1 index: " + selectedTectonIndexM1);
             }
@@ -255,6 +260,8 @@ public class Controller implements KeyListener {
             } else if (tectonSelectionActiveM2) {
                 // Finalize tecton selection
                 List<Tecton> neighbors = mycelia.get(selectedMyceliumIndexM2).getTecton().getNeighbors();
+                System.out.println("Neighbours: " + neighbors);
+                System.out.println("Neighbours count: " + neighbors.size());
                 if (!neighbors.isEmpty()) {
                     System.out.println("Finalized tecton for mycologist2 index: " + selectedTectonIndexM2);
                     mycelia.get(selectedMyceliumIndexM2).createNewBranch(neighbors.get(selectedTectonIndexM2));
@@ -269,7 +276,7 @@ public class Controller implements KeyListener {
                     }));
                 }
                 tectonSelectionActiveM2 = false;
-                gameTable.getTectons().get(selectedTectonIndexM1).getView().setIsHighlighted(false);
+                neighbors.get(selectedTectonIndexM2).getView().setIsHighlighted(false);
                 selectedTectonIndexM2 = -1;
                 selectedMyceliumIndexM2 = -1;
             }
@@ -292,9 +299,9 @@ public class Controller implements KeyListener {
             List<Mycelium> mycelia = mycologist2.getMycelia();
             List<Tecton> neighbors = mycelia.get(selectedMyceliumIndexM2).getTecton().getNeighbors();
             if (!neighbors.isEmpty()) {
-                gameTable.getTectons().get(selectedTectonIndexM2).getView().setIsHighlighted(false);
+                neighbors.get(selectedTectonIndexM2).getView().setIsHighlighted(false);
                 selectedTectonIndexM2 = (selectedTectonIndexM2 + 1) % neighbors.size();
-                gameTable.getTectons().get(selectedTectonIndexM2).getView().setIsHighlighted(true);
+                neighbors.get(selectedTectonIndexM2).getView().setIsHighlighted(true);
                 gameTable.getView().repaint();
                 System.out.println("Selected tecton for mycologist2 index: " + selectedTectonIndexM2);
             }

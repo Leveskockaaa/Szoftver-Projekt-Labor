@@ -44,7 +44,6 @@ public class GameTableView extends LayeredPane {
         // Initialize positions with force-directed layout
         this.tectonPositions = calculateTectonPositions(gameTable);
 
-
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -187,15 +186,70 @@ public class GameTableView extends LayeredPane {
         return positions;
     }
 
-//
-//        double ua = ((x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3)) / d;
-//        double ub = ((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3)) / d;
-//
-//        return ua >= 0 && ua <= 1 && ub >= 0 && ub <= 1;
-//    }
-
     private int clamp(int value, int min, int max) {
         return Math.max(min, Math.min(max, value));
+    }
+
+    private void addAllViewsOnce() {
+        // 1. Add mycelia first (lowest z-order)
+        for (Tecton tecton : gameTable.getTectons()) {
+            int myceliumIndex = 0;
+            for (Mycelium mycelium : tecton.getMycelia()) {
+                MyceliumView mycView = mycelium.getView();
+                mycView.setPosition(new Position(
+                    tectonPositions.get(tecton).x + 10 + myceliumIndex * 10,
+                    tectonPositions.get(tecton).y - 35 + myceliumIndex * 5
+                ));
+                this.add(mycView);
+                myceliumIndex++;
+            }
+        }
+        // 2. Add insects
+        for (Tecton tecton : gameTable.getTectons()) {
+            int insectIndex = 0;
+            for (Insect insect : tecton.getInsects()) {
+                InsectView insView = insect.getView();
+                insView.setPosition(new Position(
+                    tectonPositions.get(tecton).x - 25 + insectIndex * 30,
+                    tectonPositions.get(tecton).y + 13
+                ));
+                this.add(insView);
+                insectIndex++;
+            }
+        }
+        // 3. Add mushroom bodies
+        for (Tecton tecton : gameTable.getTectons()) {
+            if (tecton.getMushroomBody() != null) {
+                MushroomBodyView mbView = tecton.getMushroomBody().getView();
+                mbView.setPosition(new Position(
+                    tectonPositions.get(tecton).x - 35,
+                    tectonPositions.get(tecton).y - 30
+                ));
+                this.add(mbView);
+            }
+        }
+        // 4. Add tectons last (highest z-order)
+        for (Tecton tecton : gameTable.getTectons()) {
+            tecton.getView().setPosition(new Position(
+                tectonPositions.get(tecton).x - (tecton.getView().getRadius() / 2),
+                tectonPositions.get(tecton).y - (tecton.getView().getRadius() / 2)
+            ));
+            this.add(tecton.getView());
+        }
+    }
+
+    // Helper method to add a new Mycelium to the view after initialization
+    public void addNewMycelium(Mycelium newMycelium) {
+        // Add mycelium at the lowest z-order (index 0)
+        int idx = newMycelium.getTecton().getMycelia().indexOf(newMycelium);
+        Position pos = new Position(
+            tectonPositions.get(newMycelium.getTecton()).x + 10 + idx * 10,
+            tectonPositions.get(newMycelium.getTecton()).y - 35 + idx * 5
+        );
+        newMycelium.getView().setPosition(pos);
+        this.add(newMycelium.getView(), 0); // add at bottom
+        this.revalidate();
+        this.repaint();
     }
 
     @Override
@@ -216,51 +270,7 @@ public class GameTableView extends LayeredPane {
             });
         }
 
-        // Draw nodes
-
-        for (Tecton tect : tectonPositions.keySet()) {
-
-            // Draw insects on the tecton
-            int insectIndex = 0;
-            for (Insect insect : tect.getInsects()) {
-
-                Position insectPos = new Position(tectonPositions.get(tect).x - 25 + insectIndex * 30, tectonPositions.get(tect).y + 13);
-                insect.getView().setPosition(insectPos);
-
-
-                this.add(insect.getView(), BorderLayout.CENTER);
-                insectIndex++;
-            }
-
-            // Draw mycelia on the tecton
-            int myceliumIndex = 0;
-            for (Mycelium mycelium : tect.getMycelia()) {
-
-                Position myceliumPos = new Position(tectonPositions.get(tect).x + 10 + myceliumIndex * 10, tectonPositions.get(tect).y - 35 + myceliumIndex * 5);
-                System.out.println("Mycelium pos: " + myceliumPos);
-                mycelium.getView().setPosition(myceliumPos);
-
-                this.add(mycelium.getView(), BorderLayout.CENTER);
-                myceliumIndex++;
-
-            }
-
-            // Draw the mushroom body on the tecton
-            if (tect.getMushroomBody() != null) {
-                System.out.println("Drawing mushroom body for tecton: " + tect);
-                Position mbPos = new Position(tectonPositions.get(tect).x - 35, tectonPositions.get(tect).y - 30);
-                tect.getMushroomBody().getView().setPosition(mbPos);
-
-                this.add(tect.getMushroomBody().getView(), BorderLayout.CENTER);
-            }
-
-
-            // Draw the tecton itself
-
-            tect.getView().setPosition(new Position((int)tectonPositions.get(tect).getX() - (tect.getView().getRadius() / 2), (int)tectonPositions.get(tect).getY() - (tect.getView().getRadius() / 2)));
-            this.add(tect.getView());
-            System.out.println("Position: " + (int)(tectonPositions.get(tect).getX() - (tect.getView().getRadius() / 2)) + " " + (int)(tectonPositions.get(tect).getY() - (tect.getView().getRadius() / 2)));
-        }
+        addAllViewsOnce();
 
         EdgeView edgeView = new EdgeView(gameTable, tectonPositions);
         this.add(edgeView);
@@ -277,9 +287,5 @@ public class GameTableView extends LayeredPane {
             }
         }
         return Color.BLACK;
-    }
-
-    public void addNewMycelium(Mycelium newMycelium){
-        newMycelium.getView().setPosition(new Position(tectonPositions.get(newMycelium.getTecton()).x + 10 + newMycelium.getTecton().getMycelia().size() * 10, tectonPositions.get(newMycelium.getTecton()).y - 35 + newMycelium.getTecton().getMycelia().size() * 5));
     }
 }
