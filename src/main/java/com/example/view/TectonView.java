@@ -22,7 +22,7 @@ public class TectonView extends JPanel {
     private HashMap<TectonView, Boolean> neighbors = new HashMap<>();
     private SporesView sporeViews;
     private Position position;
-
+    private boolean isHighlighted = false;
 
 
     public TectonView(Tecton tecton) {
@@ -66,7 +66,11 @@ public class TectonView extends JPanel {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         // Draw the circle outline
-        g2d.setColor(Color.BLACK);
+        if (isHighlighted) {
+            g2d.setColor(Color.RED);
+        } else {
+            g2d.setColor(Color.BLACK);
+        }
         g2d.drawOval(position.x, position.y, radius, radius);
         g2d.setColor(color);
         g2d.fillOval(position.x, position.y, radius, radius);
@@ -85,7 +89,11 @@ public class TectonView extends JPanel {
         }
 
         // Draw the circle outline again to cover sector edges
-        g2d.setColor(Color.BLACK);
+        if (isHighlighted) {
+            g2d.setColor(Color.YELLOW);
+        } else {
+            g2d.setColor(Color.BLACK);
+        }
         g2d.drawOval(position.x, position.y, radius, radius);
 
         Color mushroomBodyColor;
@@ -149,5 +157,10 @@ public class TectonView extends JPanel {
 
     public int getRadius() {
         return radius;
+    }
+
+    public void setIsHighlighted(boolean isHighlighted) {
+        this.isHighlighted = isHighlighted;
+        repaint();
     }
 }

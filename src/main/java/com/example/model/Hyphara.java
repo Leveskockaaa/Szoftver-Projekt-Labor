@@ -40,6 +40,7 @@ public class Hyphara extends MushroomBody {
                 for(Tecton t : tecton.getNeighbors()){
                     t.addSpore(new HypharaSpore(this));
                 }
+                this.tecton.addSpore(new HypharaSpore(this));
             }
 
             sporeSpreadsLeft--;
@@ -88,11 +89,11 @@ public class Hyphara extends MushroomBody {
     public boolean canEvolve() {
         int sporeCount = 0;
         for (Spore s : tecton.sporesAvailable()){
-            if(s.getClass() == HypharaSpore.class){ //Spore type?
+            System.out.println(s.printType());
+            if(s.printType().equals("HypharaSpore")){ //Spore type?
                 sporeCount++;
             }
         }
-
         Mycelium my = null;
         for(Mycelium mycelium : tecton.getMycelia()){
             if(mycelium.getMycologist() == mycologist){
@@ -100,6 +101,8 @@ public class Hyphara extends MushroomBody {
                 break;
             }
         }
+        System.out.println(my);
+        if (my != null) { System.out.println(my.getMyceliumConnections().size()); }
         return !superBody && sporeCount >= 3 && my!= null && my.getMyceliumConnections().size() >= 3;
     }
 
@@ -112,9 +115,12 @@ public class Hyphara extends MushroomBody {
     @Override
     public void evolveSuper() {
         if(canEvolve()){
-            tecton.takeSpore(mycologist, 3);
+            boolean tmp = tecton.takeSpore(mycologist, 3);
+            System.out.println("something");
+            System.out.println(tmp);
             superBody = true;
         }
+        System.out.println("Gatya🐛");
     }
 
     /*

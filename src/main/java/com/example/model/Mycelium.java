@@ -110,6 +110,17 @@ public class Mycelium {
     }
 
     /**
+     * Getter a gombafonálhoz tartozó gombatest típusához. Ezzel a függvénnyel
+     * vagyunk képesek megállapítani a gombafonál "faját", míg ezt külön nem
+     * tároljuk.
+     *
+     * @return A gombafonálhoz tartozó gombatest osztály típusa.
+     */
+    public Class<? extends MushroomBody> getBodyType() {
+        return mycologist.getMushroomBodies().get(0).getClass();
+    }
+
+    /**
      * Megadja, hogy tud-e gombatestet növeszteni a tektonon fonal.
      *
      * @return true, ha tud gombatestet növeszteni, egyébként false.
@@ -131,30 +142,17 @@ public class Mycelium {
      * @param
      * @return true, ha sikeresen kifejlesztett egy gombatestet, egyébként false.
      */
-    public boolean developMushroomBody() {
-        try {
-            if (!canDevelop()) {
-                throw new IllegalArgumentException("Cannot develop mushroom body");
-            }
-        } catch (IllegalArgumentException exception) {
-            System.out.println(exception.getMessage());
-            throw new IllegalArgumentException(exception.getMessage());
-        }
-
-        try {
-            if (tecton.hasMushroomBody()) {
-                throw new IllegalArgumentException("Tecton already has a mushroom body");
-            }
-        } catch (IllegalArgumentException exception) {
-            System.out.println(exception.getMessage());
-            throw new IllegalArgumentException(exception.getMessage());
+    public MushroomBody developMushroomBody() {
+        if (!canDevelop()) {
+            return null;
         }
 
         MushroomBody mushroomBody = mycologist.createMushroomBody(tecton, name);
         tecton.placeMushroomBody(mushroomBody);
         tecton.takeSpore(mycologist, 6);
+        mycologist.addMushroomBody(mushroomBody);
 
-        return true;
+        return mushroomBody;
     }
 
     /**
@@ -195,11 +193,22 @@ public class Mycelium {
             throw new IllegalArgumentException(exception.getMessage());
         }
 
+        for (Mycelium mycelium : tecton.getMycelia()) {
+            if (mycelium.getMycologist() == mycologist) {
+                try {
+                    this.addConnection(mycelium);
+                } catch (IllegalArgumentException exception) {
+                    System.out.println(exception.getMessage());
+                    throw new IllegalArgumentException(exception.getMessage());
+                }
+                return null;
+            }
+        }
+
         if (tecton.canAddMycelium()) {
             Mycelium newMycelium = new Mycelium(tecton, mycologist);
 
             try {
-                tecton.addMycelium(newMycelium);
                 this.addConnection(newMycelium);
             } catch (IllegalArgumentException exception) {
                 System.out.println(exception.getMessage());
@@ -208,17 +217,7 @@ public class Mycelium {
 
             return newMycelium;
         } else {
-            for (Mycelium mycelium : tecton.getMycelia()) {
-                if (mycelium.getMycologist() == mycologist) {
-                    try {
-                        this.addConnection(mycelium);
-                    } catch (IllegalArgumentException exception) {
-                        System.out.println(exception.getMessage());
-                        throw new IllegalArgumentException(exception.getMessage());
-                    }
-                    return null;
-                }
-            }
+
         }
 
         return null;
@@ -253,8 +252,8 @@ public class Mycelium {
 
         myceliumConnections.add(mycelium);
         mycelium.myceliumConnections.add(this);
-        this.canGrow = false;
-        mycelium.canGrow = false;
+//        this.canGrow = false;
+//        mycelium.canGrow = false;
     }
 
     /**
@@ -392,19 +391,9 @@ public class Mycelium {
     /**
      * Rovart eszik a gombafonal.
      */
-    public void eatInsect() {
-        try {
-            if (insectEaten) {
-                throw new IllegalArgumentException("Insect already eaten");
-            }
-            // ellenőrzés itt vagy hívjuk meg a removeInsect() metódust és ha nincs
-            // insect a tecton-on akkor ott dobunk exception-t?
-            if (!tecton.hasInsect()) {
-                throw new IllegalArgumentException("No insect to eat");
-            }
-        } catch (IllegalArgumentException exception) {
-            System.out.println(exception.getMessage());
-            throw new IllegalArgumentException(exception.getMessage());
+    public Insect eatInsect() {
+        if (insectEaten || !tecton.hasInsect()) {
+            return null;
         }
 
         Insect insect = tecton.getInsects().get(0);
@@ -445,6 +434,7 @@ public class Mycelium {
         MushroomBody mushroomBody = mycologist.createMushroomBody(tecton, "name");
         tecton.placeMushroomBody(mushroomBody);
         insectEaten = true;
+        return insect;
     }
 
     /*

@@ -37,7 +37,7 @@ public class Mycologist extends Player {
     /**
      * Mycologist konstruktora, amiben megadhatjuk a játékos nevét.
      *
-     * @param name A játékos neve.
+     *
      */
     public Mycologist() {
         super();
@@ -109,7 +109,7 @@ public class Mycologist extends Player {
      * @param on A kezdő tektonunk.
      */
     public void placeInitial(Tecton on){
-        on.placeMushroomBody(mushroomBodies.get(0));
+        on.placeMushroomBody(mushroomBodies.get(1));
     }
 
     /**
@@ -131,8 +131,12 @@ public class Mycologist extends Player {
         this.type = type;
     }
     public String getType() {
-        return type;
-    }   
+        return initialMushroomBody.printType();
+    }
+
+    public List<MushroomBody> getBodies(){
+        return mushroomBodies;
+    }
 
     /*
     =============================================================================================
