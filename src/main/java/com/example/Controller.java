@@ -7,6 +7,21 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.*;
 import java.util.List;
+import java.util.Random;
+
+import com.example.model.Capulon;
+import com.example.model.Entomologist;
+import com.example.model.GameTable;
+import com.example.model.Gilledon;
+import com.example.model.Hyphara;
+import com.example.model.Insect;
+import com.example.model.MushroomBody;
+import com.example.model.Mycelium;
+import com.example.model.Mycologist;
+import com.example.model.Poralia;
+import com.example.model.Tecton;
+import com.example.model.Transix;
+import com.example.view.MainFrame;
 
 public class Controller implements KeyListener {
     private MainFrame mainFrame;
@@ -105,7 +120,36 @@ public class Controller implements KeyListener {
         }
     }
 
-    public GameTable getGameTable() {
+    public static void clearTimers() {
+        for (Timer timer : timers) {
+            timer.cancel();
+        }
+        timers.clear();
+    }
+
+    public List<String> getMycologistWinners() {
+        List<String> mycologistWinners = new ArrayList<>();
+        if (mycologist1.getIsWinner()) {
+            mycologistWinners.add(mycologist1.getType());
+        }
+        if (mycologist2.getIsWinner()) {
+            mycologistWinners.add(mycologist2.getType());
+        }
+        return mycologistWinners;
+    }
+
+    public List<Color> getEntomologistWinners() {
+        List<Color> entomologistWinners = new ArrayList<>();
+        if (entomologist1.getIsWinner()) {
+            entomologistWinners.add(entomologist1.getColor());
+        }
+        if (entomologist2.getIsWinner()) {
+            entomologistWinners.add(entomologist2.getColor());
+        }
+        return entomologistWinners;
+    }
+
+    public static GameTable getGameTable() {
         return gameTable;
     }
 
@@ -140,6 +184,7 @@ public class Controller implements KeyListener {
             for (MushroomBody mushroomBody : mycologist1.getMushroomBodies()) {
                 mushroomBody.evolveSuper();
             }
+            ScorePanel.updateMycologist1Score(mycologist1.getScore());
         }
 
         // Fonalból test növesztés mycologist1-nek
@@ -155,6 +200,7 @@ public class Controller implements KeyListener {
                 gameTable.getView().addNewMushroomBody(res);
                 gameTable.getView().removeMycelium(removable);
             }
+            ScorePanel.updateMycologist1Score(mycologist1.getScore());
             gameTable.checkMyceliumConnections();
             repaintFrame();
         }
@@ -275,6 +321,7 @@ public class Controller implements KeyListener {
             for (MushroomBody mushroomBody : mycologist2.getMushroomBodies()) {
                 mushroomBody.evolveSuper();
             }
+            ScorePanel.updateMycologist2Score(mycologist2.getScore());
         }
 
         // Fonalból test növesztés mycologist2-nek
@@ -290,6 +337,7 @@ public class Controller implements KeyListener {
                 gameTable.getView().addNewMushroomBody(res);
                 gameTable.getView().removeMycelium(removable);
             }
+            ScorePanel.updateMycologist2Score(mycologist2.getScore());
             gameTable.checkMyceliumConnections();
             repaintFrame();
         }
@@ -399,6 +447,7 @@ public class Controller implements KeyListener {
                 selectedInsectE1 = entomologist1.getInsects().get(selectedInsectIndexE1);
             }
             selectedInsectE1.eatSpore();
+            ScorePanel.updateEntomologist1Score(entomologist1.getScore());
             selectedInsectE1.disableEating();
             timers.add(new Timer(5, () -> selectedInsectE1.enableEating()));
         }
@@ -523,6 +572,7 @@ public class Controller implements KeyListener {
                 selectedInsectE2 = entomologist2.getInsects().get(selectedInsectIndexE2);
             }
             selectedInsectE2.eatSpore();
+            ScorePanel.updateEntomologist2Score(entomologist2.getScore());
             selectedInsectE2.disableEating();
             timers.add(new Timer(5, () -> selectedInsectE2.enableEating()));
         }

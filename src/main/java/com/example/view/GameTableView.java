@@ -14,6 +14,8 @@ import com.example.model.*;
 
 import util.LayeredPane;
 
+import javax.swing.*;
+
 public class GameTableView extends LayeredPane {
     private static final int DEFAULT_RADIUS = 15;
     private static final int MAX_ITERATIONS = 1000;
@@ -23,13 +25,15 @@ public class GameTableView extends LayeredPane {
     private static final double CROSSING_PENALTY_FORCE = 0.2;
     private static final int MIN_DISTANCE = 5;
     private static final double centerAttractionStrength = 0.1;
-    private transient final Object lock = new Object();
+    private static transient final Object lock = new Object();
 
     private Map<Tecton, Point> tectonPositions;
     private Map<Tecton, TectonView> tectonViews;
     private GameTable gameTable;
     private TectonView selectedTecton = null;
     private EdgeView edgeView;
+    private GameCountdownTimer countdownTimer; // Add countdown timer field
+    private ScoreWindow scoreWindow; // Pontszámokat megjelenítő ablak
 
     public GameTableView(GameTable gameTable) {
         this.tectonViews = new HashMap<>();
@@ -42,6 +46,12 @@ public class GameTableView extends LayeredPane {
         // Initialize positions with force-directed layout
         this.tectonPositions = calculateTectonPositions(gameTable);
         addAllViewsOnce();
+
+        // Initialize and add the score panel to the right side
+        initializeScorePanel();
+
+        // Initialize and add the countdown timer (5 minutes)
+        initializeCountdownTimer();
 
         addMouseListener(new MouseAdapter() {
             @Override
@@ -65,6 +75,12 @@ public class GameTableView extends LayeredPane {
         return lock;
     }
 
+    public static void notifyLock() {
+        synchronized (lock) {
+            lock.notify();
+        }
+    }
+
     private TectonView chooseTecton(int x, int y) {
         for (Tecton tecton : gameTable.getTectons()) {
             TectonView tectonView = tecton.getView();
@@ -86,8 +102,6 @@ public class GameTableView extends LayeredPane {
     private Map<Tecton, Point> calculateTectonPositions(GameTable gameTable) {
         List<Tecton> tectons = gameTable.getTectons();
         Map<Tecton, Point> positions = initializePositions(tectons);
-        System.out.println("tectons.size() = " + tectons.size());
-        System.out.println("positions.size() = " + positions.size());
 
         final double coolingRate = 0.95; // Cooling factor per iteration
         double temperature = 1.0; // Initial temperature
@@ -220,27 +234,6 @@ public class GameTableView extends LayeredPane {
             positions.put(tecton, new Point(x, y));
             angle += angleStep;
         }
-
-//        Tecton tecton = tectons.get(tectons.size() - 1);
-//        ArrayList<Tecton> visited = new ArrayList<>();
-//        visited.add(tecton);
-//        int x = (int) (centerX + radius * Math.cos(angle));
-//        int y = (int) (centerY + radius * Math.sin(angle));
-//        positions.put(tecton, new Point(x, y));
-//        angle += angleStep;
-//        loop: while (visited.size() != tectons.size()) {
-//            for (Tecton neighbor : tecton.getNeighbors()) {
-//                if (!visited.contains(neighbor)) {
-//                    x = (int) (centerX + radius * Math.cos(angle));
-//                    y = (int) (centerY + radius * Math.sin(angle));
-//                    positions.put(neighbor, new Point(x, y));
-//                    angle += angleStep;
-//                    tecton = neighbor;
-//                    visited.add(neighbor);
-//                    continue loop;
-//                }
-//            }
-//        }
 
         return positions;
     }
@@ -412,5 +405,47 @@ public class GameTableView extends LayeredPane {
         }
         repaint();
         return tectonPositions;
+    }
+
+    /**
+     * Initializes the game countdown timer and adds it to the ScoreWindow.
+     */
+    private void initializeCountdownTimer() {
+        // Create a 5-minute countdown timer
+        countdownTimer = new GameCountdownTimer(5);
+
+        // Beállítjuk a timer címkét
+        JLabel timerLabel = countdownTimer.getTimerLabel();
+        timerLabel.setForeground(Color.BLACK);
+
+        // A timert átadjuk a különálló pontszám ablaknak
+        if (scoreWindow != null) {
+            scoreWindow.setTimerLabel(timerLabel);
+        }
+
+        // Elindítjuk a visszaszámlálót
+        countdownTimer.start();
+    }
+
+    /**
+     * Inicializálja a pontokat megjelenítő panelt egy külön ablakban
+     */
+    private void initializeScorePanel() {
+        // Létrehozzuk a pontszám ablakot
+        scoreWindow = new ScoreWindow();
+    }
+
+    /**
+     * Frissíti a játékosok pontszámait
+     *
+     * @param mycologist1Score Mycologist1 pontszáma
+     * @param mycologist2Score Mycologist2 pontszáma
+     * @param entomologist1Score Entomologist1 pontszáma
+     * @param entomologist2Score Entomologist2 pontszáma
+     */
+    public void updateScores(int mycologist1Score, int mycologist2Score, int entomologist1Score, int entomologist2Score) {
+        if (scoreWindow != null) {
+            scoreWindow.updateScores(mycologist1Score, mycologist2Score, entomologist1Score, entomologist2Score);
+        }
     }
 }
