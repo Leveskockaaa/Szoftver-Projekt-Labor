@@ -145,9 +145,12 @@ public class Transix extends Tecton {
             for (Mycelium m : this.mycelia) {
                 t1.addMycelium(m);
                 m.setTecton(t1);
-                Mycelium m2 = new Mycelium(t2, m.getMycologist());
-                t2.addMycelium(m2);
-                m.getMycologist().addMycelium(m2);
+                if(canAddMycelium()){
+                    Mycelium m2 = new Mycelium(t2, m.getMycologist());
+                    t2.addMycelium(m2);
+                    m.getMycologist().addMycelium(m2);
+                    gameTable.getView().markMyceliumForDrawing(m2);
+                }
 
 
 //                Mycelium m1 = new Mycelium(t2, m.getMycologist());

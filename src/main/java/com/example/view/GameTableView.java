@@ -2,8 +2,6 @@ package com.example.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -29,6 +27,7 @@ public class GameTableView extends LayeredPane {
 
     private Map<Tecton, Point> tectonPositions;
     private Map<Tecton, TectonView> tectonViews;
+    private ArrayList<Mycelium> myceliumsToBeDrawn = new ArrayList<>();
     private GameTable gameTable;
     private TectonView selectedTecton = null;
     private EdgeView edgeView;
@@ -395,6 +394,10 @@ public class GameTableView extends LayeredPane {
         mushroomBody.getView().setPosition(pos);
     }
 
+    public void markMyceliumForDrawing(Mycelium mycelium){
+        myceliumsToBeDrawn.add(mycelium);
+    }
+
     public Map<Tecton, Point> updateGameTable(){
         tectonPositions = calculateTectonPositions(gameTable);
         for (Tecton tecton : gameTable.getTectons()) {
@@ -410,6 +413,10 @@ public class GameTableView extends LayeredPane {
                 updateInsect(insect);
             }
             for (Mycelium mycelium : tecton.getMycelia()) {
+                if(myceliumsToBeDrawn.contains(mycelium)){
+                    addNewMycelium(mycelium);
+                    myceliumsToBeDrawn.remove(mycelium);
+                }
                 updateMycelium(mycelium);
             }
 
