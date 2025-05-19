@@ -414,6 +414,9 @@ public class GameTableView extends LayeredPane {
             if (!tectonViews.containsKey(tecton)) {
                 tectonViews.put(tecton, tecton.getView());
                 this.add(tecton.getView());
+                this.remove(edgeView);
+                edgeView = new EdgeView(gameTable, tectonPositions);
+                this.add(edgeView, -1);
             }
         }
         // Remove any disappearing tecton from the views and the pane
@@ -427,7 +430,7 @@ public class GameTableView extends LayeredPane {
         }
         this.remove(edgeView);
         edgeView = new EdgeView(gameTable, tectonPositions);
-        this.add(edgeView);
+        this.add(edgeView, -1);
         repaint();
         return tectonPositions;
     }
