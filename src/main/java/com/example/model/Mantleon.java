@@ -44,7 +44,6 @@ public class Mantleon extends Tecton {
     public void placeMushroomBody(MushroomBody mushroomBody) {
         System.out.println("Mantleon placeMushroomBody() called");
         this.mushroomBody = mushroomBody;
-        return;
     }
 
     /**
@@ -94,6 +93,8 @@ public class Mantleon extends Tecton {
         //Két új tekton létrehozása
         Mantleon t1 = new Mantleon(decreaseSize(this.size));
         Mantleon t2 = new Mantleon(decreaseSize(this.size));
+        t1.setGameTable(gameTable);
+        t2.setGameTable(gameTable);
 
         //Köztük kapcsolat létrehozása
         t1.addTectonToNeighbors(t2);
@@ -147,7 +148,6 @@ public class Mantleon extends Tecton {
             }
         }
 
-
         //Veszünk egy tectont a szomszédaink közül
         Tecton n1 = this.neighbors.iterator().next();
         this.neighbors.remove(n1);
@@ -171,18 +171,6 @@ public class Mantleon extends Tecton {
             t2.addTectonToNeighbors(n);
             n.changeNeighbour(this, t2);
         }
-
-//        Random random = new Random();
-//        for (Tecton tecton : Arrays.asList(t1, t2)) {
-//            int time = random.nextInt(3, 6);
-//            Timer timer = new Timer(time, () -> {
-//                List<Tecton> ret = tecton.breakApart();
-//                Controller.removeTecton(tecton);
-//                Controller.addTecton(ret.get(0));
-//                Controller.addTecton(ret.get(1));
-//            });
-//            Controller.addTimer(timer);
-//        }
 
         return new ArrayList<>(Arrays.asList(t1, t2));
     }

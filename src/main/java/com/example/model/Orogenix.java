@@ -101,6 +101,8 @@ public class Orogenix extends Tecton {
         //Két új tekton létrehozása
         Orogenix t1 = new Orogenix(decreaseSize(this.size));
         Orogenix t2 = new Orogenix(decreaseSize(this.size));
+        t1.setGameTable(gameTable);
+        t2.setGameTable(gameTable);
 
         //Köztük kapcsolat létrehozása
         t1.addTectonToNeighbors(t2);
@@ -154,7 +156,6 @@ public class Orogenix extends Tecton {
             }
         }
 
-
         //Veszünk egy tectont a szomszédaink közül
         Tecton n1 = this.neighbors.iterator().next();
         this.neighbors.remove(n1);
@@ -178,18 +179,6 @@ public class Orogenix extends Tecton {
             t2.addTectonToNeighbors(n);
             n.changeNeighbour(this, t2);
         }
-
-//        Random random = new Random();
-//        for (Tecton tecton : Arrays.asList(t1, t2)) {
-//            int time = random.nextInt(3, 6);
-//            Timer timer = new Timer(time, () -> {
-//                List<Tecton> ret = tecton.breakApart();
-//                Controller.removeTecton(tecton);
-//                Controller.addTecton(ret.get(0));
-//                Controller.addTecton(ret.get(1));
-//            });
-//            Controller.addTimer(timer);
-//        }
 
         return new ArrayList<>(Arrays.asList(t1, t2));
     }

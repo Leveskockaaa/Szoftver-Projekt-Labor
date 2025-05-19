@@ -97,6 +97,8 @@ public class Magmox extends Tecton {
         //Két új tekton létrehozása
         Magmox t1 = new Magmox(decreaseSize(this.size));
         Magmox t2 = new Magmox(decreaseSize(this.size));
+        t1.setGameTable(gameTable);
+        t2.setGameTable(gameTable);
 
         //Köztük kapcsolat létrehozása
         t1.addTectonToNeighbors(t2);
@@ -134,6 +136,7 @@ public class Magmox extends Tecton {
                     t2.placeMushroomBody(this.mushroomBody);
                     this.mushroomBody.setTecton(t2);
                 }
+                removeMushroomBody();
             } else {
                 t2.placeMushroomBody(this.mushroomBody);
             }
@@ -150,7 +153,6 @@ public class Magmox extends Tecton {
             }
         }
 
-
         //Veszünk egy tectont a szomszédaink közül
         Tecton n1 = this.neighbors.iterator().next();
         this.neighbors.remove(n1);
@@ -158,7 +160,6 @@ public class Magmox extends Tecton {
         //Hozzáadjuk az egyik új tektonhoz
         t1.addTectonToNeighbors(n1);
         n1.changeNeighbour(this, t1);
-
       
         for (Iterator<Tecton> it = n1.neighbors.iterator(); it.hasNext(); ) {
             Tecton n2 = it.next();
@@ -175,18 +176,6 @@ public class Magmox extends Tecton {
             t2.addTectonToNeighbors(n);
             n.changeNeighbour(this, t2);
         }
-
-//        Random random = new Random();
-//        for (Tecton tecton : Arrays.asList(t1, t2)) {
-//            int time = random.nextInt(3, 6);
-//            Timer timer = new Timer(time, () -> {
-//                List<Tecton> ret = tecton.breakApart();
-//                Controller.removeTecton(tecton);
-//                Controller.addTecton(ret.get(0));
-//                Controller.addTecton(ret.get(1));
-//            });
-//            Controller.addTimer(timer);
-//        }
 
         return new ArrayList<>(Arrays.asList(t1, t2));
     }

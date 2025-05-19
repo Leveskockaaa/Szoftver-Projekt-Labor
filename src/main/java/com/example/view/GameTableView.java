@@ -376,18 +376,21 @@ public class GameTableView extends LayeredPane {
     }
 
     public void updateMycelium(Mycelium mycelium){
+        Point point = tectonPositions.get(mycelium.getTecton());
         int idx = mycelium.getTecton().getMycelia().indexOf(mycelium);
         Position pos = new Position(
-                tectonPositions.get(mycelium.getTecton()).x + 10 + idx * 10,
-                tectonPositions.get(mycelium.getTecton()).y - 35 + idx * 5
+                point.x + 10 + idx * 10,
+                point.y - 35 + idx * 5
         );
         mycelium.getView().setPosition(pos);
     }
 
     public void updateMushroomBody(MushroomBody mushroomBody){
+        Tecton tecton = mushroomBody.getTecton();
+        Point point = tectonPositions.get(tecton);
         Position pos = new Position(
-                tectonPositions.get(mushroomBody.getTecton()).x - 35,
-                tectonPositions.get(mushroomBody.getTecton()).y - 30
+                point.x - 35,
+                point.y - 30
         );
         mushroomBody.getView().setPosition(pos);
     }

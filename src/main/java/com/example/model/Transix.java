@@ -96,6 +96,8 @@ public class Transix extends Tecton {
         //Két új tekton létrehozása
         Transix t1 = new Transix(decreaseSize(this.size));
         Transix t2 = new Transix(decreaseSize(this.size));
+        t1.setGameTable(gameTable);
+        t2.setGameTable(gameTable);
 
         //Köztük kapcsolat létrehozása
         t1.addTectonToNeighbors(t2);
@@ -146,9 +148,17 @@ public class Transix extends Tecton {
                 Mycelium m2 = new Mycelium(t2, m.getMycologist());
                 t2.addMycelium(m2);
                 m.getMycologist().addMycelium(m2);
+
+
+//                Mycelium m1 = new Mycelium(t2, m.getMycologist());
+//                m.getMycologist().addMycelium(m1);
+//
+//                Mycelium m2 = new Mycelium(t2, m.getMycologist());
+//                m.getMycologist().addMycelium(m2);
+//
+//                m.getMycologist().removeMycelium(m);
             }
         }
-
 
         //Veszünk egy tectont a szomszédaink közül
         Tecton n1 = this.neighbors.iterator().next();
@@ -173,18 +183,6 @@ public class Transix extends Tecton {
             t2.addTectonToNeighbors(n);
             n.changeNeighbour(this, t2);
         }
-
-//        Random random = new Random();
-//        for (Tecton tecton : Arrays.asList(t1, t2)) {
-//            int time = random.nextInt(3, 6);
-//            Timer timer = new Timer(time, () -> {
-//                List<Tecton> ret = tecton.breakApart();
-//                Controller.removeTecton(tecton);
-//                Controller.addTecton(ret.get(0));
-//                Controller.addTecton(ret.get(1));
-//            });
-//            Controller.addTimer(timer);
-//        }
 
         return new ArrayList<>(Arrays.asList(t1, t2));
     }

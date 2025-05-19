@@ -84,6 +84,7 @@ public class GameTable {
                     case 2 -> new Magmox();
                     default -> new Orogenix();
                 };
+                t.setGameTable(this);
                 tectons.add(t);
             }
         }
