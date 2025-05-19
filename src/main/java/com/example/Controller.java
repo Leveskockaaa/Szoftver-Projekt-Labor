@@ -21,6 +21,7 @@ import com.example.model.Mycologist;
 import com.example.model.Poralia;
 import com.example.model.Tecton;
 import com.example.model.Transix;
+import com.example.view.GameTableView;
 import com.example.view.MainFrame;
 import com.example.view.ScorePanel;
 
@@ -106,15 +107,36 @@ public class Controller implements KeyListener {
             Tecton tecton = queue.poll();
             List<Tecton> ret = tecton.breakApart();
             if(!ret.isEmpty()){
+               
+
                 gameTable.removeTecton(tecton);
                 gameTable.addTecton(ret.get(1));
+            
+
                 gameTable.addTecton(ret.get(0));
                 queue.addAll(ret);
                 repaintFrame();
+
+                List<Mycelium> mycelia = tecton.getMycelia();
+                for (Mycelium mycelium : mycelia) {
+                    mycelium.getView().setScale(GameTableView.TectonSizeToScale(ret.get(0)));
+                }
+            
+
+                List<Insect> insects = tecton.getInsects();
+                for (Insect insect : insects) {
+                    insect.getView().setScale(GameTableView.TectonSizeToScale(ret.get(0)));
+                }
+
+                MushroomBody mb = tecton.getMushroomBody();
+                if (mb != null) {
+                    mb.getView().setScale(GameTableView.TectonSizeToScale(ret.get(0)));
+                }
             }
             if(!queue.isEmpty()){
                 timerStart();
             }
+            
         });
     }
 
