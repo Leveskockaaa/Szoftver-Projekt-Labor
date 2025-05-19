@@ -1,6 +1,9 @@
 package com.example.view;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
@@ -37,6 +40,7 @@ public class MyceliumView extends JPanel {
 
     @Override
     protected void paintComponent(Graphics g) {
+       
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(new Color(0,0,0,0));

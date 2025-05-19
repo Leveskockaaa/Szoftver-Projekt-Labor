@@ -5,14 +5,23 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
+import javax.swing.JLabel;
 
 import com.example.Timer;
-import com.example.model.*;
+import com.example.model.GameTable;
+import com.example.model.Insect;
+import com.example.model.MushroomBody;
+import com.example.model.Mycelium;
+import com.example.model.Tecton;
+import com.example.model.TectonSize;
 
 import util.LayeredPane;
-
-import javax.swing.*;
 
 public class GameTableView extends LayeredPane {
     private static final int DEFAULT_RADIUS = 15;
@@ -254,6 +263,7 @@ public class GameTableView extends LayeredPane {
                 this.add(mycView);
                 mycView.setScale(TectonSizeToScale(tecton));
                 myceliumIndex++;
+
             }
         }
         // 2. Add insects
@@ -268,6 +278,7 @@ public class GameTableView extends LayeredPane {
                 insView.setScale(TectonSizeToScale(tecton));
                 this.add(insView);
                 insectIndex++;
+
             }
         }
         // 3. Add mushroom bodies
@@ -296,7 +307,7 @@ public class GameTableView extends LayeredPane {
         this.add(edgeView);
     }
 
-    private float TectonSizeToScale(Tecton tecton){
+    public static float TectonSizeToScale(Tecton tecton){
         TectonSize tectonSize = tecton.getSize();
         switch(tectonSize){
             case SMALL -> {
@@ -423,7 +434,10 @@ public class GameTableView extends LayeredPane {
             // Add any new tecton to the positions map and the pane
             if (!tectonViews.containsKey(tecton)) {
                 tectonViews.put(tecton, tecton.getView());
-                this.add(tecton.getView(), 3);
+                this.add(tecton.getView());
+                this.remove(edgeView);
+                edgeView = new EdgeView(gameTable, tectonPositions);
+                this.add(edgeView, -1);
             }
         }
         // Remove any disappearing tecton from the views and the pane
@@ -435,6 +449,9 @@ public class GameTableView extends LayeredPane {
                 this.remove(tecton.getView());
             }
         }
+        this.remove(edgeView);
+        edgeView = new EdgeView(gameTable, tectonPositions);
+        this.add(edgeView, -1);
         repaint();
         return tectonPositions;
     }

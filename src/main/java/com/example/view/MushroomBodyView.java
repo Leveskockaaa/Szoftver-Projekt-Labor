@@ -36,6 +36,7 @@ public class MushroomBodyView extends JPanel {
     }
     @Override
     protected void paintComponent(Graphics g) {
+      
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         int diameter = (int)(30 * scale);
