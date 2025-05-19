@@ -1,7 +1,6 @@
 package com.example.model;
 
 import java.awt.Color;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -43,5 +42,6 @@ public class Main {
         mainFrame.showWinnerScreen(winnersMycologists, winnerInsects);
 
         mainFrame.dispose();
+        System.exit(0);
     }
 }

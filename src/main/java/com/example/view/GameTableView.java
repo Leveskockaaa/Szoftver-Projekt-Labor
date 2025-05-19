@@ -5,9 +5,12 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.*;
-
-import javax.swing.JLabel;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 import com.example.Timer;
 import com.example.model.GameTable;
@@ -36,8 +39,7 @@ public class GameTableView extends LayeredPane {
     private GameTable gameTable;
     private TectonView selectedTecton = null;
     private EdgeView edgeView;
-    private GameCountdownTimer countdownTimer; // Add countdown timer field
-    private ScoreWindow scoreWindow; // Pontszámokat megjelenítő ablak
+    private InfoPanel infoPanel;
 
     public GameTableView(GameTable gameTable) {
         this.tectonViews = new HashMap<>();
@@ -52,10 +54,10 @@ public class GameTableView extends LayeredPane {
         addAllViewsOnce();
 
         // Initialize and add the score panel to the right side
-        initializeScorePanel();
+        // initializeScorePanel();
 
         // Initialize and add the countdown timer (5 minutes)
-        initializeCountdownTimer();
+        // initializeCountdownTimer();
 
         addMouseListener(new MouseAdapter() {
             @Override
@@ -73,6 +75,9 @@ public class GameTableView extends LayeredPane {
                 repaint();
             }
         });
+
+        infoPanel = new InfoPanel(this);
+        this.add(infoPanel);
     }
 
     public Object getLock() {
@@ -453,34 +458,6 @@ public class GameTableView extends LayeredPane {
     }
 
     /**
-     * Initializes the game countdown timer and adds it to the ScoreWindow.
-     */
-    private void initializeCountdownTimer() {
-        // Create a 5-minute countdown timer
-        countdownTimer = new GameCountdownTimer(5);
-
-        // Beállítjuk a timer címkét
-        JLabel timerLabel = countdownTimer.getTimerLabel();
-        timerLabel.setForeground(Color.BLACK);
-
-        // A timert átadjuk a különálló pontszám ablaknak
-        if (scoreWindow != null) {
-            scoreWindow.setTimerLabel(timerLabel);
-        }
-
-        // Elindítjuk a visszaszámlálót
-        countdownTimer.start();
-    }
-
-    /**
-     * Inicializálja a pontokat megjelenítő panelt egy külön ablakban
-     */
-    private void initializeScorePanel() {
-        // Létrehozzuk a pontszám ablakot
-        scoreWindow = new ScoreWindow();
-    }
-
-    /**
      * Frissíti a játékosok pontszámait
      *
      * @param mycologist1Score Mycologist1 pontszáma
@@ -489,8 +466,10 @@ public class GameTableView extends LayeredPane {
      * @param entomologist2Score Entomologist2 pontszáma
      */
     public void updateScores(int mycologist1Score, int mycologist2Score, int entomologist1Score, int entomologist2Score) {
-        if (scoreWindow != null) {
-            scoreWindow.updateScores(mycologist1Score, mycologist2Score, entomologist1Score, entomologist2Score);
+        if (infoPanel != null) {
+            infoPanel.updateScores(mycologist1Score, mycologist2Score, entomologist1Score, entomologist2Score);
+            revalidate();
+            repaint();
         }
     }
 }
