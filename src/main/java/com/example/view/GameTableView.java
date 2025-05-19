@@ -413,7 +413,7 @@ public class GameTableView extends LayeredPane {
             // Add any new tecton to the positions map and the pane
             if (!tectonViews.containsKey(tecton)) {
                 tectonViews.put(tecton, tecton.getView());
-                this.add(tecton.getView(), 3);
+                this.add(tecton.getView());
             }
         }
         // Remove any disappearing tecton from the views and the pane
@@ -425,6 +425,9 @@ public class GameTableView extends LayeredPane {
                 this.remove(tecton.getView());
             }
         }
+        this.remove(edgeView);
+        edgeView = new EdgeView(gameTable, tectonPositions);
+        this.add(edgeView);
         repaint();
         return tectonPositions;
     }
