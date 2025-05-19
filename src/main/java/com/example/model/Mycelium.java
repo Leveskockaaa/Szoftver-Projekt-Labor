@@ -35,7 +35,7 @@ public class Mycelium {
     /**
      * A tekton amin a gombafonál elhelyezkedik.
      */
-    private final Tecton tecton;
+    private Tecton tecton;
 
     /**
      * A gombatesthez tartozó gombász. final mert a gombafonálhoz tartozó
@@ -87,6 +87,10 @@ public class Mycelium {
      */
     public Tecton getTecton() {
         return tecton;
+    }
+
+    public void setTecton(Tecton tecton) {
+        this.tecton = tecton;
     }
 
     /**

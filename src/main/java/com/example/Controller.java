@@ -1,9 +1,7 @@
 package com.example;
 import com.example.model.*;
 import com.example.view.MainFrame;
-import com.example.view.Position;
 
-import java.awt.*;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -16,6 +14,9 @@ public class Controller implements KeyListener {
     private static HashMap<Object, String> nameMap = new HashMap<>();
     private static List<Timer> timers = new ArrayList<>();
     private static GameTable gameTable;
+    private static Random random = new Random();
+    private static Queue<Tecton> queue = new LinkedList<>();
+
     private Mycologist mycologist1 = new Mycologist();
     private Mycologist mycologist2 = new Mycologist();
     private Entomologist entomologist1 = new Entomologist();
@@ -70,21 +71,27 @@ public class Controller implements KeyListener {
 
         gameTable = new GameTable(Arrays.asList(mycologist1, mycologist2, entomologist1, entomologist2));
         gameTable.initialize();
-        List<Tecton> tectons = gameTable.getTectons();
 
-//        Random random = new Random();
-//        for (Tecton tecton : tectons) {
-//            int time = random.nextInt(3, 6);
-//            Timer timer = new Timer(time, () -> {
-//                List<Tecton> ret = tecton.breakApart();
-//                gameTable.removeTecton(tecton);
-//                gameTable.addTecton(ret.get(0));
-//                gameTable.addTecton(ret.get(1));
-//                // itt megy végbe a tektonok ketttétörése?
-//                repaintFrame();
-//            });
-//            timers.add(timer);
-//        }
+        queue.addAll(gameTable.getTectons());
+        timerStart();
+    }
+
+    private void timerStart(){
+        int time = random.nextInt(1, 4);
+        new Timer(time, () -> {
+            Tecton tecton = queue.poll();
+            List<Tecton> ret = tecton.breakApart();
+            if(!ret.isEmpty()){
+                gameTable.removeTecton(tecton);
+                gameTable.addTecton(ret.get(0));
+                gameTable.addTecton(ret.get(1));
+                queue.addAll(ret);
+                repaintFrame();
+            }
+            if(!queue.isEmpty()){
+                timerStart();
+            }
+        });
     }
 
     public void setMainFrame(MainFrame mainFrame) {
@@ -94,6 +101,7 @@ public class Controller implements KeyListener {
     public void repaintFrame() {
         if (mainFrame != null) {
             mainFrame.updateGameTable();
+            gameTable.getView().updateGameTable();
         }
     }
 
@@ -430,7 +438,7 @@ public class Controller implements KeyListener {
                 selectedInsectE1.moveTo(moveToTectonE1);
                 System.out.println("Moved insect to tecton: " + moveToTectonE1);
                 moveToTectonE1.getView().setIsHighlighted(false);
-                gameTable.getView().updateInsect(selectedInsectE1);
+                gameTable.getView().addInsect(selectedInsectE1);
                 moveToTectonE1 = null;
                 movementActiveE1 = false;
                 selectedTectonToMoveIndexE1 = -1;
@@ -556,7 +564,7 @@ public class Controller implements KeyListener {
                     System.out.println("Insects🐛: " + tecton.getInsects());
                 }
                 moveToTectonE2.getView().setIsHighlighted(false);
-                gameTable.getView().updateInsect(selectedInsectE2);
+                gameTable.getView().addInsect(selectedInsectE2);
                 moveToTectonE2 = null;
                 movementActiveE2 = false;
                 selectedTectonToMoveIndexE2 = -1;

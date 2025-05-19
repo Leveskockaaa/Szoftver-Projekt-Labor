@@ -23,7 +23,7 @@ public class Main {
         // Get the two types of mushrooms
         String firstMycologist = mainFrame.showMycologistSelector();
         String secondMycologist = mainFrame.showMycologistSelector();
-        System.out.println("Selected Mushroom Body Types: " + firstMycologist + ", " + secondMycologist);
+        //System.out.println("Selected Mushroom Body Types: " + firstMycologist + ", " + secondMycologist);
 
         // Get the two colors of insects
         Color firstInsectColor = mainFrame.showEntomologistSelector();
@@ -36,7 +36,6 @@ public class Main {
         mainFrame.setController(controller);
 
         mainFrame.showGameTable(controller.getGameTable());
-
 
         List<String> winnersMycologists = new ArrayList<>();
         List<Color> winnerInsects = new ArrayList<>();

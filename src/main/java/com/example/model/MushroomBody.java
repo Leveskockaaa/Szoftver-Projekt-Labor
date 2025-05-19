@@ -126,7 +126,7 @@ public abstract class MushroomBody {
     }
 
     public MushroomBodyView getView() {
-        System.out.println("MushroomBodyView getView called");
+        // System.out.println("MushroomBodyView getView called");
         return view; 
     }
 
