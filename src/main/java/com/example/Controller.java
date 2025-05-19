@@ -22,6 +22,7 @@ import com.example.model.Poralia;
 import com.example.model.Tecton;
 import com.example.model.Transix;
 import com.example.view.MainFrame;
+import com.example.view.ScorePanel;
 
 public class Controller implements KeyListener {
     private MainFrame mainFrame;
@@ -89,10 +90,18 @@ public class Controller implements KeyListener {
 
         queue.addAll(gameTable.getTectons());
         timerStart();
+
+        Timer scoreTimer = new Timer(2, () -> {
+            ScorePanel.updateMycologist1Score(mycologist1.getScore());
+            ScorePanel.updateMycologist2Score(mycologist2.getScore());
+            ScorePanel.updateEntomologist1Score(entomologist1.getScore());
+            ScorePanel.updateEntomologist2Score(entomologist2.getScore());
+        });
+        timers.add(scoreTimer);
     }
 
     private void timerStart(){
-        int time = random.nextInt(1, 4);
+        int time = random.nextInt(30, 60);
         new Timer(time, () -> {
             Tecton tecton = queue.poll();
             List<Tecton> ret = tecton.breakApart();

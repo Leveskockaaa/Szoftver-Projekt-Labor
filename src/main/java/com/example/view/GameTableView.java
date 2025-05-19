@@ -253,6 +253,7 @@ public class GameTableView extends LayeredPane {
                     tectonPositions.get(tecton).y - 35 + myceliumIndex * 5
                 ));
                 this.add(mycView);
+                mycView.setScale(TectonSizeToScale(tecton));
                 myceliumIndex++;
             }
         }
@@ -265,6 +266,7 @@ public class GameTableView extends LayeredPane {
                     tectonPositions.get(tecton).x - 25 + insectIndex * 30,
                     tectonPositions.get(tecton).y + 13
                 ));
+                insView.setScale(TectonSizeToScale(tecton));
                 this.add(insView);
                 insectIndex++;
             }
@@ -277,6 +279,7 @@ public class GameTableView extends LayeredPane {
                     tectonPositions.get(tecton).x - 35,
                     tectonPositions.get(tecton).y - 30
                 ));
+                mbView.setScale(TectonSizeToScale(tecton));
                 this.add(mbView);
             }
         }
@@ -292,6 +295,25 @@ public class GameTableView extends LayeredPane {
         // 5. Add edges last (highest z-order)
         edgeView = new EdgeView(gameTable, tectonPositions);
         this.add(edgeView);
+    }
+
+    private float TectonSizeToScale(Tecton tecton){
+        TectonSize tectonSize = tecton.getSize();
+        switch(tectonSize){
+            case SMALL -> {
+                return 0.25f;
+            }
+            case MEDIUM -> {
+                return 0.50f;
+            }
+            case BIG -> {
+                return 0.75f;
+            }
+            case GIANT -> {
+                return 1.25f;
+            }
+        }
+        return 1;
     }
 
     public void addNewMushroomBody(MushroomBody mb){

@@ -46,16 +46,16 @@ public class TectonView extends JPanel {
         }
         switch (tecton.getSize()){
             case SMALL:
-                radius = 20;
+                radius = 25;
                 break;
             case MEDIUM:
-                radius = 40;
+                radius = 50;
                 break;
             case BIG:
-                radius = 60;
+                radius = 75;
                 break;
             case GIANT:
-                radius = 100;
+                radius = 125;
                 break;
         }
         this.sporeViews = new SporesView(tecton.getSpores());

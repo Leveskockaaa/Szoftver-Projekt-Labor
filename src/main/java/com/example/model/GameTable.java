@@ -107,6 +107,9 @@ public class GameTable {
             temp = random.nextInt(tectons.size());
         }
         initialTectons.add(temp);
+        initialTectons.clear();
+        initialTectons.add(0);
+        initialTectons.add(1);
 
         int j = 0;
         for (Player player : players) {
