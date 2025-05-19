@@ -18,7 +18,7 @@ public class Entomologist extends Player {
         super();
         insects = new ArrayList<Insect>();
         insects.add(new Insect(this));
-        score = 1;
+        score = 0;
     }
 
     public void setColor(Color c) { color = c; }
