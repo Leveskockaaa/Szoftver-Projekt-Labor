@@ -102,7 +102,7 @@ public class Controller implements KeyListener {
     }
 
     private void timerStart(){
-        int time = random.nextInt(1, 2);
+        int time = random.nextInt(20, 40);
         new Timer(time, () -> {
             Tecton tecton = queue.poll();
             List<Tecton> ret = tecton.breakApart();

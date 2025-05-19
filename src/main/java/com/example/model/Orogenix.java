@@ -150,12 +150,11 @@ public class Orogenix extends Tecton {
             for (Mycelium m : this.mycelia) {
                 t1.addMycelium(m);
                 m.setTecton(t1);
-                if(canAddMycelium()){
                     Mycelium m2 = new Mycelium(t2, m.getMycologist());
                     t2.addMycelium(m2);
                     m.getMycologist().addMycelium(m2);
                     gameTable.getView().markMyceliumForDrawing(m2);
-                }
+
             }
         }
 
