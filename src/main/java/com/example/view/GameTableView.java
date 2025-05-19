@@ -2,19 +2,26 @@ package com.example.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
+import javax.swing.JLabel;
 
 import com.example.Timer;
-import com.example.model.*;
+import com.example.model.GameTable;
+import com.example.model.Insect;
+import com.example.model.MushroomBody;
+import com.example.model.Mycelium;
+import com.example.model.Tecton;
+import com.example.model.TectonSize;
 
 import util.LayeredPane;
-
-import javax.swing.*;
 
 public class GameTableView extends LayeredPane {
     private static final int DEFAULT_RADIUS = 15;
@@ -255,6 +262,7 @@ public class GameTableView extends LayeredPane {
                 this.add(mycView);
                 mycView.setScale(TectonSizeToScale(tecton));
                 myceliumIndex++;
+
             }
         }
         // 2. Add insects
@@ -269,6 +277,7 @@ public class GameTableView extends LayeredPane {
                 insView.setScale(TectonSizeToScale(tecton));
                 this.add(insView);
                 insectIndex++;
+
             }
         }
         // 3. Add mushroom bodies
@@ -297,7 +306,7 @@ public class GameTableView extends LayeredPane {
         this.add(edgeView);
     }
 
-    private float TectonSizeToScale(Tecton tecton){
+    public static float TectonSizeToScale(Tecton tecton){
         TectonSize tectonSize = tecton.getSize();
         switch(tectonSize){
             case SMALL -> {
