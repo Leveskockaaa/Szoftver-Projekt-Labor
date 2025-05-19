@@ -17,12 +17,12 @@ import util.LayeredPane;
 public class GameTableView extends LayeredPane {
     private static final int DEFAULT_RADIUS = 15;
     private static final int MAX_ITERATIONS = 1000;
-    private static final double REPULSION_FORCE = 3000000;
+    private static final double REPULSION_FORCE = 1500000;
     private static final double SPRING_CONSTANT = 1;
     private static final int SPRING_REST_LENGTH = 1;
-    private static final double CROSSING_PENALTY_FORCE = 1.0;
+    private static final double CROSSING_PENALTY_FORCE = 0.2;
     private static final int MIN_DISTANCE = 5;
-    private static final double centerAttractionStrength = 0.5;
+    private static final double centerAttractionStrength = 0.1;
     private transient final Object lock = new Object();
 
     private Map<Tecton, Point> tectonPositions;

@@ -83,8 +83,8 @@ public class Controller implements KeyListener {
             List<Tecton> ret = tecton.breakApart();
             if(!ret.isEmpty()){
                 gameTable.removeTecton(tecton);
-                gameTable.addTecton(ret.get(0));
                 gameTable.addTecton(ret.get(1));
+                gameTable.addTecton(ret.get(0));
                 queue.addAll(ret);
                 repaintFrame();
             }
