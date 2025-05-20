@@ -22,6 +22,7 @@ import com.example.model.Poralia;
 import com.example.model.Tecton;
 import com.example.model.Transix;
 import com.example.view.GameTableView;
+import com.example.view.InfoPanel;
 import com.example.view.MainFrame;
 import com.example.view.ScorePanel;
 
@@ -93,10 +94,10 @@ public class Controller implements KeyListener {
         timerStart();
 
         Timer scoreTimer = new Timer(2, () -> {
-            ScorePanel.updateMycologist1Score(mycologist1.getScore());
-            ScorePanel.updateMycologist2Score(mycologist2.getScore());
-            ScorePanel.updateEntomologist1Score(entomologist1.getScore());
-            ScorePanel.updateEntomologist2Score(entomologist2.getScore());
+            InfoPanel.updateMycologist1Score(mycologist1.getScore());
+            InfoPanel.updateMycologist2Score(mycologist2.getScore());
+            InfoPanel.updateEntomologist1Score(entomologist1.getScore());
+            InfoPanel.updateEntomologist2Score(entomologist2.getScore());
         });
         timers.add(scoreTimer);
     }
