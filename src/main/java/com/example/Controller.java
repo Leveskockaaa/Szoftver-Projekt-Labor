@@ -24,7 +24,6 @@ import com.example.model.Transix;
 import com.example.view.GameTableView;
 import com.example.view.InfoPanel;
 import com.example.view.MainFrame;
-import com.example.view.ScorePanel;
 
 public class Controller implements KeyListener {
     private MainFrame mainFrame;
@@ -98,6 +97,8 @@ public class Controller implements KeyListener {
             InfoPanel.updateMycologist2Score(mycologist2.getScore());
             InfoPanel.updateEntomologist1Score(entomologist1.getScore());
             InfoPanel.updateEntomologist2Score(entomologist2.getScore());
+            System.out.println("Mycologist1 score: " + mycologist1.getScore());
+            System.out.println("Mycologist2 score: " + mycologist2.getScore());
         });
         timers.add(scoreTimer);
     }
@@ -215,7 +216,7 @@ public class Controller implements KeyListener {
             for (MushroomBody mushroomBody : mycologist1.getMushroomBodies()) {
                 mushroomBody.evolveSuper();
             }
-            ScorePanel.updateMycologist1Score(mycologist1.getScore());
+            InfoPanel.updateMycologist1Score(mycologist1.getScore());
         }
 
         // Fonalból test növesztés mycologist1-nek
@@ -231,7 +232,7 @@ public class Controller implements KeyListener {
                 gameTable.getView().addNewMushroomBody(res);
                 gameTable.getView().removeMycelium(removable);
             }
-            ScorePanel.updateMycologist1Score(mycologist1.getScore());
+            InfoPanel.updateMycologist1Score(mycologist1.getScore());
             gameTable.checkMyceliumConnections();
             repaintFrame();
         }
@@ -352,7 +353,7 @@ public class Controller implements KeyListener {
             for (MushroomBody mushroomBody : mycologist2.getMushroomBodies()) {
                 mushroomBody.evolveSuper();
             }
-            ScorePanel.updateMycologist2Score(mycologist2.getScore());
+            InfoPanel.updateMycologist2Score(mycologist2.getScore());
         }
 
         // Fonalból test növesztés mycologist2-nek
@@ -368,7 +369,7 @@ public class Controller implements KeyListener {
                 gameTable.getView().addNewMushroomBody(res);
                 gameTable.getView().removeMycelium(removable);
             }
-            ScorePanel.updateMycologist2Score(mycologist2.getScore());
+            InfoPanel.updateMycologist2Score(mycologist2.getScore());
             gameTable.checkMyceliumConnections();
             repaintFrame();
         }
@@ -478,7 +479,7 @@ public class Controller implements KeyListener {
                 selectedInsectE1 = entomologist1.getInsects().get(selectedInsectIndexE1);
             }
             selectedInsectE1.eatSpore();
-            ScorePanel.updateEntomologist1Score(entomologist1.getScore());
+            InfoPanel.updateEntomologist1Score(entomologist1.getScore());
             selectedInsectE1.disableEating();
             timers.add(new Timer(5, () -> selectedInsectE1.enableEating()));
         }
@@ -603,7 +604,7 @@ public class Controller implements KeyListener {
                 selectedInsectE2 = entomologist2.getInsects().get(selectedInsectIndexE2);
             }
             selectedInsectE2.eatSpore();
-            ScorePanel.updateEntomologist2Score(entomologist2.getScore());
+            InfoPanel.updateEntomologist2Score(entomologist2.getScore());
             selectedInsectE2.disableEating();
             timers.add(new Timer(5, () -> selectedInsectE2.enableEating()));
         }
