@@ -1,14 +1,29 @@
 package com.example;
 import com.example.model.*;
 import com.example.view.MainFrame;
-import com.example.view.Position;
 
-import java.awt.*;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.*;
 import java.util.List;
+import java.util.Random;
+
+import com.example.model.Capulon;
+import com.example.model.Entomologist;
+import com.example.model.GameTable;
+import com.example.model.Gilledon;
+import com.example.model.Hyphara;
+import com.example.model.Insect;
+import com.example.model.MushroomBody;
+import com.example.model.Mycelium;
+import com.example.model.Mycologist;
+import com.example.model.Poralia;
+import com.example.model.Tecton;
+import com.example.model.Transix;
+import com.example.view.GameTableView;
+import com.example.view.InfoPanel;
+import com.example.view.MainFrame;
 
 public class Controller implements KeyListener {
     private MainFrame mainFrame;
@@ -16,6 +31,9 @@ public class Controller implements KeyListener {
     private static HashMap<Object, String> nameMap = new HashMap<>();
     private static List<Timer> timers = new ArrayList<>();
     private static GameTable gameTable;
+    private static Random random = new Random();
+    private static Queue<Tecton> queue = new LinkedList<>();
+
     private Mycologist mycologist1 = new Mycologist();
     private Mycologist mycologist2 = new Mycologist();
     private Entomologist entomologist1 = new Entomologist();
@@ -70,21 +88,57 @@ public class Controller implements KeyListener {
 
         gameTable = new GameTable(Arrays.asList(mycologist1, mycologist2, entomologist1, entomologist2));
         gameTable.initialize();
-        List<Tecton> tectons = gameTable.getTectons();
 
-//        Random random = new Random();
-//        for (Tecton tecton : tectons) {
-//            int time = random.nextInt(3, 6);
-//            Timer timer = new Timer(time, () -> {
-//                List<Tecton> ret = tecton.breakApart();
-//                gameTable.removeTecton(tecton);
-//                gameTable.addTecton(ret.get(0));
-//                gameTable.addTecton(ret.get(1));
-//                // itt megy végbe a tektonok ketttétörése?
-//                repaintFrame();
-//            });
-//            timers.add(timer);
-//        }
+        queue.addAll(gameTable.getTectons());
+        timerStart();
+
+        Timer scoreTimer = new Timer(2, () -> {
+            InfoPanel.updateMycologist1Score(mycologist1.getScore());
+            InfoPanel.updateMycologist2Score(mycologist2.getScore());
+            InfoPanel.updateEntomologist1Score(entomologist1.getScore());
+            InfoPanel.updateEntomologist2Score(entomologist2.getScore());
+            System.out.println("Mycologist1 score: " + mycologist1.getScore());
+            System.out.println("Mycologist2 score: " + mycologist2.getScore());
+        });
+        timers.add(scoreTimer);
+    }
+
+    private void timerStart(){
+        int time = random.nextInt(30, 60);
+        new Timer(time, () -> {
+            List<Tecton> list = new ArrayList<>(queue);
+            Collections.shuffle(list);
+            queue.clear();
+            queue.addAll(list);
+            Tecton tecton = queue.poll();
+            List<Tecton> ret = tecton.breakApart();
+            if(!ret.isEmpty()){
+                gameTable.removeTecton(tecton);
+                gameTable.addTecton(ret.get(1));
+                gameTable.addTecton(ret.get(0));
+                queue.addAll(ret);
+                repaintFrame();
+
+                List<Mycelium> mycelia = tecton.getMycelia();
+                for (Mycelium mycelium : mycelia) {
+                    mycelium.getView().setScale(GameTableView.TectonSizeToScale(ret.get(0)));
+                }
+
+
+                List<Insect> insects = tecton.getInsects();
+                for (Insect insect : insects) {
+                    insect.getView().setScale(GameTableView.TectonSizeToScale(ret.get(0)));
+                }
+
+                MushroomBody mb = tecton.getMushroomBody();
+                if (mb != null) {
+                    mb.getView().setScale(GameTableView.TectonSizeToScale(ret.get(0)));
+                }
+            }
+            if(!queue.isEmpty()){
+                timerStart();
+            }
+        });
     }
 
     public void setMainFrame(MainFrame mainFrame) {
@@ -94,10 +148,40 @@ public class Controller implements KeyListener {
     public void repaintFrame() {
         if (mainFrame != null) {
             mainFrame.updateGameTable();
+            gameTable.getView().updateGameTable();
         }
     }
 
-    public GameTable getGameTable() {
+    public static void clearTimers() {
+        for (Timer timer : timers) {
+            timer.cancel();
+        }
+        timers.clear();
+    }
+
+    public List<String> getMycologistWinners() {
+        List<String> mycologistWinners = new ArrayList<>();
+        if (mycologist1.getIsWinner()) {
+            mycologistWinners.add(mycologist1.getType());
+        }
+        if (mycologist2.getIsWinner()) {
+            mycologistWinners.add(mycologist2.getType());
+        }
+        return mycologistWinners;
+    }
+
+    public List<Color> getEntomologistWinners() {
+        List<Color> entomologistWinners = new ArrayList<>();
+        if (entomologist1.getIsWinner()) {
+            entomologistWinners.add(entomologist1.getColor());
+        }
+        if (entomologist2.getIsWinner()) {
+            entomologistWinners.add(entomologist2.getColor());
+        }
+        return entomologistWinners;
+    }
+
+    public static GameTable getGameTable() {
         return gameTable;
     }
 
@@ -132,6 +216,7 @@ public class Controller implements KeyListener {
             for (MushroomBody mushroomBody : mycologist1.getMushroomBodies()) {
                 mushroomBody.evolveSuper();
             }
+            InfoPanel.updateMycologist1Score(mycologist1.getScore());
         }
 
         // Fonalból test növesztés mycologist1-nek
@@ -145,8 +230,8 @@ public class Controller implements KeyListener {
             }
             if (res != null) {
                 gameTable.getView().addNewMushroomBody(res);
-                gameTable.getView().removeMycelium(removable);
             }
+            InfoPanel.updateMycologist1Score(mycologist1.getScore());
             gameTable.checkMyceliumConnections();
             repaintFrame();
         }
@@ -267,6 +352,7 @@ public class Controller implements KeyListener {
             for (MushroomBody mushroomBody : mycologist2.getMushroomBodies()) {
                 mushroomBody.evolveSuper();
             }
+            InfoPanel.updateMycologist2Score(mycologist2.getScore());
         }
 
         // Fonalból test növesztés mycologist2-nek
@@ -280,8 +366,8 @@ public class Controller implements KeyListener {
             }
             if (res != null) {
                 gameTable.getView().addNewMushroomBody(res);
-                gameTable.getView().removeMycelium(removable);
             }
+            InfoPanel.updateMycologist2Score(mycologist2.getScore());
             gameTable.checkMyceliumConnections();
             repaintFrame();
         }
@@ -391,6 +477,7 @@ public class Controller implements KeyListener {
                 selectedInsectE1 = entomologist1.getInsects().get(selectedInsectIndexE1);
             }
             selectedInsectE1.eatSpore();
+            InfoPanel.updateEntomologist1Score(entomologist1.getScore());
             selectedInsectE1.disableEating();
             timers.add(new Timer(5, () -> selectedInsectE1.enableEating()));
         }
@@ -430,7 +517,7 @@ public class Controller implements KeyListener {
                 selectedInsectE1.moveTo(moveToTectonE1);
                 System.out.println("Moved insect to tecton: " + moveToTectonE1);
                 moveToTectonE1.getView().setIsHighlighted(false);
-                gameTable.getView().updateInsect(selectedInsectE1);
+                gameTable.getView().addInsect(selectedInsectE1);
                 moveToTectonE1 = null;
                 movementActiveE1 = false;
                 selectedTectonToMoveIndexE1 = -1;
@@ -515,6 +602,7 @@ public class Controller implements KeyListener {
                 selectedInsectE2 = entomologist2.getInsects().get(selectedInsectIndexE2);
             }
             selectedInsectE2.eatSpore();
+            InfoPanel.updateEntomologist2Score(entomologist2.getScore());
             selectedInsectE2.disableEating();
             timers.add(new Timer(5, () -> selectedInsectE2.enableEating()));
         }
@@ -556,7 +644,7 @@ public class Controller implements KeyListener {
                     System.out.println("Insects🐛: " + tecton.getInsects());
                 }
                 moveToTectonE2.getView().setIsHighlighted(false);
-                gameTable.getView().updateInsect(selectedInsectE2);
+                gameTable.getView().addInsect(selectedInsectE2);
                 moveToTectonE2 = null;
                 movementActiveE2 = false;
                 selectedTectonToMoveIndexE2 = -1;

@@ -18,15 +18,22 @@ public class EdgeView extends JPanel {
         this.gameTable = gameTable;
         this.tectonPositions = tectonPositions;
         setBackground(new Color(0, 0, 0, 0));
-        setBounds(0, 0, 1600, 900);
-        setPreferredSize(new Dimension(1600, 900));
+        setBounds(0, 0, 1600, 850);
+        setPreferredSize(new Dimension(1600, 850));
 
+    }
+
+    public void update(GameTable gameTable, Map<Tecton, Point> tectonPositions) {
+        this.gameTable = gameTable;
+        this.tectonPositions = tectonPositions;
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
+
+        tectonPositions = gameTable.getView().updateGameTable();
 
         // Draw edges
         g2d.setStroke(new BasicStroke(2));

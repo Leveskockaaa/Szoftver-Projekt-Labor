@@ -29,7 +29,7 @@ public class TectonView extends JPanel {
         this.tecton = tecton;
         setBackground(new Color(0,0,0,0));
         setBounds(0, 0, 1600, 900);
-        System.out.println(this.getHeight() + " " + this.getWidth());
+        // System.out.println(this.getHeight() + " " + this.getWidth());
         switch (tecton.printType()) {
             case "Transix":
                 color = new Color(0xFE9C9D);
@@ -46,16 +46,16 @@ public class TectonView extends JPanel {
         }
         switch (tecton.getSize()){
             case SMALL:
-                radius = 20;
+                radius = 25;
                 break;
             case MEDIUM:
-                radius = 40;
+                radius = 50;
                 break;
             case BIG:
-                radius = 60;
+                radius = 75;
                 break;
             case GIANT:
-                radius = 100;
+                radius = 125;
                 break;
         }
         this.sporeViews = new SporesView(tecton.getSpores());

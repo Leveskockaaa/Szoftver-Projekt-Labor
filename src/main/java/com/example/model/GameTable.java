@@ -84,6 +84,7 @@ public class GameTable {
                     case 2 -> new Magmox();
                     default -> new Orogenix();
                 };
+                t.setGameTable(this);
                 tectons.add(t);
             }
         }
@@ -107,6 +108,9 @@ public class GameTable {
             temp = random.nextInt(tectons.size());
         }
         initialTectons.add(temp);
+        initialTectons.clear();
+        initialTectons.add(0);
+        initialTectons.add(1);
 
         int j = 0;
         for (Player player : players) {
@@ -133,6 +137,7 @@ public class GameTable {
 //                tectons.get(tectons.size() - 1).addSpore(new HypharaSpore(mb1));
 //                tectons.get(tectons.size() - 1).addSpore(new HypharaSpore(mb1));
                 j++;
+                player.setScore(player.getScore() - 1);
             }
         }
 
@@ -295,7 +300,7 @@ public class GameTable {
 
         //TODO timer leállás
 
-        announceWinners();
+        //announceWinners();
     }
 
     /**

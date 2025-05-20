@@ -44,7 +44,6 @@ public class Mantleon extends Tecton {
     public void placeMushroomBody(MushroomBody mushroomBody) {
         System.out.println("Mantleon placeMushroomBody() called");
         this.mushroomBody = mushroomBody;
-        return;
     }
 
     /**
@@ -94,6 +93,8 @@ public class Mantleon extends Tecton {
         //Két új tekton létrehozása
         Mantleon t1 = new Mantleon(decreaseSize(this.size));
         Mantleon t2 = new Mantleon(decreaseSize(this.size));
+        t1.setGameTable(gameTable);
+        t2.setGameTable(gameTable);
 
         //Köztük kapcsolat létrehozása
         t1.addTectonToNeighbors(t2);
@@ -105,8 +106,14 @@ public class Mantleon extends Tecton {
                 int randomIndex = random.nextInt(2);
                 if (randomIndex == 0) {
                     t1.setInsects(insects);
+                    for(Insect insect : insects) {
+                        insect.setTecton(t1);
+                    }
                 } else {
                     t2.setInsects(insects);
+                    for(Insect insect : insects) {
+                        insect.setTecton(t2);
+                    }
                 }
             } else {
                 t1.setInsects(insects);
@@ -120,8 +127,10 @@ public class Mantleon extends Tecton {
                 int randomIndex = random.nextInt(2);
                 if (randomIndex == 0) {
                     t1.placeMushroomBody(this.mushroomBody);
+                    this.mushroomBody.setTecton(t1);
                 } else {
                     t2.placeMushroomBody(this.mushroomBody);
+                    this.mushroomBody.setTecton(t2);
                 }
             } else {
                 t2.placeMushroomBody(this.mushroomBody);
@@ -132,10 +141,14 @@ public class Mantleon extends Tecton {
         if (!this.mycelia.isEmpty()) {
             for (Mycelium m : this.mycelia) {
                 t1.addMycelium(m);
-                t2.addMycelium(m);
+                m.setTecton(t1);
+                    Mycelium m2 = new Mycelium(t2, m.getMycologist());
+                    t2.addMycelium(m2);
+                    m.getMycologist().addMycelium(m2);
+                    gameTable.getView().markMyceliumForDrawing(m2);
+
             }
         }
-
 
         //Veszünk egy tectont a szomszédaink közül
         Tecton n1 = this.neighbors.iterator().next();
@@ -161,18 +174,6 @@ public class Mantleon extends Tecton {
             n.changeNeighbour(this, t2);
         }
 
-        Random random = new Random();
-        for (Tecton tecton : Arrays.asList(t1, t2)) {
-            int time = random.nextInt(3, 6);
-            Timer timer = new Timer(time, () -> {
-                List<Tecton> ret = tecton.breakApart();
-                Controller.removeTecton(tecton);
-                Controller.addTecton(ret.get(0));
-                Controller.addTecton(ret.get(1));
-            });
-            Controller.addTimer(timer);
-        }
-
         return new ArrayList<>(Arrays.asList(t1, t2));
     }
 
@@ -195,7 +196,7 @@ public class Mantleon extends Tecton {
         if (insect.getTecton() == null){
             insect.setTecton(this);
             this.insects.add(insect);
-        } else if (hasConnection(insect)) {
+        } else if (hasConnection(insect) && !hasInsect()) {
             insect.neutralizeTectonEffects();
             insect.getTecton().removeInsect();
             insects.add(insect);
