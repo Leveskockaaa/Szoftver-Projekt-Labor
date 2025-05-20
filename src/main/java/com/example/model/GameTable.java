@@ -137,6 +137,7 @@ public class GameTable {
 //                tectons.get(tectons.size() - 1).addSpore(new HypharaSpore(mb1));
 //                tectons.get(tectons.size() - 1).addSpore(new HypharaSpore(mb1));
                 j++;
+                player.setScore(player.getScore() - 1);
             }
         }
 

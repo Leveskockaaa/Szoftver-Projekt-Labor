@@ -202,7 +202,7 @@ public class Magmox extends Tecton {
         if (insect.getTecton() == null){
             insect.setTecton(this);
             this.insects.add(insect);
-        } else if (hasConnection(insect)) {
+        } else if (hasConnection(insect) && !hasInsect()) {
             insect.neutralizeTectonEffects();
             insect.getTecton().removeInsect();
             insects.add(insect);

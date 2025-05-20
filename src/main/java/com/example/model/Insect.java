@@ -144,7 +144,7 @@ public class Insect {
 
         Spore s1 = tecton.removeOldestSpore();
 
-        entomologist.setScore(s1.getNutrientValue());
+        entomologist.setScore(entomologist.getScore() + s1.getNutrientValue());
         collectedNutrientPoints += s1.getNutrientValue();
 
         if (!(tecton instanceof Orogenix)) {

@@ -104,7 +104,7 @@ public class Controller implements KeyListener {
     }
 
     private void timerStart(){
-        int time = random.nextInt(20, 40);
+        int time = random.nextInt(30, 60);
         new Timer(time, () -> {
             List<Tecton> list = new ArrayList<>(queue);
             Collections.shuffle(list);
@@ -230,7 +230,6 @@ public class Controller implements KeyListener {
             }
             if (res != null) {
                 gameTable.getView().addNewMushroomBody(res);
-                gameTable.getView().removeMycelium(removable);
             }
             InfoPanel.updateMycologist1Score(mycologist1.getScore());
             gameTable.checkMyceliumConnections();
@@ -367,7 +366,6 @@ public class Controller implements KeyListener {
             }
             if (res != null) {
                 gameTable.getView().addNewMushroomBody(res);
-                gameTable.getView().removeMycelium(removable);
             }
             InfoPanel.updateMycologist2Score(mycologist2.getScore());
             gameTable.checkMyceliumConnections();
