@@ -12,3 +12,20 @@ javac -d target/classes src/main/java/com/example/*.java src/main/java/com/examp
 
 ## Run the compiled Java program with
 java -cp target/classes com.example.model.Main
+
+## Irányítás
+
+•  Gombász:
+○  Spórák A F
+○  Super S G
+○  fonalból test D H
+○  mycelium W T
+○  léptetés E Z
+rovarevés Q R
+
+•  Rovarász:
+○  Lépés I Ü
+○  rágás J P
+○  evés K Ő
+○  bogárválasztás L Ú
+○  Léptetés O Ó
