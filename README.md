@@ -15,17 +15,32 @@ java -cp target/classes com.example.model.Main
 
 ## Irányítás
 
-•  Gombász:
-○  Spórák A F
-○  Super S G
-○  fonalból test D H
-○  mycelium W T
-○  léptetés E Z
-rovarevés Q R
+•  Gombász1:
+- Spórák A  
+- Super S 
+- fonalból test D 
+- mycelium növesztés W 
+- léptetés E 
+- rovarevés Q 
 
-•  Rovarász:
-○  Lépés I Ü
-○  rágás J P
-○  evés K Ő
-○  bogárválasztás L Ú
-○  Léptetés O Ó
+•  Gombász2:
+- Spórák F
+- Super G
+- fonalból test H
+- mycelium növesztés T
+- léptetés Z
+- rovarevés R
+
+•  Rovarász1:
+- Lépés I 
+- rágás J 
+- evés K 
+- bogárválasztás L 
+- Léptetés O 
+
+•  Rovarász2:
+- Lépés Ü
+- rágás P
+- evés Ő
+- bogárválasztás Ú
+- Léptetés Ó
